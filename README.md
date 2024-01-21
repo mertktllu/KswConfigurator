@@ -10,7 +10,3 @@ Interactive Vehicle Configurator for MAN
 * Dr. Nergiz Ercil Cagiltay
 * Dr. Öğr. Üyesi Gül TOKDEMİR
 
-## [Literature Review](https://github.com/CankayaUniversity/ceng-407-408-2023-2024-Interactive-Vehicle-Configurator-for-MAN/wiki/Literature-Review)
-## [CENG 407 Work Plan](https://github.com/CankayaUniversity/ceng-407-408-2023-2024-Interactive-Vehicle-Configurator-for-MAN/wiki/CENG-407-Work-Plan)
-## [Project Web Page](https://github.com/CankayaUniversity/ceng-407-408-2023-2024-Interactive-Vehicle-Configurator-for-MAN/wiki/Project-Web-Page)
-## [Software Requirement Specification](https://github.com/CankayaUniversity/ceng-407-408-2023-2024-Interactive-Vehicle-Configurator-for-MAN/wiki/Software-Requirement-Specification-(SRS))
