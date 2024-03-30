@@ -109,6 +109,7 @@ export default {
       <!-- Type Dropdown -->
       <v-col cols="4" class="pa-1">
         <v-select
+          :itemProps="itemProps"
           v-model="selectedType"
           :items="types"
           label="Type"
@@ -121,6 +122,7 @@ export default {
       <!-- Main Group Dropdown -->
       <v-col cols="4" class="pa-2">
         <v-select
+          :itemProps="itemProps"
           v-model="selectedMainGroup"
           :items="mainGroups"
           label="Main Group"
@@ -134,6 +136,7 @@ export default {
       <!-- Gattung Dropdown -->
       <v-col cols="4" class="pa-3">
         <v-select
+          :itemProps="itemProps"
           v-model="selectedGattung"
           :items="gattungs"
           label="Gattung"
@@ -156,19 +159,22 @@ export default {
       selectedGattung: null,
 
       types: [
-        { text: "12C-2T", value: "12C-2T" },
+        { name: "12C-2T", value: "12C-2T" },
+        { name: "12C-3T", value: "12C-3T" },
+        { name: "12C-4T", value: "12C-4T" },
+
         // Daha fazla type öğesi...
       ],
       mainGroups: [
-        { text: "Chair Type", value: "Chair Type" },
-        { text: "Chair Color", value: "Chair Color" },
-        { text: "Camera", value: "Camera" },
+        { name: "Chair Type", value: "Chair Type" },
+        { name: "Chair Color", value: "Chair Color" },
+        { name: "Camera", value: "Camera" },
 
         // Daha fazla main group öğesi...
       ],
       gattungs: [
         {
-          text: "Überwachungsanlage Fahrgastraum",
+          name: "Überwachungsanlage Fahrgastraum",
           value: "Überwachungsanlage Fahrgastraum",
         },
         // Daha fazla gattung öğesi...
@@ -177,6 +183,13 @@ export default {
   },
   // ... methods, etc.
   methods: {
+    itemProps(item) {
+      return {
+        title: item.name,
+        value: item.value,
+      };
+    },
+
     onMainGroupChange(value) {
       // Main Group seçimi değiştiğinde tetiklenen işlemler
       console.log("Selected Main Group: ", value);
