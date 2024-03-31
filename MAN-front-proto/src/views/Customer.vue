@@ -105,6 +105,7 @@ export default {
         ></v-img>
       </v-col>
     </v-row>
+
     <v-row class="pt-0 grey darken-2">
       <!-- Type Dropdown -->
       <v-col cols="4" class="pa-1">
@@ -119,6 +120,7 @@ export default {
           hide-details
         ></v-select>
       </v-col>
+
       <!-- Main Group Dropdown -->
       <v-col cols="4" class="pa-2">
         <v-select
@@ -146,6 +148,73 @@ export default {
           hide-details
         ></v-select>
       </v-col>
+
+      <v-col v-if="selectedMainGroup === 'Camera'" cols="12">
+        <v-card>
+          <v-card-title>CamOption</v-card-title>
+          <v-card-text>
+            <!-- camera type drop down list -->
+            <v-select
+              :itemProps="itemProps"
+              v-model="selectedCamType"
+              :items="camTypes"
+              label="Camera Type"
+              dense
+              solo
+              outlined
+              hide-details
+            ></v-select>
+
+            <!-- video recorder (yes or no) check bar if yes show recorder type dropdown list-->
+            <v-checkbox
+              v-model="videoRecorder"
+              label="Video Recorder"
+              dense
+              hide-details
+            ></v-checkbox>
+            <v-select
+              :disabled="!videoRecorder"
+              :itemProps="itemProps"
+              v-model="selectedRecorderType"
+              :items="recorderTypes"
+              label="Recorder Type"
+              dense
+              solo
+              outlined
+              hide-details
+            ></v-select>
+
+            <!-- recorder time drop down list -->
+            <v-select
+              :disabled="!videoRecorder"
+              :itemProps="itemProps"
+              v-model="selectedRecorderTime"
+              :items="recorderTimes"
+              label="Recorder Time"
+              dense
+              solo
+              outlined
+              hide-details
+            ></v-select>
+
+            <!-- monitor type drop down list-->
+            <v-select
+              :itemProps="itemProps"
+              v-model="selectedMonitorType"
+              :items="monitorTypes"
+              label="Monitor Type"
+              dense
+              solo
+              outlined
+              hide-details
+            ></v-select>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <!-- export button -->
+      <v-col cols="12" class="d-flex justify-end">
+        <v-btn color="primary">Export</v-btn>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -157,6 +226,11 @@ export default {
       selectedType: null,
       selectedMainGroup: null,
       selectedGattung: null,
+      selectedCamType: null,
+      selectedRecorderType: null,
+      videoRecorder: false,
+      selectedRecorderTime: null,
+      selectedMonitorType: null,
 
       types: [
         { name: "12C-2T", value: "12C-2T" },
@@ -178,6 +252,35 @@ export default {
           value: "Überwachungsanlage Fahrgastraum",
         },
         // Daha fazla gattung öğesi...
+      ],
+
+      camTypes: [
+        { name: "Type A", value: "Type A" },
+        { name: "Type B", value: "Type B" },
+        { name: "Type C", value: "Type C" },
+
+        // Daha fazla camera type öğesi...
+      ],
+      recorderTypes: [
+        { name: "Type A", value: "Type A" },
+        { name: "Type B", value: "Type B" },
+        { name: "Type C", value: "Type C" },
+
+        // Daha fazla recorder type öğesi...
+      ],
+      recorderTimes: [
+        { name: "1 Hour", value: "1 Hour" },
+        { name: "2 Hours", value: "2 Hours" },
+        { name: "3 Hours", value: "3 Hours" },
+
+        // Daha fazla recorder time öğesi...
+      ],
+      monitorTypes: [
+        { name: "Type A", value: "Type A" },
+        { name: "Type B", value: "Type B" },
+        { name: "Type C", value: "Type C" },
+
+        // Daha fazla monitor type öğesi...
       ],
     };
   },
