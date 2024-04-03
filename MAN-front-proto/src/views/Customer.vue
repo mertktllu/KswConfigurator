@@ -47,7 +47,7 @@
           </v-row>
           <!-- Bus Image -->
           <v-row>
-            <v-img :src="image" alt=""></v-img>
+            <v-img src="../assets/BusImages/12C-2T.jpg" alt=""></v-img>
           </v-row>
         </v-col>
 
@@ -112,7 +112,6 @@ export default {
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
-      image: "../assets/BusImages/12C-2T.jpg",
 
       types: [
         { name: "12C-2T", value: "12C-2T", src: "../" },
