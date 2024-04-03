@@ -15,35 +15,44 @@
     <div>
       <v-row class="pt-0 grey darken-2">
         <!-- Type Dropdown -->
-        <v-col cols="4">
-          <v-select
-            :itemProps="itemProps"
-            v-model="selectedType"
-            :items="types"
-            label="Type"
-            dense
-            solo
-            outlined
-            hide-details
-          ></v-select>
-        </v-col>
 
-        <!-- Gattung Dropdown -->
-        <v-col cols="4">
-          <v-select
-            :itemProps="itemProps"
-            v-model="selectedGattung"
-            :items="gattungs"
-            label="Gattung"
-            dense
-            solo
-            outlined
-            hide-details
-          ></v-select>
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-select
+                :itemProps="itemProps"
+                v-model="selectedType"
+                :items="types"
+                label="Type"
+                dense
+                solo
+                outlined
+                hide-details
+              ></v-select>
+            </v-col>
+
+            <!-- Gattung Dropdown -->
+            <v-col>
+              <v-select
+                :itemProps="itemProps"
+                v-model="selectedGattung"
+                :items="gattungs"
+                label="Gattung"
+                dense
+                solo
+                outlined
+                hide-details
+              ></v-select>
+            </v-col>
+          </v-row>
+          <!-- Bus Image -->
+          <v-row>
+            <v-img :src="image" alt=""></v-img>
+          </v-row>
         </v-col>
 
         <!-- Main Group Dropdown -->
-        <v-col cols="4">
+        <v-col>
           <v-select
             :itemProps="itemProps"
             v-model="selectedMainGroup"
@@ -54,15 +63,13 @@
             outlined
             hide-details
           ></v-select>
-          {{ selectedModel }}
-          {{ selectedMainGroup }}
           <!-- Selection -->
           <v-col v-if="selectedMainGroup != null">
             <v-card>
               <v-select
                 v-for="product in comModels"
                 :itemProps="itemProps"
-                v-model="selectedModel"
+                v-model="selectedModel[product.name]"
                 :items="product.types"
                 :label="product.name"
                 dense
@@ -72,6 +79,7 @@
                 class="ma-2"
               >
               </v-select>
+              {{ selectedType }}
             </v-card>
           </v-col>
         </v-col>
@@ -91,7 +99,7 @@ export default {
     comModels: function () {
       for (let i = 0; i < this.products.length; i++) {
         if (this.products[i].name == this.selectedMainGroup) {
-          return this.products[i].products;
+          return this.products[i].subProducts;
         }
       }
       return "nothing";
@@ -103,10 +111,11 @@ export default {
       selectedType: null,
       selectedMainGroup: null,
       selectedGattung: null,
-      selectedModel: null,
+      selectedModel: {},
+      image: "../assets/BusImages/12C-2T.jpg",
 
       types: [
-        { name: "12C-2T", value: "12C-2T" },
+        { name: "12C-2T", value: "12C-2T", src: "../" },
         { name: "12C-3T", value: "12C-3T" },
         { name: "12C-4T", value: "12C-4T" },
 
@@ -130,7 +139,7 @@ export default {
       products: [
         {
           name: "Camera",
-          products: [
+          subProducts: [
             {
               name: "Type",
               types: [
@@ -175,14 +184,38 @@ export default {
 
         {
           name: "Chair Type",
-          models: [
+          subProducts: [
             {
-              name: "Type A",
-              value: "A2",
+              name: "Model",
+              types: [
+                {
+                  name: "Chair A",
+                  value: "A",
+                },
+                {
+                  name: "Chair B",
+                  value: "B",
+                },
+              ],
             },
+          ],
+        },
+
+        {
+          name: "Chair Color",
+          subProducts: [
             {
-              name: "Type B",
-              value: "B2",
+              name: "Color",
+              types: [
+                {
+                  name: "Red",
+                  value: "Red",
+                },
+                {
+                  name: "Blue",
+                  value: "Blue",
+                },
+              ],
             },
           ],
         },
