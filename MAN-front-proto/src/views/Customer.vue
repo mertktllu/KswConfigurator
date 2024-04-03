@@ -47,7 +47,7 @@
           </v-row>
           <!-- Bus Image -->
           <v-row>
-            <v-img src="../assets/BusImages/12C-2T.jpg" alt=""></v-img>
+            <v-img src="" alt=""></v-img>
           </v-row>
         </v-col>
 
@@ -79,7 +79,7 @@
                 class="ma-2"
               >
               </v-select>
-              {{ selectedType }}
+              {{ selectedModel }}
             </v-card>
           </v-col>
         </v-col>
@@ -185,7 +185,7 @@ export default {
           name: "Chair Type",
           subProducts: [
             {
-              name: "Model",
+              name: "ChairModel",
               types: [
                 {
                   name: "Chair A",
