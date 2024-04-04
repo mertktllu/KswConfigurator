@@ -63,6 +63,7 @@
                 />
                 <rect width="29" height="29" rx="3" fill="#6887F5" />
               </svg>
+              <div class="cam" :onclick="rotate()"></div>
 
               <svg
                 class="cam1"
@@ -271,6 +272,10 @@ export default {
   },
   // ... methods, etc.
   methods: {
+    rotate() {
+      console.log("hi");
+    },
+
     itemProps(item) {
       return {
         title: item.name,
