@@ -47,7 +47,7 @@
           </v-row>
           <!-- Bus Image -->
           <v-row class="">
-            <v-img class="wrapper" :src="img" alt="img">
+            <v-img class="wrapper" :src="`${img}`" alt="img">
               <svg
                 class="cam"
                 width="48"
@@ -130,7 +130,7 @@
 
         <!-- export button -->
         <v-col cols="12" class="d-flex justify-end">
-          <v-btn color="primary">{{ imgUrl }}</v-btn>
+          <v-btn color="primary"> Export </v-btn>
         </v-col>
       </v-row>
     </div>
@@ -148,6 +148,10 @@ export default {
       }
       return "nothing";
     },
+
+    img: function () {
+      return "../src/static/" + this.selectedType + ".jpg";
+    },
   },
 
   data() {
@@ -156,7 +160,6 @@ export default {
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
-      img: "MAN-front-proto\\src\\assets\\BusImages\\12C-2T.jpg",
 
       types: [
         { name: "12C-2T", value: "12C-2T" },
