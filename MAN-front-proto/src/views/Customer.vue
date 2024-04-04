@@ -131,7 +131,16 @@
 
         <!-- export button -->
         <v-col cols="12" class="d-flex justify-end">
-          <v-btn color="primary"> Export </v-btn>
+          <v-btn
+            @click="xport(selectedModel)"
+            color="primary"
+            onclick="export()"
+          >
+            Export
+          </v-btn>
+        </v-col>
+        <v-col v-if="xportbool == true" class="text-right" cols="12">
+          {{ xportdata }}
         </v-col>
       </v-row>
     </div>
@@ -161,6 +170,8 @@ export default {
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
+      xportdata: {},
+      xportbool: false,
 
       types: [
         { name: "12C-2T", value: "12C-2T" },
@@ -272,6 +283,11 @@ export default {
   },
   // ... methods, etc.
   methods: {
+    xport(model) {
+      this.xportdata = model;
+      this.xportbool = true;
+    },
+
     rotate() {
       console.log("hi");
     },
