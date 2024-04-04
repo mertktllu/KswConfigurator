@@ -46,8 +46,52 @@
             </v-col>
           </v-row>
           <!-- Bus Image -->
-          <v-row>
-            <v-img src="" alt=""></v-img>
+          <v-row class="">
+            <v-img class="wrapper" src="" alt="img">
+              <svg
+                class="cam"
+                width="48"
+                height="29"
+                viewBox="0 0 48 29"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                  fill="#6887F5"
+                />
+                <rect width="29" height="29" rx="3" fill="#6887F5" />
+              </svg>
+
+              <svg
+                class="cam1"
+                width="48"
+                height="29"
+                viewBox="0 0 48 29"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                  fill="#6887F5"
+                />
+                <rect width="29" height="29" rx="3" fill="#6887F5" />
+              </svg>
+              <svg
+                class="cam2"
+                width="48"
+                height="29"
+                viewBox="0 0 48 29"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                  fill="#6887F5"
+                />
+                <rect width="29" height="29" rx="3" fill="#6887F5" />
+              </svg>
+            </v-img>
           </v-row>
         </v-col>
 
@@ -112,11 +156,12 @@ export default {
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
+      img: "12C-2T",
 
       types: [
-        { name: "12C-2T", value: "12C-2T", src: "../" },
-        { name: "12C-3T", value: "12C-3T" },
-        { name: "12C-4T", value: "12C-4T" },
+        { name: "12C-2T", value: "12C-2T" },
+        { name: "18C-3T", value: "18C-3T" },
+        { name: "19C-4T", value: "19C-4T" },
 
         // Daha fazla type öğesi...
       ],
@@ -242,4 +287,33 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.wrapper {
+  position: relative;
+}
+
+.cam {
+  height: 10%;
+  width: 10%;
+  position: absolute;
+  top: 66%;
+  right: 3%;
+  transform: rotate(220deg);
+}
+.cam1 {
+  height: 10%;
+  width: 10%;
+  position: absolute;
+  top: 66%;
+  right: 43%;
+  transform: rotate(270deg);
+}
+.cam2 {
+  height: 10%;
+  width: 10%;
+  position: absolute;
+  top: 66%;
+  right: 89%;
+  transform: rotate();
+}
+</style>
