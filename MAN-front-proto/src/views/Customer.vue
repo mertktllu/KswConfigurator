@@ -47,7 +47,7 @@
           </v-row>
           <!-- Bus Image -->
           <v-row class="">
-            <v-img class="wrapper" src="" alt="img">
+            <v-img class="wrapper" :src="img" alt="img">
               <svg
                 class="cam"
                 width="48"
@@ -55,6 +55,7 @@
                 viewBox="0 0 48 29"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                onclick="rotate('a!')"
               >
                 <path
                   d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -123,14 +124,13 @@
                 class="ma-2"
               >
               </v-select>
-              {{ selectedModel }}
             </v-card>
           </v-col>
         </v-col>
 
         <!-- export button -->
         <v-col cols="12" class="d-flex justify-end">
-          <v-btn color="primary">Export</v-btn>
+          <v-btn color="primary">{{ imgUrl }}</v-btn>
         </v-col>
       </v-row>
     </div>
@@ -156,7 +156,7 @@ export default {
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
-      img: "12C-2T",
+      img: "MAN-front-proto\\src\\assets\\BusImages\\12C-2T.jpg",
 
       types: [
         { name: "12C-2T", value: "12C-2T" },
@@ -300,6 +300,11 @@ export default {
   right: 3%;
   transform: rotate(220deg);
 }
+
+.cam:active {
+  transform: rotate(-0.25turn);
+}
+
 .cam1 {
   height: 10%;
   width: 10%;
