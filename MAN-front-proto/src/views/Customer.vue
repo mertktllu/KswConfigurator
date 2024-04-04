@@ -47,7 +47,7 @@
           </v-row>
           <!-- Bus Image -->
           <v-row class="">
-            <v-img class="wrapper" :src="`${img}`" alt="img">
+            <v-img width="500" class="wrapper" :src="`${img}`" alt="img">
               <svg
                 class="cam"
                 width="48"
