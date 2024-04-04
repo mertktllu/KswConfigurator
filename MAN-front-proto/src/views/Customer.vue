@@ -80,6 +80,7 @@
                 <rect width="29" height="29" rx="3" fill="#6887F5" />
               </svg>
               <svg
+                id="cam2"
                 class="cam2"
                 width="48"
                 height="29"
@@ -98,7 +99,7 @@
         </v-col>
 
         <!-- Main Group Dropdown -->
-        <v-col>
+        <v-col @onclick="react()">
           <v-select
             :itemProps="itemProps"
             v-model="selectedMainGroup"
@@ -172,6 +173,7 @@ export default {
       selectedModel: {},
       xportdata: {},
       xportbool: false,
+      nazmi: "",
 
       types: [
         { name: "12C-2T", value: "12C-2T" },
@@ -288,8 +290,10 @@ export default {
       this.xportbool = true;
     },
 
-    rotate() {
-      console.log("hi");
+    rotate(id) {
+      document
+        .getElementById(id)
+        .style.setProperty("transform", "rotate(-90deg)");
     },
 
     itemProps(item) {
