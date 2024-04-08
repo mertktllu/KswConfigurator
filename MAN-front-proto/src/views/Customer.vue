@@ -55,7 +55,6 @@
                 viewBox="0 0 48 29"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                onclick="rotate('a!')"
               >
                 <path
                   d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -63,7 +62,6 @@
                 />
                 <rect width="29" height="29" rx="3" fill="#6887F5" />
               </svg>
-              <div class="cam" :onclick="rotate()"></div>
 
               <svg
                 class="cam1"
@@ -327,10 +325,6 @@ export default {
   top: 66%;
   right: 3%;
   transform: rotate(220deg);
-}
-
-.cam:active {
-  transform: rotate(-0.25turn);
 }
 
 .cam1 {
