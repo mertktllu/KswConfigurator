@@ -49,12 +49,14 @@
           <v-row class="">
             <v-img width="500" class="wrapper" :src="`${img}`" alt="img">
               <svg
+                :style="{ transform: `rotate(${rotation}deg)` }"
                 class="cam"
                 width="48"
                 height="29"
                 viewBox="0 0 48 29"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                @click="rotateImage"
               >
                 <path
                   d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -171,7 +173,7 @@ export default {
       selectedModel: {},
       xportdata: {},
       xportbool: false,
-      nazmi: "",
+      rotation: 0,
 
       types: [
         { name: "12C-2T", value: "12C-2T" },
@@ -288,10 +290,9 @@ export default {
       this.xportbool = true;
     },
 
-    rotate(id) {
-      document
-        .getElementById(id)
-        .style.setProperty("transform", "rotate(-90deg)");
+    rotateImage() {
+      this.rotation += 45;
+      console.log(this.rotation);
     },
 
     itemProps(item) {
