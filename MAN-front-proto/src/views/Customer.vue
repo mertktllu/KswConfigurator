@@ -140,17 +140,45 @@
 
         <!-- export button -->
         <v-col cols="12" class="d-flex justify-end">
-          <v-btn
-            @click="xport(selectedModel)"
-            color="primary"
-            onclick="export()"
-          >
-            Export
-          </v-btn>
+          <v-btn @click="xport" color="primary"> Export </v-btn>
         </v-col>
-        <v-col v-if="xportbool == true" class="text-right" cols="12">
-          {{ xportdata }}
-        </v-col>
+
+        <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
+          <v-card>
+            <v-card-title>
+              Exported Data
+              <v-spacer></v-spacer>
+              <v-btn icon @click="dialog = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-card-title>
+            <v-card-text>
+              <v-list dense>
+                <v-list-item>
+                  <v-list-item-content class="list-item-content"
+                    >Bus Type: {{ selectedType }}</v-list-item-content
+                  >
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-content class="list-item-content"
+                    >Main Group: {{ selectedMainGroup }}</v-list-item-content
+                  >
+                </v-list-item>
+                <v-list-item-group v-model="selectedModel" color="primary">
+                  <v-list-item
+                    v-for="(product, index) in comModels"
+                    :key="index"
+                  >
+                    <v-list-item-content class="list-item-content"
+                      >{{ product.name }}:
+                      {{ selectedModel[product.name] }}</v-list-item-content
+                    >
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
       </v-row>
     </div>
   </v-container>
@@ -181,7 +209,7 @@ export default {
       selectedModel: {},
       xportdata: {},
       xportbool: false,
-      //rotation: 0,
+      dialog: false,
       cameraRotations: {
         cam1: 0,
         cam2: 0,
@@ -298,10 +326,10 @@ export default {
   },
   // ... methods, etc.
   methods: {
-    xport(model) {
-      this.xportdata = model;
-      this.xportbool = true;
-    },
+    // xport(model) {
+    //   this.xportdata = model;
+    //   this.xportbool = true;
+    // },
 
     rotateCamera(cameraId) {
       this.cameraRotations[cameraId] += 45; // Her tıklamada 45 derece döndür
@@ -322,6 +350,18 @@ export default {
         // Camera seçildiğinde yapılacak işlemler
         // Örneğin, ek bir bileşeni göstermek veya gizlemek
       }
+    },
+    showExportDialog() {
+      this.dialog = true;
+    },
+    xport() {
+      // Burada 'selectedModel' öğesini ve diğer seçili verileri kullanabilirsiniz.
+      // Örnek olarak sadece 'selectedType' öğesini gösteriyoruz.
+      this.xportdata = {
+        // Burada önceden seçilmiş model öğeleri olabilir.
+        "Selected Type": this.selectedType, // 'selectedType' öğesini ekleyin.
+      };
+      this.showExportDialog();
     },
   },
 };
@@ -356,5 +396,13 @@ export default {
   top: 66%;
   right: 89%;
   transform: rotate();
+}
+.v-dialog {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); /* Burada 0.5 saydamlık değeridir */
 }
 </style>
