@@ -48,57 +48,59 @@
           <!-- Bus Image -->
           <v-row class="">
             <v-img width="500" class="wrapper" :src="`${img}`" alt="img">
-              <svg
-                :style="{ transform: `rotate(${cameraRotations.cam1}deg)` }"
-                class="cam"
-                width="48"
-                height="29"
-                viewBox="0 0 48 29"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                @click="rotateCamera('cam1')"
-              >
-                <path
-                  d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                  fill="#6887F5"
-                />
-                <rect width="29" height="29" rx="3" fill="#6887F5" />
-              </svg>
+              <g v-if="selectedMainGroup === 'Camera'">
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam1}deg)` }"
+                  class="cam"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam1')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
 
-              <svg
-                :style="{ transform: `rotate(${cameraRotations.cam2}deg)` }"
-                class="cam1"
-                width="48"
-                height="29"
-                viewBox="0 0 48 29"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                @click="rotateCamera('cam2')"
-              >
-                <path
-                  d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                  fill="#6887F5"
-                />
-                <rect width="29" height="29" rx="3" fill="#6887F5" />
-              </svg>
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam2}deg)` }"
+                  class="cam1"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam2')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
 
-              <svg
-                :style="{ transform: `rotate(${cameraRotations.cam3}deg)` }"
-                id="cam2"
-                class="cam2"
-                width="48"
-                height="29"
-                viewBox="0 0 48 29"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                @click="rotateCamera('cam3')"
-              >
-                <path
-                  d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                  fill="#6887F5"
-                />
-                <rect width="29" height="29" rx="3" fill="#6887F5" />
-              </svg>
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam3}deg)` }"
+                  id="cam2"
+                  class="cam2"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam3')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+              </g>
             </v-img>
           </v-row>
         </v-col>
