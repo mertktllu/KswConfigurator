@@ -49,14 +49,14 @@
           <v-row class="">
             <v-img width="500" class="wrapper" :src="`${img}`" alt="img">
               <svg
-                :style="{ transform: `rotate(${rotation}deg)` }"
+                :style="{ transform: `rotate(${cameraRotations.cam1}deg)` }"
                 class="cam"
                 width="48"
                 height="29"
                 viewBox="0 0 48 29"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                @click="rotateImage"
+                @click="rotateCamera('cam1')"
               >
                 <path
                   d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -66,12 +66,14 @@
               </svg>
 
               <svg
+                :style="{ transform: `rotate(${cameraRotations.cam2}deg)` }"
                 class="cam1"
                 width="48"
                 height="29"
                 viewBox="0 0 48 29"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                @click="rotateCamera('cam2')"
               >
                 <path
                   d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -79,7 +81,9 @@
                 />
                 <rect width="29" height="29" rx="3" fill="#6887F5" />
               </svg>
+
               <svg
+                :style="{ transform: `rotate(${cameraRotations.cam3}deg)` }"
                 id="cam2"
                 class="cam2"
                 width="48"
@@ -87,6 +91,7 @@
                 viewBox="0 0 48 29"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                @click="rotateCamera('cam3')"
               >
                 <path
                   d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -117,6 +122,7 @@
                 v-for="product in comModels"
                 :itemProps="itemProps"
                 v-model="selectedModel[product.name]"
+                :key="product.id"
                 :items="product.types"
                 :label="product.name"
                 dense
@@ -173,7 +179,12 @@ export default {
       selectedModel: {},
       xportdata: {},
       xportbool: false,
-      rotation: 0,
+      //rotation: 0,
+      cameraRotations: {
+        cam1: 0,
+        cam2: 0,
+        cam3: 0,
+      },
 
       types: [
         { name: "12C-2T", value: "12C-2T" },
@@ -290,8 +301,8 @@ export default {
       this.xportbool = true;
     },
 
-    rotateImage() {
-      this.rotation += 45;
+    rotateCamera(cameraId) {
+      this.cameraRotations[cameraId] += 45; // Her tıklamada 45 derece döndür
       console.log(this.rotation);
     },
 
