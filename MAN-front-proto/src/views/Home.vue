@@ -14,45 +14,40 @@
             <template v-slot:activator="{ props: activatorProps }">
               <v-btn v-bind="activatorProps" text="Login As Admin"> </v-btn>
             </template>
-            <template v-slot:default="dialog">
-              <v-card>
-                <v-img
-                  src="https://upload.wikimedia.org/wikipedia/commons/5/54/Logo_MAN.png"
-                ></v-img>
-                <v-form
-                  ref="form"
-                  v-model="valid"
-                  @submit.prevent="validateUser"
-                >
-                  <v-card-text>
-                    <v-text-field
-                      v-model="email"
-                      label="Email"
-                      variant="solo-filled"
-                      :rules="emailRules"
-                      required
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="password"
-                      label="Password"
-                      variant="solo-filled"
-                      :type="showPassword ? 'text' : 'password'"
-                      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                      @click:append="showPassword = !showPassword"
-                      :rules="passwordRules"
-                      required
-                    ></v-text-field>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn type="submit" color="primary"
-                      >Continue As Customer</v-btn
-                    >
-                    <v-btn color="red" text @click="closeDialog">Close</v-btn>
-                  </v-card-actions>
-                </v-form>
-              </v-card>
-            </template>
+
+            <v-card>
+              <v-img
+                src="https://upload.wikimedia.org/wikipedia/commons/5/54/Logo_MAN.png"
+              ></v-img>
+              <v-form ref="form" v-model="valid" @submit.prevent="validateUser">
+                <v-card-text>
+                  <v-text-field
+                    v-model="email"
+                    label="Email"
+                    variant="solo-filled"
+                    :rules="emailRules"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="password"
+                    label="Password"
+                    variant="solo-filled"
+                    :type="showPassword ? 'text' : 'password'"
+                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    @click:append="showPassword = !showPassword"
+                    :rules="passwordRules"
+                    required
+                  ></v-text-field>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn type="submit" color="primary"
+                    >Continue As Customer</v-btn
+                  >
+                  <v-btn color="red" text @click="closeDialog">Close</v-btn>
+                </v-card-actions>
+              </v-form>
+            </v-card>
           </v-dialog>
         </v-col>
 
