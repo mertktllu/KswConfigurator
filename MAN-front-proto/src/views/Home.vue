@@ -205,19 +205,15 @@ export default {
         alert("Incorrect username or password."); // Yanlış bilgi uyarısı
       }
     },
-    checkCredentials() {
-      if (this.users[this.email] && this.users[this.email] === this.password) {
-        this.$router.push("/customer");
-      } else {
-        this.$refs.form.reset();
-        alert("Incorrect username or password.");
-      }
-    },
     closeDialog() {
       this.dialog = false; // Dialog'u kapat
+      this.email = "";
+      this.password = "";
     },
     closeDialogAdmin() {
       this.dialogAdmin = false;
+      this.email = "";
+      this.password = "";
     },
   },
 };
