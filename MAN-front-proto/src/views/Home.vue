@@ -52,7 +52,7 @@
         </v-col>
 
         <v-col>
-          <v-btn @click="goSAdmin()"> Super Amdin </v-btn>
+          <v-btn @click="goSAdmin()"> Super Admin </v-btn>
         </v-col>
 
         <v-col>
