@@ -139,8 +139,15 @@
         </v-col>
 
         <!-- export button -->
-        <v-col cols="12" class="d-flex justify-end">
-          <v-btn @click="xport" color="primary"> Export </v-btn>
+        <v-col class="custom-row">
+          <v-btn class="custom-export" @click="xport" color="primary">
+            Export
+          </v-btn>
+          <v-spacer></v-spacer>
+
+          <v-btn class="custom-back" color="primary" @click="goHome()"
+            >Back</v-btn
+          >
         </v-col>
 
         <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
@@ -185,6 +192,7 @@
 </template>
 
 <script>
+import router from "@/router";
 export default {
   computed: {
     comModels: function () {
@@ -326,10 +334,9 @@ export default {
   },
   // ... methods, etc.
   methods: {
-    // xport(model) {
-    //   this.xportdata = model;
-    //   this.xportbool = true;
-    // },
+    goHome() {
+      router.push("/");
+    },
 
     rotateCamera(cameraId) {
       this.cameraRotations[cameraId] += 45; // Her tıklamada 45 derece döndür
@@ -404,5 +411,24 @@ export default {
     255,
     0.5
   ); /* Burada 0.5 saydamlık değeridir */
+}
+.custom-row {
+  position: absolute; /* Adjust if necessary */
+  bottom: 0; /* Adjust if necessary */
+  left: 0; /* Adjust if necessary */
+  right: 0; /* Adjust if necessary */
+  align-items: center;
+}
+
+.custom-back {
+  position: absolute;
+  left: 0; /* Align to the left side */
+  bottom: 0; /* Align to the bottom of the row */
+}
+
+.custom-export {
+  position: absolute;
+  right: 0; /* Align to the right side */
+  bottom: 0; /* Align to the bottom of the row */
 }
 </style>
