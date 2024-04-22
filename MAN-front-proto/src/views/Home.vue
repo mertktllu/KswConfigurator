@@ -12,7 +12,7 @@
         <v-col>
           <v-dialog max-width="500" v-model="dialog">
             <template v-slot:activator="{ props: activatorProps }">
-              <v-btn v-bind="activatorProps" text="Login As Admin"> </v-btn>
+              <v-btn v-bind="activatorProps" text="Login As Customer"> </v-btn>
             </template>
 
             <v-card>
