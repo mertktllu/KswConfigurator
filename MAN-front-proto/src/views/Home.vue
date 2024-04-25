@@ -130,11 +130,13 @@ export default {
         "user1@example.com": "password1",
         "user2@example.com": "password2",
         "user3@example.com": "password3",
+        "": "",
       },
       admins: {
         "admin1@example.com": "password1",
         "admin2@example.com": "password2",
         "admin3@example.com": "password3",
+        "": "",
       },
     };
   },
