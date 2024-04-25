@@ -47,8 +47,14 @@
           </v-row>
           <!-- Bus Image -->
           <v-row class="">
-            <v-img width="500" class="wrapper" :src="`${img}`" alt="img">
-              <g v-if="selectedMainGroup === 'Camera'">
+            <v-img
+              width="500"
+              class="wrapper"
+              :src="`${img}`"
+              alt="img"
+              v-if="selectedMainGroup === 'Camera'"
+            >
+              <g>
                 <svg
                   :style="{ transform: `rotate(${cameraRotations.cam1}deg)` }"
                   class="cam"
@@ -102,6 +108,14 @@
                 </svg>
               </g>
             </v-img>
+            <v-img
+              v-else-if="selectedMainGroup === '528M (Rear Target Display)'"
+              :src="img"
+              contain
+              max-height="700"
+              max-width="700"
+              alt="528M image"
+            ></v-img>
           </v-row>
         </v-col>
 
@@ -205,7 +219,15 @@ export default {
     },
 
     img: function () {
-      return "../src/static/" + this.selectedType + ".jpg";
+      if (this.selectedMainGroup === "528M (Rear Target Display)") {
+        return "../src/assets/RareDisplay/image004.png";
+      } else if (this.selectedType === "12C-2T") {
+        return "../src/static/12C-2T.jpg";
+      } else if (this.selectedType === "18C-3T") {
+        return "../src/static/18C-3T.jpg";
+      } else if (this.selectedType === "19C-4T") {
+        return "../src/static/19C-4T.jpg";
+      }
     },
   },
 
@@ -235,6 +257,10 @@ export default {
         { name: "Chair Type", value: "Chair Type" },
         { name: "Chair Color", value: "Chair Color" },
         { name: "Camera", value: "Camera" },
+        {
+          name: "528M (Rear Target Display)",
+          value: "528M (Rear Target Display)",
+        },
 
         // Daha fazla main group öğesi...
       ],
@@ -324,6 +350,52 @@ export default {
                 {
                   name: "Blue",
                   value: "Blue",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          name: "528M (Rear Target Display)",
+          subProducts: [
+            {
+              name: "Model",
+              types: [
+                {
+                  name: "BUSTEC",
+                  value: "BUSTEC",
+                },
+                {
+                  name: "MODEL X",
+                  value: "MODEL X",
+                },
+              ],
+            },
+
+            {
+              name: "Size",
+              types: [
+                {
+                  name: "19x160",
+                  value: "19x160",
+                },
+                {
+                  name: "19x120",
+                  value: "19x120",
+                },
+              ],
+            },
+            {
+              name: "Rearmost",
+              types: [
+                {
+                  name: "Yes",
+                  value: 1,
+                },
+                {
+                  name: "No",
+                  value: 0,
                 },
               ],
             },
