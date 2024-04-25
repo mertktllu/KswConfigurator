@@ -150,6 +150,16 @@
               </v-select>
             </v-card>
           </v-col>
+
+          <v-col>
+            <v-img
+              v-if="modelImageDetails.showImage"
+              :src="modelImageDetails.src"
+              :alt="modelImageDetails.alt"
+              class="product-image"
+            >
+            </v-img>
+          </v-col>
         </v-col>
 
         <!-- export button -->
@@ -229,6 +239,33 @@ export default {
         return "../src/static/19C-4T.jpg";
       }
     },
+    modelImageDetails() {
+      let imageDetails = {
+        showImage: false,
+        src: "",
+        alt: "",
+      };
+
+      if (this.selectedMainGroup === "528M (Rear Target Display)") {
+        switch (this.selectedModel["Model"]) {
+          case "BUSTEC":
+            imageDetails.showImage = true;
+            imageDetails.src = "../src/assets/RareDisplay/Bustec.jpg"; // Replace with the actual path to the BUSTEC image
+            imageDetails.alt = "BUSTEC Image";
+            break;
+          case "MODEL X":
+            imageDetails.showImage = true;
+            imageDetails.src = "path-to-model-x-image.png"; // Replace with the actual path to the MODEL X image
+            imageDetails.alt = "Model X Image";
+            break;
+          // Add more cases for other models
+          default:
+            break;
+        }
+      }
+
+      return imageDetails;
+    },
   },
 
   data() {
@@ -236,6 +273,7 @@ export default {
       selectedType: null,
       selectedMainGroup: null,
       selectedGattung: null,
+
       selectedModel: {},
       xportdata: {},
       xportbool: false,
@@ -363,6 +401,10 @@ export default {
               name: "Model",
               types: [
                 {
+                  name: "(NONE)",
+                  value: "(NONE)",
+                },
+                {
                   name: "BUSTEC",
                   value: "BUSTEC",
                 },
@@ -377,12 +419,37 @@ export default {
               name: "Size",
               types: [
                 {
+                  name: "(NONE)",
+                  value: "(NONE)",
+                },
+                {
                   name: "19x160",
                   value: "19x160",
                 },
                 {
                   name: "19x120",
                   value: "19x120",
+                },
+              ],
+            },
+            {
+              name: "Led Color",
+              types: [
+                {
+                  name: "(NONE)",
+                  value: "(NONE)",
+                },
+                {
+                  name: "Amber",
+                  value: "Amber",
+                },
+                {
+                  name: "Weiss",
+                  value: "Weiss",
+                },
+                {
+                  name: "RGB",
+                  value: "RGB",
                 },
               ],
             },
