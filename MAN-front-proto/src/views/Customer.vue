@@ -292,22 +292,71 @@ export default {
         // Daha fazla type öğesi...
       ],
       mainGroups: [
-        { name: "Chair Type", value: "Chair Type" },
-        { name: "Chair Color", value: "Chair Color" },
+        //{ name: "Chair Type", value: "Chair Type" },
+        //{ name: "Chair Color", value: "Chair Color" },
         { name: "Camera", value: "Camera" },
         {
           name: "528M (Rear Target Display)",
           value: "528M (Rear Target Display)",
         },
-
-        // Daha fazla main group öğesi...
+        {
+          name: " Sondernutzungsfläche gegenüber Tür 2", // Kapı 2'nin karşısındaki özel kullanım alanı
+          value: " Sondernutzungsfläche gegenüber Tür 2",
+        },
+        {
+          name: "Sondernutzungsfläche rechts vor Tür 2", // Kapı 2'nin önünde sağda özel kullanım alanı
+          value: "Sondernutzungsfläche rechts vor Tür 2",
+        },
+        {
+          name: "Bestuhlung", //Koltuklar
+          value: "Bestuhlung",
+        },
+        {
+          name: "Haltestangen", //Tutunma rayları
+          value: "Haltestangen",
+        },
+        {
+          name: "Abschrankung/Haarnadelstange an Tür 1", //Kapı 1'de bariyer / saç tokası çubuğu
+          value: "Abschrankung/Haarnadelstange an Tür 1",
+        },
       ],
       gattungs: [
         {
           name: "Überwachungsanlage Fahrgastraum",
           value: "Überwachungsanlage Fahrgastraum",
         },
-        // Daha fazla gattung öğesi...
+        {
+          name: "680A - SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
+          value: "680A - SNF gegenüber Tür 2", // 680A - SNF karşı kapı 2
+        },
+        {
+          name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
+          value: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2", // 680D - SNF'nin önünde kapı 2'nin karşısında yaslanma plakası/katlanır koltuklar
+        },
+        {
+          name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2", // Sondernutzungsfläche rechts vor Tür 2'nin gattungu //2
+          value: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2", // 681D - 2 numaralı kapının önündeki SNF'nin önünde yaslanma plakası/katlanır koltuklar
+        },
+        {
+          name: "704A - Bestuhlung", // Bestuhlung'un gattungu //3
+          value: "704A - Bestuhlung",
+        },
+        {
+          name: "700B - Farbe-Fahrgastsitzgestell", // Bestuhlung'un gattungu //3
+          value: "700B - Farbe-Fahrgastsitzgestell", // 700B - Renkli yolcu koltuğu çerçevesi
+        },
+        {
+          name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
+          value: "78RI - Sitzhaltegriffe", // 78RI - Koltuk tutma kolları
+        },
+        {
+          name: "65A6 - Farbe der Haltestangen und Trennwände", // Haltestangen'un gattungu //4
+          value: "65A6 - Farbe der Haltestangen und Trennwände", // 65A6 - Tutunma raylarının ve bölmelerin rengi
+        },
+        {
+          name: "65LD - Abschrankung an Tür 1", // Abschrankung/Haarnadelstange an Tür 1'in gattungu //5
+          value: "65LD - Abschrankung an Tür 1", // 65LD - Kapı 1'de bölme
+        },
       ],
 
       products: [
