@@ -39,7 +39,7 @@
                 :items="filteredGattungs"
                 v-model="selectedGattung"
                 label="Gattung"
-                :disabled="!selectedMainGroup"
+                :disabled="!selectedMainGroup || !filteredGattungs.length"
                 item-text="name"
                 item-value="value"
                 dense
