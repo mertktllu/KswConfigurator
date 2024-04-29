@@ -35,9 +35,45 @@
         <v-card>
           <v-card-title
             >Gattung
-            <v-btn size="small" icon class="ml-5" color="green"
-              ><v-icon>mdi-plus</v-icon></v-btn
-            >
+
+            <v-dialog max-width="50%">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn
+                  v-bind="activatorProps"
+                  size="small"
+                  icon
+                  class="ml-5"
+                  color="green"
+                  ><v-icon>mdi-plus</v-icon></v-btn
+                >
+              </template>
+
+              <template v-slot:default="{ isActive }">
+                <v-card title="Add Gattung">
+                  <v-card-text>
+                    <v-text-field
+                      v-model="firstname"
+                      :counter="10"
+                      :rules="nameRules"
+                      label="Name of Gattung"
+                      hide-details
+                      required
+                    ></v-text-field>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      text="Close"
+                      color="red"
+                      @click="isActive.value = false"
+                    ></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+
             <v-btn size="small" icon class="ml-5" color="red"
               ><v-icon>mdi-delete</v-icon></v-btn
             >
@@ -65,6 +101,7 @@
             <v-btn size="small" icon class="ml-5" color="green"
               ><v-icon>mdi-plus</v-icon></v-btn
             >
+
             <v-btn size="small" icon class="ml-5" color="red"
               ><v-icon>mdi-delete</v-icon></v-btn
             >
@@ -121,6 +158,7 @@
 export default {
   data() {
     return {
+      dialog: false,
       search: "",
       selectedPart: null,
       mainGroupOptions: ["Seat Colour", "Seat Type", "Button Type", "Camera"],
