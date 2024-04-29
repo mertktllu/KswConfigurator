@@ -77,7 +77,12 @@
             <v-btn size="small" icon class="ml-5" color="red"
               ><v-icon>mdi-delete</v-icon></v-btn
             >
-            <v-btn size="small" icon class="ml-5" color="yellow"
+            <v-btn
+              @click="clicked"
+              size="small"
+              icon
+              class="ml-5"
+              color="yellow"
               ><v-icon>mdi-pencil</v-icon></v-btn
             ></v-card-title
           >
@@ -174,6 +179,11 @@ export default {
         {
           name: "680A - SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
           value: "Sondernutzungsfläche gegenüber Tür 2", // 680A - SNF karşı kapı 2
+          customParts: [
+            { name: "Red", color: "red" },
+            { name: "Green", color: "green" },
+            { name: "Blue", color: "blue" },
+          ],
         },
         {
           name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
@@ -208,6 +218,10 @@ export default {
   },
 
   methods: {
+    clicked() {
+      console.log(this.gattungs);
+    },
+
     itemProps(item) {
       return {
         title: item.name,
