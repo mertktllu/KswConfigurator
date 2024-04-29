@@ -33,6 +33,22 @@
     <v-row>
       <v-col>
         <v-card>
+          <v-card-title>Gattung</v-card-title>
+          <v-card-text>
+            <v-select
+              :itemProps="itemProps"
+              :items="gattungs"
+              v-model="selectedGattung"
+              label="Select an option"
+            ></v-select>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col>
+        <v-card>
           <v-card-title>Main Group</v-card-title>
           <v-card-text>
             <v-select
@@ -47,19 +63,6 @@
     <v-row>
       <v-col>
         <!-- Custom Part Selection -->
-        <!-- <v-card>
-          <v-card-title>Custom Part</v-card-title>
-          <v-card-text>
-            <v-radio-group v-model="selectedPart">
-              <v-radio
-                v-for="(part, index) in customParts"
-                :key="index"
-                :label="part.name"
-                :value="part.color"
-              ></v-radio>
-            </v-radio-group>
-          </v-card-text>
-        </v-card> -->
 
         <v-card class="custom-part">
           <v-card-title>Custom Part</v-card-title>
@@ -105,13 +108,58 @@ export default {
         { name: "Blue", color: "blue" },
       ],
       selectedPart: null,
+      selectedGattung: null,
+
+      gattungs: [
+        {
+          name: "680A - SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
+          value: "Sondernutzungsfläche gegenüber Tür 2", // 680A - SNF karşı kapı 2
+        },
+        {
+          name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
+          value: "Sondernutzungsfläche gegenüber Tür 2", // 680D - SNF'nin önünde kapı 2'nin karşısında yaslanma plakası/katlanır koltuklar
+        },
+        {
+          name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2", // Sondernutzungsfläche rechts vor Tür 2'nin gattungu //2
+          value: "Sondernutzungsfläche rechts vor Tür 2", // 681D - 2 numaralı kapının önündeki SNF'nin önünde yaslanma plakası/katlanır koltuklar
+        },
+        {
+          name: "704A - Bestuhlung", // Bestuhlung'un gattungu //3
+          value: "Bestuhlung",
+        },
+        {
+          name: "700B - Farbe-Fahrgastsitzgestell", // Bestuhlung'un gattungu //3
+          value: "Bestuhlung", // 700B - Renkli yolcu koltuğu çerçevesi
+        },
+        {
+          name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
+          value: "Bestuhlung", // 78RI - Koltuk tutma kolları
+        },
+        {
+          name: "65A6 - Farbe der Haltestangen und Trennwände", // Haltestangen'un gattungu //4
+          value: "Haltestangen", // 65A6 - Tutunma raylarının ve bölmelerin rengi
+        },
+        {
+          name: "65LD - Abschrankung an Tür 1", // Abschrankung/Haarnadelstange an Tür 1'in gattungu //5
+          value: "Abschrankung/Haarnadelstange an Tür 1", // 65LD - Kapı 1'de bölme
+        },
+      ],
     };
+  },
+
+  methods: {
+    itemProps(item) {
+      return {
+        title: item.name,
+        value: item.value,
+      };
+    },
   },
 };
 </script>
 
 <style scoped>
 .custom-part {
-  background-color: darkgrey;
+  background-color: rgb(204, 204, 204);
 }
 </style>
