@@ -33,7 +33,18 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-card-title>Gattung</v-card-title>
+          <v-card-title
+            >Gattung
+            <v-btn size="small" icon class="ml-5" color="green"
+              ><v-icon>mdi-plus</v-icon></v-btn
+            >
+            <v-btn size="small" icon class="ml-5" color="red"
+              ><v-icon>mdi-delete</v-icon></v-btn
+            >
+            <v-btn size="small" icon class="ml-5" color="yellow"
+              ><v-icon>mdi-pencil</v-icon></v-btn
+            ></v-card-title
+          >
           <v-card-text>
             <v-select
               :itemProps="itemProps"
@@ -49,7 +60,18 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-card-title>Main Group</v-card-title>
+          <v-card-title
+            >Main Group
+            <v-btn size="small" icon class="ml-5" color="green"
+              ><v-icon>mdi-plus</v-icon></v-btn
+            >
+            <v-btn size="small" icon class="ml-5" color="red"
+              ><v-icon>mdi-delete</v-icon></v-btn
+            >
+            <v-btn size="small" icon class="ml-5" color="yellow"
+              ><v-icon>mdi-pencil</v-icon></v-btn
+            ></v-card-title
+          >
           <v-card-text>
             <v-select
               :items="mainGroupOptions"
