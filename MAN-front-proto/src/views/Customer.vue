@@ -39,7 +39,7 @@
                 :items="filteredGattungs"
                 v-model="selectedGattung"
                 label="Gattung"
-                :disabled="!selectedMainGroup"
+                :disabled="!selectedMainGroup || !filteredGattungs.length"
                 item-text="name"
                 item-value="value"
                 dense
@@ -137,16 +137,37 @@
             hide-details
             @change="onMainGroupChange"
           ></v-select>
+
           <!-- Selection -->
-          <v-col v-if="selectedMainGroup != null">
+          <v-col v-if="selectedGattung == null">
             <v-card>
               <v-select
                 v-for="product in comModels"
-                :itemProps="itemProps"
-                v-model="selectedModel[product.name]"
-                :key="product.id"
-                :items="product.types"
+                :key="product.name"
                 :label="product.name"
+                v-model="selectedModel[product.name]"
+                :items="product.types"
+                :itemProps="itemProps"
+                dense
+                solo
+                outlined
+                hide-details
+                class="ma-2"
+              >
+              </v-select>
+            </v-card>
+          </v-col>
+
+          <!-- Gattung'a göre subProducts -->
+          <v-col v-else-if="selectedGattung != null">
+            <v-card>
+              <v-select
+                v-for="product in comModelsGat"
+                :key="product.name"
+                :label="product.name"
+                v-model="selectedModel[product.name]"
+                :items="product.types"
+                :itemProps="itemProps"
                 dense
                 solo
                 outlined
@@ -226,12 +247,24 @@ import router from "@/router";
 export default {
   computed: {
     comModels: function () {
-      for (let i = 0; i < this.products.length; i++) {
-        if (this.products[i].name == this.selectedMainGroup) {
-          return this.products[i].subProducts;
-        }
+      const found = this.products.find(
+        (p) => p.name === this.selectedMainGroup
+      );
+      return found ? found.subProducts : [];
+    },
+    comModelsGat() {
+      const found = this.gattungProducts.find(
+        (g) => g.name === this.selectedGattung
+      );
+      if (found) {
+        return found.subProducts;
+      } else {
+        console.error(
+          "No subProducts found for the selected Gattung:",
+          this.selectedGattung
+        );
+        return [];
       }
-      return "nothing";
     },
 
     img: function () {
@@ -276,9 +309,7 @@ export default {
 
     filteredGattungs() {
       if (this.selectedMainGroup) {
-        return this.gattungs.filter(
-          (gattung) => gattung.value === this.selectedMainGroup
-        );
+        return this.gattungs.filter((g) => g.value === this.selectedMainGroup);
       }
       return [];
     },
@@ -415,44 +446,6 @@ export default {
         },
 
         {
-          name: "Chair Type",
-          subProducts: [
-            {
-              name: "ChairModel",
-              types: [
-                {
-                  name: "Chair A",
-                  value: "A",
-                },
-                {
-                  name: "Chair B",
-                  value: "B",
-                },
-              ],
-            },
-          ],
-        },
-
-        {
-          name: "Chair Color",
-          subProducts: [
-            {
-              name: "Color",
-              types: [
-                {
-                  name: "Red",
-                  value: "Red",
-                },
-                {
-                  name: "Blue",
-                  value: "Blue",
-                },
-              ],
-            },
-          ],
-        },
-
-        {
           name: "528M (Rear Target Display)",
           subProducts: [
             {
@@ -542,6 +535,139 @@ export default {
           name: "Abschrankung/Haarnadelstange an Tür 1",
         },
       ],
+      gattungProducts: [
+        {
+          name: "680A - SNF gegenüber Tür 2",
+          subProducts: [
+            {
+              name: "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm.",
+            },
+            {
+              name: "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
+            },
+            {
+              name: "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
+            },
+          ],
+        },
+        {
+          name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
+          subProducts: [
+            { name: "Armlehne mit halter ohne Schloss" },
+            { name: "Mit klappbarer Armlehne auf dem Bügel" },
+            { name: "Ausführung Trennwand mit Glasscheibe" },
+            {
+              name: "Bügel (Überstand min. 280mm) E-Scooter tauglich ausführen",
+            },
+          ],
+        },
+        {
+          name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
+          subProducts: [
+            {
+              name: "Armlehne mit halter ohne Schloss",
+            },
+            {
+              name: "mit klappbarer Armlehne auf dem Bügel",
+            },
+            {
+              name: "Ausführung Trennwand mit Glasscheibe",
+            },
+          ],
+        },
+        {
+          name: "704A - Bestuhlung",
+          subProducts: [
+            {
+              name: "mit Schaum Sitzpolster",
+              types: [
+                {
+                  name: "ohne",
+                  value: "ohne",
+                },
+                {
+                  name: "20mm",
+                  value: "20mm",
+                },
+                {
+                  name: "30mm",
+                  value: "30mm",
+                },
+                {
+                  name: "45mm",
+                  value: "45mm",
+                },
+              ],
+            },
+            {
+              name: "mit Schaum Rückenpolster",
+              types: [
+                {
+                  name: "ohne",
+                  value: "ohne",
+                },
+                {
+                  name: "20mm",
+                  value: "20mm",
+                },
+                {
+                  name: "30mm",
+                  value: "30mm",
+                },
+                {
+                  name: "45mm",
+                  value: "45mm",
+                },
+              ],
+            },
+            { name: "Alle Sitze ohne Logo/Branding." },
+            {
+              name: "STER 8 MS",
+              types: [
+                {
+                  name: "mitSchutzband",
+                  value: "mitSchutzband",
+                },
+                {
+                  name: "ohneSchutzband",
+                  value: "ohneSchutzband",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: "700B - Farbe-Fahrgastsitzgestell",
+          subProducts: [{ name: "Fahrgastsitzgestell RAL 7037" }],
+        },
+        {
+          name: "78RI - Sitzhaltegriffe",
+          subProducts: [
+            { name: "Topcloser in RAL 1023 verkehrsgelb" },
+            { name: " Topcloser in RAL 7037 verkehrsgelb" },
+            { name: " Topcloser in RAL 1023 verkehrsgelb für EM sitz" },
+          ],
+        },
+        {
+          name: "65A6 - Farbe der Haltestangen und Trennwände",
+          subProducts: [
+            {
+              name: "Nur Knoten in",
+            },
+            {
+              name: "Nur Deckenhaltestangen in",
+            },
+          ],
+        },
+        {
+          name: "65LD - Abschrankung an Tür 1",
+          subProducts: [
+            {
+              name: "zusätzlich Teleskopabschrankung an Tür 1",
+            },
+          ],
+        },
+      ],
     };
   },
   // ... methods, etc.
@@ -561,13 +687,6 @@ export default {
         value: item.value,
       };
     },
-    //gattung name and mainGroup
-    gattungProps(item) {
-      return {
-        title: item.name,
-        value: item.mainGroup,
-      };
-    },
 
     showExportDialog() {
       this.dialog = true;
@@ -585,8 +704,10 @@ export default {
 
     onMainGroupChange() {
       this.selectedGattung = null;
-      // Eğer filteredGattungs computed property'si reaktif değilse, bu metodda manuel olarak tetikleyebilirsiniz.
-      this.filteredGattungs; // Bu satır computed property'yi manuel olarak tetiklemek için kullanılabilir.
+      this.selectedModel = {};
+    },
+    onGattungChange() {
+      this.selectedModel = {};
     },
   },
 };
