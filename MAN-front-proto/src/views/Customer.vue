@@ -146,19 +146,10 @@
               :key="subProduct.name"
             >
               <v-card-title>{{ subProduct.name }}</v-card-title>
-
               <v-card-text>
-                <v-text-field
-                  v-if="subProduct.inputType === 'text'"
-                  v-model="selectedModel[subProduct.name]"
-                  :placeholder="subProduct.inputPlaceholder"
-                  label="Girin"
-                  dense
-                  solo
-                  outlined
-                  hide-details
-                ></v-text-field>
+                <!-- Normal select dropdown -->
                 <v-select
+                  v-if="subProduct.inputType !== 'text'"
                   :item-props="subProduct.name || itemProps"
                   :items="subProduct.options"
                   :item-text="(item) => item.name || item"
@@ -171,6 +162,23 @@
                   outlined
                   hide-details
                 ></v-select>
+                <!-- Text input for RAL codes -->
+                <div
+                  v-else-if="
+                    subProduct.gattung ===
+                    '65A6 - Farbe der Haltestangen und Trennwände'
+                  "
+                >
+                  <v-text-field
+                    v-model="selectedModel[subProduct.name]"
+                    placeholder="RAL Kodu 1"
+                    :label="subProduct.inputPlaceholder"
+                    dense
+                    solo
+                    outlined
+                    hide-details="auto"
+                  ></v-text-field>
+                </div>
               </v-card-text>
             </v-card>
           </v-col>
@@ -846,7 +854,13 @@ export default {
               gattung: "65A6 - Farbe der Haltestangen und Trennwände",
               name: "Nur Knoten in",
               inputType: "text",
-              inputPlaceholder: "RAL kodu girin",
+              inputPlaceholder: "RAL Code eingeben",
+            },
+            {
+              gattung: "65A6 - Farbe der Haltestangen und Trennwände",
+              name: "Nur Deckenhaltestangen in",
+              inputType: "text",
+              inputPlaceholder: "RAL Code eingeben",
             },
           ],
         },
