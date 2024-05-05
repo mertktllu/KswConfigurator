@@ -171,12 +171,13 @@
                 >
                   <v-text-field
                     v-model="selectedModel[subProduct.name]"
-                    placeholder="RAL Kodu 1"
                     :label="subProduct.inputPlaceholder"
                     dense
                     solo
                     outlined
                     hide-details="auto"
+                    @input="formatRALCode(subProduct.name)"
+                    @click="showRALPrefix(subProduct.name)"
                   ></v-text-field>
                 </div>
               </v-card-text>
@@ -249,7 +250,7 @@
 
 <script>
 import router from "@/router";
-import { textHeights } from "ol/render/canvas";
+
 export default {
   mounted() {
     // Perform actions when the component is fully mounted in the DOM, e.g., fetch data from an API
@@ -437,284 +438,6 @@ export default {
           mainGroup: "Abschrankung/Haarnadelstange an Tür 1", // 65LD - Kapı 1'de bölme
         },
       ],
-
-      // products: [
-      //   {
-      //     name: "Camera",
-      //     subProducts: [
-      //       {
-      //         name: "Type",
-      //         types: [
-      //           {
-      //             name: "CAM A",
-      //             value: "A",
-      //           },
-      //           {
-      //             name: "CAM B",
-      //             value: "B",
-      //           },
-      //         ],
-      //       },
-      //       {
-      //         name: "Recorder",
-      //         types: [
-      //           {
-      //             name: "Yes",
-      //             value: 1,
-      //           },
-      //           {
-      //             name: "No",
-      //             value: 0,
-      //           },
-      //         ],
-      //       },
-      //       {
-      //         name: "Lenght",
-      //         types: [
-      //           {
-      //             name: "1 Hour",
-      //             value: "1 Hour",
-      //           },
-      //           {
-      //             name: "2 Hour",
-      //             value: "2 Hour",
-      //           },
-      //         ],
-      //       },
-      //     ],
-      //   },
-
-      //   {
-      //     name: "528M (Rear Target Display)",
-      //     subProducts: [
-      //       {
-      //         name: "Model",
-      //         types: [
-      //           {
-      //             name: "(NONE)",
-      //             value: "(NONE)",
-      //           },
-      //           {
-      //             name: "BUSTEC",
-      //             value: "BUSTEC",
-      //           },
-      //           {
-      //             name: "MODEL X",
-      //             value: "MODEL X",
-      //           },
-      //         ],
-      //       },
-
-      //       {
-      //         name: "Size",
-      //         types: [
-      //           {
-      //             name: "(NONE)",
-      //             value: "(NONE)",
-      //           },
-      //           {
-      //             name: "19x160",
-      //             value: "19x160",
-      //           },
-      //           {
-      //             name: "19x120",
-      //             value: "19x120",
-      //           },
-      //         ],
-      //       },
-      //       {
-      //         name: "Led Color",
-      //         types: [
-      //           {
-      //             name: "(NONE)",
-      //             value: "(NONE)",
-      //           },
-      //           {
-      //             name: "Amber",
-      //             value: "Amber",
-      //           },
-      //           {
-      //             name: "Weiss",
-      //             value: "Weiss",
-      //           },
-      //           {
-      //             name: "RGB",
-      //             value: "RGB",
-      //           },
-      //         ],
-      //       },
-      //       {
-      //         name: "Rearmost",
-      //         types: [
-      //           {
-      //             name: "Yes",
-      //             value: 1,
-      //           },
-      //           {
-      //             name: "No",
-      //             value: 0,
-      //           },
-      //         ],
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     name: "Sondernutzungsfläche gegenüber Tür 2",
-      //   },
-      //   {
-      //     name: "Sondernutzungsfläche rechts vor Tür 2",
-      //   },
-      //   {
-      //     name: "Bestuhlung",
-      //   },
-      //   {
-      //     name: "Haltestangen",
-      //   },
-      //   {
-      //     name: "Abschrankung/Haarnadelstange an Tür 1",
-      //   },
-      // ],
-      // gattungProducts: [
-      //   {
-      //     name: "680A - SNF gegenüber Tür 2",
-      //     value: "Sondernutzungsfläche gegenüber Tür 2",
-      //     subProducts: [
-      //       {
-      //         name: "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm.",
-      //       },
-      //       {
-      //         name: "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
-      //       },
-      //       {
-      //         name: "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-      //     value: "Sondernutzungsfläche gegenüber Tür 2",
-      //     subProducts: [
-      //       { name: "Armlehne mit halter ohne Schloss" },
-      //       { name: "Mit klappbarer Armlehne auf dem Bügel" },
-      //       { name: "Ausführung Trennwand mit Glasscheibe" },
-      //       {
-      //         name: "Bügel (Überstand min. 280mm) E-Scooter tauglich ausführen",
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-      //     value: "Sondernutzungsfläche rechts vor Tür 2",
-      //     subProducts: [
-      //       {
-      //         name: "Armlehne mit halter ohne Schloss",
-      //       },
-      //       {
-      //         name: "mit klappbarer Armlehne auf dem Bügel",
-      //       },
-      //       {
-      //         name: "Ausführung Trennwand mit Glasscheibe",
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     name: "704A - Bestuhlung",
-      //     value: "Bestuhlung",
-      //     subProducts: [
-      //       {
-      //         name: "mit Schaum Sitzpolster",
-      //         types: [
-      //           {
-      //             name: "ohne",
-      //             value: "ohne",
-      //           },
-      //           {
-      //             name: "20mm",
-      //             value: "20mm",
-      //           },
-      //           {
-      //             name: "30mm",
-      //             value: "30mm",
-      //           },
-      //           {
-      //             name: "45mm",
-      //             value: "45mm",
-      //           },
-      //         ],
-      //       },
-      //       {
-      //         name: "mit Schaum Rückenpolster",
-      //         types: [
-      //           {
-      //             name: "ohne",
-      //             value: "ohne",
-      //           },
-      //           {
-      //             name: "20mm",
-      //             value: "20mm",
-      //           },
-      //           {
-      //             name: "30mm",
-      //             value: "30mm",
-      //           },
-      //           {
-      //             name: "45mm",
-      //             value: "45mm",
-      //           },
-      //         ],
-      //       },
-      //       { name: "Alle Sitze ohne Logo/Branding." },
-      //       {
-      //         name: "STER 8 MS",
-      //         types: [
-      //           {
-      //             name: "mitSchutzband",
-      //             value: "mitSchutzband",
-      //           },
-      //           {
-      //             name: "ohneSchutzband",
-      //             value: "ohneSchutzband",
-      //           },
-      //         ],
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     name: "700B - Farbe-Fahrgastsitzgestell",
-      //     value: "Bestuhlung",
-      //     subProducts: [{ name: "Fahrgastsitzgestell RAL 7037" }],
-      //   },
-      //   {
-      //     name: "78RI - Sitzhaltegriffe",
-      //     value: "Bestuhlung",
-      //     subProducts: [
-      //       { name: "Topcloser in RAL 1023 verkehrsgelb" },
-      //       { name: " Topcloser in RAL 7037 verkehrsgelb" },
-      //       { name: " Topcloser in RAL 1023 verkehrsgelb für EM sitz" },
-      //     ],
-      //   },
-      //   {
-      //     name: "65A6 - Farbe der Haltestangen und Trennwände",
-      //     value: "Haltestangen",
-      //     subProducts: [
-      //       {
-      //         name: "Nur Knoten in",
-      //       },
-      //       {
-      //         name: "Nur Deckenhaltestangen in",
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     name: "65LD - Abschrankung an Tür 1",
-      //     value: "Abschrankung/Haarnadelstange an Tür 1",
-      //     subProducts: [
-      //       {
-      //         name: "zusätzlich Teleskopabschrankung an Tür 1",
-      //       },
-      //     ],
-      //   },
-      // ],
 
       products: [
         {
@@ -943,6 +666,21 @@ export default {
 
     onGattungChange() {
       this.selectedModel = {};
+    },
+    formatRALCode(fieldName) {
+      let value = this.selectedModel[fieldName];
+      // Kullanıcının girdisini RAL kodu formatına getir
+      if (value && !value.startsWith("RAL")) {
+        value = "RAL " + value;
+        // RAL kodunu güncelle, ancak RAL'yi silemez
+        this.selectedModel[fieldName] = value;
+      }
+    },
+    showRALPrefix(fieldName) {
+      // Metin alanına tıklandığında, eğer boşsa "RAL " ön eki ekleyin
+      if (!this.selectedModel[fieldName]) {
+        this.selectedModel[fieldName] = "RAL ";
+      }
     },
   },
 };
