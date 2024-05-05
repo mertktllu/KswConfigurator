@@ -324,25 +324,23 @@ export default {
     },
 
     availableSubProducts() {
-      // Only show subproducts related to a gattung if a gattung is selected, otherwise show subproducts directly related to the main group
-      if (this.selectedGattung) {
-        // Find subproducts for the selected gattung
-        const group = this.products.find(
-          (p) => p.mainGroup === this.selectedMainGroup
-        );
-        return group
-          ? group.subProducts.filter(
-              (sp) => sp.gattung === this.selectedGattung
-            )
-          : [];
-      } else if (!this.filteredGattungs.length) {
-        // If there are no gattungs, return the subproducts for the main group
-        const group = this.products.find(
-          (p) => p.mainGroup === this.selectedMainGroup
-        );
-        return group ? group.subProducts : [];
+      const currentGroup = this.products.find(
+        (p) => p.mainGroup === this.selectedMainGroup
+      );
+
+      if (currentGroup) {
+        if (this.filteredGattungs.length === 0) {
+          // No Gattungs for the selected Main Group
+          return currentGroup.subProducts;
+        } else if (this.selectedGattung) {
+          // Gattungs exist, and a specific Gattung is selected
+          return currentGroup.subProducts.filter(
+            (sp) => sp.gattung === this.selectedGattung
+          );
+        }
       }
-      return []; // No subproducts available if conditions are not met
+
+      return [];
     },
   },
 
@@ -438,7 +436,6 @@ export default {
           mainGroup: "Abschrankung/Haarnadelstange an Tür 1", // 65LD - Kapı 1'de bölme
         },
       ],
-
       products: [
         {
           mainGroup: "Camera",
