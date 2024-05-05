@@ -46,6 +46,7 @@
                 solo
                 outlined
                 hide-details
+                @change="onGattungChange"
               >
               </v-select>
             </v-col>
@@ -139,42 +140,38 @@
           ></v-select>
 
           <!-- Selection -->
-          <v-col v-if="selectedGattung == null">
-            <v-card>
-              <v-select
-                v-for="product in comModels"
-                :key="product.name"
-                :label="product.name"
-                v-model="selectedModel[product.name]"
-                :items="product.types"
-                :itemProps="itemProps"
-                dense
-                solo
-                outlined
-                hide-details
-                class="ma-2"
-              >
-              </v-select>
-            </v-card>
-          </v-col>
+          <v-col v-if="availableSubProducts.length">
+            <v-card
+              v-for="subProduct in availableSubProducts"
+              :key="subProduct.name"
+            >
+              <v-card-title>{{ subProduct.name }}</v-card-title>
 
-          <!-- Gattung'a göre subProducts -->
-          <v-col v-else-if="selectedGattung != null">
-            <v-card>
-              <v-select
-                v-for="product in comModelsGat"
-                :key="product.name"
-                :label="product.name"
-                v-model="selectedModel[product.name]"
-                :items="product.types"
-                :itemProps="itemProps"
-                dense
-                solo
-                outlined
-                hide-details
-                class="ma-2"
-              >
-              </v-select>
+              <v-card-text>
+                <v-text-field
+                  v-if="subProduct.inputType === 'text'"
+                  v-model="selectedModel[subProduct.name]"
+                  :placeholder="subProduct.inputPlaceholder"
+                  label="Girin"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                ></v-text-field>
+                <v-select
+                  :item-props="subProduct.name || itemProps"
+                  :items="subProduct.options"
+                  :item-text="(item) => item.name || item"
+                  :item-value="(item) => item.value || item"
+                  v-model="selectedModel[subProduct.name]"
+                  label="Select option"
+                  :disabled="!subProduct.options.length"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                ></v-select>
+              </v-card-text>
             </v-card>
           </v-col>
 
@@ -244,24 +241,28 @@
 
 <script>
 import router from "@/router";
+import { textHeights } from "ol/render/canvas";
 export default {
+  mounted() {
+    // Perform actions when the component is fully mounted in the DOM, e.g., fetch data from an API
+    console.log("Component mounted!");
+  },
   computed: {
-    comModels: function () {
+    comModels() {
       const found = this.products.find(
         (p) => p.name === this.selectedMainGroup
       );
       return found ? found.subProducts : [];
     },
     comModelsGat() {
-      const found = this.gattungProducts.find(
+      const foundGattung = this.gattungProducts.find(
         (g) => g.name === this.selectedGattung
       );
-      if (found) {
-        return found.subProducts;
+      if (foundGattung) {
+        return foundGattung.subProducts;
       } else {
         console.error(
-          "No subProducts found for the selected Gattung:",
-          this.selectedGattung
+          `No sub-products found for the selected Gattung: ${this.selectedGattung}`
         );
         return [];
       }
@@ -308,10 +309,31 @@ export default {
     },
 
     filteredGattungs() {
-      if (this.selectedMainGroup) {
-        return this.gattungs.filter((g) => g.value === this.selectedMainGroup);
+      return this.gattungs.filter(
+        (g) => g.mainGroup === this.selectedMainGroup
+      );
+    },
+
+    availableSubProducts() {
+      // Only show subproducts related to a gattung if a gattung is selected, otherwise show subproducts directly related to the main group
+      if (this.selectedGattung) {
+        // Find subproducts for the selected gattung
+        const group = this.products.find(
+          (p) => p.mainGroup === this.selectedMainGroup
+        );
+        return group
+          ? group.subProducts.filter(
+              (sp) => sp.gattung === this.selectedGattung
+            )
+          : [];
+      } else if (!this.filteredGattungs.length) {
+        // If there are no gattungs, return the subproducts for the main group
+        const group = this.products.find(
+          (p) => p.mainGroup === this.selectedMainGroup
+        );
+        return group ? group.subProducts : [];
       }
-      return [];
+      return []; // No subproducts available if conditions are not met
     },
   },
 
@@ -368,308 +390,479 @@ export default {
       gattungs: [
         {
           name: "680A - SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
-          value: "Sondernutzungsfläche gegenüber Tür 2", // 680A - SNF karşı kapı 2
+          value: "680A - SNF gegenüber Tür 2",
+          mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680A - SNF karşı kapı 2
         },
         {
           name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
-          value: "Sondernutzungsfläche gegenüber Tür 2", // 680D - SNF'nin önünde kapı 2'nin karşısında yaslanma plakası/katlanır koltuklar
+          value: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
+          mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680D - SNF'nin önünde kapı 2'nin karşısında yaslanma plakası/katlanır koltuklar
         },
         {
           name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2", // Sondernutzungsfläche rechts vor Tür 2'nin gattungu //2
-          value: "Sondernutzungsfläche rechts vor Tür 2", // 681D - 2 numaralı kapının önündeki SNF'nin önünde yaslanma plakası/katlanır koltuklar
+          value: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
+          mainGroup: "Sondernutzungsfläche rechts vor Tür 2", // 681D - 2 numaralı kapının önündeki SNF'nin önünde yaslanma plakası/katlanır koltuklar
         },
         {
           name: "704A - Bestuhlung", // Bestuhlung'un gattungu //3
-          value: "Bestuhlung",
+          value: "704A - Bestuhlung",
+          mainGroup: "Bestuhlung",
         },
         {
           name: "700B - Farbe-Fahrgastsitzgestell", // Bestuhlung'un gattungu //3
-          value: "Bestuhlung", // 700B - Renkli yolcu koltuğu çerçevesi
+          value: "700B - Farbe-Fahrgastsitzgestell",
+          mainGroup: "Bestuhlung", // 700B - Renkli yolcu koltuğu çerçevesi
         },
         {
           name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
-          value: "Bestuhlung", // 78RI - Koltuk tutma kolları
+          value: "78RI - Sitzhaltegriffe",
+          mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
         },
         {
           name: "65A6 - Farbe der Haltestangen und Trennwände", // Haltestangen'un gattungu //4
-          value: "Haltestangen", // 65A6 - Tutunma raylarının ve bölmelerin rengi
+          value: "65A6 - Farbe der Haltestangen und Trennwände",
+          mainGroup: "Haltestangen", // 65A6 - Tutunma raylarının ve bölmelerin rengi
         },
         {
           name: "65LD - Abschrankung an Tür 1", // Abschrankung/Haarnadelstange an Tür 1'in gattungu //5
-          value: "Abschrankung/Haarnadelstange an Tür 1", // 65LD - Kapı 1'de bölme
+          value: "65LD - Abschrankung an Tür 1",
+          mainGroup: "Abschrankung/Haarnadelstange an Tür 1", // 65LD - Kapı 1'de bölme
         },
       ],
+
+      // products: [
+      //   {
+      //     name: "Camera",
+      //     subProducts: [
+      //       {
+      //         name: "Type",
+      //         types: [
+      //           {
+      //             name: "CAM A",
+      //             value: "A",
+      //           },
+      //           {
+      //             name: "CAM B",
+      //             value: "B",
+      //           },
+      //         ],
+      //       },
+      //       {
+      //         name: "Recorder",
+      //         types: [
+      //           {
+      //             name: "Yes",
+      //             value: 1,
+      //           },
+      //           {
+      //             name: "No",
+      //             value: 0,
+      //           },
+      //         ],
+      //       },
+      //       {
+      //         name: "Lenght",
+      //         types: [
+      //           {
+      //             name: "1 Hour",
+      //             value: "1 Hour",
+      //           },
+      //           {
+      //             name: "2 Hour",
+      //             value: "2 Hour",
+      //           },
+      //         ],
+      //       },
+      //     ],
+      //   },
+
+      //   {
+      //     name: "528M (Rear Target Display)",
+      //     subProducts: [
+      //       {
+      //         name: "Model",
+      //         types: [
+      //           {
+      //             name: "(NONE)",
+      //             value: "(NONE)",
+      //           },
+      //           {
+      //             name: "BUSTEC",
+      //             value: "BUSTEC",
+      //           },
+      //           {
+      //             name: "MODEL X",
+      //             value: "MODEL X",
+      //           },
+      //         ],
+      //       },
+
+      //       {
+      //         name: "Size",
+      //         types: [
+      //           {
+      //             name: "(NONE)",
+      //             value: "(NONE)",
+      //           },
+      //           {
+      //             name: "19x160",
+      //             value: "19x160",
+      //           },
+      //           {
+      //             name: "19x120",
+      //             value: "19x120",
+      //           },
+      //         ],
+      //       },
+      //       {
+      //         name: "Led Color",
+      //         types: [
+      //           {
+      //             name: "(NONE)",
+      //             value: "(NONE)",
+      //           },
+      //           {
+      //             name: "Amber",
+      //             value: "Amber",
+      //           },
+      //           {
+      //             name: "Weiss",
+      //             value: "Weiss",
+      //           },
+      //           {
+      //             name: "RGB",
+      //             value: "RGB",
+      //           },
+      //         ],
+      //       },
+      //       {
+      //         name: "Rearmost",
+      //         types: [
+      //           {
+      //             name: "Yes",
+      //             value: 1,
+      //           },
+      //           {
+      //             name: "No",
+      //             value: 0,
+      //           },
+      //         ],
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     name: "Sondernutzungsfläche gegenüber Tür 2",
+      //   },
+      //   {
+      //     name: "Sondernutzungsfläche rechts vor Tür 2",
+      //   },
+      //   {
+      //     name: "Bestuhlung",
+      //   },
+      //   {
+      //     name: "Haltestangen",
+      //   },
+      //   {
+      //     name: "Abschrankung/Haarnadelstange an Tür 1",
+      //   },
+      // ],
+      // gattungProducts: [
+      //   {
+      //     name: "680A - SNF gegenüber Tür 2",
+      //     value: "Sondernutzungsfläche gegenüber Tür 2",
+      //     subProducts: [
+      //       {
+      //         name: "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm.",
+      //       },
+      //       {
+      //         name: "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
+      //       },
+      //       {
+      //         name: "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
+      //     value: "Sondernutzungsfläche gegenüber Tür 2",
+      //     subProducts: [
+      //       { name: "Armlehne mit halter ohne Schloss" },
+      //       { name: "Mit klappbarer Armlehne auf dem Bügel" },
+      //       { name: "Ausführung Trennwand mit Glasscheibe" },
+      //       {
+      //         name: "Bügel (Überstand min. 280mm) E-Scooter tauglich ausführen",
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
+      //     value: "Sondernutzungsfläche rechts vor Tür 2",
+      //     subProducts: [
+      //       {
+      //         name: "Armlehne mit halter ohne Schloss",
+      //       },
+      //       {
+      //         name: "mit klappbarer Armlehne auf dem Bügel",
+      //       },
+      //       {
+      //         name: "Ausführung Trennwand mit Glasscheibe",
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     name: "704A - Bestuhlung",
+      //     value: "Bestuhlung",
+      //     subProducts: [
+      //       {
+      //         name: "mit Schaum Sitzpolster",
+      //         types: [
+      //           {
+      //             name: "ohne",
+      //             value: "ohne",
+      //           },
+      //           {
+      //             name: "20mm",
+      //             value: "20mm",
+      //           },
+      //           {
+      //             name: "30mm",
+      //             value: "30mm",
+      //           },
+      //           {
+      //             name: "45mm",
+      //             value: "45mm",
+      //           },
+      //         ],
+      //       },
+      //       {
+      //         name: "mit Schaum Rückenpolster",
+      //         types: [
+      //           {
+      //             name: "ohne",
+      //             value: "ohne",
+      //           },
+      //           {
+      //             name: "20mm",
+      //             value: "20mm",
+      //           },
+      //           {
+      //             name: "30mm",
+      //             value: "30mm",
+      //           },
+      //           {
+      //             name: "45mm",
+      //             value: "45mm",
+      //           },
+      //         ],
+      //       },
+      //       { name: "Alle Sitze ohne Logo/Branding." },
+      //       {
+      //         name: "STER 8 MS",
+      //         types: [
+      //           {
+      //             name: "mitSchutzband",
+      //             value: "mitSchutzband",
+      //           },
+      //           {
+      //             name: "ohneSchutzband",
+      //             value: "ohneSchutzband",
+      //           },
+      //         ],
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     name: "700B - Farbe-Fahrgastsitzgestell",
+      //     value: "Bestuhlung",
+      //     subProducts: [{ name: "Fahrgastsitzgestell RAL 7037" }],
+      //   },
+      //   {
+      //     name: "78RI - Sitzhaltegriffe",
+      //     value: "Bestuhlung",
+      //     subProducts: [
+      //       { name: "Topcloser in RAL 1023 verkehrsgelb" },
+      //       { name: " Topcloser in RAL 7037 verkehrsgelb" },
+      //       { name: " Topcloser in RAL 1023 verkehrsgelb für EM sitz" },
+      //     ],
+      //   },
+      //   {
+      //     name: "65A6 - Farbe der Haltestangen und Trennwände",
+      //     value: "Haltestangen",
+      //     subProducts: [
+      //       {
+      //         name: "Nur Knoten in",
+      //       },
+      //       {
+      //         name: "Nur Deckenhaltestangen in",
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     name: "65LD - Abschrankung an Tür 1",
+      //     value: "Abschrankung/Haarnadelstange an Tür 1",
+      //     subProducts: [
+      //       {
+      //         name: "zusätzlich Teleskopabschrankung an Tür 1",
+      //       },
+      //     ],
+      //   },
+      // ],
+
       products: [
         {
-          name: "Camera",
+          mainGroup: "Camera",
           subProducts: [
-            {
-              name: "Type",
-              types: [
-                {
-                  name: "CAM A",
-                  value: "A",
-                },
-                {
-                  name: "CAM B",
-                  value: "B",
-                },
-              ],
-            },
-            {
-              name: "Recorder",
-              types: [
-                {
-                  name: "Yes",
-                  value: 1,
-                },
-                {
-                  name: "No",
-                  value: 0,
-                },
-              ],
-            },
-            {
-              name: "Lenght",
-              types: [
-                {
-                  name: "1 Hour",
-                  value: "1 Hour",
-                },
-                {
-                  name: "2 Hour",
-                  value: "2 Hour",
-                },
-              ],
-            },
+            { name: "Type", options: ["CAM A", "CAM B"] },
+            { name: "Recorder", options: ["Yes", "No"] },
+            { name: "Length", options: ["1 Hour", "2 Hour"] },
           ],
         },
-
         {
-          name: "528M (Rear Target Display)",
+          mainGroup: "528M (Rear Target Display)",
+          subProducts: [
+            { name: "Model", options: ["NONE", "BUSTEC", "MODEL X"] },
+            { name: "Size", options: ["NONE", "19x160", "19x120"] },
+            { name: "Led Color", options: ["NONE", "Amber", "Weiss", "RGB"] },
+            { name: "Rearmost", options: ["Yes", "No"] },
+          ],
+        },
+        {
+          mainGroup: "Sondernutzungsfläche gegenüber Tür 2",
           subProducts: [
             {
-              name: "Model",
-              types: [
-                {
-                  name: "(NONE)",
-                  value: "(NONE)",
-                },
-                {
-                  name: "BUSTEC",
-                  value: "BUSTEC",
-                },
-                {
-                  name: "MODEL X",
-                  value: "MODEL X",
-                },
-              ],
-            },
-
-            {
-              name: "Size",
-              types: [
-                {
-                  name: "(NONE)",
-                  value: "(NONE)",
-                },
-                {
-                  name: "19x160",
-                  value: "19x160",
-                },
-                {
-                  name: "19x120",
-                  value: "19x120",
-                },
+              gattung: "680A - SNF gegenüber Tür 2",
+              name: "a1",
+              options: [
+                "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm.",
               ],
             },
             {
-              name: "Led Color",
-              types: [
-                {
-                  name: "(NONE)",
-                  value: "(NONE)",
-                },
-                {
-                  name: "Amber",
-                  value: "Amber",
-                },
-                {
-                  name: "Weiss",
-                  value: "Weiss",
-                },
-                {
-                  name: "RGB",
-                  value: "RGB",
-                },
+              gattung: "680A - SNF gegenüber Tür 2",
+              name: "b1",
+              options: [
+                "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
               ],
             },
             {
-              name: "Rearmost",
-              types: [
-                {
-                  name: "Yes",
-                  value: 1,
-                },
-                {
-                  name: "No",
-                  value: 0,
-                },
+              gattung: "680A - SNF gegenüber Tür 2",
+              name: "c1",
+              options: [
+                "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
+              ],
+            },
+            {
+              gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
+              name: "a2",
+              options: ["Armlehne mit halter ohne Schloss"],
+            },
+            {
+              gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
+              name: "b2",
+              options: ["Mit klappbarer Armlehne auf dem Bügel"],
+            },
+            {
+              gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
+              name: "c2",
+              options: ["Ausführung Trennwand mit Glasscheibe"],
+            },
+            {
+              gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
+              name: "d2",
+              options: [
+                "Bügel (Überstand min. 280mm) E-Scooter tauglich ausführen",
               ],
             },
           ],
         },
         {
-          name: "Sondernutzungsfläche gegenüber Tür 2",
-        },
-        {
-          name: "Sondernutzungsfläche rechts vor Tür 2",
-        },
-        {
-          name: "Bestuhlung",
-        },
-        {
-          name: "Haltestangen",
-        },
-        {
-          name: "Abschrankung/Haarnadelstange an Tür 1",
-        },
-      ],
-      gattungProducts: [
-        {
-          name: "680A - SNF gegenüber Tür 2",
+          mainGroup: "Sondernutzungsfläche rechts vor Tür 2",
           subProducts: [
             {
-              name: "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm.",
+              gattung: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
+              name: "*",
+              options: ["Armlehne mit halter ohne Schloss"],
             },
             {
-              name: "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
+              gattung: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
+              name: "**",
+              options: ["mit klappbarer Armlehne auf dem Bügel"],
             },
             {
-              name: "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
+              gattung: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
+              name: "***",
+              options: ["Ausführung Trennwand mit Glasscheibe"],
             },
           ],
         },
         {
-          name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-          subProducts: [
-            { name: "Armlehne mit halter ohne Schloss" },
-            { name: "Mit klappbarer Armlehne auf dem Bügel" },
-            { name: "Ausführung Trennwand mit Glasscheibe" },
-            {
-              name: "Bügel (Überstand min. 280mm) E-Scooter tauglich ausführen",
-            },
-          ],
-        },
-        {
-          name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
+          mainGroup: "Bestuhlung",
           subProducts: [
             {
-              name: "Armlehne mit halter ohne Schloss",
-            },
-            {
-              name: "mit klappbarer Armlehne auf dem Bügel",
-            },
-            {
-              name: "Ausführung Trennwand mit Glasscheibe",
-            },
-          ],
-        },
-        {
-          name: "704A - Bestuhlung",
-          subProducts: [
-            {
+              gattung: "704A - Bestuhlung",
               name: "mit Schaum Sitzpolster",
-              types: [
-                {
-                  name: "ohne",
-                  value: "ohne",
-                },
-                {
-                  name: "20mm",
-                  value: "20mm",
-                },
-                {
-                  name: "30mm",
-                  value: "30mm",
-                },
-                {
-                  name: "45mm",
-                  value: "45mm",
-                },
-              ],
+              options: ["ohne", "20mm", "30mm", "45mm"],
             },
             {
+              gattung: "704A - Bestuhlung",
               name: "mit Schaum Rückenpolster",
-              types: [
-                {
-                  name: "ohne",
-                  value: "ohne",
-                },
-                {
-                  name: "20mm",
-                  value: "20mm",
-                },
-                {
-                  name: "30mm",
-                  value: "30mm",
-                },
-                {
-                  name: "45mm",
-                  value: "45mm",
-                },
-              ],
+              options: ["ohne", "20mm", "30mm", "45mm"],
             },
-            { name: "Alle Sitze ohne Logo/Branding." },
             {
+              gattung: "704A - Bestuhlung",
+              name: "Alle Sitze ohne Logo/Branding. ",
+              options: ["Alle Sitze ohne Logo/Branding."],
+            },
+            {
+              gattung: "704A - Bestuhlung",
               name: "STER 8 MS",
-              types: [
-                {
-                  name: "mitSchutzband",
-                  value: "mitSchutzband",
-                },
-                {
-                  name: "ohneSchutzband",
-                  value: "ohneSchutzband",
-                },
-              ],
+              options: ["mit Schutzband", "ohne Schutzband"],
+            },
+            {
+              gattung: "700B - Farbe-Fahrgastsitzgestell",
+              name: "Fahrgastsitzgestell RAL 7037",
+              options: ["Fahrgastsitzgestell RAL 7037"],
+            },
+            {
+              gattung: "78RI - Sitzhaltegriffe",
+              name: "Topcloser in RAL 1023 verkehrsgelb",
+              options: ["Topcloser in RAL 1023 verkehrsgelb"],
+            },
+            {
+              gattung: "78RI - Sitzhaltegriffe",
+              name: "Topcloser in RAL 7037 verkehrsgelb",
+              options: ["Topcloser in RAL 7037 verkehrsgelb"],
+            },
+            {
+              gattung: "78RI - Sitzhaltegriffe",
+              name: "Topcloser in RAL 1023 verkehrsgelb für EM sitz",
+              options: ["Topcloser in RAL 1023 verkehrsgelb für EM sitz"],
             },
           ],
         },
         {
-          name: "700B - Farbe-Fahrgastsitzgestell",
-          subProducts: [{ name: "Fahrgastsitzgestell RAL 7037" }],
-        },
-        {
-          name: "78RI - Sitzhaltegriffe",
-          subProducts: [
-            { name: "Topcloser in RAL 1023 verkehrsgelb" },
-            { name: " Topcloser in RAL 7037 verkehrsgelb" },
-            { name: " Topcloser in RAL 1023 verkehrsgelb für EM sitz" },
-          ],
-        },
-        {
-          name: "65A6 - Farbe der Haltestangen und Trennwände",
+          mainGroup: "Haltestangen",
           subProducts: [
             {
+              gattung: "65A6 - Farbe der Haltestangen und Trennwände",
               name: "Nur Knoten in",
-            },
-            {
-              name: "Nur Deckenhaltestangen in",
+              inputType: "text",
+              inputPlaceholder: "RAL kodu girin",
             },
           ],
         },
         {
-          name: "65LD - Abschrankung an Tür 1",
+          mainGroup: "Abschrankung/Haarnadelstange an Tür 1",
           subProducts: [
             {
-              name: "zusätzlich Teleskopabschrankung an Tür 1",
+              gattung: "65LD - Abschrankung an Tür 1",
+              options: [{ name: "zusätzlich Teleskopabschrankung an Tür 1" }],
             },
           ],
         },
       ],
     };
   },
+
   // ... methods, etc.
   methods: {
     goHome() {
@@ -705,7 +898,35 @@ export default {
     onMainGroupChange() {
       this.selectedGattung = null;
       this.selectedModel = {};
+      this.updateAvailableSubProducts();
     },
+    updateAvailableSubProducts() {
+      this.availableSubProducts = this.getSubProductsForMainGroup(
+        this.selectedMainGroup
+      );
+    },
+    getSubProductsForMainGroup(mainGroup) {
+      // This method retrieves subproducts directly linked to a main group without gattungs
+      const found = this.products.find((p) => p.mainGroup === mainGroup);
+      return found ? found.subProducts : [];
+    },
+
+    getSubProducts() {
+      if (this.selectedGattung) {
+        return (
+          this.products.find(
+            (p) =>
+              p.mainGroup === this.selectedMainGroup &&
+              p.gattung === this.selectedGattung
+          )?.subProducts || []
+        );
+      }
+      return (
+        this.products.find((p) => p.mainGroup === this.selectedMainGroup)
+          ?.subProducts || []
+      );
+    },
+
     onGattungChange() {
       this.selectedModel = {};
     },
