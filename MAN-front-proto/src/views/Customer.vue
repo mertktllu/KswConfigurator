@@ -36,19 +36,15 @@
             <v-col>
               <v-select
                 :itemProps="itemProps"
-                :items="filteredGattungs"
-                v-model="selectedGattung"
-                label="Gattung"
-                :disabled="!selectedMainGroup || !filteredGattungs.length"
-                item-text="name"
-                item-value="value"
+                v-model="selectedMainGroup"
+                :items="mainGroups"
+                label="Main Group"
                 dense
                 solo
                 outlined
                 hide-details
-                @change="onGattungChange"
-              >
-              </v-select>
+                @change="onMainGroupChange"
+              ></v-select>
             </v-col>
           </v-row>
           <!-- Bus Image -->
@@ -129,15 +125,19 @@
         <v-col>
           <v-select
             :itemProps="itemProps"
-            v-model="selectedMainGroup"
-            :items="mainGroups"
-            label="Main Group"
+            :items="filteredGattungs"
+            v-model="selectedGattung"
+            label="Gattung"
+            :disabled="!selectedMainGroup || !filteredGattungs.length"
+            item-text="name"
+            item-value="value"
             dense
             solo
             outlined
             hide-details
-            @change="onMainGroupChange"
-          ></v-select>
+            @change="onGattungChange"
+          >
+          </v-select>
 
           <!-- Selection -->
           <v-col v-if="availableSubProducts.length">
