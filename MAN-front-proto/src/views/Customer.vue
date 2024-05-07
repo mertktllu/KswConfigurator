@@ -56,16 +56,16 @@
               alt="img"
               v-if="selectedMainGroup === 'Camera'"
             >
-              <g>
+              <g v-if="selectedType==='19C-4T'">
                 <svg
-                  :style="{ transform: `rotate(${cameraRotations.cam1}deg)` }"
-                  class="cam"
+                  :style="{ transform: `rotate(${cameraRotations.cam1_4T}deg)` }"
+                  class="cam1_4T"
                   width="48"
                   height="29"
                   viewBox="0 0 48 29"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  @click="rotateCamera('cam1')"
+                  @click="rotateCamera('cam1_4T')"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -75,14 +75,14 @@
                 </svg>
 
                 <svg
-                  :style="{ transform: `rotate(${cameraRotations.cam2}deg)` }"
-                  class="cam1"
+                  :style="{ transform: `rotate(${cameraRotations.cam2_4T}deg)` }"
+                  class="cam2_4T"
                   width="48"
                   height="29"
                   viewBox="0 0 48 29"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  @click="rotateCamera('cam2')"
+                  @click="rotateCamera('cam2_4T')"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -92,15 +92,65 @@
                 </svg>
 
                 <svg
-                  :style="{ transform: `rotate(${cameraRotations.cam3}deg)` }"
-                  id="cam2"
-                  class="cam2"
+                  :style="{ transform: `rotate(${cameraRotations.cam3_4T}deg)` }"
+                 
+                  class="cam3_4T"
                   width="48"
                   height="29"
                   viewBox="0 0 48 29"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  @click="rotateCamera('cam3')"
+                  @click="rotateCamera('cam3_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam4_4T}deg)` }"
+                  class="cam4_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam4_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam5_4T}deg)` }"
+                  class="cam5_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam5_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam6_4T}deg)` }"
+                  class="cam6_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam6_4T')"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -109,6 +159,109 @@
                   <rect width="29" height="29" rx="3" fill="#6887F5" />
                 </svg>
               </g>
+              <g v-if="selectedType==='18C-3T'">
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam1_3T}deg)` }"
+                  class="cam1_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam1_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam2_3T}deg)` }"
+                  class="cam2_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam2_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam3_3T}deg)` }"
+                 
+                  class="cam3_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam3_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam4_3T}deg)` }"
+                  class="cam4_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam4_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam5_3T}deg)` }"
+                  class="cam5_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam5_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+                <svg
+                  :style="{ transform: `rotate(${cameraRotations.cam6_3T}deg)` }"
+                  class="cam6_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam6_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+              </g> 
             </v-img>
             <v-img
               v-else-if="selectedMainGroup === '528M (Rear Target Display)'"
@@ -354,9 +507,18 @@ export default {
       xportbool: false,
       dialog: false,
       cameraRotations: {
-        cam1: 0,
-        cam2: 0,
-        cam3: 0,
+        cam1_4T: 0,
+        cam2_4T: 0,
+        cam3_4T: 0,
+        cam4_4T: 0,
+        cam5_4T: 0,
+        cam6_4T: 0,
+        cam1_3T: 0,
+        cam2_3T: 0,
+      },
+      cameraPosition: {
+        x: 0, // Başlangıçta x konumu
+        y: 0  // Başlangıçta y konumu
       },
       types: [
         { name: "12C-2T", value: "12C-2T" },
@@ -641,6 +803,12 @@ export default {
         this.selectedModel[fieldName] = "RAL ";
       }
     },
+
+    moveCamera(newX, newY) {
+      // newX ve newY parametreleri, kameranın yeni x ve y konumlarını belirtir
+      this.cameraPosition.x = newX;
+      this.cameraPosition.y = newY;
+    }
   },
 };
 </script>
@@ -650,29 +818,102 @@ export default {
   position: relative;
 }
 
-.cam {
-  height: 10%;
+.cam1_4T {
+  height: 8%;
   width: 10%;
   position: absolute;
-  top: 66%;
-  right: 3%;
-  transform: rotate(220deg);
+  top: 40%;
+  right: 1px;
+  transform: rotate();
 }
 
-.cam1 {
-  height: 10%;
+.cam2_4T {
+  height: 8%;
   width: 10%;
   position: absolute;
-  top: 66%;
-  right: 43%;
-  transform: rotate(270deg);
+  top: 25%;
+  right: 8%;
+  transform: rotate();
 }
-.cam2 {
-  height: 10%;
+.cam3_4T {
+  height: 8%;
   width: 10%;
   position: absolute;
-  top: 66%;
-  right: 89%;
+  top: 25%;
+  right: 31%;
+  transform: rotate();
+}
+.cam4_4T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 70%;
+  right: 44%;
+  transform: rotate();
+}
+.cam5_4T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 64%;
+  transform: rotate();
+}
+.cam6_4T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 77%;
+  transform: rotate();
+}
+.cam1_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 40%;
+  right: 1px;
+  transform: rotate();
+}
+
+.cam2_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 8%;
+  transform: rotate();
+}
+.cam3_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 28%;
+  transform: rotate();
+}
+.cam4_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 70%;
+  right: 42%;
+  transform: rotate();
+}
+.cam5_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 62%;
+  transform: rotate();
+}
+.cam6_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 70%;
+  right: 88%;
   transform: rotate();
 }
 .v-dialog {
