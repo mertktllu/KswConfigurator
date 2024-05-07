@@ -123,7 +123,7 @@
 
         <!-- Main Group Dropdown -->
         <v-col>
-          <v-select
+            <v-select
             :itemProps="itemProps"
             :items="filteredGattungs"
             v-model="selectedGattung"
@@ -459,47 +459,18 @@ export default {
           subProducts: [
             {
               gattung: "680A - SNF gegenüber Tür 2",
-              name: "a1",
+              name: "680A - SNF gegenüber Tür 2",
               options: [
-                "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm.",
+                "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm.","Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.","Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
               ],
             },
-            {
-              gattung: "680A - SNF gegenüber Tür 2",
-              name: "b1",
-              options: [
-                "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
-              ],
-            },
-            {
-              gattung: "680A - SNF gegenüber Tür 2",
-              name: "c1",
-              options: [
-                "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
-              ],
-            },
+  
             {
               gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-              name: "a2",
-              options: ["Armlehne mit halter ohne Schloss"],
+              name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
+              options: ["Armlehne mit halter ohne Schloss","Mit klappbarer Armlehne auf dem Bügel","Ausführung Trennwand mit Glasscheibe","Bügel (Überstand min. 280mm) E-Scooter tauglich ausführen"],
             },
-            {
-              gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-              name: "b2",
-              options: ["Mit klappbarer Armlehne auf dem Bügel"],
-            },
-            {
-              gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-              name: "c2",
-              options: ["Ausführung Trennwand mit Glasscheibe"],
-            },
-            {
-              gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-              name: "d2",
-              options: [
-                "Bügel (Überstand min. 280mm) E-Scooter tauglich ausführen",
-              ],
-            },
+         
           ],
         },
         {
@@ -507,19 +478,10 @@ export default {
           subProducts: [
             {
               gattung: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-              name: "*",
-              options: ["Armlehne mit halter ohne Schloss"],
+              name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
+              options: ["Armlehne mit halter ohne Schloss","mit klappbarer Armlehne auf dem Bügel","Ausführung Trennwand mit Glasscheibe"],
             },
-            {
-              gattung: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-              name: "**",
-              options: ["mit klappbarer Armlehne auf dem Bügel"],
-            },
-            {
-              gattung: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-              name: "***",
-              options: ["Ausführung Trennwand mit Glasscheibe"],
-            },
+            
           ],
         },
         {
