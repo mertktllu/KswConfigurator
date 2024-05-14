@@ -74,18 +74,79 @@
               </template>
             </v-dialog>
 
-            <v-btn size="small" icon class="ml-5" color="red"
-              ><v-icon>mdi-delete</v-icon></v-btn
-            >
-            <v-btn
-              @click="clicked"
-              size="small"
-              icon
-              class="ml-5"
-              color="yellow"
-              ><v-icon>mdi-pencil</v-icon></v-btn
-            ></v-card-title
-          >
+            <v-dialog max-width="50%">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn
+                  v-bind="activatorProps"
+                  size="small"
+                  icon
+                  class="ml-5"
+                  color="red"
+                  ><v-icon>mdi-delete</v-icon></v-btn
+                >
+              </template>
+
+              <template v-slot:default="{ isActive }">
+                <v-card title="Delete A Gattung">
+                  <v-card class="ma-3" v-for="gattung in gattungs">
+                    {{ gattung.name }}
+
+                    <v-btn size="x-small" icon class="ml-5" color="red"
+                      ><v-icon>mdi-delete</v-icon></v-btn
+                    >
+                  </v-card>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      text="Close"
+                      color="red"
+                      @click="isActive.value = false"
+                    ></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+
+            <v-dialog max-width="50%">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn
+                  v-bind="activatorProps"
+                  size="small"
+                  icon
+                  class="ml-5"
+                  color="yellow"
+                  ><v-icon>mdi-pencil</v-icon></v-btn
+                >
+              </template>
+
+              <template v-slot:default="{ isActive }">
+                <v-card title="Edit A Gattung">
+                  <v-select
+                    :itemProps="itemProps"
+                    :items="gattungs"
+                    v-model="selectedGattung"
+                    label="Select an option"
+                  ></v-select>
+
+                  <v-textfield>
+                    <v-text-field clearable label="New Name"></v-text-field>
+                  </v-textfield>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      text="Close"
+                      color="red"
+                      @click="isActive.value = false"
+                    ></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+          </v-card-title>
           <v-card-text>
             <v-select
               :itemProps="itemProps"
