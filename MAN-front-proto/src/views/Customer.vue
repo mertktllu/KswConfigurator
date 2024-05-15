@@ -735,20 +735,41 @@
               <v-card-text>
                 <!-- Normal select dropdown -->
                 <v-select
-                  v-if="subProduct.inputType !== 'text'"
+                  v-if="
+                    subProduct.gattung === '704A - Bestuhlung' &&
+                    subProduct.name !== 'STER 8 MS'
+                  "
                   :item-props="subProduct.name || itemProps"
                   :items="subProduct.options"
                   :item-text="(item) => item.name || item"
                   :item-value="(item) => item.value || item"
                   v-model="selectedModel[subProduct.name]"
                   label="Select option"
-                  :disabled="!subProduct.options.length"
+                  :disabled="isDisabled(subProduct.name)"
                   dense
                   solo
                   outlined
                   hide-details
                 ></v-select>
-                <!-- Text input for RAL codes -->
+                <!-- Text input for STER 8 MS -->
+                <v-select
+                  v-else-if="
+                    subProduct.gattung === '704A - Bestuhlung' &&
+                    subProduct.name === 'STER 8 MS'
+                  "
+                  :item-props="subProduct.name || itemProps"
+                  :items="subProduct.options"
+                  :item-text="(item) => item.name || item"
+                  :item-value="(item) => item.value || item"
+                  v-model="selectedModel[subProduct.name]"
+                  label="Select option"
+                  :disabled="isDisabled(subProduct.name)"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                ></v-select>
+                <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <div
                   v-else-if="
                     subProduct.gattung ===
@@ -766,6 +787,20 @@
                     @click="showRALPrefix(subProduct.name)"
                   ></v-text-field>
                 </div>
+                <!-- Other sub-products -->
+                <v-select
+                  v-else
+                  :item-props="subProduct.name || itemProps"
+                  :items="subProduct.options"
+                  :item-text="(item) => item.name || item"
+                  :item-value="(item) => item.value || item"
+                  v-model="selectedModel[subProduct.name]"
+                  label="Select option"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                ></v-select>
               </v-card-text>
             </v-card>
           </v-col>
@@ -839,6 +874,8 @@
           </v-card>
         </v-dialog>
       </v-row>
+
+      <p>{{ selectedModel }}</p>
     </div>
   </v-container>
 </template>
@@ -869,18 +906,6 @@ export default {
           `No sub-products found for the selected Gattung: ${this.selectedGattung}`
         );
         return [];
-      }
-    },
-
-    img: function () {
-      if (this.selectedType === "12C-2T") {
-        return "../src/static/12C-2T.jpg";
-      } else if (this.selectedType === "18C-3T") {
-        return "../src/static/18C-3T.jpg";
-      } else if (this.selectedType === "19C-4T") {
-        return "../src/static/19C-4T.jpg";
-      } else {
-        return "";
       }
     },
 
@@ -959,6 +984,18 @@ export default {
         subProducts?.filter(
           (subProduct) => this.selectedModel[subProduct.name]
         ) || []
+      );
+    },
+
+    //704A bestuhlung
+    isSterSelected() {
+      return this.selectedModel["STER 8 MS"];
+    },
+    isOtherOptionSelected() {
+      return (
+        this.selectedModel["mit Schaum Sitzpolster"] ||
+        this.selectedModel["mit Schaum Rückenpolster"] ||
+        this.selectedModel["Alle Sitze ohne Logo/Branding."]
       );
     },
   },
@@ -1361,6 +1398,21 @@ export default {
         cam6_3T: 0,
       };
     },
+    //koltuk seçimlerinde sınırlandırma
+    isDisabled(productName) {
+      if (this.selectedGattung === "704A - Bestuhlung") {
+        if (productName === "STER 8 MS") {
+          return (
+            this.selectedModel["mit Schaum Sitzpolster"] ||
+            this.selectedModel["mit Schaum Rückenpolster"] ||
+            this.selectedModel["Alle Sitze ohne Logo/Branding."]
+          );
+        } else {
+          return this.selectedModel["STER 8 MS"];
+        }
+      }
+      return false;
+    },
   },
 };
 </script>
@@ -1494,5 +1546,10 @@ export default {
   position: absolute;
   right: 0; /* Align to the right side */
   bottom: 0; /* Align to the bottom of the row */
+}
+.bold-text {
+  font-weight: bold;
+  color: black;
+  background-color: #e5e5e5; /* Daha koyu arka plan rengi */
 }
 </style>
