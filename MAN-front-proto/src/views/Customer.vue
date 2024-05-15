@@ -389,87 +389,100 @@
               </v-row>
 
               <v-row v-if="showButtons">
-                <v-btn
-                  icon
-                  style="
-                    position: absolute;
-                    top: 8%;
-                    left: 39%;
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    background-color: rgba(255, 255, 255, 0.7);
-                  "
-                  @click="onPointClick('point1')"
-                >
-                  <v-icon>mdi-circle</v-icon>
-                </v-btn>
+                <v-row v-if="selectedGattung === '78RI - Sitzhaltegriffe'">
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 8%;
+                      left: 39%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point1')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
 
-                <v-btn
-                  icon
-                  style="
-                    position: absolute;
-                    top: 35%;
-                    left: 39%;
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    background-color: rgba(255, 255, 255, 0.7);
-                  "
-                  @click="onPointClick('point2')"
-                >
-                  <v-icon>mdi-circle</v-icon>
-                </v-btn>
+                <v-row v-else-if="selectedGattung === '78RD - Sitzarmlehnen'">
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 47%;
+                      left: 27%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point4')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
 
-                <v-btn
-                  icon
-                  style="
-                    position: absolute;
-                    top: 60%;
-                    left: 35%;
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    background-color: rgba(255, 255, 255, 0.7);
-                  "
-                  @click="onPointClick('point3')"
-                >
-                  <v-icon>mdi-circle</v-icon>
-                </v-btn>
+                <v-row v-else-if="selectedGattung === '704A - Bestuhlung'">
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 35%;
+                      left: 39%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point2')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
 
-                <v-btn
-                  icon
-                  style="
-                    position: absolute;
-                    top: 47%;
-                    left: 27%;
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    background-color: rgba(255, 255, 255, 0.7);
-                  "
-                  @click="onPointClick('point4')"
-                >
-                  <v-icon>mdi-circle</v-icon>
-                </v-btn>
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 60%;
+                      left: 35%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point3')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
 
-                <v-btn
-                  icon
-                  style="
-                    position: absolute;
-                    top: 40%;
-                    left: 62%;
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    background-color: rgba(255, 255, 255, 0.7);
+                <v-row
+                  v-else-if="
+                    selectedGattung === '770A - Fahrgastsitz-Rückseite'
                   "
-                  @click="onPointClick('point5')"
                 >
-                  <v-icon>mdi-circle</v-icon>
-                </v-btn>
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 40%;
+                      left: 62%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point5')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
               </v-row>
 
+              <!-- arkadaki buton -->
               <v-row v-else>
                 <v-btn
                   icon
@@ -856,16 +869,11 @@
                     Gattung: {{ selectedGattung }}
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item-group v-model="selectedModel" color="primary">
-                  <v-list-item
-                    v-for="(product, index) in filteredSubProducts"
-                    :key="index"
-                  >
-                    <v-list-item-content class="list-item-content">
-                      {{ product.name }}: {{ selectedModel[product.name] }}
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list-item-group>
+                <v-list-item v-for="(value, key) in selectedModel" :key="key">
+                  <v-list-item-content class="list-item-content">
+                    {{ key }}: {{ value }}
+                  </v-list-item-content>
+                </v-list-item>
               </v-list>
             </v-card-text>
             <v-card-actions class="justify-end">
@@ -875,7 +883,10 @@
         </v-dialog>
       </v-row>
 
-      <p>{{ selectedModel }}</p>
+      <!-- deneme -->
+      <v-row>
+        <p>{{ selectedGattung }}</p>
+      </v-row>
     </div>
   </v-container>
 </template>
@@ -1109,13 +1120,18 @@ export default {
           mainGroup: "Bestuhlung",
         },
         {
-          name: "700B - Farbe-Fahrgastsitzgestell", // Bestuhlung'un gattungu //3
-          value: "700B - Farbe-Fahrgastsitzgestell",
+          name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
+          value: "78RI - Sitzhaltegriffe",
           mainGroup: "Bestuhlung", // 700B - Renkli yolcu koltuğu çerçevesi
         },
         {
-          name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
-          value: "78RI - Sitzhaltegriffe",
+          name: "78RD - Sitzarmlehnen", // Bestuhlung'un gattungu //3
+          value: "78RD - Sitzarmlehnen",
+          mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
+        },
+        {
+          name: "770A - Fahrgastsitz-Rückseite", // Bestuhlung'un gattungu //3
+          value: "770A - Fahrgastsitz-Rückseite",
           mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
         },
         {
@@ -1209,25 +1225,56 @@ export default {
               name: "STER 8 MS",
               options: ["mit Schutzband", "ohne Schutzband"],
             },
+
+            //78rı
             {
-              gattung: "700B - Farbe-Fahrgastsitzgestell",
-              name: "Fahrgastsitzgestell RAL 7037",
-              options: ["Fahrgastsitzgestell RAL 7037"],
+              gattung: "78RI - Sitzhaltegriffe",
+              name: "Topcloser",
+              options: [
+                "dunkelgrau NCS S8000N (serie)",
+                "NCS S2500N",
+                "RAL 1023",
+                "RAL 3001",
+                "RAL 9004",
+                "RAL 7037",
+                "RAL 7016",
+              ],
             },
             {
               gattung: "78RI - Sitzhaltegriffe",
-              name: "Topcloser in RAL 1023 verkehrsgelb",
-              options: ["Topcloser in RAL 1023 verkehrsgelb"],
+              name: "Topcloser für EM",
+              options: ["dunkelgrau NCS S8000N (serie)", "RAL 1023"],
+            },
+            //78rd
+            {
+              gattung: "78RD - Sitzarmlehnen",
+              name: "Gangseitige fixiert bügel color",
+              options: [
+                "dunkelgrau NCS S8000N (serie)",
+                "RAL 1023",
+                "RAL 9004",
+                "RAL 7037",
+              ],
             },
             {
-              gattung: "78RI - Sitzhaltegriffe",
-              name: "Topcloser in RAL 7037 verkehrsgelb",
-              options: ["Topcloser in RAL 7037 verkehrsgelb"],
+              gattung: "78RD - Sitzarmlehnen",
+              name: "Gangseitige klappbare armlehne",
+              options: ["dunkelgrau NCS S8000N (serie)", "RAL 9004"],
             },
+            //770a
             {
-              gattung: "78RI - Sitzhaltegriffe",
-              name: "Topcloser in RAL 1023 verkehrsgelb für EM sitz",
-              options: ["Topcloser in RAL 1023 verkehrsgelb für EM sitz"],
+              gattung: "770A - Fahrgastsitz-Rückseite",
+              name: "Kunststoff-Fahrgastsitzrückseite",
+              options: [
+                "grau NCS S 6000 N (serie)",
+                "RAL 7037",
+                "RAL 7016",
+                "RAL 1015",
+                "RAL 3003",
+                "RAL 1003",
+                "RAL 3020",
+                "RAL 5007",
+              ],
             },
           ],
         },
