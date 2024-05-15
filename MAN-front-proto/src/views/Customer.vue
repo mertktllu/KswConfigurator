@@ -18,7 +18,7 @@
           <!-- DENEME -->
           <v-row>
             <v-col cols="12" class="text-center">
-              <h1>SELECT YOUR VEHICLE</h1>
+              <h1>WÄHLEN SIE IHR FAHRZEUG</h1>
             </v-col>
           </v-row>
           <v-row>
@@ -38,7 +38,7 @@
           </v-row>
           <v-col class="custom-row">
             <v-btn class="custom-back" color="primary" @click="goHome">
-              Back
+              Zurück
             </v-btn>
           </v-col>
         </v-col>
@@ -46,7 +46,7 @@
 
       <v-dialog v-model="vehicleDialog" persistent max-width="600px">
         <v-card>
-          <v-card-title> Choose Vehicle </v-card-title>
+          <v-card-title> Wählen Sie Fahrzeug </v-card-title>
           <v-card-text class="text-center">
             <v-img :src="selectedVehicleImage" max-height="300px"></v-img>
             <p>{{ selectedVehicle?.name }}</p>
@@ -63,7 +63,7 @@
         <v-col>
           <v-row>
             <v-col>
-              <v-select
+              <!-- <v-select
                 :itemProps="itemProps"
                 v-model="selectedType"
                 :items="types"
@@ -72,7 +72,17 @@
                 solo
                 outlined
                 hide-details
-              ></v-select>
+              ></v-select> -->
+              <v-text-field
+                v-model="selectedType.name"
+                label="Type"
+                dense
+                solo
+                outlined
+                hide-details
+                readonly
+                class="bold-text"
+              ></v-text-field>
             </v-col>
 
             <!-- Maingrup Dropdown -->
@@ -94,615 +104,606 @@
 
           <!-- Bus Image -->
           <v-row class="">
-            <!-- <v-img
-              v-if="selectedType != null"
+            <v-img
+              v-if="
+                selectedType.name === '12C-2T' && selectedMainGroup === 'Camera'
+              "
               width="500"
-              class="wrapper"
-              :src="`${img}`"
-              alt="img"
+              :src="img12C"
+            ></v-img>
+            <v-img
+              v-else-if="
+                selectedType.name === '18C-3T' && selectedMainGroup === 'Camera'
+              "
+              width="500"
+              :src="img18C"
             >
-              <v-row v-if="selectedMainGroup === 'Camera'">
-                <g v-if="selectedType === '19C-4T'">
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam1_4T}deg)`,
-                    }"
-                    class="cam1_4T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam1_4T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
+              <g>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam1_3T}deg)`,
+                  }"
+                  class="cam1_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam1_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
 
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam2_4T}deg)`,
-                    }"
-                    class="cam2_4T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam2_4T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam2_3T}deg)`,
+                  }"
+                  class="cam2_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam2_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
 
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam3_4T}deg)`,
-                    }"
-                    class="cam3_4T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam3_4T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam3_3T}deg)`,
+                  }"
+                  class="cam3_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam3_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
 
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam4_4T}deg)`,
-                    }"
-                    class="cam4_4T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam4_4T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam4_3T}deg)`,
+                  }"
+                  class="cam4_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam4_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
 
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam5_4T}deg)`,
-                    }"
-                    class="cam5_4T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam5_4T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam6_4T}deg)`,
-                    }"
-                    class="cam6_4T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam6_4T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
-                </g>
-                <g v-if="selectedType === '18C-3T'">
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam1_3T}deg)`,
-                    }"
-                    class="cam1_3T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam1_3T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
-
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam2_3T}deg)`,
-                    }"
-                    class="cam2_3T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam2_3T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
-
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam3_3T}deg)`,
-                    }"
-                    class="cam3_3T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam3_3T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
-
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam4_3T}deg)`,
-                    }"
-                    class="cam4_3T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam4_3T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
-
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam5_3T}deg)`,
-                    }"
-                    class="cam5_3T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam5_3T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
-                  <svg
-                    :style="{
-                      transform: `rotate(${cameraRotations.cam6_3T}deg)`,
-                    }"
-                    class="cam6_3T"
-                    width="48"
-                    height="29"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    @click="rotateCamera('cam6_3T')"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
-                </g>
-              </v-row>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam5_3T}deg)`,
+                  }"
+                  class="cam5_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam5_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam6_3T}deg)`,
+                  }"
+                  class="cam6_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam6_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+              </g>
             </v-img>
-            
+            <v-img
+              v-else-if="
+                selectedType.name === '19C-4T' && selectedMainGroup === 'Camera'
+              "
+              :src="img19C"
+            >
+              <g>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam1_4T}deg)`,
+                  }"
+                  class="cam1_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam1_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam2_4T}deg)`,
+                  }"
+                  class="cam2_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam2_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam3_4T}deg)`,
+                  }"
+                  class="cam3_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam3_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam4_4T}deg)`,
+                  }"
+                  class="cam4_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam4_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam5_4T}deg)`,
+                  }"
+                  class="cam5_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam5_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam6_4T}deg)`,
+                  }"
+                  class="cam6_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam6_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg> </g
+            ></v-img>
+
+            <!-- rare -->
             <v-img
               v-else-if="selectedMainGroup === '528M (Rear Target Display)'"
-              :src="`${img}`"
+              :src="RareImage"
               contain
               max-height="700"
               max-width="700"
               alt="528M image"
-            ></v-img> -->
+            ></v-img>
 
             <!-- Bestuhlung -->
+            <v-img
+              v-else-if="selectedMainGroup === 'Bestuhlung'"
+              :src="chairImage"
+              style="width: 120%; height: auto; display: block; bottom: auto"
+            >
+              <v-row>
+                <v-btn
+                  color="grey"
+                  @click="toggleChair"
+                  style="
+                    position: absolute;
+                    top: 60%;
+                    left: 10%;
+                    width: 120px;
+                    height: 40px;
+                    color: black;
+                    background-color: rgba(255, 255, 255, 0.7);
+                  "
+                >
+                  Übersetzen
+                </v-btn>
+              </v-row>
 
-            <v-row>
-              <v-img
-                v-if="selectedMainGroup === 'Bestuhlung'"
-                :src="chairImage"
-                style="width: 120%; height: auto; display: block; bottom: auto"
+              <v-row v-if="showButtons">
+                <v-btn
+                  icon
+                  style="
+                    position: absolute;
+                    top: 8%;
+                    left: 39%;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgba(255, 255, 255, 0.7);
+                  "
+                  @click="onPointClick('point1')"
+                >
+                  <v-icon>mdi-circle</v-icon>
+                </v-btn>
+
+                <v-btn
+                  icon
+                  style="
+                    position: absolute;
+                    top: 35%;
+                    left: 39%;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgba(255, 255, 255, 0.7);
+                  "
+                  @click="onPointClick('point2')"
+                >
+                  <v-icon>mdi-circle</v-icon>
+                </v-btn>
+
+                <v-btn
+                  icon
+                  style="
+                    position: absolute;
+                    top: 60%;
+                    left: 35%;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgba(255, 255, 255, 0.7);
+                  "
+                  @click="onPointClick('point3')"
+                >
+                  <v-icon>mdi-circle</v-icon>
+                </v-btn>
+
+                <v-btn
+                  icon
+                  style="
+                    position: absolute;
+                    top: 47%;
+                    left: 27%;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgba(255, 255, 255, 0.7);
+                  "
+                  @click="onPointClick('point4')"
+                >
+                  <v-icon>mdi-circle</v-icon>
+                </v-btn>
+
+                <v-btn
+                  icon
+                  style="
+                    position: absolute;
+                    top: 40%;
+                    left: 62%;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgba(255, 255, 255, 0.7);
+                  "
+                  @click="onPointClick('point5')"
+                >
+                  <v-icon>mdi-circle</v-icon>
+                </v-btn>
+              </v-row>
+
+              <v-row v-else>
+                <v-btn
+                  icon
+                  style="
+                    position: absolute;
+                    top: 35%;
+                    left: 39%;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgba(255, 255, 255, 0.7);
+                  "
+                  @click="onPointClick('point6')"
+                >
+                  <v-icon>mdi-circle</v-icon>
+                </v-btn>
+              </v-row>
+
+              <v-dialog
+                v-model="dialogVisible.point1"
+                persistent
+                max-width="600px"
               >
-                <v-row>
-                  <v-btn
-                    color="grey"
-                    @click="toggleChair"
-                    style="
-                      position: absolute;
-                      top: 60%;
-                      left: 10%;
-                      width: 120px;
-                      height: 40px;
-                      color: black;
-                      background-color: rgba(255, 255, 255, 0.7);
-                    "
-                  >
-                    Toggle Chair
-                  </v-btn>
-                </v-row>
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Top Closer
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point1"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
 
-                <v-row v-if="showButtons">
-                  <v-btn
-                    icon
-                    style="
-                      position: absolute;
-                      top: 8%;
-                      left: 39%;
-                      border-radius: 50%;
-                      width: 40px;
-                      height: 40px;
-                      background-color: rgba(255, 255, 255, 0.7);
-                    "
-                    @click="onPointClick('point1')"
-                  >
-                    <v-icon>mdi-circle</v-icon>
-                  </v-btn>
-
-                  <v-btn
-                    icon
-                    style="
-                      position: absolute;
-                      top: 35%;
-                      left: 39%;
-                      border-radius: 50%;
-                      width: 40px;
-                      height: 40px;
-                      background-color: rgba(255, 255, 255, 0.7);
-                    "
-                    @click="onPointClick('point2')"
-                  >
-                    <v-icon>mdi-circle</v-icon>
-                  </v-btn>
-
-                  <v-btn
-                    icon
-                    style="
-                      position: absolute;
-                      top: 60%;
-                      left: 35%;
-                      border-radius: 50%;
-                      width: 40px;
-                      height: 40px;
-                      background-color: rgba(255, 255, 255, 0.7);
-                    "
-                    @click="onPointClick('point3')"
-                  >
-                    <v-icon>mdi-circle</v-icon>
-                  </v-btn>
-
-                  <v-btn
-                    icon
-                    style="
-                      position: absolute;
-                      top: 47%;
-                      left: 27%;
-                      border-radius: 50%;
-                      width: 40px;
-                      height: 40px;
-                      background-color: rgba(255, 255, 255, 0.7);
-                    "
-                    @click="onPointClick('point4')"
-                  >
-                    <v-icon>mdi-circle</v-icon>
-                  </v-btn>
-
-                  <v-btn
-                    icon
-                    style="
-                      position: absolute;
-                      top: 40%;
-                      left: 62%;
-                      border-radius: 50%;
-                      width: 40px;
-                      height: 40px;
-                      background-color: rgba(255, 255, 255, 0.7);
-                    "
-                    @click="onPointClick('point5')"
-                  >
-                    <v-icon>mdi-circle</v-icon>
-                  </v-btn>
-                </v-row>
-
-                <v-row v-else>
-                  <v-btn
-                    icon
-                    style="
-                      position: absolute;
-                      top: 35%;
-                      left: 39%;
-                      border-radius: 50%;
-                      width: 40px;
-                      height: 40px;
-                      background-color: rgba(255, 255, 255, 0.7);
-                    "
-                    @click="onPointClick('point6')"
-                  >
-                    <v-icon>mdi-circle</v-icon>
-                  </v-btn>
-                </v-row>
-
-                <v-dialog
-                  v-model="dialogVisible.point1"
-                  persistent
-                  max-width="600px"
-                >
-                  <v-card>
-                    <v-card-title
-                      class="text-h5 grey lighten-2 py-3 text-center"
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point1_1"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point1 = false"
+                      >Close</v-btn
                     >
-                      Top Closer
-                    </v-card-title>
-                    <v-container>
-                      <!-- İlk Görsel -->
-                      <v-row justify="center">
-                        <v-col cols="12">
-                          <v-img
-                            :src="detailImages.point1"
-                            class="elevation-12"
-                            style="border-radius: 10px; width: 100%"
-                          ></v-img>
-                        </v-col>
-                      </v-row>
-                      <!-- İkinci Görsel -->
-                      <v-row justify="center">
-                        <v-col cols="12">
-                          <v-img
-                            :src="detailImages.point1_1"
-                            class="elevation-12"
-                            style="border-radius: 10px; width: 100%"
-                          ></v-img>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                    <v-card-actions class="justify-end">
-                      <v-btn
-                        color="red"
-                        text
-                        @click="dialogVisible.point1 = false"
-                        >Close</v-btn
-                      >
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
 
-                <v-dialog
-                  v-model="dialogVisible.point2"
-                  persistent
-                  max-width="600px"
-                >
-                  <v-card>
-                    <v-card-title
-                      class="text-h5 grey lighten-2 py-3 text-center"
+              <v-dialog
+                v-model="dialogVisible.point2"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Rück
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point2"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point2 = false"
+                      >Close</v-btn
                     >
-                      Rück
-                    </v-card-title>
-                    <v-container>
-                      <!-- İlk Görsel -->
-                      <v-row justify="center">
-                        <v-col cols="12">
-                          <v-img
-                            :src="detailImages.point2"
-                            class="elevation-12"
-                            style="border-radius: 10px; width: 100%"
-                          ></v-img>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                    <v-card-actions class="justify-end">
-                      <v-btn
-                        color="red"
-                        text
-                        @click="dialogVisible.point2 = false"
-                        >Close</v-btn
-                      >
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
 
-                <v-dialog
-                  v-model="dialogVisible.point3"
-                  persistent
-                  max-width="600px"
-                >
-                  <v-card>
-                    <v-card-title
-                      class="text-h5 grey lighten-2 py-3 text-center"
+              <v-dialog
+                v-model="dialogVisible.point3"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Sitz
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point3"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point3 = false"
+                      >Close</v-btn
                     >
-                      Sitz
-                    </v-card-title>
-                    <v-container>
-                      <!-- İlk Görsel -->
-                      <v-row justify="center">
-                        <v-col cols="12">
-                          <v-img
-                            :src="detailImages.point3"
-                            class="elevation-12"
-                            style="border-radius: 10px; width: 100%"
-                          ></v-img>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                    <v-card-actions class="justify-end">
-                      <v-btn
-                        color="red"
-                        text
-                        @click="dialogVisible.point3 = false"
-                        >Close</v-btn
-                      >
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
 
-                <v-dialog
-                  v-model="dialogVisible.point4"
-                  persistent
-                  max-width="600px"
-                >
-                  <v-card>
-                    <v-card-title
-                      class="text-h5 grey lighten-2 py-3 text-center"
-                    >
-                      Bügel or Armlehne
-                    </v-card-title>
-                    <v-container>
-                      <!-- İlk Görsel -->
-                      <v-row justify="center">
-                        <v-col cols="12">
-                          <v-img
-                            :src="detailImages.point4"
-                            class="elevation-12"
-                            style="border-radius: 10px; width: 100%"
-                          ></v-img>
-                        </v-col>
-                      </v-row>
-                      <!-- İkinci Görsel -->
-                      <v-row justify="center">
-                        <v-col cols="12">
-                          <v-img
-                            :src="detailImages.point4_1"
-                            class="elevation-12"
-                            style="border-radius: 10px; width: 100%"
-                          ></v-img>
-                        </v-col>
-                      </v-row>
-                      <!-- Üçüncü Görsel -->
-                      <v-row justify="center">
-                        <v-col cols="12">
-                          <v-img
-                            :src="detailImages.point4_2"
-                            class="elevation-12"
-                            style="border-radius: 10px; width: 100%"
-                          ></v-img>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                    <v-card-actions class="justify-end">
-                      <v-btn
-                        color="red"
-                        text
-                        @click="dialogVisible.point4 = false"
-                        >Close</v-btn
-                      >
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
+              <v-dialog
+                v-model="dialogVisible.point4"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Bügel or Armlehne
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point4"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
 
-                <v-dialog
-                  v-model="dialogVisible.point5"
-                  persistent
-                  max-width="600px"
-                >
-                  <v-card>
-                    <v-card-title
-                      class="text-h5 grey lighten-2 py-3 text-center"
-                    >
-                      Rückseite
-                    </v-card-title>
-                    <v-container>
-                      <!-- İlk Görsel -->
-                      <v-row justify="center">
-                        <v-col cols="12">
-                          <v-img
-                            :src="detailImages.point5"
-                            class="elevation-12"
-                            style="border-radius: 10px; width: 100%"
-                          ></v-img>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                    <v-card-actions class="justify-end">
-                      <v-btn
-                        color="red"
-                        text
-                        @click="dialogVisible.point5 = false"
-                        >Close</v-btn
-                      >
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point4_1"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
 
-                <v-dialog
-                  v-model="dialogVisible.point6"
-                  persistent
-                  max-width="600px"
-                >
-                  <v-card>
-                    <v-card-title
-                      class="text-h5 grey lighten-2 py-3 text-center"
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point4_2"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point4 = false"
+                      >Close</v-btn
                     >
-                      Back
-                    </v-card-title>
-                    <v-container>
-                      <!-- İlk Görsel -->
-                      <v-row justify="center">
-                        <v-col cols="12">
-                          <v-img
-                            :src="detailImages.point6"
-                            class="elevation-12"
-                            style="border-radius: 10px; width: 100%"
-                          ></v-img>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                    <v-card-actions class="justify-end">
-                      <v-btn
-                        color="red"
-                        text
-                        @click="dialogVisible.point6 = false"
-                        >Close</v-btn
-                      >
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-img>
-            </v-row>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point5"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Rückseite
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point5"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point5 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point6"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Back
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point6"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point6 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-img>
           </v-row>
         </v-col>
 
@@ -790,7 +791,7 @@
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn class="custom-back" color="primary" @click="resetSelection">
-            Back
+            Zurück
           </v-btn>
         </v-col>
 
@@ -872,14 +873,7 @@ export default {
     },
 
     img: function () {
-      if (this.selectedMainGroup === "528M (Rear Target Display)") {
-        return "../src/assets/RareDisplay/image004.png";
-      } else if (
-        this.selectedType != null &&
-        this.selectedMainGroup === "Bestuhlung"
-      ) {
-        return "../src/assets/Bestuhlung/normal.bmp";
-      } else if (this.selectedType === "12C-2T") {
+      if (this.selectedType === "12C-2T") {
         return "../src/static/12C-2T.jpg";
       } else if (this.selectedType === "18C-3T") {
         return "../src/static/18C-3T.jpg";
@@ -1021,6 +1015,11 @@ export default {
       // selectedVehicle: null,
       vehicleDialog: false,
       selectedVehicle: null,
+
+      RareImage: "../src/assets/RareDisplay/image004.png",
+      img12C: "../src/static/12C-2T.jpg",
+      img18C: "../src/static/18C-3T.jpg",
+      img19C: "../src/static/19C-4T.jpg",
 
       mainGroups: [
         //{ name: "Chair Type", value: "Chair Type" },
@@ -1347,6 +1346,20 @@ export default {
       this.selectedMainGroup = null;
       this.selectedGattung = null;
       this.selectedModel = {};
+      this.cameraRotations = {
+        cam1_4T: 0,
+        cam2_4T: 0,
+        cam3_4T: 0,
+        cam4_4T: 0,
+        cam5_4T: 0,
+        cam6_4T: 0,
+        cam1_3T: 0,
+        cam2_3T: 0,
+        cam3_3T: 0,
+        cam4_3T: 0,
+        cam5_3T: 0,
+        cam6_3T: 0,
+      };
     },
   },
 };
