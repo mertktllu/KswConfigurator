@@ -27,12 +27,12 @@
               cols="12"
               sm="6"
               md="4"
-              v-for="(vehicle, index) in types"
+              v-for="(type, index) in types"
               :key="index"
             >
-              <v-card @click="openVehicleDialog(vehicle)" hoverable>
-                <v-img :src="vehicle.image" height="300px"></v-img>
-                <v-card-title>{{ vehicle.name }}</v-card-title>
+              <v-card @click="openVehicleDialog(type)" hoverable>
+                <v-img :src="type.Image" height="300px"></v-img>
+                <v-card-title>{{ type.Name }}</v-card-title>
               </v-card>
             </v-col>
           </v-row>
@@ -49,7 +49,7 @@
           <v-card-title> Wählen Sie Fahrzeug </v-card-title>
           <v-card-text class="text-center">
             <v-img :src="selectedVehicleImage" max-height="300px"></v-img>
-            <p>{{ selectedVehicle?.name }}</p>
+            <p>{{ selectedVehicle?.Name }}</p>
           </v-card-text>
           <v-card-actions class="justify-end">
             <v-btn color="primary" @click="chooseVehicle">Choose</v-btn>
@@ -74,7 +74,7 @@
                 hide-details
               ></v-select> -->
               <v-text-field
-                v-model="selectedType.name"
+                v-model="selectedType.Name"
                 label="Type"
                 dense
                 solo
@@ -106,14 +106,14 @@
           <v-row class="">
             <v-img
               v-if="
-                selectedType.name === '12C-2T' && selectedMainGroup === 'Camera'
+                selectedType.Name === '12C-2T' && selectedMainGroup === 'Camera'
               "
               width="500"
               :src="img12C"
             ></v-img>
             <v-img
               v-else-if="
-                selectedType.name === '18C-3T' && selectedMainGroup === 'Camera'
+                selectedType.Name === '18C-3T' && selectedMainGroup === 'Camera'
               "
               width="500"
               :src="img18C"
@@ -235,7 +235,7 @@
             </v-img>
             <v-img
               v-else-if="
-                selectedType.name === '19C-4T' && selectedMainGroup === 'Camera'
+                selectedType.Name === '19C-4T' && selectedMainGroup === 'Camera'
               "
               :src="img19C"
             >
@@ -856,7 +856,7 @@
               <v-list dense>
                 <v-list-item>
                   <v-list-item-content class="list-item-content">
-                    Bus Type: {{ selectedType?.name }}
+                    Bus Type: {{ selectedType?.Name }}
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item v-if="selectedMainGroup">
@@ -893,12 +893,14 @@
 
 <script>
 import router from "@/router";
-
+import axios from "axios";
 export default {
   mounted() {
     // Perform actions when the component is fully mounted in the DOM, e.g., fetch data from an API
     console.log("Component mounted!");
+    this.fetchTypes();
   },
+
   computed: {
     comModels() {
       const found = this.products.find(
@@ -975,7 +977,7 @@ export default {
     },
 
     selectedVehicleImage() {
-      switch (this.selectedVehicle?.value) {
+      switch (this.selectedVehicle?.Name) {
         case "12C-2T":
           return "../src/static/12C-2T.jpg";
         case "18C-3T":
@@ -1017,7 +1019,7 @@ export default {
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
-
+      types: [],
       dialog: false,
       cameraRotations: {
         cam1_4T: 0,
@@ -1057,10 +1059,10 @@ export default {
       chairImage: "../src/assets/Bestuhlung/normal.bmp", // Ön yüz görüntüsü
       chairBackImage: "../src/assets/Bestuhlung/normal back.bmp", // Arka yüz görüntüsü
 
-      // selectedVehicleImage: "",
+      //selectedVehicleImage: "",
       // vehicleDialogVisible: false,
       // vehicleDialog: false,
-      // selectedVehicle: null,
+
       vehicleDialog: false,
       selectedVehicle: null,
 
@@ -1070,8 +1072,6 @@ export default {
       img19C: "../src/static/19C-4T.jpg",
 
       mainGroups: [
-        //{ name: "Chair Type", value: "Chair Type" },
-        //{ name: "Chair Color", value: "Chair Color" },
         { name: "Camera", value: "Camera" },
         {
           name: "528M (Rear Target Display)",
@@ -1307,26 +1307,26 @@ export default {
         },
       ],
 
-      types: [
-        {
-          name: "12C-2T",
-          value: "12C-2T",
-          image:
-            "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_NLCI.jpg&w=265&h=200",
-        },
-        {
-          name: "18C-3T",
-          value: "18C-3T",
-          image:
-            "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_LIC_LE.jpg&w=265&h=200",
-        },
-        {
-          name: "19C-4T",
-          value: "19C-4T",
-          image:
-            "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_LIC.jpg&w=265&h=200",
-        },
-      ],
+      // types: [
+      //   {
+      //     name: "12C-2T",
+      //     value: "12C-2T",
+      //     image:
+      //       "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_NLCI.jpg&w=265&h=200",
+      //   },
+      //   {
+      //     name: "18C-3T",
+      //     value: "18C-3T",
+      //     image:
+      //       "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_LIC_LE.jpg&w=265&h=200",
+      //   },
+      //   {
+      //     name: "19C-4T",
+      //     value: "19C-4T",
+      //     image:
+      //       "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_LIC.jpg&w=265&h=200",
+      //   },
+      // ],
     };
   },
 
@@ -1417,8 +1417,8 @@ export default {
         : "../src/assets/Bestuhlung/normal back.bmp";
     },
 
-    openVehicleDialog(vehicle) {
-      this.selectedVehicle = vehicle;
+    openVehicleDialog(type) {
+      this.selectedVehicle = type;
       this.vehicleDialog = true;
     },
     chooseVehicle() {
@@ -1459,6 +1459,21 @@ export default {
         }
       }
       return false;
+    },
+
+    async fetchTypes() {
+      try {
+        console.log("Fetching types...");
+        const response = await fetch("http://localhost:3000/types");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched types data:", data);
+        this.types = data;
+      } catch (error) {
+        console.error("Error fetching types:", error);
+      }
     },
   },
 };
