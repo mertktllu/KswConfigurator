@@ -13,13 +13,57 @@
     </v-row>
 
     <div>
-      <v-row class="pt-0 grey darken-2">
-        <!-- Type Dropdown -->
+      <v-row v-if="!selectedType">
+        <v-col>
+          <!-- DENEME -->
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <h1>WÄHLEN SIE IHR FAHRZEUG</h1>
+            </v-col>
+          </v-row>
+          <v-row>
+            <!-- Araç tipi kartları -->
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+              v-for="(vehicle, index) in types"
+              :key="index"
+            >
+              <v-card @click="openVehicleDialog(vehicle)" hoverable>
+                <v-img :src="vehicle.image" height="300px"></v-img>
+                <v-card-title>{{ vehicle.name }}</v-card-title>
+              </v-card>
+            </v-col>
+          </v-row>
+          <v-col class="custom-row">
+            <v-btn class="custom-back" color="primary" @click="goHome">
+              Zurück
+            </v-btn>
+          </v-col>
+        </v-col>
+      </v-row>
 
+      <v-dialog v-model="vehicleDialog" persistent max-width="600px">
+        <v-card>
+          <v-card-title> Wählen Sie Fahrzeug </v-card-title>
+          <v-card-text class="text-center">
+            <v-img :src="selectedVehicleImage" max-height="300px"></v-img>
+            <p>{{ selectedVehicle?.name }}</p>
+          </v-card-text>
+          <v-card-actions class="justify-end">
+            <v-btn color="primary" @click="chooseVehicle">Choose</v-btn>
+            <v-btn color="red" text @click="vehicleDialog = false">Close</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <v-row v-if="selectedType" class="pt-0 grey darken-2">
+        <!-- Type Dropdown -->
         <v-col>
           <v-row>
             <v-col>
-              <v-select
+              <!-- <v-select
                 :itemProps="itemProps"
                 v-model="selectedType"
                 :items="types"
@@ -28,11 +72,20 @@
                 solo
                 outlined
                 hide-details
-              ></v-select>
+              ></v-select> -->
+              <v-text-field
+                v-model="selectedType.name"
+                label="Type"
+                dense
+                solo
+                outlined
+                hide-details
+                readonly
+                class="bold-text"
+              ></v-text-field>
             </v-col>
 
-            <!-- Gattung Dropdown -->
-
+            <!-- Maingrup Dropdown -->
             <v-col>
               <v-select
                 :itemProps="itemProps"
@@ -43,29 +96,40 @@
                 solo
                 outlined
                 hide-details
+                :disabled="!selectedType"
                 @change="onMainGroupChange"
               ></v-select>
             </v-col>
           </v-row>
+
           <!-- Bus Image -->
           <v-row class="">
             <v-img
+              v-if="
+                selectedType.name === '12C-2T' && selectedMainGroup === 'Camera'
+              "
               width="500"
-              class="wrapper"
-              :src="`${img}`"
-              alt="img"
-              v-if="selectedMainGroup === 'Camera'"
+              :src="img12C"
+            ></v-img>
+            <v-img
+              v-else-if="
+                selectedType.name === '18C-3T' && selectedMainGroup === 'Camera'
+              "
+              width="500"
+              :src="img18C"
             >
               <g>
                 <svg
-                  :style="{ transform: `rotate(${cameraRotations.cam1}deg)` }"
-                  class="cam"
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam1_3T}deg)`,
+                  }"
+                  class="cam1_3T"
                   width="48"
                   height="29"
                   viewBox="0 0 48 29"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  @click="rotateCamera('cam1')"
+                  @click="rotateCamera('cam1_3T')"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -75,14 +139,16 @@
                 </svg>
 
                 <svg
-                  :style="{ transform: `rotate(${cameraRotations.cam2}deg)` }"
-                  class="cam1"
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam2_3T}deg)`,
+                  }"
+                  class="cam2_3T"
                   width="48"
                   height="29"
                   viewBox="0 0 48 29"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  @click="rotateCamera('cam2')"
+                  @click="rotateCamera('cam2_3T')"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -92,15 +158,72 @@
                 </svg>
 
                 <svg
-                  :style="{ transform: `rotate(${cameraRotations.cam3}deg)` }"
-                  id="cam2"
-                  class="cam2"
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam3_3T}deg)`,
+                  }"
+                  class="cam3_3T"
                   width="48"
                   height="29"
                   viewBox="0 0 48 29"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  @click="rotateCamera('cam3')"
+                  @click="rotateCamera('cam3_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam4_3T}deg)`,
+                  }"
+                  class="cam4_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam4_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam5_3T}deg)`,
+                  }"
+                  class="cam5_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam5_3T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam6_3T}deg)`,
+                  }"
+                  class="cam6_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam6_3T')"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -111,17 +234,493 @@
               </g>
             </v-img>
             <v-img
+              v-else-if="
+                selectedType.name === '19C-4T' && selectedMainGroup === 'Camera'
+              "
+              :src="img19C"
+            >
+              <g>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam1_4T}deg)`,
+                  }"
+                  class="cam1_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam1_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam2_4T}deg)`,
+                  }"
+                  class="cam2_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam2_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam3_4T}deg)`,
+                  }"
+                  class="cam3_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam3_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam4_4T}deg)`,
+                  }"
+                  class="cam4_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam4_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam5_4T}deg)`,
+                  }"
+                  class="cam5_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam5_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam6_4T}deg)`,
+                  }"
+                  class="cam6_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam6_4T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg> </g
+            ></v-img>
+
+            <!-- rare -->
+            <v-img
               v-else-if="selectedMainGroup === '528M (Rear Target Display)'"
-              :src="img"
+              :src="RareImage"
               contain
               max-height="700"
               max-width="700"
               alt="528M image"
             ></v-img>
+
+            <!-- Bestuhlung -->
+            <v-img
+              v-else-if="selectedMainGroup === 'Bestuhlung'"
+              :src="chairImage"
+              style="width: 120%; height: auto; display: block; bottom: auto"
+            >
+              <v-row>
+                <v-btn
+                  color="grey"
+                  @click="toggleChair"
+                  style="
+                    position: absolute;
+                    top: 60%;
+                    left: 10%;
+                    width: 120px;
+                    height: 40px;
+                    color: black;
+                    background-color: rgba(255, 255, 255, 0.7);
+                  "
+                >
+                  Übersetzen
+                </v-btn>
+              </v-row>
+
+              <v-row v-if="showButtons">
+                <v-row v-if="selectedGattung === '78RI - Sitzhaltegriffe'">
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 8%;
+                      left: 39%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point1')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
+
+                <v-row v-else-if="selectedGattung === '78RD - Sitzarmlehnen'">
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 47%;
+                      left: 27%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point4')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
+
+                <v-row v-else-if="selectedGattung === '704A - Bestuhlung'">
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 35%;
+                      left: 39%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point2')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 60%;
+                      left: 35%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point3')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
+
+                <v-row
+                  v-else-if="
+                    selectedGattung === '770A - Fahrgastsitz-Rückseite'
+                  "
+                >
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 40%;
+                      left: 62%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point5')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
+              </v-row>
+
+              <!-- arkadaki buton -->
+              <v-row v-else>
+                <v-btn
+                  icon
+                  style="
+                    position: absolute;
+                    top: 35%;
+                    left: 39%;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgba(255, 255, 255, 0.7);
+                  "
+                  @click="onPointClick('point6')"
+                >
+                  <v-icon>mdi-circle</v-icon>
+                </v-btn>
+              </v-row>
+
+              <v-dialog
+                v-model="dialogVisible.point1"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Top Closer
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point1"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point1_1"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point1 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point2"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Rück
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point2"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point2 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point3"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Sitz
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point3"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point3 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point4"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Bügel or Armlehne
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point4"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point4_1"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point4_2"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point4 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point5"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Rückseite
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point5"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point5 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point6"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Back
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point6"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point6 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-img>
           </v-row>
         </v-col>
 
-        <!-- Main Group Dropdown -->
+        <!-- Gattung Dropdown -->
         <v-col>
           <v-select
             :itemProps="itemProps"
@@ -149,20 +748,41 @@
               <v-card-text>
                 <!-- Normal select dropdown -->
                 <v-select
-                  v-if="subProduct.inputType !== 'text'"
+                  v-if="
+                    subProduct.gattung === '704A - Bestuhlung' &&
+                    subProduct.name !== 'STER 8 MS'
+                  "
                   :item-props="subProduct.name || itemProps"
                   :items="subProduct.options"
                   :item-text="(item) => item.name || item"
                   :item-value="(item) => item.value || item"
                   v-model="selectedModel[subProduct.name]"
                   label="Select option"
-                  :disabled="!subProduct.options.length"
+                  :disabled="isDisabled(subProduct.name)"
                   dense
                   solo
                   outlined
                   hide-details
                 ></v-select>
-                <!-- Text input for RAL codes -->
+                <!-- Text input for STER 8 MS -->
+                <v-select
+                  v-else-if="
+                    subProduct.gattung === '704A - Bestuhlung' &&
+                    subProduct.name === 'STER 8 MS'
+                  "
+                  :item-props="subProduct.name || itemProps"
+                  :items="subProduct.options"
+                  :item-text="(item) => item.name || item"
+                  :item-value="(item) => item.value || item"
+                  v-model="selectedModel[subProduct.name]"
+                  label="Select option"
+                  :disabled="isDisabled(subProduct.name)"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                ></v-select>
+                <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <div
                   v-else-if="
                     subProduct.gattung ===
@@ -180,10 +800,25 @@
                     @click="showRALPrefix(subProduct.name)"
                   ></v-text-field>
                 </div>
+                <!-- Other sub-products -->
+                <v-select
+                  v-else
+                  :item-props="subProduct.name || itemProps"
+                  :items="subProduct.options"
+                  :item-text="(item) => item.name || item"
+                  :item-value="(item) => item.value || item"
+                  v-model="selectedModel[subProduct.name]"
+                  label="Select option"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                ></v-select>
               </v-card-text>
             </v-card>
           </v-col>
 
+          <!-- bustec ımg vs -->
           <v-col>
             <v-img
               v-if="modelImageDetails.showImage"
@@ -194,17 +829,18 @@
             </v-img>
           </v-col>
         </v-col>
+      </v-row>
 
-        <!-- export button -->
+      <!-- Export button -->
+      <v-row v-if="selectedType" class="pt-0 grey darken-2">
         <v-col class="custom-row">
           <v-btn class="custom-export" @click="xport" color="primary">
             Export
           </v-btn>
           <v-spacer></v-spacer>
-
-          <v-btn class="custom-back" color="primary" @click="goHome()"
-            >Back</v-btn
-          >
+          <v-btn class="custom-back" color="primary" @click="resetSelection">
+            Zurück
+          </v-btn>
         </v-col>
 
         <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
@@ -219,30 +855,37 @@
             <v-card-text>
               <v-list dense>
                 <v-list-item>
-                  <v-list-item-content class="list-item-content"
-                    >Bus Type: {{ selectedType }}</v-list-item-content
-                  >
+                  <v-list-item-content class="list-item-content">
+                    Bus Type: {{ selectedType?.name }}
+                  </v-list-item-content>
                 </v-list-item>
-                <v-list-item>
-                  <v-list-item-content class="list-item-content"
-                    >Main Group: {{ selectedMainGroup }}</v-list-item-content
-                  >
+                <v-list-item v-if="selectedMainGroup">
+                  <v-list-item-content class="list-item-content">
+                    Main Group: {{ selectedMainGroup }}
+                  </v-list-item-content>
                 </v-list-item>
-                <v-list-item-group v-model="selectedModel" color="primary">
-                  <v-list-item
-                    v-for="(product, index) in comModels"
-                    :key="index"
-                  >
-                    <v-list-item-content class="list-item-content"
-                      >{{ product.name }}:
-                      {{ selectedModel[product.name] }}</v-list-item-content
-                    >
-                  </v-list-item>
-                </v-list-item-group>
+                <v-list-item v-if="selectedGattung">
+                  <v-list-item-content class="list-item-content">
+                    Gattung: {{ selectedGattung }}
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item v-for="(value, key) in selectedModel" :key="key">
+                  <v-list-item-content class="list-item-content">
+                    {{ key }}: {{ value }}
+                  </v-list-item-content>
+                </v-list-item>
               </v-list>
             </v-card-text>
+            <v-card-actions class="justify-end">
+              <v-btn color="red" text @click="dialog = false">Close</v-btn>
+            </v-card-actions>
           </v-card>
         </v-dialog>
+      </v-row>
+
+      <!-- deneme -->
+      <v-row>
+        <p>{{ selectedGattung }}</p>
       </v-row>
     </div>
   </v-container>
@@ -274,18 +917,6 @@ export default {
           `No sub-products found for the selected Gattung: ${this.selectedGattung}`
         );
         return [];
-      }
-    },
-
-    img: function () {
-      if (this.selectedMainGroup === "528M (Rear Target Display)") {
-        return "../src/assets/RareDisplay/image004.png";
-      } else if (this.selectedType === "12C-2T") {
-        return "../src/static/12C-2T.jpg";
-      } else if (this.selectedType === "18C-3T") {
-        return "../src/static/18C-3T.jpg";
-      } else if (this.selectedType === "19C-4T") {
-        return "../src/static/19C-4T.jpg";
       }
     },
 
@@ -342,6 +973,42 @@ export default {
 
       return [];
     },
+
+    selectedVehicleImage() {
+      switch (this.selectedVehicle?.value) {
+        case "12C-2T":
+          return "../src/static/12C-2T.jpg";
+        case "18C-3T":
+          return "../src/static/18C-3T.jpg";
+        case "19C-4T":
+          return "../src/static/19C-4T.jpg";
+        default:
+          return "";
+      }
+    },
+
+    filteredSubProducts() {
+      const subProducts = this.products.find(
+        (product) => product.mainGroup === this.selectedMainGroup
+      )?.subProducts;
+      return (
+        subProducts?.filter(
+          (subProduct) => this.selectedModel[subProduct.name]
+        ) || []
+      );
+    },
+
+    //704A bestuhlung
+    isSterSelected() {
+      return this.selectedModel["STER 8 MS"];
+    },
+    isOtherOptionSelected() {
+      return (
+        this.selectedModel["mit Schaum Sitzpolster"] ||
+        this.selectedModel["mit Schaum Rückenpolster"] ||
+        this.selectedModel["Alle Sitze ohne Logo/Branding."]
+      );
+    },
   },
 
   data() {
@@ -350,21 +1017,58 @@ export default {
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
-      xportdata: {},
-      xportbool: false,
+
       dialog: false,
       cameraRotations: {
-        cam1: 0,
-        cam2: 0,
-        cam3: 0,
+        cam1_4T: 0,
+        cam2_4T: 0,
+        cam3_4T: 0,
+        cam4_4T: 0,
+        cam5_4T: 0,
+        cam6_4T: 0,
+        cam1_3T: 0,
+        cam2_3T: 0,
+        cam3_3T: 0,
+        cam4_3T: 0,
+        cam5_3T: 0,
+        cam6_3T: 0,
       },
-      types: [
-        { name: "12C-2T", value: "12C-2T" },
-        { name: "18C-3T", value: "18C-3T" },
-        { name: "19C-4T", value: "19C-4T" },
+      dialogVisible: {
+        point1: false,
+        point2: false,
+        point3: false,
+        point4: false,
+        point5: false,
+        point6: false,
+      },
+      detailImages: {
+        point1: "../src/assets/Bestuhlung/topcloser.bmp", // Buraya detaylı resimlerin yollarını yazın
+        point1_1: "../src/assets/Bestuhlung/topcloser detail.bmp",
+        point2: "../src/assets/Bestuhlung/Rück.bmp",
+        point3: "../src/assets/Bestuhlung/sitz.bmp",
+        point4: "../src/assets/Bestuhlung/bugel or armlehne color.bmp",
+        point4_1: "../src/assets/Bestuhlung/armlehne color.bmp",
+        point4_2: "../src/assets/Bestuhlung/armlehne or bugel color.bmp",
+        point5: "../src/assets/Bestuhlung/rückseite.bmp",
+        point6: "../src/assets/Bestuhlung/back.bmp",
+      },
 
-        // Daha fazla type öğesi...
-      ],
+      showButtons: true,
+      chairImage: "../src/assets/Bestuhlung/normal.bmp", // Ön yüz görüntüsü
+      chairBackImage: "../src/assets/Bestuhlung/normal back.bmp", // Arka yüz görüntüsü
+
+      // selectedVehicleImage: "",
+      // vehicleDialogVisible: false,
+      // vehicleDialog: false,
+      // selectedVehicle: null,
+      vehicleDialog: false,
+      selectedVehicle: null,
+
+      RareImage: "../src/assets/RareDisplay/image004.png",
+      img12C: "../src/static/12C-2T.jpg",
+      img18C: "../src/static/18C-3T.jpg",
+      img19C: "../src/static/19C-4T.jpg",
+
       mainGroups: [
         //{ name: "Chair Type", value: "Chair Type" },
         //{ name: "Chair Color", value: "Chair Color" },
@@ -416,13 +1120,18 @@ export default {
           mainGroup: "Bestuhlung",
         },
         {
-          name: "700B - Farbe-Fahrgastsitzgestell", // Bestuhlung'un gattungu //3
-          value: "700B - Farbe-Fahrgastsitzgestell",
+          name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
+          value: "78RI - Sitzhaltegriffe",
           mainGroup: "Bestuhlung", // 700B - Renkli yolcu koltuğu çerçevesi
         },
         {
-          name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
-          value: "78RI - Sitzhaltegriffe",
+          name: "78RD - Sitzarmlehnen", // Bestuhlung'un gattungu //3
+          value: "78RD - Sitzarmlehnen",
+          mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
+        },
+        {
+          name: "770A - Fahrgastsitz-Rückseite", // Bestuhlung'un gattungu //3
+          value: "770A - Fahrgastsitz-Rückseite",
           mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
         },
         {
@@ -459,44 +1168,21 @@ export default {
           subProducts: [
             {
               gattung: "680A - SNF gegenüber Tür 2",
-              name: "a1",
+              name: "680A - SNF gegenüber Tür 2",
               options: [
                 "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm.",
-              ],
-            },
-            {
-              gattung: "680A - SNF gegenüber Tür 2",
-              name: "b1",
-              options: [
                 "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
-              ],
-            },
-            {
-              gattung: "680A - SNF gegenüber Tür 2",
-              name: "c1",
-              options: [
                 "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
               ],
             },
+
             {
               gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-              name: "a2",
-              options: ["Armlehne mit halter ohne Schloss"],
-            },
-            {
-              gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-              name: "b2",
-              options: ["Mit klappbarer Armlehne auf dem Bügel"],
-            },
-            {
-              gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-              name: "c2",
-              options: ["Ausführung Trennwand mit Glasscheibe"],
-            },
-            {
-              gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-              name: "d2",
+              name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
               options: [
+                "Armlehne mit halter ohne Schloss",
+                "Mit klappbarer Armlehne auf dem Bügel",
+                "Ausführung Trennwand mit Glasscheibe",
                 "Bügel (Überstand min. 280mm) E-Scooter tauglich ausführen",
               ],
             },
@@ -507,18 +1193,12 @@ export default {
           subProducts: [
             {
               gattung: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-              name: "*",
-              options: ["Armlehne mit halter ohne Schloss"],
-            },
-            {
-              gattung: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-              name: "**",
-              options: ["mit klappbarer Armlehne auf dem Bügel"],
-            },
-            {
-              gattung: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-              name: "***",
-              options: ["Ausführung Trennwand mit Glasscheibe"],
+              name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
+              options: [
+                "Armlehne mit halter ohne Schloss",
+                "mit klappbarer Armlehne auf dem Bügel",
+                "Ausführung Trennwand mit Glasscheibe",
+              ],
             },
           ],
         },
@@ -545,25 +1225,56 @@ export default {
               name: "STER 8 MS",
               options: ["mit Schutzband", "ohne Schutzband"],
             },
+
+            //78rı
             {
-              gattung: "700B - Farbe-Fahrgastsitzgestell",
-              name: "Fahrgastsitzgestell RAL 7037",
-              options: ["Fahrgastsitzgestell RAL 7037"],
+              gattung: "78RI - Sitzhaltegriffe",
+              name: "Topcloser",
+              options: [
+                "dunkelgrau NCS S8000N (serie)",
+                "NCS S2500N",
+                "RAL 1023",
+                "RAL 3001",
+                "RAL 9004",
+                "RAL 7037",
+                "RAL 7016",
+              ],
             },
             {
               gattung: "78RI - Sitzhaltegriffe",
-              name: "Topcloser in RAL 1023 verkehrsgelb",
-              options: ["Topcloser in RAL 1023 verkehrsgelb"],
+              name: "Topcloser für EM",
+              options: ["dunkelgrau NCS S8000N (serie)", "RAL 1023"],
+            },
+            //78rd
+            {
+              gattung: "78RD - Sitzarmlehnen",
+              name: "Gangseitige fixiert bügel color",
+              options: [
+                "dunkelgrau NCS S8000N (serie)",
+                "RAL 1023",
+                "RAL 9004",
+                "RAL 7037",
+              ],
             },
             {
-              gattung: "78RI - Sitzhaltegriffe",
-              name: "Topcloser in RAL 7037 verkehrsgelb",
-              options: ["Topcloser in RAL 7037 verkehrsgelb"],
+              gattung: "78RD - Sitzarmlehnen",
+              name: "Gangseitige klappbare armlehne",
+              options: ["dunkelgrau NCS S8000N (serie)", "RAL 9004"],
             },
+            //770a
             {
-              gattung: "78RI - Sitzhaltegriffe",
-              name: "Topcloser in RAL 1023 verkehrsgelb für EM sitz",
-              options: ["Topcloser in RAL 1023 verkehrsgelb für EM sitz"],
+              gattung: "770A - Fahrgastsitz-Rückseite",
+              name: "Kunststoff-Fahrgastsitzrückseite",
+              options: [
+                "grau NCS S 6000 N (serie)",
+                "RAL 7037",
+                "RAL 7016",
+                "RAL 1015",
+                "RAL 3003",
+                "RAL 1003",
+                "RAL 3020",
+                "RAL 5007",
+              ],
             },
           ],
         },
@@ -589,9 +1300,31 @@ export default {
           subProducts: [
             {
               gattung: "65LD - Abschrankung an Tür 1",
-              options: [{ name: "zusätzlich Teleskopabschrankung an Tür 1" }],
+              name: "zusätzlich Teleskopabschrankung an Tür 1",
+              options: ["zusätzlich Teleskopabschrankung an Tür 1"],
             },
           ],
+        },
+      ],
+
+      types: [
+        {
+          name: "12C-2T",
+          value: "12C-2T",
+          image:
+            "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_NLCI.jpg&w=265&h=200",
+        },
+        {
+          name: "18C-3T",
+          value: "18C-3T",
+          image:
+            "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_LIC_LE.jpg&w=265&h=200",
+        },
+        {
+          name: "19C-4T",
+          value: "19C-4T",
+          image:
+            "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_LIC.jpg&w=265&h=200",
         },
       ],
     };
@@ -620,13 +1353,7 @@ export default {
     },
 
     xport() {
-      // Burada 'selectedModel' öğesini ve diğer seçili verileri kullanabilirsiniz.
-      // Örnek olarak sadece 'selectedType' öğesini gösteriyoruz.
-      this.xportdata = {
-        // Burada önceden seçilmiş model öğeleri olabilir.
-        "Selected Type": this.selectedType, // 'selectedType' öğesini ekleyin.
-      };
-      this.showExportDialog();
+      this.dialog = true;
     },
 
     onMainGroupChange() {
@@ -679,6 +1406,60 @@ export default {
         this.selectedModel[fieldName] = "RAL ";
       }
     },
+    onPointClick(point) {
+      this.dialogVisible[point] = true;
+    },
+
+    toggleChair() {
+      this.showButtons = !this.showButtons;
+      this.chairImage = this.showButtons
+        ? "../src/assets/Bestuhlung/normal.bmp"
+        : "../src/assets/Bestuhlung/normal back.bmp";
+    },
+
+    openVehicleDialog(vehicle) {
+      this.selectedVehicle = vehicle;
+      this.vehicleDialog = true;
+    },
+    chooseVehicle() {
+      this.selectedType = this.selectedVehicle;
+      this.vehicleDialog = false;
+    },
+    resetSelection() {
+      this.selectedType = null;
+      this.selectedMainGroup = null;
+      this.selectedGattung = null;
+      this.selectedModel = {};
+      this.cameraRotations = {
+        cam1_4T: 0,
+        cam2_4T: 0,
+        cam3_4T: 0,
+        cam4_4T: 0,
+        cam5_4T: 0,
+        cam6_4T: 0,
+        cam1_3T: 0,
+        cam2_3T: 0,
+        cam3_3T: 0,
+        cam4_3T: 0,
+        cam5_3T: 0,
+        cam6_3T: 0,
+      };
+    },
+    //koltuk seçimlerinde sınırlandırma
+    isDisabled(productName) {
+      if (this.selectedGattung === "704A - Bestuhlung") {
+        if (productName === "STER 8 MS") {
+          return (
+            this.selectedModel["mit Schaum Sitzpolster"] ||
+            this.selectedModel["mit Schaum Rückenpolster"] ||
+            this.selectedModel["Alle Sitze ohne Logo/Branding."]
+          );
+        } else {
+          return this.selectedModel["STER 8 MS"];
+        }
+      }
+      return false;
+    },
   },
 };
 </script>
@@ -688,29 +1469,102 @@ export default {
   position: relative;
 }
 
-.cam {
-  height: 10%;
+.cam1_4T {
+  height: 8%;
   width: 10%;
   position: absolute;
-  top: 66%;
-  right: 3%;
-  transform: rotate(220deg);
+  top: 40%;
+  right: 1px;
+  transform: rotate();
 }
 
-.cam1 {
-  height: 10%;
+.cam2_4T {
+  height: 8%;
   width: 10%;
   position: absolute;
-  top: 66%;
-  right: 43%;
-  transform: rotate(270deg);
+  top: 25%;
+  right: 8%;
+  transform: rotate();
 }
-.cam2 {
-  height: 10%;
+.cam3_4T {
+  height: 8%;
   width: 10%;
   position: absolute;
-  top: 66%;
-  right: 89%;
+  top: 25%;
+  right: 31%;
+  transform: rotate();
+}
+.cam4_4T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 70%;
+  right: 44%;
+  transform: rotate();
+}
+.cam5_4T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 64%;
+  transform: rotate();
+}
+.cam6_4T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 77%;
+  transform: rotate();
+}
+.cam1_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 40%;
+  right: 1px;
+  transform: rotate();
+}
+
+.cam2_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 8%;
+  transform: rotate();
+}
+.cam3_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 28%;
+  transform: rotate();
+}
+.cam4_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 70%;
+  right: 42%;
+  transform: rotate();
+}
+.cam5_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 62%;
+  transform: rotate();
+}
+.cam6_3T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 70%;
+  right: 88%;
   transform: rotate();
 }
 .v-dialog {
@@ -739,5 +1593,10 @@ export default {
   position: absolute;
   right: 0; /* Align to the right side */
   bottom: 0; /* Align to the bottom of the row */
+}
+.bold-text {
+  font-weight: bold;
+  color: black;
+  background-color: #e5e5e5; /* Daha koyu arka plan rengi */
 }
 </style>
