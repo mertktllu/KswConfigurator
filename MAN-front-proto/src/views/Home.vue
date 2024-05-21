@@ -66,7 +66,7 @@ export default {
     async validateUser() {
       if (this.$refs.form.validate()) {
         try {
-          const response = await axios.post("http://localhost:25565/login", {
+          const response = await axios.post("http://localhost:3000/login", {
             email: this.email,
             password: this.password,
           });
