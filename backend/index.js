@@ -8,6 +8,7 @@ const port = 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -30,6 +31,47 @@ app.post("/login", async (req, res) => {
     }
   } catch (error) {
     res.json({ success: false, message: error.message });
+  }
+});
+
+// New GET endpoint to fetch Gattung information
+app.get("/gattungs", async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const result = await pool.request().query("SELECT * FROM Gattungs");
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.get("/maingroups", async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const result = await pool.request().query("SELECT * FROM MainGroups");
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.get("/products", async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const result = await pool.request().query("SELECT * FROM Products");
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.get("/types", async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const result = await pool.request().query("SELECT * FROM Types");
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500).send(error.message);
   }
 });
 
