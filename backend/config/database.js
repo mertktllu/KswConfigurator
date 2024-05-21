@@ -12,6 +12,5 @@ const sequelize = new Sequelize("DESKTOP-AB3LDT8", null, null, {
         },
     },
 });
-
 module.exports = sequelize;
 

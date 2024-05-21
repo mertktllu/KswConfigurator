@@ -1,13 +1,14 @@
 const express = require("express");
 const { Sequelize } = require("sequelize");
-const MainGroup = require("./models/MainGroup");
+const MainGroup = require("../models/maingroup");
+
 
 const app = express();
 app.use(express.json());
 
 // Sequelize bağlantısı
 const sequelize = new Sequelize("DESKTOP-AB3LDT8", null, null, {
-    host: "localhost",
+    host: "manDB",
     dialect: "mssql",
     dialectOptions: {
         options: {
