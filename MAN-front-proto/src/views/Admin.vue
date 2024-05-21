@@ -1,32 +1,26 @@
 <template>
   <v-container>
+    <!-- MAN Logo -->
     <v-row>
-      <v-col>
+      <v-col class="d-flex justify-start">
         <v-img
           src="https://upload.wikimedia.org/wikipedia/commons/5/54/Logo_MAN.png"
-          max-height="300"
-          max-width="300"
+          contain
+          max-height="60"
+          max-width="100"
         ></v-img>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col>
-        <v-card>
-          <v-card-title class="text-center"
-            >Welcome to the Admin Panel</v-card-title
-          >
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-          ></v-text-field>
-          <v-card-text>
-            <!-- Your form or additional admin panel elements go here -->
-          </v-card-text>
-        </v-card>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
       </v-col>
     </v-row>
 
@@ -289,7 +283,117 @@
         <!-- Custom Part Selection -->
 
         <v-card class="custom-part">
-          <v-card-title>Custom Part</v-card-title>
+          <v-card-title
+            >Custom Part<v-dialog max-width="50%">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn
+                  v-bind="activatorProps"
+                  size="small"
+                  icon
+                  class="ml-5"
+                  color="green"
+                  ><v-icon>mdi-plus</v-icon></v-btn
+                >
+              </template>
+
+              <template v-slot:default="{ isActive }">
+                <v-card title="Add Custom Part">
+                  <v-card-text>
+                    <v-text-field
+                      v-model="addPart"
+                      :counter="10"
+                      :rules="nameRules"
+                      label="Name of Gattung"
+                      hide-details
+                      required
+                    ></v-text-field>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      text="Close"
+                      color="red"
+                      @click="isActive.value = false"
+                    ></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+
+            <v-dialog max-width="50%">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn
+                  v-bind="activatorProps"
+                  size="small"
+                  icon
+                  class="ml-5"
+                  color="red"
+                  ><v-icon>mdi-delete</v-icon></v-btn
+                >
+              </template>
+
+              <template v-slot:default="{ isActive }">
+                <v-card title="Delete A Gattung">
+                  <v-card class="ma-3" v-for="part in customParts">
+                    {{ part.name }}
+
+                    <v-btn size="x-small" icon class="ml-5" color="red"
+                      ><v-icon>mdi-delete</v-icon></v-btn
+                    >
+                  </v-card>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      text="Close"
+                      color="red"
+                      @click="isActive.value = false"
+                    ></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+
+            <v-dialog max-width="50%">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn
+                  v-bind="activatorProps"
+                  size="small"
+                  icon
+                  class="ml-5"
+                  color="yellow"
+                  ><v-icon>mdi-pencil</v-icon></v-btn
+                >
+              </template>
+
+              <template v-slot:default="{ isActive }">
+                <v-card title="Edit A Gattung">
+                  <v-select
+                    :itemProps="itemProps"
+                    :items="customParts"
+                    v-model="selectedPart"
+                    label="Select an option"
+                  ></v-select>
+
+                  <v-textfield>
+                    <v-text-field clearable label="New Name"></v-text-field>
+                  </v-textfield>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      text="Close"
+                      color="red"
+                      @click="isActive.value = false"
+                    ></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template> </v-dialog
+          ></v-card-title>
           <v-card-text>
             <v-radio-group v-model="selectedPart">
               <v-row v-for="(part, index) in customParts" :key="index">
@@ -298,17 +402,6 @@
                 </v-col>
                 <v-col>
                   <v-chip :color="part.color" dark>{{ part.name }}</v-chip>
-                </v-col>
-                <v-col>
-                  <v-btn icon @click="addItem(index)">
-                    <v-icon>mdi-plus</v-icon>
-                  </v-btn>
-                  <v-btn icon @click="deleteItem(index)">
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                  <v-btn icon @click="editItem(index)">
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
                 </v-col>
               </v-row>
             </v-radio-group>
