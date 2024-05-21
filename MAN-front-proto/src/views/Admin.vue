@@ -34,6 +34,131 @@
       <v-col>
         <v-card>
           <v-card-title
+            >Main Group
+            <v-dialog max-width="50%">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn
+                  v-bind="activatorProps"
+                  size="small"
+                  icon
+                  class="ml-5"
+                  color="green"
+                  ><v-icon>mdi-plus</v-icon></v-btn
+                >
+              </template>
+
+              <template v-slot:default="{ isActive }">
+                <v-card title="Add Main Group">
+                  <v-card-text>
+                    <v-text-field
+                      v-model="addGroup"
+                      :counter="10"
+                      :rules="nameRules"
+                      label="Name of Main Group"
+                      hide-details
+                      required
+                    ></v-text-field>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      text="Close"
+                      color="red"
+                      @click="isActive.value = false"
+                    ></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+
+            <v-dialog max-width="50%">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn
+                  v-bind="activatorProps"
+                  size="small"
+                  icon
+                  class="ml-5"
+                  color="red"
+                  ><v-icon>mdi-delete</v-icon></v-btn
+                >
+              </template>
+
+              <template v-slot:default="{ isActive }">
+                <v-card title="Delete A Main Group">
+                  <v-card class="ma-3" v-for="groups in mainGroups">
+                    {{ groups }}
+
+                    <v-btn size="x-small" icon class="ml-5" color="red"
+                      ><v-icon>mdi-delete</v-icon></v-btn
+                    >
+                  </v-card>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      text="Close"
+                      color="red"
+                      @click="isActive.value = false"
+                    ></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+
+            <v-dialog max-width="50%">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn
+                  v-bind="activatorProps"
+                  size="small"
+                  icon
+                  class="ml-5"
+                  color="yellow"
+                  ><v-icon>mdi-pencil</v-icon></v-btn
+                >
+              </template>
+
+              <template v-slot:default="{ isActive }">
+                <v-card title="Edit A Main Group">
+                  <v-select
+                    :items="mainGroups"
+                    v-model="selectedGroup"
+                    label="Select an option"
+                  ></v-select>
+
+                  <v-textfield>
+                    <v-text-field clearable label="New Name"></v-text-field>
+                  </v-textfield>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      text="Close"
+                      color="red"
+                      @click="isActive.value = false"
+                    ></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template> </v-dialog
+          ></v-card-title>
+          <v-card-text>
+            <v-select
+              :items="mainGroups"
+              v-model="selectedGroup"
+              label="Select an option"
+            ></v-select>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title
             >Gattung
 
             <v-dialog max-width="50%">
@@ -161,32 +286,6 @@
 
     <v-row>
       <v-col>
-        <v-card>
-          <v-card-title
-            >Main Group
-            <v-btn size="small" icon class="ml-5" color="green"
-              ><v-icon>mdi-plus</v-icon></v-btn
-            >
-
-            <v-btn size="small" icon class="ml-5" color="red"
-              ><v-icon>mdi-delete</v-icon></v-btn
-            >
-            <v-btn size="small" icon class="ml-5" color="yellow"
-              ><v-icon>mdi-pencil</v-icon></v-btn
-            ></v-card-title
-          >
-          <v-card-text>
-            <v-select
-              :items="mainGroupOptions"
-              label="Select an option"
-            ></v-select>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <v-row>
-      <v-col>
         <!-- Custom Part Selection -->
 
         <v-card class="custom-part">
@@ -226,8 +325,7 @@ export default {
     return {
       dialog: false,
       search: "",
-      selectedPart: null,
-      mainGroupOptions: ["Seat Colour", "Seat Type", "Button Type", "Camera"],
+
       customParts: [
         { name: "Red", color: "red" },
         { name: "Green", color: "green" },
@@ -235,16 +333,25 @@ export default {
       ],
       selectedPart: null,
       selectedGattung: null,
+      selectedGroup: null,
+      addGroup: null,
+      addGattung: null,
+      addPart: null,
+
+      mainGroups: [
+        "Camera",
+        "528M (Rear Target Display)",
+        "Sondernutzungsfläche gegenüber Tür 2",
+        "Sondernutzungsfläche rechts vor Tür 2",
+        "Bestuhlung",
+        "Haltestangen",
+        "Abschrankung/Haarnadelstange an Tür 1",
+      ],
 
       gattungs: [
         {
           name: "680A - SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
           value: "Sondernutzungsfläche gegenüber Tür 2", // 680A - SNF karşı kapı 2
-          customParts: [
-            { name: "Red", color: "red" },
-            { name: "Green", color: "green" },
-            { name: "Blue", color: "blue" },
-          ],
         },
         {
           name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
