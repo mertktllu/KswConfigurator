@@ -10,20 +10,46 @@
           max-width="100"
         ></v-img>
       </v-col>
+      <v-col class="language-switcher">
+        <v-btn icon @click="changeLanguage('en')" class="flag-btn">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg"
+            alt="English"
+            class="flag-icon"
+          />
+        </v-btn>
+        <span class="separator">/</span>
+        <v-btn icon @click="changeLanguage('de')" class="flag-btn">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg"
+            alt="Deutsch"
+            class="flag-icon"
+          />
+        </v-btn>
+        <v-text-field
+          v-if="!selectedType"
+          v-model="searchQuery"
+          append-icon="mdi-magnify"
+          label="Search"
+          class="ml-4"
+          solo
+          hide-details
+        ></v-text-field>
+      </v-col>
     </v-row>
 
     <div>
       <v-row v-if="!selectedType" class="vehicle-container">
         <v-col cols="12" class="text-center">
-          <h1>WÄHLEN SIE IHR FAHRZEUG</h1>
+          <h1>{{ $t("title") }}</h1>
         </v-col>
         <v-row class="vehicle-row">
-          <!-- Araç tipi kartları -->
+          <!-- Vehicle type cards -->
           <v-col
             cols="12"
             sm="6"
             md="4"
-            v-for="(type, index) in types"
+            v-for="(type, index) in filteredTypes"
             :key="index"
             class="vehicle-col"
           >
@@ -36,10 +62,18 @@
               <v-card-title>{{ type.Name }}</v-card-title>
               <v-card-subtitle>
                 <div>
-                  <p><strong>Fuel:</strong> {{ type.Fuel }}</p>
-                  <p><strong>Length:</strong> {{ type.Length }}</p>
-                  <p><strong>Seats:</strong> {{ type.Seats }}</p>
-                  <p><strong>Features:</strong></p>
+                  <p>
+                    <strong>{{ $t("fuel") }}:</strong> {{ type.Fuel }}
+                  </p>
+                  <p>
+                    <strong>{{ $t("length") }}:</strong> {{ type.Length }}
+                  </p>
+                  <p>
+                    <strong>{{ $t("seats") }}:</strong> {{ type.Seats }}
+                  </p>
+                  <p>
+                    <strong>{{ $t("features") }}:</strong>
+                  </p>
                   <ul class="feature-list">
                     <li
                       v-for="feature in type.Features.split(', ')"
@@ -55,14 +89,14 @@
         </v-row>
         <v-col class="custom-row">
           <v-btn class="custom-back" color="primary" @click="goHome">
-            Zurück
+            {{ $t("back") }}
           </v-btn>
         </v-col>
       </v-row>
 
       <v-dialog v-model="vehicleDialog" persistent max-width="600px">
         <v-card>
-          <v-card-title> Wählen Sie Fahrzeug </v-card-title>
+          <v-card-title> {{ $t("title") }} </v-card-title>
           <v-card-text class="text-center">
             <v-img :src="selectedVehicleImage" max-height="300px"></v-img>
           </v-card-text>
@@ -1026,6 +1060,12 @@ export default {
         this.selectedModel["Alle Sitze ohne Logo/Branding."]
       );
     },
+
+    filteredTypes() {
+      return this.types.filter((type) =>
+        type.Name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    },
   },
 
   data() {
@@ -1074,10 +1114,6 @@ export default {
       chairImage: "../src/assets/Bestuhlung/normal.bmp", // Ön yüz görüntüsü
       chairBackImage: "../src/assets/Bestuhlung/normal back.bmp", // Arka yüz görüntüsü
 
-      //selectedVehicleImage: "",
-      // vehicleDialogVisible: false,
-      // vehicleDialog: false,
-
       vehicleDialog: false,
       selectedVehicle: null,
 
@@ -1085,6 +1121,8 @@ export default {
       img12C: "../src/static/12C-2T.jpg",
       img18C: "../src/static/18C-3T.jpg",
       img19C: "../src/static/19C-4T.jpg",
+
+      searchQuery: "",
 
       mainGroups: [
         { name: "Camera", value: "Camera" },
@@ -1490,6 +1528,10 @@ export default {
         console.error("Error fetching types:", error);
       }
     },
+
+    changeLanguage(language) {
+      this.$i18n.locale = language;
+    },
   },
 };
 </script>
@@ -1680,5 +1722,26 @@ export default {
   display: flex;
   justify-content: center;
   max-width: 300px;
+}
+.language-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.flag-icon {
+  width: 20px;
+  height: 14px;
+}
+
+.separator {
+  margin: 0 8px;
+  font-size: 20px;
+}
+
+.flag-btn {
+  min-width: auto;
+  padding: 0;
 }
 </style>
