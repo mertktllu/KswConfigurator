@@ -1062,8 +1062,14 @@ export default {
     },
 
     filteredTypes() {
-      return this.types.filter((type) =>
-        type.Name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      const query = this.searchQuery.toLowerCase();
+      return this.types.filter(
+        (type) =>
+          type.Name.toLowerCase().includes(query) ||
+          type.Fuel.toLowerCase().includes(query) ||
+          type.Length.toLowerCase().includes(query) ||
+          type.Seats.toLowerCase().includes(query) ||
+          type.Features.toLowerCase().includes(query)
       );
     },
   },
