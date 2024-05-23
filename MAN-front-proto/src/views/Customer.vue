@@ -13,34 +13,50 @@
     </v-row>
 
     <div>
-      <v-row v-if="!selectedType">
-        <v-col>
-          <!-- DENEME -->
-          <v-row>
-            <v-col cols="12" class="text-center">
-              <h1>WÄHLEN SIE IHR FAHRZEUG</h1>
-            </v-col>
-          </v-row>
-          <v-row>
-            <!-- Araç tipi kartları -->
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-              v-for="(type, index) in types"
-              :key="index"
+      <v-row v-if="!selectedType" class="vehicle-container">
+        <v-col cols="12" class="text-center">
+          <h1>WÄHLEN SIE IHR FAHRZEUG</h1>
+        </v-col>
+        <v-row class="vehicle-row">
+          <!-- Araç tipi kartları -->
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            v-for="(type, index) in types"
+            :key="index"
+            class="vehicle-col"
+          >
+            <v-card
+              @click="openVehicleDialog(type)"
+              hoverable
+              class="vehicle-card"
             >
-              <v-card @click="openVehicleDialog(type)" hoverable>
-                <v-img :src="type.Image" height="300px"></v-img>
-                <v-card-title>{{ type.Name }}</v-card-title>
-              </v-card>
-            </v-col>
-          </v-row>
-          <v-col class="custom-row">
-            <v-btn class="custom-back" color="primary" @click="goHome">
-              Zurück
-            </v-btn>
+              <v-img :src="type.Image" class="vehicle-image"></v-img>
+              <v-card-title>{{ type.Name }}</v-card-title>
+              <v-card-subtitle>
+                <div>
+                  <p><strong>Fuel:</strong> {{ type.Fuel }}</p>
+                  <p><strong>Length:</strong> {{ type.Length }}</p>
+                  <p><strong>Seats:</strong> {{ type.Seats }}</p>
+                  <p><strong>Features:</strong></p>
+                  <ul class="feature-list">
+                    <li
+                      v-for="feature in type.Features.split(', ')"
+                      :key="feature"
+                    >
+                      {{ feature }}
+                    </li>
+                  </ul>
+                </div>
+              </v-card-subtitle>
+            </v-card>
           </v-col>
+        </v-row>
+        <v-col class="custom-row">
+          <v-btn class="custom-back" color="primary" @click="goHome">
+            Zurück
+          </v-btn>
         </v-col>
       </v-row>
 
@@ -49,7 +65,6 @@
           <v-card-title> Wählen Sie Fahrzeug </v-card-title>
           <v-card-text class="text-center">
             <v-img :src="selectedVehicleImage" max-height="300px"></v-img>
-            <p>{{ selectedVehicle?.Name }}</p>
           </v-card-text>
           <v-card-actions class="justify-end">
             <v-btn color="primary" @click="chooseVehicle">Choose</v-btn>
@@ -1613,5 +1628,57 @@ export default {
   font-weight: bold;
   color: black;
   background-color: #e5e5e5; /* Daha koyu arka plan rengi */
+}
+
+.vehicle-card {
+  width: 100%;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.vehicle-image {
+  height: 200px;
+  object-fit: cover;
+}
+
+.v-card-subtitle {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.v-card-title,
+.v-card-subtitle {
+  text-align: left;
+}
+
+/* Feature list styling */
+.feature-list {
+  list-style-position: inside; /* Ensure bullets are inside the list item */
+  padding-left: 0; /* Remove default padding */
+  text-align: left; /* Align text to the left */
+}
+.feature-list li {
+  margin-left: 0px; /* Add some left margin to indent the text */
+}
+.vehicle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.vehicle-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+.vehicle-col {
+  display: flex;
+  justify-content: center;
+  max-width: 300px;
 }
 </style>
