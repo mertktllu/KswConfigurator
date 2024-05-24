@@ -109,19 +109,10 @@
 
       <v-row v-if="selectedType" class="pt-0 grey darken-2">
         <!-- Type Dropdown -->
+
         <v-col>
           <v-row>
             <v-col>
-              <!-- <v-select
-                :itemProps="itemProps"
-                v-model="selectedType"
-                :items="types"
-                label="Type"
-                dense
-                solo
-                outlined
-                hide-details
-              ></v-select> -->
               <v-text-field
                 v-model="selectedType.Name"
                 label="Type"
@@ -137,7 +128,7 @@
             <!-- Maingrup Dropdown -->
             <v-col>
               <v-select
-                :itemProps="itemProps"
+                :item-props="itemProps"
                 v-model="selectedMainGroup"
                 :items="mainGroups"
                 label="Main Group"
@@ -145,24 +136,26 @@
                 solo
                 outlined
                 hide-details
-                :disabled="!selectedType"
+                item-text="Name"
+                item-value="mainGroup => mainGroup"
                 @change="onMainGroupChange"
               ></v-select>
             </v-col>
           </v-row>
-
           <!-- Bus Image -->
           <v-row class="">
             <v-img
               v-if="
-                selectedType.Name === '12C-2T' && selectedMainGroup === 'Camera'
+                selectedType?.Name === '12C-2T' &&
+                selectedMainGroup?.Name === 'Camera'
               "
               width="500"
               :src="img12C"
             ></v-img>
             <v-img
               v-else-if="
-                selectedType.Name === '18C-3T' && selectedMainGroup === 'Camera'
+                selectedType?.Name === '18C-3T' &&
+                selectedMainGroup?.Name === 'Camera'
               "
               width="500"
               :src="img18C"
@@ -284,7 +277,8 @@
             </v-img>
             <v-img
               v-else-if="
-                selectedType.Name === '19C-4T' && selectedMainGroup === 'Camera'
+                selectedType?.Name === '19C-4T' &&
+                selectedMainGroup?.Name === 'Camera'
               "
               :src="img19C"
             >
@@ -405,7 +399,9 @@
 
             <!-- rare -->
             <v-img
-              v-else-if="selectedMainGroup === '528M (Rear Target Display)'"
+              v-else-if="
+                selectedMainGroup?.Name === '528M (Rear Target Display)'
+              "
               :src="RareImage"
               contain
               max-height="700"
@@ -415,7 +411,7 @@
 
             <!-- Bestuhlung -->
             <v-img
-              v-else-if="selectedMainGroup === 'Bestuhlung'"
+              v-else-if="selectedMainGroup?.Name === 'Bestuhlung'"
               :src="chairImage"
               style="width: 120%; height: auto; display: block; bottom: auto"
             >
@@ -438,7 +434,9 @@
               </v-row>
 
               <v-row v-if="showButtons">
-                <v-row v-if="selectedGattung === '78RI - Sitzhaltegriffe'">
+                <v-row
+                  v-if="selectedGattung?.Name === '78RI - Sitzhaltegriffe'"
+                >
                   <v-btn
                     icon
                     style="
@@ -456,7 +454,9 @@
                   </v-btn>
                 </v-row>
 
-                <v-row v-else-if="selectedGattung === '78RD - Sitzarmlehnen'">
+                <v-row
+                  v-else-if="selectedGattung?.Name === '78RD - Sitzarmlehnen'"
+                >
                   <v-btn
                     icon
                     style="
@@ -474,7 +474,9 @@
                   </v-btn>
                 </v-row>
 
-                <v-row v-else-if="selectedGattung === '704A - Bestuhlung'">
+                <v-row
+                  v-else-if="selectedGattung?.Name === '704A - Bestuhlung'"
+                >
                   <v-btn
                     icon
                     style="
@@ -510,7 +512,7 @@
 
                 <v-row
                   v-else-if="
-                    selectedGattung === '770A - Fahrgastsitz-Rückseite'
+                    selectedGattung?.Name === '770A - Fahrgastsitz-Rückseite'
                   "
                 >
                   <v-btn
@@ -772,20 +774,19 @@
         <!-- Gattung Dropdown -->
         <v-col>
           <v-select
-            :itemProps="itemProps"
-            :items="filteredGattungs"
+            :item-props="itemPropsGattung"
             v-model="selectedGattung"
+            :items="filteredGattungs"
             label="Gattung"
-            :disabled="!selectedMainGroup || !filteredGattungs.length"
-            item-text="name"
-            item-value="value"
             dense
             solo
             outlined
             hide-details
+            item-text="name"
+            item-value="value"
+            :disabled="!selectedMainGroup || !filteredGattungs.length"
             @change="onGattungChange"
-          >
-          </v-select>
+          ></v-select>
 
           <!-- Selection -->
           <v-col v-if="availableSubProducts.length">
@@ -948,6 +949,8 @@ export default {
     // Perform actions when the component is fully mounted in the DOM, e.g., fetch data from an API
     console.log("Component mounted!");
     this.fetchTypes();
+    this.fetchMainGroups();
+    this.fetchGattungs();
   },
 
   computed: {
@@ -1000,30 +1003,65 @@ export default {
     },
 
     filteredGattungs() {
+      // return this.gattungs.filter(
+      //   (g) => g.MainGroupID === this.selectedMainGroup.MainGroupID
+      // );
+      if (!this.selectedMainGroup) {
+        return [];
+      }
       return this.gattungs.filter(
-        (g) => g.mainGroup === this.selectedMainGroup
+        (g) => g.MainGroupID === this.selectedMainGroup.MainGroupID
       );
     },
 
     availableSubProducts() {
+      if (!this.selectedMainGroup) {
+        return [];
+      }
+
       const currentGroup = this.products.find(
-        (p) => p.mainGroup === this.selectedMainGroup
+        (p) => p.mainGroup === this.selectedMainGroup.Name
       );
 
-      if (currentGroup) {
-        if (this.filteredGattungs.length === 0) {
-          // No Gattungs for the selected Main Group
-          return currentGroup.subProducts;
-        } else if (this.selectedGattung) {
-          // Gattungs exist, and a specific Gattung is selected
-          return currentGroup.subProducts.filter(
-            (sp) => sp.gattung === this.selectedGattung
-          );
-        }
+      if (!currentGroup) {
+        return [];
+      }
+
+      if (this.filteredGattungs.length === 0) {
+        // No Gattungs for the selected Main Group
+        return currentGroup.subProducts;
+      } else if (this.selectedGattung) {
+        // Gattungs exist, and a specific Gattung is selected
+        return currentGroup.subProducts.filter(
+          (sp) => sp.gattung === this.selectedGattung.Name
+        );
       }
 
       return [];
     },
+
+    // availableSubProducts() {
+    //   const currentGroup = this.products.find(
+    //     (p) =>
+    //       p.mainGroup ===
+    //       (this.selectedMainGroup ? this.selectedMainGroup.Value : null)
+    //   );
+
+    //   if (!currentGroup) {
+    //     return [];
+    //   }
+
+    //   if (this.filteredGattungs.length === 0) {
+    //     // No Gattungs for the selected Main Group
+    //     return currentGroup.subProducts;
+    //   } else if (this.selectedGattung) {
+    //     // Gattungs exist, and a specific Gattung is selected
+    //     return currentGroup.subProducts.filter(
+    //       (sp) => sp.gattung === this.selectedGattung.Value
+    //     );
+    //   }
+    //   return [];
+    // },
 
     selectedVehicleImage() {
       switch (this.selectedVehicle?.Name) {
@@ -1081,6 +1119,8 @@ export default {
       selectedGattung: null,
       selectedModel: {},
       types: [],
+      mainGroups: [],
+      gattungs: [],
       dialog: false,
       cameraRotations: {
         cam1_4T: 0,
@@ -1130,80 +1170,80 @@ export default {
 
       searchQuery: "",
 
-      mainGroups: [
-        { name: "Camera", value: "Camera" },
-        {
-          name: "528M (Rear Target Display)",
-          value: "528M (Rear Target Display)",
-        },
-        {
-          name: "Sondernutzungsfläche gegenüber Tür 2", // Kapı 2'nin karşısındaki özel kullanım alanı
-          value: "Sondernutzungsfläche gegenüber Tür 2",
-        },
-        {
-          name: "Sondernutzungsfläche rechts vor Tür 2", // Kapı 2'nin önünde sağda özel kullanım alanı
-          value: "Sondernutzungsfläche rechts vor Tür 2",
-        },
-        {
-          name: "Bestuhlung", //Koltuklar
-          value: "Bestuhlung",
-        },
-        {
-          name: "Haltestangen", //Tutunma rayları
-          value: "Haltestangen",
-        },
-        {
-          name: "Abschrankung/Haarnadelstange an Tür 1", //Kapı 1'de bariyer / saç tokası çubuğu
-          value: "Abschrankung/Haarnadelstange an Tür 1",
-        },
-      ],
-      gattungs: [
-        {
-          name: "680A - SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
-          value: "680A - SNF gegenüber Tür 2",
-          mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680A - SNF karşı kapı 2
-        },
-        {
-          name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
-          value: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-          mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680D - SNF'nin önünde kapı 2'nin karşısında yaslanma plakası/katlanır koltuklar
-        },
-        {
-          name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2", // Sondernutzungsfläche rechts vor Tür 2'nin gattungu //2
-          value: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-          mainGroup: "Sondernutzungsfläche rechts vor Tür 2", // 681D - 2 numaralı kapının önündeki SNF'nin önünde yaslanma plakası/katlanır koltuklar
-        },
-        {
-          name: "704A - Bestuhlung", // Bestuhlung'un gattungu //3
-          value: "704A - Bestuhlung",
-          mainGroup: "Bestuhlung",
-        },
-        {
-          name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
-          value: "78RI - Sitzhaltegriffe",
-          mainGroup: "Bestuhlung", // 700B - Renkli yolcu koltuğu çerçevesi
-        },
-        {
-          name: "78RD - Sitzarmlehnen", // Bestuhlung'un gattungu //3
-          value: "78RD - Sitzarmlehnen",
-          mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
-        },
-        {
-          name: "770A - Fahrgastsitz-Rückseite", // Bestuhlung'un gattungu //3
-          value: "770A - Fahrgastsitz-Rückseite",
-          mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
-        },
-        {
-          name: "65A6 - Farbe der Haltestangen und Trennwände", // Haltestangen'un gattungu //4
-          value: "65A6 - Farbe der Haltestangen und Trennwände",
-          mainGroup: "Haltestangen", // 65A6 - Tutunma raylarının ve bölmelerin rengi
-        },
-        {
-          name: "65LD - Abschrankung an Tür 1", // Abschrankung/Haarnadelstange an Tür 1'in gattungu //5
-          value: "65LD - Abschrankung an Tür 1",
-          mainGroup: "Abschrankung/Haarnadelstange an Tür 1", // 65LD - Kapı 1'de bölme
-        },
-      ],
+      // mainGroups: [
+      //   { name: "Camera", value: "Camera" },
+      //   {
+      //     name: "528M (Rear Target Display)",
+      //     value: "528M (Rear Target Display)",
+      //   },
+      //   {
+      //     name: "Sondernutzungsfläche gegenüber Tür 2", // Kapı 2'nin karşısındaki özel kullanım alanı
+      //     value: "Sondernutzungsfläche gegenüber Tür 2",
+      //   },
+      //   {
+      //     name: "Sondernutzungsfläche rechts vor Tür 2", // Kapı 2'nin önünde sağda özel kullanım alanı
+      //     value: "Sondernutzungsfläche rechts vor Tür 2",
+      //   },
+      //   {
+      //     name: "Bestuhlung", //Koltuklar
+      //     value: "Bestuhlung",
+      //   },
+      //   {
+      //     name: "Haltestangen", //Tutunma rayları
+      //     value: "Haltestangen",
+      //   },
+      //   {
+      //     name: "Abschrankung/Haarnadelstange an Tür 1", //Kapı 1'de bariyer / saç tokası çubuğu
+      //     value: "Abschrankung/Haarnadelstange an Tür 1",
+      //   },
+      // ],
+      // gattungs: [
+      //   {
+      //     name: "680A - SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
+      //     value: "680A - SNF gegenüber Tür 2",
+      //     mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680A - SNF karşı kapı 2
+      //   },
+      //   {
+      //     name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
+      //     value: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
+      //     mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680D - SNF'nin önünde kapı 2'nin karşısında yaslanma plakası/katlanır koltuklar
+      //   },
+      //   {
+      //     name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2", // Sondernutzungsfläche rechts vor Tür 2'nin gattungu //2
+      //     value: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
+      //     mainGroup: "Sondernutzungsfläche rechts vor Tür 2", // 681D - 2 numaralı kapının önündeki SNF'nin önünde yaslanma plakası/katlanır koltuklar
+      //   },
+      //   {
+      //     name: "704A - Bestuhlung", // Bestuhlung'un gattungu //3
+      //     value: "704A - Bestuhlung",
+      //     mainGroup: "Bestuhlung",
+      //   },
+      //   {
+      //     name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
+      //     value: "78RI - Sitzhaltegriffe",
+      //     mainGroup: "Bestuhlung", // 700B - Renkli yolcu koltuğu çerçevesi
+      //   },
+      //   {
+      //     name: "78RD - Sitzarmlehnen", // Bestuhlung'un gattungu //3
+      //     value: "78RD - Sitzarmlehnen",
+      //     mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
+      //   },
+      //   {
+      //     name: "770A - Fahrgastsitz-Rückseite", // Bestuhlung'un gattungu //3
+      //     value: "770A - Fahrgastsitz-Rückseite",
+      //     mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
+      //   },
+      //   {
+      //     name: "65A6 - Farbe der Haltestangen und Trennwände", // Haltestangen'un gattungu //4
+      //     value: "65A6 - Farbe der Haltestangen und Trennwände",
+      //     mainGroup: "Haltestangen", // 65A6 - Tutunma raylarının ve bölmelerin rengi
+      //   },
+      //   {
+      //     name: "65LD - Abschrankung an Tür 1", // Abschrankung/Haarnadelstange an Tür 1'in gattungu //5
+      //     value: "65LD - Abschrankung an Tür 1",
+      //     mainGroup: "Abschrankung/Haarnadelstange an Tür 1", // 65LD - Kapı 1'de bölme
+      //   },
+      // ],
       products: [
         {
           mainGroup: "Camera",
@@ -1365,27 +1405,6 @@ export default {
           ],
         },
       ],
-
-      // types: [
-      //   {
-      //     name: "12C-2T",
-      //     value: "12C-2T",
-      //     image:
-      //       "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_NLCI.jpg&w=265&h=200",
-      //   },
-      //   {
-      //     name: "18C-3T",
-      //     value: "18C-3T",
-      //     image:
-      //       "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_LIC_LE.jpg&w=265&h=200",
-      //   },
-      //   {
-      //     name: "19C-4T",
-      //     value: "19C-4T",
-      //     image:
-      //       "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_LIC.jpg&w=265&h=200",
-      //   },
-      // ],
     };
   },
 
@@ -1402,8 +1421,17 @@ export default {
 
     itemProps(item) {
       return {
-        title: item.name,
-        value: item.value,
+        title: item?.Name,
+        value: item,
+        MainGroupID: item?.MainGroupID, // MainGroupID'yi ekledik
+      };
+    },
+    itemPropsGattung(item) {
+      return {
+        title: item?.Name,
+        value: item,
+        MainGroupID: item?.MainGroupID,
+        GattungID: item?.GattungID,
       };
     },
 
@@ -1416,6 +1444,7 @@ export default {
     },
 
     onMainGroupChange() {
+      console.log("Main Group Changed:", this.selectedMainGroup);
       this.selectedGattung = null;
       this.selectedModel = {};
       this.updateAvailableSubProducts();
@@ -1427,7 +1456,7 @@ export default {
     },
     getSubProductsForMainGroup(mainGroup) {
       // This method retrieves subproducts directly linked to a main group without gattungs
-      const found = this.products.find((p) => p.mainGroup === mainGroup);
+      const found = this.products.find((p) => p.mainGroup === mainGroup?.Name);
       return found ? found.subProducts : [];
     },
 
@@ -1449,6 +1478,7 @@ export default {
 
     onGattungChange() {
       this.selectedModel = {};
+      this.updateAvailableSubProducts();
     },
     formatRALCode(fieldName) {
       let value = this.selectedModel[fieldName];
@@ -1506,7 +1536,7 @@ export default {
     },
     //koltuk seçimlerinde sınırlandırma
     isDisabled(productName) {
-      if (this.selectedGattung === "704A - Bestuhlung") {
+      if (this.selectedGattung.Name === "704A - Bestuhlung") {
         if (productName === "STER 8 MS") {
           return (
             this.selectedModel["mit Schaum Sitzpolster"] ||
@@ -1520,6 +1550,13 @@ export default {
       return false;
     },
 
+    // try {
+    //   const response = await fetch("http://localhost:3000/maingroups");
+    //   console.log("Fetched main groups data:", response.data); // Veriyi konsola yazdır
+    //   this.mainGroups = response.data;
+    // } catch (error) {
+    //   console.error("Error fetching main groups:", error);
+    // }
     async fetchTypes() {
       try {
         console.log("Fetching types...");
@@ -1534,7 +1571,34 @@ export default {
         console.error("Error fetching types:", error);
       }
     },
-
+    async fetchMainGroups() {
+      try {
+        console.log("Fetching main groups...");
+        const response = await fetch("http://localhost:3000/maingroups");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched main groups data:", data);
+        this.mainGroups = data;
+      } catch (error) {
+        console.error("Error fetching main groups:", error);
+      }
+    },
+    async fetchGattungs() {
+      try {
+        console.log("Fetching gattungs...");
+        const response = await fetch("http://localhost:3000/gattungs");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched gattungs data:", data);
+        this.gattungs = data;
+      } catch (error) {
+        console.error("Error fetching gattungs:", error);
+      }
+    },
     changeLanguage(language) {
       this.$i18n.locale = language;
     },
@@ -1749,5 +1813,8 @@ export default {
 .flag-btn {
   min-width: auto;
   padding: 0;
+}
+.language-switcher .v-text-field {
+  max-width: 320px;
 }
 </style>
