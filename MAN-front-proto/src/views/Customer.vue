@@ -10,72 +10,116 @@
           max-width="100"
         ></v-img>
       </v-col>
+      <v-col class="language-switcher">
+        <v-btn icon @click="changeLanguage('en')" class="flag-btn">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg"
+            alt="English"
+            class="flag-icon"
+          />
+        </v-btn>
+        <span class="separator">/</span>
+        <v-btn icon @click="changeLanguage('de')" class="flag-btn">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg"
+            alt="Deutsch"
+            class="flag-icon"
+          />
+        </v-btn>
+        <v-text-field
+          v-if="!selectedType"
+          v-model="searchQuery"
+          append-icon="mdi-magnify"
+          :label="$t('search')"
+          class="ml-4"
+          solo
+          hide-details
+        ></v-text-field>
+      </v-col>
     </v-row>
 
     <div>
-      <v-row v-if="!selectedType">
-        <v-col>
-          <!-- DENEME -->
-          <v-row>
-            <v-col cols="12" class="text-center">
-              <h1>WÄHLEN SIE IHR FAHRZEUG</h1>
-            </v-col>
-          </v-row>
-          <v-row>
-            <!-- Araç tipi kartları -->
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-              v-for="(vehicle, index) in types"
-              :key="index"
+      <v-row v-if="!selectedType" class="vehicle-container">
+        <v-col cols="12" class="text-center">
+          <h1>{{ $t("title") }}</h1>
+        </v-col>
+        <v-row class="vehicle-row">
+          <!-- Vehicle type cards -->
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            v-for="(type, index) in filteredTypes"
+            :key="index"
+            class="vehicle-col"
+          >
+            <v-card
+              @click="openVehicleDialog(type)"
+              hoverable
+              class="vehicle-card"
             >
-              <v-card @click="openVehicleDialog(vehicle)" hoverable>
-                <v-img :src="vehicle.image" height="300px"></v-img>
-                <v-card-title>{{ vehicle.name }}</v-card-title>
-              </v-card>
-            </v-col>
-          </v-row>
-          <v-col class="custom-row">
-            <v-btn class="custom-back" color="primary" @click="goHome">
-              Zurück
-            </v-btn>
+              <v-img :src="type.Image" class="vehicle-image"></v-img>
+              <v-card-title>{{ type.Name }}</v-card-title>
+              <v-card-subtitle>
+                <div>
+                  <p>
+                    <strong>{{ $t("fuel") }}:</strong> {{ type.Fuel }}
+                  </p>
+                  <p>
+                    <strong>{{ $t("length") }}:</strong> {{ type.Length }}
+                  </p>
+                  <p>
+                    <strong>{{ $t("seats") }}:</strong> {{ type.Seats }}
+                  </p>
+                  <p>
+                    <strong>{{ $t("features") }}:</strong>
+                  </p>
+                  <ul class="feature-list">
+                    <li
+                      v-for="feature in type.Features.split(', ')"
+                      :key="feature"
+                    >
+                      {{ feature }}
+                    </li>
+                  </ul>
+                </div>
+              </v-card-subtitle>
+            </v-card>
           </v-col>
+        </v-row>
+        <v-col class="custom-row">
+          <v-btn class="custom-back" color="primary" @click="goHome">
+            {{ $t("back") }}
+          </v-btn>
         </v-col>
       </v-row>
 
       <v-dialog v-model="vehicleDialog" persistent max-width="600px">
         <v-card>
-          <v-card-title> Wählen Sie Fahrzeug </v-card-title>
+          <v-card-title> {{ $t("title") }} </v-card-title>
           <v-card-text class="text-center">
             <v-img :src="selectedVehicleImage" max-height="300px"></v-img>
-            <p>{{ selectedVehicle?.name }}</p>
           </v-card-text>
           <v-card-actions class="justify-end">
-            <v-btn color="primary" @click="chooseVehicle">Choose</v-btn>
-            <v-btn color="red" text @click="vehicleDialog = false">Close</v-btn>
+            <v-btn color="primary" @click="chooseVehicle">{{
+              $t("choose")
+            }}</v-btn>
+            <v-btn color="red" text @click="vehicleDialog = false">{{
+              $t("close")
+            }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
 
       <v-row v-if="selectedType" class="pt-0 grey darken-2">
         <!-- Type Dropdown -->
+
         <v-col>
           <v-row>
             <v-col>
-              <!-- <v-select
-                :itemProps="itemProps"
-                v-model="selectedType"
-                :items="types"
-                label="Type"
-                dense
-                solo
-                outlined
-                hide-details
-              ></v-select> -->
               <v-text-field
-                v-model="selectedType.name"
-                label="Type"
+                v-model="selectedType.Name"
+                :label="$t('type')"
                 dense
                 solo
                 outlined
@@ -88,32 +132,34 @@
             <!-- Maingrup Dropdown -->
             <v-col>
               <v-select
-                :itemProps="itemProps"
+                :item-props="itemProps"
                 v-model="selectedMainGroup"
                 :items="mainGroups"
-                label="Main Group"
+                :label="$t('mainGroup')"
                 dense
                 solo
                 outlined
                 hide-details
-                :disabled="!selectedType"
+                item-text="Name"
+                item-value="mainGroup => mainGroup"
                 @change="onMainGroupChange"
               ></v-select>
             </v-col>
           </v-row>
-
           <!-- Bus Image -->
           <v-row class="">
             <v-img
               v-if="
-                selectedType.name === '12C-2T' && selectedMainGroup === 'Camera'
+                selectedType?.Name === '12C-2T' &&
+                selectedMainGroup?.Name === 'Camera'
               "
               width="500"
               :src="img12C"
             ></v-img>
             <v-img
               v-else-if="
-                selectedType.name === '18C-3T' && selectedMainGroup === 'Camera'
+                selectedType?.Name === '18C-3T' &&
+                selectedMainGroup?.Name === 'Camera'
               "
               width="500"
               :src="img18C"
@@ -235,7 +281,8 @@
             </v-img>
             <v-img
               v-else-if="
-                selectedType.name === '19C-4T' && selectedMainGroup === 'Camera'
+                selectedType?.Name === '19C-4T' &&
+                selectedMainGroup?.Name === 'Camera'
               "
               :src="img19C"
             >
@@ -356,7 +403,9 @@
 
             <!-- rare -->
             <v-img
-              v-else-if="selectedMainGroup === '528M (Rear Target Display)'"
+              v-else-if="
+                selectedMainGroup?.Name === '528M (Rear Target Display)'
+              "
               :src="RareImage"
               contain
               max-height="700"
@@ -366,7 +415,7 @@
 
             <!-- Bestuhlung -->
             <v-img
-              v-else-if="selectedMainGroup === 'Bestuhlung'"
+              v-else-if="selectedMainGroup?.Name === 'Bestuhlung'"
               :src="chairImage"
               style="width: 120%; height: auto; display: block; bottom: auto"
             >
@@ -389,7 +438,9 @@
               </v-row>
 
               <v-row v-if="showButtons">
-                <v-row v-if="selectedGattung === '78RI - Sitzhaltegriffe'">
+                <v-row
+                  v-if="selectedGattung?.Name === '78RI - Sitzhaltegriffe'"
+                >
                   <v-btn
                     icon
                     style="
@@ -407,7 +458,9 @@
                   </v-btn>
                 </v-row>
 
-                <v-row v-else-if="selectedGattung === '78RD - Sitzarmlehnen'">
+                <v-row
+                  v-else-if="selectedGattung?.Name === '78RD - Sitzarmlehnen'"
+                >
                   <v-btn
                     icon
                     style="
@@ -425,7 +478,9 @@
                   </v-btn>
                 </v-row>
 
-                <v-row v-else-if="selectedGattung === '704A - Bestuhlung'">
+                <v-row
+                  v-else-if="selectedGattung?.Name === '704A - Bestuhlung'"
+                >
                   <v-btn
                     icon
                     style="
@@ -461,7 +516,7 @@
 
                 <v-row
                   v-else-if="
-                    selectedGattung === '770A - Fahrgastsitz-Rückseite'
+                    selectedGattung?.Name === '770A - Fahrgastsitz-Rückseite'
                   "
                 >
                   <v-btn
@@ -723,20 +778,19 @@
         <!-- Gattung Dropdown -->
         <v-col>
           <v-select
-            :itemProps="itemProps"
-            :items="filteredGattungs"
+            :item-props="itemProps"
             v-model="selectedGattung"
-            label="Gattung"
-            :disabled="!selectedMainGroup || !filteredGattungs.length"
-            item-text="name"
-            item-value="value"
+            :items="filteredGattungs"
+            :label="$t('gattung')"
             dense
             solo
             outlined
             hide-details
+            item-text="name"
+            item-value="value"
+            :disabled="!selectedMainGroup || !filteredGattungs.length"
             @change="onGattungChange"
-          >
-          </v-select>
+          ></v-select>
 
           <!-- Selection -->
           <v-col v-if="availableSubProducts.length">
@@ -757,7 +811,7 @@
                   :item-text="(item) => item.name || item"
                   :item-value="(item) => item.value || item"
                   v-model="selectedModel[subProduct.name]"
-                  label="Select option"
+                  :label="$t('choose')"
                   :disabled="isDisabled(subProduct.name)"
                   dense
                   solo
@@ -775,7 +829,7 @@
                   :item-text="(item) => item.name || item"
                   :item-value="(item) => item.value || item"
                   v-model="selectedModel[subProduct.name]"
-                  label="Select option"
+                  :label="$t('choose')"
                   :disabled="isDisabled(subProduct.name)"
                   dense
                   solo
@@ -808,7 +862,7 @@
                   :item-text="(item) => item.name || item"
                   :item-value="(item) => item.value || item"
                   v-model="selectedModel[subProduct.name]"
-                  label="Select option"
+                  :label="$t('choose')"
                   dense
                   solo
                   outlined
@@ -856,7 +910,7 @@
               <v-list dense>
                 <v-list-item>
                   <v-list-item-content class="list-item-content">
-                    Bus Type: {{ selectedType?.name }}
+                    Bus Type: {{ selectedType?.Name }}
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item v-if="selectedMainGroup">
@@ -893,12 +947,17 @@
 
 <script>
 import router from "@/router";
-
+import axios from "axios";
 export default {
   mounted() {
     // Perform actions when the component is fully mounted in the DOM, e.g., fetch data from an API
     console.log("Component mounted!");
+    this.fetchTypes();
+    this.fetchMainGroups();
+    this.fetchGattungs();
+    //this.fetchProducts();
   },
+
   computed: {
     comModels() {
       const found = this.products.find(
@@ -949,33 +1008,68 @@ export default {
     },
 
     filteredGattungs() {
+      // return this.gattungs.filter(
+      //   (g) => g.MainGroupID === this.selectedMainGroup.MainGroupID
+      // );
+      if (!this.selectedMainGroup) {
+        return [];
+      }
       return this.gattungs.filter(
-        (g) => g.mainGroup === this.selectedMainGroup
+        (g) => g.MainGroupID === this.selectedMainGroup.MainGroupID
       );
     },
 
     availableSubProducts() {
+      if (!this.selectedMainGroup) {
+        return [];
+      }
+
       const currentGroup = this.products.find(
-        (p) => p.mainGroup === this.selectedMainGroup
+        (p) => p.mainGroup === this.selectedMainGroup.Name
       );
 
-      if (currentGroup) {
-        if (this.filteredGattungs.length === 0) {
-          // No Gattungs for the selected Main Group
-          return currentGroup.subProducts;
-        } else if (this.selectedGattung) {
-          // Gattungs exist, and a specific Gattung is selected
-          return currentGroup.subProducts.filter(
-            (sp) => sp.gattung === this.selectedGattung
-          );
-        }
+      if (!currentGroup) {
+        return [];
+      }
+
+      if (this.filteredGattungs.length === 0) {
+        // No Gattungs for the selected Main Group
+        return currentGroup.subProducts;
+      } else if (this.selectedGattung) {
+        // Gattungs exist, and a specific Gattung is selected
+        return currentGroup.subProducts.filter(
+          (sp) => sp.gattung === this.selectedGattung.Name
+        );
       }
 
       return [];
     },
 
+    // availableSubProducts() {
+    //   const currentGroup = this.products.find(
+    //     (p) =>
+    //       p.mainGroup ===
+    //       (this.selectedMainGroup ? this.selectedMainGroup.Value : null)
+    //   );
+
+    //   if (!currentGroup) {
+    //     return [];
+    //   }
+
+    //   if (this.filteredGattungs.length === 0) {
+    //     // No Gattungs for the selected Main Group
+    //     return currentGroup.subProducts;
+    //   } else if (this.selectedGattung) {
+    //     // Gattungs exist, and a specific Gattung is selected
+    //     return currentGroup.subProducts.filter(
+    //       (sp) => sp.gattung === this.selectedGattung.Value
+    //     );
+    //   }
+    //   return [];
+    // },
+
     selectedVehicleImage() {
-      switch (this.selectedVehicle?.value) {
+      switch (this.selectedVehicle?.Name) {
         case "12C-2T":
           return "../src/static/12C-2T.jpg";
         case "18C-3T":
@@ -1009,6 +1103,18 @@ export default {
         this.selectedModel["Alle Sitze ohne Logo/Branding."]
       );
     },
+
+    filteredTypes() {
+      const query = this.searchQuery.toLowerCase();
+      return this.types.filter(
+        (type) =>
+          type.Name.toLowerCase().includes(query) ||
+          type.Fuel.toLowerCase().includes(query) ||
+          type.Length.toLowerCase().includes(query) ||
+          type.Seats.toLowerCase().includes(query) ||
+          type.Features.toLowerCase().includes(query)
+      );
+    },
   },
 
   data() {
@@ -1017,7 +1123,10 @@ export default {
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
-
+      types: [],
+      mainGroups: [],
+      gattungs: [],
+      products: [],
       dialog: false,
       cameraRotations: {
         cam1_4T: 0,
@@ -1057,10 +1166,6 @@ export default {
       chairImage: "../src/assets/Bestuhlung/normal.bmp", // Ön yüz görüntüsü
       chairBackImage: "../src/assets/Bestuhlung/normal back.bmp", // Arka yüz görüntüsü
 
-      // selectedVehicleImage: "",
-      // vehicleDialogVisible: false,
-      // vehicleDialog: false,
-      // selectedVehicle: null,
       vehicleDialog: false,
       selectedVehicle: null,
 
@@ -1069,82 +1174,82 @@ export default {
       img18C: "../src/static/18C-3T.jpg",
       img19C: "../src/static/19C-4T.jpg",
 
-      mainGroups: [
-        //{ name: "Chair Type", value: "Chair Type" },
-        //{ name: "Chair Color", value: "Chair Color" },
-        { name: "Camera", value: "Camera" },
-        {
-          name: "528M (Rear Target Display)",
-          value: "528M (Rear Target Display)",
-        },
-        {
-          name: "Sondernutzungsfläche gegenüber Tür 2", // Kapı 2'nin karşısındaki özel kullanım alanı
-          value: "Sondernutzungsfläche gegenüber Tür 2",
-        },
-        {
-          name: "Sondernutzungsfläche rechts vor Tür 2", // Kapı 2'nin önünde sağda özel kullanım alanı
-          value: "Sondernutzungsfläche rechts vor Tür 2",
-        },
-        {
-          name: "Bestuhlung", //Koltuklar
-          value: "Bestuhlung",
-        },
-        {
-          name: "Haltestangen", //Tutunma rayları
-          value: "Haltestangen",
-        },
-        {
-          name: "Abschrankung/Haarnadelstange an Tür 1", //Kapı 1'de bariyer / saç tokası çubuğu
-          value: "Abschrankung/Haarnadelstange an Tür 1",
-        },
-      ],
-      gattungs: [
-        {
-          name: "680A - SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
-          value: "680A - SNF gegenüber Tür 2",
-          mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680A - SNF karşı kapı 2
-        },
-        {
-          name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
-          value: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-          mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680D - SNF'nin önünde kapı 2'nin karşısında yaslanma plakası/katlanır koltuklar
-        },
-        {
-          name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2", // Sondernutzungsfläche rechts vor Tür 2'nin gattungu //2
-          value: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-          mainGroup: "Sondernutzungsfläche rechts vor Tür 2", // 681D - 2 numaralı kapının önündeki SNF'nin önünde yaslanma plakası/katlanır koltuklar
-        },
-        {
-          name: "704A - Bestuhlung", // Bestuhlung'un gattungu //3
-          value: "704A - Bestuhlung",
-          mainGroup: "Bestuhlung",
-        },
-        {
-          name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
-          value: "78RI - Sitzhaltegriffe",
-          mainGroup: "Bestuhlung", // 700B - Renkli yolcu koltuğu çerçevesi
-        },
-        {
-          name: "78RD - Sitzarmlehnen", // Bestuhlung'un gattungu //3
-          value: "78RD - Sitzarmlehnen",
-          mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
-        },
-        {
-          name: "770A - Fahrgastsitz-Rückseite", // Bestuhlung'un gattungu //3
-          value: "770A - Fahrgastsitz-Rückseite",
-          mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
-        },
-        {
-          name: "65A6 - Farbe der Haltestangen und Trennwände", // Haltestangen'un gattungu //4
-          value: "65A6 - Farbe der Haltestangen und Trennwände",
-          mainGroup: "Haltestangen", // 65A6 - Tutunma raylarının ve bölmelerin rengi
-        },
-        {
-          name: "65LD - Abschrankung an Tür 1", // Abschrankung/Haarnadelstange an Tür 1'in gattungu //5
-          value: "65LD - Abschrankung an Tür 1",
-          mainGroup: "Abschrankung/Haarnadelstange an Tür 1", // 65LD - Kapı 1'de bölme
-        },
-      ],
+      searchQuery: "",
+
+      // mainGroups: [
+      //   { name: "Camera", value: "Camera" },
+      //   {
+      //     name: "528M (Rear Target Display)",
+      //     value: "528M (Rear Target Display)",
+      //   },
+      //   {
+      //     name: "Sondernutzungsfläche gegenüber Tür 2", // Kapı 2'nin karşısındaki özel kullanım alanı
+      //     value: "Sondernutzungsfläche gegenüber Tür 2",
+      //   },
+      //   {
+      //     name: "Sondernutzungsfläche rechts vor Tür 2", // Kapı 2'nin önünde sağda özel kullanım alanı
+      //     value: "Sondernutzungsfläche rechts vor Tür 2",
+      //   },
+      //   {
+      //     name: "Bestuhlung", //Koltuklar
+      //     value: "Bestuhlung",
+      //   },
+      //   {
+      //     name: "Haltestangen", //Tutunma rayları
+      //     value: "Haltestangen",
+      //   },
+      //   {
+      //     name: "Abschrankung/Haarnadelstange an Tür 1", //Kapı 1'de bariyer / saç tokası çubuğu
+      //     value: "Abschrankung/Haarnadelstange an Tür 1",
+      //   },
+      // ],
+      // gattungs: [
+      //   {
+      //     name: "680A - SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
+      //     value: "680A - SNF gegenüber Tür 2",
+      //     mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680A - SNF karşı kapı 2
+      //   },
+      //   {
+      //     name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
+      //     value: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
+      //     mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680D - SNF'nin önünde kapı 2'nin karşısında yaslanma plakası/katlanır koltuklar
+      //   },
+      //   {
+      //     name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2", // Sondernutzungsfläche rechts vor Tür 2'nin gattungu //2
+      //     value: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
+      //     mainGroup: "Sondernutzungsfläche rechts vor Tür 2", // 681D - 2 numaralı kapının önündeki SNF'nin önünde yaslanma plakası/katlanır koltuklar
+      //   },
+      //   {
+      //     name: "704A - Bestuhlung", // Bestuhlung'un gattungu //3
+      //     value: "704A - Bestuhlung",
+      //     mainGroup: "Bestuhlung",
+      //   },
+      //   {
+      //     name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
+      //     value: "78RI - Sitzhaltegriffe",
+      //     mainGroup: "Bestuhlung", // 700B - Renkli yolcu koltuğu çerçevesi
+      //   },
+      //   {
+      //     name: "78RD - Sitzarmlehnen", // Bestuhlung'un gattungu //3
+      //     value: "78RD - Sitzarmlehnen",
+      //     mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
+      //   },
+      //   {
+      //     name: "770A - Fahrgastsitz-Rückseite", // Bestuhlung'un gattungu //3
+      //     value: "770A - Fahrgastsitz-Rückseite",
+      //     mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
+      //   },
+      //   {
+      //     name: "65A6 - Farbe der Haltestangen und Trennwände", // Haltestangen'un gattungu //4
+      //     value: "65A6 - Farbe der Haltestangen und Trennwände",
+      //     mainGroup: "Haltestangen", // 65A6 - Tutunma raylarının ve bölmelerin rengi
+      //   },
+      //   {
+      //     name: "65LD - Abschrankung an Tür 1", // Abschrankung/Haarnadelstange an Tür 1'in gattungu //5
+      //     value: "65LD - Abschrankung an Tür 1",
+      //     mainGroup: "Abschrankung/Haarnadelstange an Tür 1", // 65LD - Kapı 1'de bölme
+      //   },
+      // ],
       products: [
         {
           mainGroup: "Camera",
@@ -1306,27 +1411,6 @@ export default {
           ],
         },
       ],
-
-      types: [
-        {
-          name: "12C-2T",
-          value: "12C-2T",
-          image:
-            "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_NLCI.jpg&w=265&h=200",
-        },
-        {
-          name: "18C-3T",
-          value: "18C-3T",
-          image:
-            "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_LIC_LE.jpg&w=265&h=200",
-        },
-        {
-          name: "19C-4T",
-          value: "19C-4T",
-          image:
-            "https://busdesigner.bus.man.eu/php/picloader.php?path=aoMappingObjectPath&imname=categories/man_LIC.jpg&w=265&h=200",
-        },
-      ],
     };
   },
 
@@ -1343,8 +1427,17 @@ export default {
 
     itemProps(item) {
       return {
-        title: item.name,
-        value: item.value,
+        title: item?.Name,
+        value: item,
+        // MainGroupID: item?.MainGroupID, // MainGroupID'yi ekledik
+      };
+    },
+    itemPropsGattung(item) {
+      return {
+        title: item?.Name,
+        value: item,
+        MainGroupID: item?.MainGroupID,
+        GattungID: item?.GattungID,
       };
     },
 
@@ -1357,6 +1450,7 @@ export default {
     },
 
     onMainGroupChange() {
+      console.log("Main Group Changed:", this.selectedMainGroup);
       this.selectedGattung = null;
       this.selectedModel = {};
       this.updateAvailableSubProducts();
@@ -1368,7 +1462,7 @@ export default {
     },
     getSubProductsForMainGroup(mainGroup) {
       // This method retrieves subproducts directly linked to a main group without gattungs
-      const found = this.products.find((p) => p.mainGroup === mainGroup);
+      const found = this.products.find((p) => p.mainGroup === mainGroup?.Name);
       return found ? found.subProducts : [];
     },
 
@@ -1390,6 +1484,7 @@ export default {
 
     onGattungChange() {
       this.selectedModel = {};
+      this.updateAvailableSubProducts();
     },
     formatRALCode(fieldName) {
       let value = this.selectedModel[fieldName];
@@ -1417,8 +1512,8 @@ export default {
         : "../src/assets/Bestuhlung/normal back.bmp";
     },
 
-    openVehicleDialog(vehicle) {
-      this.selectedVehicle = vehicle;
+    openVehicleDialog(type) {
+      this.selectedVehicle = type;
       this.vehicleDialog = true;
     },
     chooseVehicle() {
@@ -1447,7 +1542,7 @@ export default {
     },
     //koltuk seçimlerinde sınırlandırma
     isDisabled(productName) {
-      if (this.selectedGattung === "704A - Bestuhlung") {
+      if (this.selectedGattung.Name === "704A - Bestuhlung") {
         if (productName === "STER 8 MS") {
           return (
             this.selectedModel["mit Schaum Sitzpolster"] ||
@@ -1459,6 +1554,67 @@ export default {
         }
       }
       return false;
+    },
+
+    async fetchTypes() {
+      try {
+        console.log("Fetching types...");
+        const response = await fetch("http://localhost:3000/types");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched types data:", data);
+        this.types = data;
+      } catch (error) {
+        console.error("Error fetching types:", error);
+      }
+    },
+    async fetchMainGroups() {
+      try {
+        console.log("Fetching main groups...");
+        const response = await fetch("http://localhost:3000/maingroups");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched main groups data:", data);
+        this.mainGroups = data;
+      } catch (error) {
+        console.error("Error fetching main groups:", error);
+      }
+    },
+    async fetchGattungs() {
+      try {
+        console.log("Fetching gattungs...");
+        const response = await fetch("http://localhost:3000/gattungs");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched gattungs data:", data);
+        this.gattungs = data;
+      } catch (error) {
+        console.error("Error fetching gattungs:", error);
+      }
+    },
+    // async fetchProducts(){
+    //   try{
+    //     console.log("Fetching products...");
+    //     const response = await fetch("http://localhost:3000/products");
+    //     if(!response.ok){
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+    //     const data = await response.json();
+    //     console.log("Fetched products data:", data);
+    //     this.products = data;
+
+    //   } catch(error){
+    //     console.error("Error fetching products:", error);
+    //   }
+    // },
+    changeLanguage(language) {
+      this.$i18n.locale = language;
     },
   },
 };
@@ -1598,5 +1754,81 @@ export default {
   font-weight: bold;
   color: black;
   background-color: #e5e5e5; /* Daha koyu arka plan rengi */
+}
+
+.vehicle-card {
+  width: 100%;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.vehicle-image {
+  height: 200px;
+  object-fit: cover;
+}
+
+.v-card-subtitle {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.v-card-title,
+.v-card-subtitle {
+  text-align: left;
+}
+
+/* Feature list styling */
+.feature-list {
+  list-style-position: inside; /* Ensure bullets are inside the list item */
+  padding-left: 0; /* Remove default padding */
+  text-align: left; /* Align text to the left */
+}
+.feature-list li {
+  margin-left: 0px; /* Add some left margin to indent the text */
+}
+.vehicle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.vehicle-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+.vehicle-col {
+  display: flex;
+  justify-content: center;
+  max-width: 300px;
+}
+.language-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.flag-icon {
+  width: 20px;
+  height: 14px;
+}
+
+.separator {
+  margin: 0 8px;
+  font-size: 20px;
+}
+
+.flag-btn {
+  min-width: auto;
+  padding: 0;
+}
+.language-switcher .v-text-field {
+  max-width: 320px;
 }
 </style>
