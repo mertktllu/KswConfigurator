@@ -70,8 +70,8 @@ app.get("/types", async (req, res) => {
     const pool = await poolPromise;
     const result = await pool.request().query("SELECT * FROM Types");
     res.json(result.recordset);
-  } catch (error) {
-    res.status(500).send(error.message);
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 });
 
