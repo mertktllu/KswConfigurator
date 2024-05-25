@@ -30,7 +30,7 @@
           v-if="!selectedType"
           v-model="searchQuery"
           append-icon="mdi-magnify"
-          label="Search"
+          :label="$t('search')"
           class="ml-4"
           solo
           hide-details
@@ -101,8 +101,12 @@
             <v-img :src="selectedVehicleImage" max-height="300px"></v-img>
           </v-card-text>
           <v-card-actions class="justify-end">
-            <v-btn color="primary" @click="chooseVehicle">Choose</v-btn>
-            <v-btn color="red" text @click="vehicleDialog = false">Close</v-btn>
+            <v-btn color="primary" @click="chooseVehicle">{{
+              $t("choose")
+            }}</v-btn>
+            <v-btn color="red" text @click="vehicleDialog = false">{{
+              $t("close")
+            }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -115,7 +119,7 @@
             <v-col>
               <v-text-field
                 v-model="selectedType.Name"
-                label="Type"
+                :label="$t('type')"
                 dense
                 solo
                 outlined
@@ -131,7 +135,7 @@
                 :item-props="itemProps"
                 v-model="selectedMainGroup"
                 :items="mainGroups"
-                label="Main Group"
+                :label="$t('mainGroup')"
                 dense
                 solo
                 outlined
@@ -774,10 +778,10 @@
         <!-- Gattung Dropdown -->
         <v-col>
           <v-select
-            :item-props="itemPropsGattung"
+            :item-props="itemProps"
             v-model="selectedGattung"
             :items="filteredGattungs"
-            label="Gattung"
+            :label="$t('gattung')"
             dense
             solo
             outlined
@@ -807,7 +811,7 @@
                   :item-text="(item) => item.name || item"
                   :item-value="(item) => item.value || item"
                   v-model="selectedModel[subProduct.name]"
-                  label="Select option"
+                  :label="$t('choose')"
                   :disabled="isDisabled(subProduct.name)"
                   dense
                   solo
@@ -825,7 +829,7 @@
                   :item-text="(item) => item.name || item"
                   :item-value="(item) => item.value || item"
                   v-model="selectedModel[subProduct.name]"
-                  label="Select option"
+                  :label="$t('choose')"
                   :disabled="isDisabled(subProduct.name)"
                   dense
                   solo
@@ -858,7 +862,7 @@
                   :item-text="(item) => item.name || item"
                   :item-value="(item) => item.value || item"
                   v-model="selectedModel[subProduct.name]"
-                  label="Select option"
+                  :label="$t('choose')"
                   dense
                   solo
                   outlined
@@ -951,6 +955,7 @@ export default {
     this.fetchTypes();
     this.fetchMainGroups();
     this.fetchGattungs();
+    //this.fetchProducts();
   },
 
   computed: {
@@ -1121,6 +1126,7 @@ export default {
       types: [],
       mainGroups: [],
       gattungs: [],
+      products: [],
       dialog: false,
       cameraRotations: {
         cam1_4T: 0,
@@ -1423,7 +1429,7 @@ export default {
       return {
         title: item?.Name,
         value: item,
-        MainGroupID: item?.MainGroupID, // MainGroupID'yi ekledik
+        // MainGroupID: item?.MainGroupID, // MainGroupID'yi ekledik
       };
     },
     itemPropsGattung(item) {
@@ -1550,13 +1556,6 @@ export default {
       return false;
     },
 
-    // try {
-    //   const response = await fetch("http://localhost:3000/maingroups");
-    //   console.log("Fetched main groups data:", response.data); // Veriyi konsola yazdır
-    //   this.mainGroups = response.data;
-    // } catch (error) {
-    //   console.error("Error fetching main groups:", error);
-    // }
     async fetchTypes() {
       try {
         console.log("Fetching types...");
@@ -1599,6 +1598,21 @@ export default {
         console.error("Error fetching gattungs:", error);
       }
     },
+    // async fetchProducts(){
+    //   try{
+    //     console.log("Fetching products...");
+    //     const response = await fetch("http://localhost:3000/products");
+    //     if(!response.ok){
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+    //     const data = await response.json();
+    //     console.log("Fetched products data:", data);
+    //     this.products = data;
+
+    //   } catch(error){
+    //     console.error("Error fetching products:", error);
+    //   }
+    // },
     changeLanguage(language) {
       this.$i18n.locale = language;
     },
