@@ -862,6 +862,16 @@
                   outlined
                   hide-details
                 ></v-select>
+                <!-- Color square -->
+                <div
+                  class="color-square"
+                  v-if="shouldShowColorSquare(subProduct.Name)"
+                  :style="{
+                    backgroundColor: getRalColor(
+                      selectedModel[subProduct.Name]
+                    ),
+                  }"
+                ></div>
               </v-card-text>
             </v-card>
           </v-col>
@@ -1122,6 +1132,22 @@ export default {
         point6: "../src/assets/Bestuhlung/back.bmp",
       },
 
+      ralColors: {
+        "RAL 1023": "#F4A900",
+        "RAL 3001": "#A2231D",
+        "RAL 9004": "#282828",
+        "RAL 7016": "#1F2A35",
+        "RAL 7037": "#7D7F7D",
+        "RAL 1005": "#ECA527",
+        "RAL 3003": "#911B22",
+        "RAL 1003": "#F7BA0B",
+        "RAL 3020": "#CC0E1D",
+        "RAL 5007": "#336699",
+        "RAL 1015": "#E6D690",
+
+        // Add other RAL colors as needed
+      },
+
       showButtons: true,
       chairImage: "../src/assets/Bestuhlung/normal.bmp", // Ön yüz görüntüsü
       chairBackImage: "../src/assets/Bestuhlung/normal back.bmp", // Arka yüz görüntüsü
@@ -1372,11 +1398,45 @@ export default {
         this.selectedModel[productName] = value;
       }
     },
+
+    getRalColor(code) {
+      return this.ralColors[code] || "#FFFFFF"; // Default to white if code is not found
+    },
+    shouldShowColorSquare(productName) {
+      const validProducts = [
+        "Topcloser",
+        "Topcloser für EM",
+        "Gangseitige fixiert bügel color",
+        "Gangseitige klappbare armlehne",
+        "Kunststoff-Fahrgastsitzrückseite",
+      ];
+      if (
+        this.selectedMainGroup &&
+        this.selectedMainGroup.Name === "Bestuhlung"
+      ) {
+        if (
+          (this.selectedGattung.Name === "78RI - Sitzhaltegriffe" ||
+            this.selectedGattung.Name === "78RD - Sitzarmlehnen" ||
+            this.selectedGattung.Name === "770A - Fahrgastsitz-Rückseite") &&
+          validProducts.includes(productName)
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
   },
 };
 </script>
 
 <style scoped>
+.color-square {
+  width: 50px;
+  height: 20px;
+  border: 1px white;
+
+  margin-right: 5px;
+}
 .wrapper {
   position: relative;
 }
