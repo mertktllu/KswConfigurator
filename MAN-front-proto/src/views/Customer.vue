@@ -782,13 +782,13 @@
             v-model="selectedGattung"
             :items="filteredGattungs"
             :label="$t('gattung')"
+            :disabled="!selectedMainGroup || !filteredGattungs.length"
             dense
             solo
             outlined
             hide-details
-            item-text="name"
-            item-value="value"
-            :disabled="!selectedMainGroup || !filteredGattungs.length"
+            item-text="Name"
+            item-value="gattung => gattung"
             @change="onGattungChange"
           ></v-select>
 
@@ -806,7 +806,6 @@
                     subProduct.GattungID === 4 &&
                     subProduct.Name !== 'STER 8 MS'
                   "
-                  :item-props="subProduct.Name || itemProps"
                   :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
@@ -824,7 +823,6 @@
                     subProduct.GattungID === 4 &&
                     subProduct.Name === 'STER 8 MS'
                   "
-                  :item-props="subProduct.Name || itemProps"
                   :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
@@ -844,7 +842,7 @@
                     dense
                     solo
                     outlined
-                    hide-details
+                    hide-details="auto"
                     @input="formatRALCode(subProduct.Name)"
                     @click="showRALPrefix(subProduct.Name)"
                   ></v-text-field>
@@ -852,7 +850,6 @@
                 <!-- Other sub-products -->
                 <v-select
                   v-else
-                  :item-props="subProduct.Name || itemProps"
                   :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
@@ -1002,60 +999,37 @@ export default {
       return imageDetails;
     },
 
-    filteredGattungs() {
-      // return this.gattungs.filter(
-      //   (g) => g.MainGroupID === this.selectedMainGroup.MainGroupID
-      // );
-      if (!this.selectedMainGroup) {
-        return [];
-      }
-      return this.gattungs.filter(
-        (g) => g.MainGroupID === this.selectedMainGroup.MainGroupID
-      );
-    },
-
     availableSubProducts() {
       if (!this.selectedMainGroup) {
         return [];
       }
 
-      const currentGroup = this.products.find(
-        (p) => p.MainGroupID === this.selectedMainGroup.MainGroupID
+      // Main Group'a ait productları al
+      const currentGroupProducts = this.products.filter(
+        (product) => product.MainGroupID === this.selectedMainGroup.MainGroupID
       );
 
-      if (!currentGroup || !Array.isArray(currentGroup.subProducts)) {
+      // Eğer Gattung seçilmemişse ve currentGroupProducts içinde GattungID null olanlar varsa onları döndür
+      if (!this.selectedGattung) {
+        return currentGroupProducts.filter(
+          (product) => product.GattungID === null
+        );
+      }
+
+      // Eğer Gattung seçilmişse, seçilen GattungID'ye ait productları döndür
+      return currentGroupProducts.filter(
+        (product) => product.GattungID === this.selectedGattung.GattungID
+      );
+    },
+    filteredGattungs() {
+      if (!this.selectedMainGroup) {
         return [];
       }
 
-      return currentGroup.subProducts.filter(
-        (sp) =>
-          !this.selectedGattung ||
-          sp.GattungID === this.selectedGattung.GattungID
+      return this.gattungs.filter(
+        (gattung) => gattung.MainGroupID === this.selectedMainGroup.MainGroupID
       );
     },
-
-    // availableSubProducts() {
-    //   const currentGroup = this.products.find(
-    //     (p) =>
-    //       p.mainGroup ===
-    //       (this.selectedMainGroup ? this.selectedMainGroup.Value : null)
-    //   );
-
-    //   if (!currentGroup) {
-    //     return [];
-    //   }
-
-    //   if (this.filteredGattungs.length === 0) {
-    //     // No Gattungs for the selected Main Group
-    //     return currentGroup.subProducts;
-    //   } else if (this.selectedGattung) {
-    //     // Gattungs exist, and a specific Gattung is selected
-    //     return currentGroup.subProducts.filter(
-    //       (sp) => sp.gattung === this.selectedGattung.Value
-    //     );
-    //   }
-    //   return [];
-    // },
 
     selectedVehicleImage() {
       switch (this.selectedVehicle?.Name) {
@@ -1375,10 +1349,10 @@ export default {
       );
     },
     getSubProductsForMainGroup(mainGroup) {
-      const found = this.products.find(
-        (p) => p.MainGroupID === mainGroup.MainGroupID
+      const found = this.products.filter(
+        (product) => product.MainGroupID === mainGroup.MainGroupID
       );
-      return found ? found.subProducts : [];
+      return found.length ? found : [];
     },
 
     getSubProducts() {
@@ -1398,6 +1372,7 @@ export default {
     },
 
     onGattungChange() {
+      console.log("Gattung Changed:", this.selectedGattung);
       this.selectedModel = {};
       this.updateAvailableSubProducts();
     },
@@ -1523,8 +1498,22 @@ export default {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
+        let data = await response.json();
         console.log("Fetched products data:", data);
+
+        // Options alanını parse et
+        data = data.map((product) => {
+          if (product.Options) {
+            try {
+              product.Options = JSON.parse(product.Options.replace(/'/g, '"'));
+            } catch (e) {
+              console.error("Error parsing options:", e);
+              product.Options = [];
+            }
+          }
+          return product;
+        });
+
         this.products = data;
       } catch (error) {
         console.error("Error fetching products:", error);
