@@ -816,6 +816,7 @@
                   solo
                   outlined
                   hide-details
+                  @change="onOptionChange(subProduct.Name, $event)"
                 ></v-select>
                 <!-- Text input for STER 8 MS -->
                 <v-select
@@ -833,6 +834,7 @@
                   solo
                   outlined
                   hide-details
+                  @change="onOptionChange(subProduct.Name, $event)"
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <div v-else-if="subProduct.GattungID === 8">
@@ -927,11 +929,6 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-      </v-row>
-
-      <!-- deneme -->
-      <v-row>
-        <p>{{ selectedGattung }}</p>
       </v-row>
     </div>
   </v-container>
@@ -1282,7 +1279,7 @@ export default {
             this.selectedModel["Alle Sitze ohne Logo/Branding."]
           );
         } else {
-          return this.selectedModel["STER 8 MS"];
+          return this.selectedModel["STER 8 MS"] === "mit Schutzband";
         }
       }
       return false;
@@ -1360,6 +1357,20 @@ export default {
     },
     changeLanguage(language) {
       this.$i18n.locale = language;
+    },
+    onOptionChange(productName, value) {
+      if (productName === "STER 8 MS") {
+        if (value === "ohne Schutzband") {
+          // Enable all other products
+          for (const key in this.selectedModel) {
+            if (this.selectedModel.hasOwnProperty(key)) {
+              this.selectedModel[key] = null; // Resetting the value
+            }
+          }
+        }
+      } else {
+        this.selectedModel[productName] = value;
+      }
     },
   },
 };
