@@ -1,26 +1,32 @@
 <template>
   <v-container>
-    <!-- MAN Logo -->
     <v-row>
-      <v-col class="d-flex justify-start">
+      <v-col>
         <v-img
           src="https://upload.wikimedia.org/wikipedia/commons/5/54/Logo_MAN.png"
-          contain
-          max-height="60"
-          max-width="100"
+          max-height="300"
+          max-width="300"
         ></v-img>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
+        <v-card>
+          <v-card-title class="text-center"
+            >Welcome to the Admin Panel</v-card-title
+          >
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+          <v-card-text>
+            <!-- Your form or additional admin panel elements go here -->
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
 
@@ -140,9 +146,15 @@
           ></v-card-title>
           <v-card-text>
             <v-select
+              :itemProps="itemProps"
+              v-model="selectedMainGroup"
               :items="mainGroups"
-              v-model="selectedGroup"
-              label="Select an option"
+              label="Main Group"
+              dense
+              solo
+              outlined
+              hide-details
+              @change="onMainGroupChange"
             ></v-select>
           </v-card-text>
         </v-card>
@@ -244,7 +256,7 @@
                 <v-card title="Edit A Gattung">
                   <v-select
                     :itemProps="itemProps"
-                    :items="gattungs"
+                    :items="filteredGattungs"
                     v-model="selectedGattung"
                     label="Select an option"
                   ></v-select>
@@ -269,10 +281,18 @@
           <v-card-text>
             <v-select
               :itemProps="itemProps"
-              :items="gattungs"
+              :items="filteredGattungs"
               v-model="selectedGattung"
-              label="Select an option"
-            ></v-select>
+              label="Gattung"
+              :disabled="!selectedMainGroup || !filteredGattungs.length"
+              item-text="name"
+              item-value="value"
+              dense
+              solo
+              outlined
+              hide-details
+            >
+            </v-select>
           </v-card-text>
         </v-card>
       </v-col>
@@ -297,10 +317,10 @@
               </template>
 
               <template v-slot:default="{ isActive }">
-                <v-card title="Add Custom Part">
+                <v-card title="Add Gattung">
                   <v-card-text>
                     <v-text-field
-                      v-model="addPart"
+                      v-model="firstname"
                       :counter="10"
                       :rules="nameRules"
                       label="Name of Gattung"
@@ -319,128 +339,104 @@
                     ></v-btn>
                   </v-card-actions>
                 </v-card>
-              </template>
-            </v-dialog>
+              </template> </v-dialog
+          ></v-card-title>
 
-            <v-dialog max-width="50%">
-              <template v-slot:activator="{ props: activatorProps }">
+          <v-card-text v-for="product in comModels">
+            <v-row>
+              <v-col>
+                <v-select
+                  :itemProps="itemProps"
+                  v-model="selectedModel[product.name]"
+                  :key="product.id"
+                  :items="product.types"
+                  :label="product.name"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                  class="ma-2"
+                >
+                </v-select>
+              </v-col>
+              <v-col cols="1">
                 <v-btn
                   v-bind="activatorProps"
                   size="small"
                   icon
-                  class="ml-5"
+                  class="mt-4"
                   color="red"
                   ><v-icon>mdi-delete</v-icon></v-btn
                 >
-              </template>
-
-              <template v-slot:default="{ isActive }">
-                <v-card title="Delete A Gattung">
-                  <v-card class="ma-3" v-for="part in customParts">
-                    {{ part.name }}
-
-                    <v-btn size="x-small" icon class="ml-5" color="red"
-                      ><v-icon>mdi-delete</v-icon></v-btn
-                    >
-                  </v-card>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-
-                    <v-btn
-                      text="Close"
-                      color="red"
-                      @click="isActive.value = false"
-                    ></v-btn>
-                  </v-card-actions>
-                </v-card>
-              </template>
-            </v-dialog>
-
-            <v-dialog max-width="50%">
-              <template v-slot:activator="{ props: activatorProps }">
-                <v-btn
-                  v-bind="activatorProps"
-                  size="small"
-                  icon
-                  class="ml-5"
-                  color="yellow"
-                  ><v-icon>mdi-pencil</v-icon></v-btn
-                >
-              </template>
-
-              <template v-slot:default="{ isActive }">
-                <v-card title="Edit A Gattung">
-                  <v-select
-                    :itemProps="itemProps"
-                    :items="customParts"
-                    v-model="selectedPart"
-                    label="Select an option"
-                  ></v-select>
-
-                  <v-textfield>
-                    <v-text-field clearable label="New Name"></v-text-field>
-                  </v-textfield>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-
-                    <v-btn
-                      text="Close"
-                      color="red"
-                      @click="isActive.value = false"
-                    ></v-btn>
-                  </v-card-actions>
-                </v-card>
-              </template> </v-dialog
-          ></v-card-title>
-          <v-card-text>
-            <v-radio-group v-model="selectedPart">
-              <v-row v-for="(part, index) in customParts" :key="index">
-                <v-col>
-                  <v-radio :label="part.name" :value="part.color"></v-radio>
-                </v-col>
-                <v-col>
-                  <v-chip :color="part.color" dark>{{ part.name }}</v-chip>
-                </v-col>
-              </v-row>
-            </v-radio-group>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
-
 <script>
 export default {
+  computed: {
+    comModels: function () {
+      for (let i = 0; i < this.products.length; i++) {
+        if (this.products[i].name == this.selectedMainGroup) {
+          return this.products[i].subProducts;
+        }
+      }
+      return "nothing";
+    },
+
+    filteredGattungs() {
+      if (this.selectedMainGroup) {
+        return this.gattungs.filter(
+          (gattung) => gattung.value === this.selectedMainGroup
+        );
+      }
+      return [];
+    },
+  },
+
   data() {
     return {
-      dialog: false,
-      search: "",
-
-      customParts: [
-        { name: "Red", color: "red" },
-        { name: "Green", color: "green" },
-        { name: "Blue", color: "blue" },
-      ],
-      selectedPart: null,
+      selectedMainGroup: null,
       selectedGattung: null,
-      selectedGroup: null,
-      addGroup: null,
+      selectedModel: {},
+      addMainGroup: null,
       addGattung: null,
-      addPart: null,
+      addModel: {},
+      dialog: false,
 
       mainGroups: [
-        "Camera",
-        "528M (Rear Target Display)",
-        "Sondernutzungsfläche gegenüber Tür 2",
-        "Sondernutzungsfläche rechts vor Tür 2",
-        "Bestuhlung",
-        "Haltestangen",
-        "Abschrankung/Haarnadelstange an Tür 1",
+        //{ name: "Chair Type", value: "Chair Type" },
+        //{ name: "Chair Color", value: "Chair Color" },
+        { name: "Camera", value: "Camera" },
+        {
+          name: "528M (Rear Target Display)",
+          value: "528M (Rear Target Display)",
+        },
+        {
+          name: "Sondernutzungsfläche gegenüber Tür 2", // Kapı 2'nin karşısındaki özel kullanım alanı
+          value: "Sondernutzungsfläche gegenüber Tür 2",
+        },
+        {
+          name: "Sondernutzungsfläche rechts vor Tür 2", // Kapı 2'nin önünde sağda özel kullanım alanı
+          value: "Sondernutzungsfläche rechts vor Tür 2",
+        },
+        {
+          name: "Bestuhlung", //Koltuklar
+          value: "Bestuhlung",
+        },
+        {
+          name: "Haltestangen", //Tutunma rayları
+          value: "Haltestangen",
+        },
+        {
+          name: "Abschrankung/Haarnadelstange an Tür 1", //Kapı 1'de bariyer / saç tokası çubuğu
+          value: "Abschrankung/Haarnadelstange an Tür 1",
+        },
       ],
-
       gattungs: [
         {
           name: "680A - SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
@@ -475,12 +471,187 @@ export default {
           value: "Abschrankung/Haarnadelstange an Tür 1", // 65LD - Kapı 1'de bölme
         },
       ],
+      products: [
+        {
+          name: "Camera",
+          subProducts: [
+            {
+              name: "Type",
+              types: [
+                {
+                  name: "CAM A",
+                  value: "A",
+                },
+                {
+                  name: "CAM B",
+                  value: "B",
+                },
+              ],
+            },
+            {
+              name: "Recorder",
+              types: [
+                {
+                  name: "Yes",
+                  value: 1,
+                },
+                {
+                  name: "No",
+                  value: 0,
+                },
+              ],
+            },
+            {
+              name: "Lenght",
+              types: [
+                {
+                  name: "1 Hour",
+                  value: "1 Hour",
+                },
+                {
+                  name: "2 Hour",
+                  value: "2 Hour",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          name: "Chair Type",
+          subProducts: [
+            {
+              name: "ChairModel",
+              types: [
+                {
+                  name: "Chair A",
+                  value: "A",
+                },
+                {
+                  name: "Chair B",
+                  value: "B",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          name: "Chair Color",
+          subProducts: [
+            {
+              name: "Color",
+              types: [
+                {
+                  name: "Red",
+                  value: "Red",
+                },
+                {
+                  name: "Blue",
+                  value: "Blue",
+                },
+              ],
+            },
+          ],
+        },
+
+        {
+          name: "528M (Rear Target Display)",
+          subProducts: [
+            {
+              name: "Model",
+              types: [
+                {
+                  name: "(NONE)",
+                  value: "(NONE)",
+                },
+                {
+                  name: "BUSTEC",
+                  value: "BUSTEC",
+                },
+                {
+                  name: "MODEL X",
+                  value: "MODEL X",
+                },
+              ],
+            },
+
+            {
+              name: "Size",
+              types: [
+                {
+                  name: "(NONE)",
+                  value: "(NONE)",
+                },
+                {
+                  name: "19x160",
+                  value: "19x160",
+                },
+                {
+                  name: "19x120",
+                  value: "19x120",
+                },
+              ],
+            },
+            {
+              name: "Led Color",
+              types: [
+                {
+                  name: "(NONE)",
+                  value: "(NONE)",
+                },
+                {
+                  name: "Amber",
+                  value: "Amber",
+                },
+                {
+                  name: "Weiss",
+                  value: "Weiss",
+                },
+                {
+                  name: "RGB",
+                  value: "RGB",
+                },
+              ],
+            },
+            {
+              name: "Rearmost",
+              types: [
+                {
+                  name: "Yes",
+                  value: 1,
+                },
+                {
+                  name: "No",
+                  value: 0,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: "Sondernutzungsfläche gegenüber Tür 2",
+        },
+        {
+          name: "Sondernutzungsfläche rechts vor Tür 2",
+        },
+        {
+          name: "Bestuhlung",
+        },
+        {
+          name: "Haltestangen",
+        },
+        {
+          name: "Abschrankung/Haarnadelstange an Tür 1",
+        },
+      ],
     };
   },
-
+  // ... methods, etc.
   methods: {
-    clicked() {
-      console.log(this.gattungs);
+    rotateCamera(cameraId) {
+      this.cameraRotations[cameraId] += 45; // Her tıklamada 45 derece döndür
+      console.log(this.rotation);
     },
 
     itemProps(item) {
@@ -488,6 +659,19 @@ export default {
         title: item.name,
         value: item.value,
       };
+    },
+    //gattung name and mainGroup
+    gattungProps(item) {
+      return {
+        title: item.name,
+        value: item.mainGroup,
+      };
+    },
+
+    onMainGroupChange() {
+      this.selectedGattung = null;
+      // Eğer filteredGattungs computed property'si reaktif değilse, bu metodda manuel olarak tetikleyebilirsiniz.
+      this.filteredGattungs; // Bu satır computed property'yi manuel olarak tetiklemek için kullanılabilir.
     },
   },
 };
