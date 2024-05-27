@@ -988,7 +988,7 @@
       </v-row>
 
       <!-- Export button -->
-      <v-row v-if="selectedType" class="pt-0 grey darken-2">
+      <!-- <v-row v-if="selectedType" class="pt-0 grey darken-2">
         <v-col class="custom-row">
           <v-btn class="custom-export" @click="xport" color="primary">
             Export
@@ -1037,7 +1037,92 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+      </v-row> -->
+      <v-row v-if="selectedType" class="pt-0 grey darken-2">
+        <v-col class="custom-row">
+          <v-btn class="custom-export" @click="xport" color="primary">
+            Export
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn class="custom-back" color="primary" @click="resetSelection">
+            Zurück
+          </v-btn>
+        </v-col>
+
+        <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
+          <v-card>
+            <v-card-title>
+              Bus Type: {{ selectedType?.Name }}
+              <v-spacer></v-spacer>
+              <v-btn icon @click="dialog = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-card-title>
+            <v-card-text>
+              <v-list dense>
+                <v-list-item v-for="(group, index) in exportData" :key="index">
+                  <v-list-item-content class="list-item-content">
+                    <div>
+                      <strong>Main Group:</strong> {{ group.mainGroup }}
+                    </div>
+                    <div v-if="group.gattung">
+                      <strong>Gattung:</strong> {{ group.gattung }}
+                    </div>
+                    <div><strong>Products:</strong></div>
+                    <ul style="margin-left: 20px">
+                      <li v-for="product in group.products" :key="product.name">
+                        {{ product.name }}: {{ product.value }}
+                      </li>
+                    </ul>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card-text>
+            <v-card-actions class="justify-end">
+              <v-btn color="green" text @click="finishExport">Finish</v-btn>
+              <v-btn color="red" text @click="dialog = false">Close</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-row>
+
+      <!-- Success log -->
+      <v-alert
+        v-if="showSuccessLog"
+        type="success"
+        dismissible
+        @input="showSuccessLog = false"
+        style="
+          position: fixed;
+          top: 16px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 9999;
+          background-color: green;
+          color: white;
+        "
+      >
+        Export finished successfully!
+      </v-alert>
+
+      <!-- Warning log -->
+      <v-alert
+        v-if="showWarningLog"
+        type="warning"
+        dismissible
+        @input="showWarningLog = false"
+        style="
+          position: fixed;
+          top: 16px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 9999;
+          background-color: yellow;
+          color: black;
+        "
+      >
+        Please make a selection before exporting!
+      </v-alert>
     </div>
   </v-container>
 </template>
@@ -1045,6 +1130,7 @@
 <script>
 import router from "@/router";
 import axios from "axios";
+import { mapActions } from "vuex";
 export default {
   mounted() {
     // Perform actions when the component is fully mounted in the DOM, e.g., fetch data from an API
@@ -1220,9 +1306,9 @@ export default {
         cam6_3T: 0,
         cam1_2T: 0,
         cam2_2T: 0,
-        cam3_3T: 0,
-        cam4_3T: 0,
-        cam5_3T: 0,
+        cam3_2T: 0,
+        cam4_2T: 0,
+        cam5_2T: 0,
       },
       dialogVisible: {
         point1: false,
@@ -1274,6 +1360,9 @@ export default {
 
       searchQuery: "",
       availableSubProducts: [],
+      exportData: [],
+      showSuccessLog: false,
+      showWarningLog: false,
     };
   },
 
@@ -1307,15 +1396,98 @@ export default {
     showExportDialog() {
       this.dialog = true;
     },
-
+    ...mapActions(["triggerSuccessLog"]),
     xport() {
+      // Check if any selections have been made
+      if (!this.selectedMainGroup && !this.selectedGattung) {
+        this.showWarningLog = true;
+        setTimeout(() => {
+          this.showWarningLog = false;
+        }, 3000); // Warning log will disappear after 3 seconds
+        return;
+      }
+
+      this.exportData = [];
+      const mainGroups = this.mainGroups.filter((mainGroup) =>
+        this.products.some(
+          (product) => product.MainGroupID === mainGroup.MainGroupID
+        )
+      );
+
+      mainGroups.forEach((mainGroup) => {
+        const gattungs = this.gattungs.filter(
+          (gattung) => gattung.MainGroupID === mainGroup.MainGroupID
+        );
+
+        if (gattungs.length > 0) {
+          gattungs.forEach((gattung) => {
+            const products = this.products
+              .filter(
+                (product) =>
+                  product.GattungID === gattung.GattungID &&
+                  this.selectedModel[product.Name]
+              )
+              .map((product) => {
+                return {
+                  name: product.Name,
+                  value: this.selectedModel[product.Name],
+                };
+              });
+
+            if (products.length > 0) {
+              this.exportData.push({
+                mainGroup: mainGroup.Name,
+                gattung: gattung.Name,
+                products,
+              });
+            }
+          });
+        } else {
+          const products = this.products
+            .filter(
+              (product) =>
+                product.MainGroupID === mainGroup.MainGroupID &&
+                !product.GattungID &&
+                this.selectedModel[product.Name]
+            )
+            .map((product) => {
+              return {
+                name: product.Name,
+                value: this.selectedModel[product.Name],
+              };
+            });
+
+          if (products.length > 0) {
+            this.exportData.push({
+              mainGroup: mainGroup.Name,
+              gattung: null,
+              products,
+            });
+          }
+        }
+      });
+
       this.dialog = true;
+    },
+    finishExport() {
+      this.triggerSuccessLog(); // Trigger success log in Vuex store
+      this.dialog = false;
+      setTimeout(() => {
+        this.$router.push({ path: "/" }); // Navigate to home page after delay
+      }, 100); // Small delay to ensure alert is displayed
     },
 
     onMainGroupChange() {
       console.log("Main Group Changed:", this.selectedMainGroup);
-      this.selectedGattung = null; // Gattung seçimlerini sıfırla
+      //this.selectedGattung = null; // Gattung seçimlerini sıfırla
       //this.selectedModel = {}; // Modelleri de sıfırla
+      if (this.selectedGattung) {
+        this.selectedGattung = {
+          ...this.selectedGattung,
+          Name: "",
+          GattungID: null,
+        };
+      }
       this.updateAvailableSubProducts();
     },
     updateAvailableSubProducts() {
@@ -1405,17 +1577,19 @@ export default {
         cam4_4T: 0,
         cam5_4T: 0,
         cam6_4T: 0,
+
         cam1_3T: 0,
         cam2_3T: 0,
         cam3_3T: 0,
         cam4_3T: 0,
         cam5_3T: 0,
         cam6_3T: 0,
+
         cam1_2T: 0,
         cam2_2T: 0,
-        cam3_3T: 0,
-        cam4_3T: 0,
-        cam5_3T: 0,
+        cam3_2T: 0,
+        cam4_2T: 0,
+        cam5_2T: 0,
       };
     },
     //koltuk seçimlerinde sınırlandırma
@@ -1558,6 +1732,13 @@ export default {
 </script>
 
 <style scoped>
+.custom-alert {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
 .color-square {
   width: 50px;
   height: 20px;

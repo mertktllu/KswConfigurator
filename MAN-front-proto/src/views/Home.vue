@@ -37,6 +37,24 @@
         </v-card-actions>
       </v-form>
     </v-card>
+
+    <!-- Success log -->
+    <v-alert
+      v-if="$store.state.showSuccessLog"
+      type="success"
+      dismissible
+      style="
+        position: fixed;
+        top: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        background-color: green;
+        color: white;
+      "
+    >
+      Export finished successfully!
+    </v-alert>
   </div>
 </template>
 
@@ -47,6 +65,7 @@ import router from "@/router";
 export default {
   data() {
     return {
+      name: "Home",
       email: "",
       password: "",
       valid: true,
