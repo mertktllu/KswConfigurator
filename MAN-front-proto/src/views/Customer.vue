@@ -104,7 +104,7 @@
             <v-btn color="primary" @click="chooseVehicle">{{
               $t("choose")
             }}</v-btn>
-            <v-btn color="red" text @click="vehicleDialog = false">{{
+            <v-btn color="red" text @click="vehicleDialog = salse">{{
               $t("close")
             }}</v-btn>
           </v-card-actions>
@@ -141,7 +141,7 @@
                 outlined
                 hide-details
                 item-text="Name"
-                item-value="mainGroup => mainGroup"
+                item-value="MainGroupID"
                 @change="onMainGroupChange"
               ></v-select>
             </v-col>
@@ -778,17 +778,18 @@
         <!-- Gattung Dropdown -->
         <v-col>
           <v-select
+            ref="gattungSelect"
             :item-props="itemProps"
             v-model="selectedGattung"
             :items="filteredGattungs"
             :label="$t('gattung')"
+            :disabled="!selectedMainGroup || !filteredGattungs.length"
             dense
             solo
             outlined
             hide-details
-            item-text="name"
-            item-value="value"
-            :disabled="!selectedMainGroup || !filteredGattungs.length"
+            item-text="Name"
+            item-value="gattung => gattung"
             @change="onGattungChange"
           ></v-select>
 
@@ -796,78 +797,82 @@
           <v-col v-if="availableSubProducts.length">
             <v-card
               v-for="subProduct in availableSubProducts"
-              :key="subProduct.name"
+              :key="subProduct.Name"
             >
-              <v-card-title>{{ subProduct.name }}</v-card-title>
+              <v-card-title>{{ subProduct.Name }}</v-card-title>
               <v-card-text>
                 <!-- Normal select dropdown -->
                 <v-select
                   v-if="
-                    subProduct.gattung === '704A - Bestuhlung' &&
-                    subProduct.name !== 'STER 8 MS'
+                    subProduct.GattungID === 4 &&
+                    subProduct.Name !== 'STER 8 MS'
                   "
-                  :item-props="subProduct.name || itemProps"
-                  :items="subProduct.options"
-                  :item-text="(item) => item.name || item"
-                  :item-value="(item) => item.value || item"
-                  v-model="selectedModel[subProduct.name]"
+                  :items="subProduct.Options"
+                  :item-text="(item) => item"
+                  :item-value="(item) => item"
+                  v-model="selectedModel[subProduct.Name]"
                   :label="$t('choose')"
-                  :disabled="isDisabled(subProduct.name)"
+                  :disabled="isDisabled(subProduct.Name)"
                   dense
                   solo
                   outlined
                   hide-details
+                  @change="onOptionChange(subProduct.Name, $event)"
                 ></v-select>
                 <!-- Text input for STER 8 MS -->
                 <v-select
                   v-else-if="
-                    subProduct.gattung === '704A - Bestuhlung' &&
-                    subProduct.name === 'STER 8 MS'
+                    subProduct.GattungID === 4 &&
+                    subProduct.Name === 'STER 8 MS'
                   "
-                  :item-props="subProduct.name || itemProps"
-                  :items="subProduct.options"
-                  :item-text="(item) => item.name || item"
-                  :item-value="(item) => item.value || item"
-                  v-model="selectedModel[subProduct.name]"
+                  :items="subProduct.Options"
+                  :item-text="(item) => item"
+                  :item-value="(item) => item"
+                  v-model="selectedModel[subProduct.Name]"
                   :label="$t('choose')"
-                  :disabled="isDisabled(subProduct.name)"
+                  :disabled="isDisabled(subProduct.Name)"
                   dense
                   solo
                   outlined
                   hide-details
+                  @change="onOptionChange(subProduct.Name, $event)"
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
-                <div
-                  v-else-if="
-                    subProduct.gattung ===
-                    '65A6 - Farbe der Haltestangen und Trennwände'
-                  "
-                >
+                <div v-else-if="subProduct.GattungID === 8">
                   <v-text-field
-                    v-model="selectedModel[subProduct.name]"
-                    :label="subProduct.inputPlaceholder"
+                    v-model="selectedModel[subProduct.Name]"
+                    :label="subProduct.InputPlaceholder"
                     dense
                     solo
                     outlined
                     hide-details="auto"
-                    @input="formatRALCode(subProduct.name)"
-                    @click="showRALPrefix(subProduct.name)"
+                    @input="formatRALCode(subProduct.Name)"
+                    @click="showRALPrefix(subProduct.Name)"
                   ></v-text-field>
                 </div>
                 <!-- Other sub-products -->
                 <v-select
                   v-else
-                  :item-props="subProduct.name || itemProps"
-                  :items="subProduct.options"
-                  :item-text="(item) => item.name || item"
-                  :item-value="(item) => item.value || item"
-                  v-model="selectedModel[subProduct.name]"
+                  :items="subProduct.Options"
+                  :item-text="(item) => item"
+                  :item-value="(item) => item"
+                  v-model="selectedModel[subProduct.Name]"
                   :label="$t('choose')"
                   dense
                   solo
                   outlined
                   hide-details
                 ></v-select>
+                <!-- Color square -->
+                <div
+                  class="color-square"
+                  v-if="shouldShowColorSquare(subProduct.Name)"
+                  :style="{
+                    backgroundColor: getRalColor(
+                      selectedModel[subProduct.Name]
+                    ),
+                  }"
+                ></div>
               </v-card-text>
             </v-card>
           </v-col>
@@ -936,11 +941,6 @@
           </v-card>
         </v-dialog>
       </v-row>
-
-      <!-- deneme -->
-      <v-row>
-        <p>{{ selectedGattung }}</p>
-      </v-row>
     </div>
   </v-container>
 </template>
@@ -955,7 +955,16 @@ export default {
     this.fetchTypes();
     this.fetchMainGroups();
     this.fetchGattungs();
-    //this.fetchProducts();
+    this.fetchProducts();
+  },
+  watch: {
+    selectedMainGroup(newVal) {
+      this.onMainGroupChange(newVal);
+    },
+    //gattung
+    selectedGattung(newVal) {
+      this.onGattungChange(newVal);
+    },
   },
 
   computed: {
@@ -1007,66 +1016,37 @@ export default {
       return imageDetails;
     },
 
-    filteredGattungs() {
-      // return this.gattungs.filter(
-      //   (g) => g.MainGroupID === this.selectedMainGroup.MainGroupID
-      // );
-      if (!this.selectedMainGroup) {
-        return [];
-      }
-      return this.gattungs.filter(
-        (g) => g.MainGroupID === this.selectedMainGroup.MainGroupID
-      );
-    },
-
     availableSubProducts() {
       if (!this.selectedMainGroup) {
         return [];
       }
 
-      const currentGroup = this.products.find(
-        (p) => p.mainGroup === this.selectedMainGroup.Name
+      // Main Group'a ait productları al
+      const currentGroupProducts = this.products.filter(
+        (product) => product.MainGroupID === this.selectedMainGroup.MainGroupID
       );
 
-      if (!currentGroup) {
-        return [];
-      }
-
-      if (this.filteredGattungs.length === 0) {
-        // No Gattungs for the selected Main Group
-        return currentGroup.subProducts;
-      } else if (this.selectedGattung) {
-        // Gattungs exist, and a specific Gattung is selected
-        return currentGroup.subProducts.filter(
-          (sp) => sp.gattung === this.selectedGattung.Name
+      // Eğer Gattung seçilmemişse ve currentGroupProducts içinde GattungID null olanlar varsa onları döndür
+      if (!this.selectedGattung) {
+        return currentGroupProducts.filter(
+          (product) => product.GattungID === null
         );
       }
 
-      return [];
+      // Eğer Gattung seçilmişse, seçilen GattungID'ye ait productları döndür
+      return currentGroupProducts.filter(
+        (product) => product.GattungID === this.selectedGattung.GattungID
+      );
     },
+    filteredGattungs() {
+      if (!this.selectedMainGroup) {
+        return [];
+      }
 
-    // availableSubProducts() {
-    //   const currentGroup = this.products.find(
-    //     (p) =>
-    //       p.mainGroup ===
-    //       (this.selectedMainGroup ? this.selectedMainGroup.Value : null)
-    //   );
-
-    //   if (!currentGroup) {
-    //     return [];
-    //   }
-
-    //   if (this.filteredGattungs.length === 0) {
-    //     // No Gattungs for the selected Main Group
-    //     return currentGroup.subProducts;
-    //   } else if (this.selectedGattung) {
-    //     // Gattungs exist, and a specific Gattung is selected
-    //     return currentGroup.subProducts.filter(
-    //       (sp) => sp.gattung === this.selectedGattung.Value
-    //     );
-    //   }
-    //   return [];
-    // },
+      return this.gattungs.filter(
+        (gattung) => gattung.MainGroupID === this.selectedMainGroup.MainGroupID
+      );
+    },
 
     selectedVehicleImage() {
       switch (this.selectedVehicle?.Name) {
@@ -1162,6 +1142,22 @@ export default {
         point6: "../src/assets/Bestuhlung/back.bmp",
       },
 
+      ralColors: {
+        "RAL 1023": "#F4A900",
+        "RAL 3001": "#A2231D",
+        "RAL 9004": "#282828",
+        "RAL 7016": "#1F2A35",
+        "RAL 7037": "#7D7F7D",
+        "RAL 1005": "#ECA527",
+        "RAL 3003": "#911B22",
+        "RAL 1003": "#F7BA0B",
+        "RAL 3020": "#CC0E1D",
+        "RAL 5007": "#336699",
+        "RAL 1015": "#E6D690",
+
+        // Add other RAL colors as needed
+      },
+
       showButtons: true,
       chairImage: "../src/assets/Bestuhlung/normal.bmp", // Ön yüz görüntüsü
       chairBackImage: "../src/assets/Bestuhlung/normal back.bmp", // Arka yüz görüntüsü
@@ -1175,242 +1171,7 @@ export default {
       img19C: "../src/static/19C-4T.jpg",
 
       searchQuery: "",
-
-      // mainGroups: [
-      //   { name: "Camera", value: "Camera" },
-      //   {
-      //     name: "528M (Rear Target Display)",
-      //     value: "528M (Rear Target Display)",
-      //   },
-      //   {
-      //     name: "Sondernutzungsfläche gegenüber Tür 2", // Kapı 2'nin karşısındaki özel kullanım alanı
-      //     value: "Sondernutzungsfläche gegenüber Tür 2",
-      //   },
-      //   {
-      //     name: "Sondernutzungsfläche rechts vor Tür 2", // Kapı 2'nin önünde sağda özel kullanım alanı
-      //     value: "Sondernutzungsfläche rechts vor Tür 2",
-      //   },
-      //   {
-      //     name: "Bestuhlung", //Koltuklar
-      //     value: "Bestuhlung",
-      //   },
-      //   {
-      //     name: "Haltestangen", //Tutunma rayları
-      //     value: "Haltestangen",
-      //   },
-      //   {
-      //     name: "Abschrankung/Haarnadelstange an Tür 1", //Kapı 1'de bariyer / saç tokası çubuğu
-      //     value: "Abschrankung/Haarnadelstange an Tür 1",
-      //   },
-      // ],
-      // gattungs: [
-      //   {
-      //     name: "680A - SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
-      //     value: "680A - SNF gegenüber Tür 2",
-      //     mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680A - SNF karşı kapı 2
-      //   },
-      //   {
-      //     name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2", // Sondernutzungsfläche gegenüber Tür 2'nin gattungu //1
-      //     value: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-      //     mainGroup: "Sondernutzungsfläche gegenüber Tür 2", // 680D - SNF'nin önünde kapı 2'nin karşısında yaslanma plakası/katlanır koltuklar
-      //   },
-      //   {
-      //     name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2", // Sondernutzungsfläche rechts vor Tür 2'nin gattungu //2
-      //     value: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-      //     mainGroup: "Sondernutzungsfläche rechts vor Tür 2", // 681D - 2 numaralı kapının önündeki SNF'nin önünde yaslanma plakası/katlanır koltuklar
-      //   },
-      //   {
-      //     name: "704A - Bestuhlung", // Bestuhlung'un gattungu //3
-      //     value: "704A - Bestuhlung",
-      //     mainGroup: "Bestuhlung",
-      //   },
-      //   {
-      //     name: "78RI - Sitzhaltegriffe", // Bestuhlung'un gattungu //3
-      //     value: "78RI - Sitzhaltegriffe",
-      //     mainGroup: "Bestuhlung", // 700B - Renkli yolcu koltuğu çerçevesi
-      //   },
-      //   {
-      //     name: "78RD - Sitzarmlehnen", // Bestuhlung'un gattungu //3
-      //     value: "78RD - Sitzarmlehnen",
-      //     mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
-      //   },
-      //   {
-      //     name: "770A - Fahrgastsitz-Rückseite", // Bestuhlung'un gattungu //3
-      //     value: "770A - Fahrgastsitz-Rückseite",
-      //     mainGroup: "Bestuhlung", // 78RI - Koltuk tutma kolları
-      //   },
-      //   {
-      //     name: "65A6 - Farbe der Haltestangen und Trennwände", // Haltestangen'un gattungu //4
-      //     value: "65A6 - Farbe der Haltestangen und Trennwände",
-      //     mainGroup: "Haltestangen", // 65A6 - Tutunma raylarının ve bölmelerin rengi
-      //   },
-      //   {
-      //     name: "65LD - Abschrankung an Tür 1", // Abschrankung/Haarnadelstange an Tür 1'in gattungu //5
-      //     value: "65LD - Abschrankung an Tür 1",
-      //     mainGroup: "Abschrankung/Haarnadelstange an Tür 1", // 65LD - Kapı 1'de bölme
-      //   },
-      // ],
-      products: [
-        {
-          mainGroup: "Camera",
-          subProducts: [
-            { name: "Type", options: ["CAM A", "CAM B"] },
-            { name: "Recorder", options: ["Yes", "No"] },
-            { name: "Length", options: ["1 Hour", "2 Hour"] },
-          ],
-        },
-        {
-          mainGroup: "528M (Rear Target Display)",
-          subProducts: [
-            { name: "Model", options: ["NONE", "BUSTEC", "MODEL X"] },
-            { name: "Size", options: ["NONE", "19x160", "19x120"] },
-            { name: "Led Color", options: ["NONE", "Amber", "Weiss", "RGB"] },
-            { name: "Rearmost", options: ["Yes", "No"] },
-          ],
-        },
-        {
-          mainGroup: "Sondernutzungsfläche gegenüber Tür 2",
-          subProducts: [
-            {
-              gattung: "680A - SNF gegenüber Tür 2",
-              name: "680A - SNF gegenüber Tür 2",
-              options: [
-                "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm.",
-                "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
-                "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff.",
-              ],
-            },
-
-            {
-              gattung: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-              name: "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2",
-              options: [
-                "Armlehne mit halter ohne Schloss",
-                "Mit klappbarer Armlehne auf dem Bügel",
-                "Ausführung Trennwand mit Glasscheibe",
-                "Bügel (Überstand min. 280mm) E-Scooter tauglich ausführen",
-              ],
-            },
-          ],
-        },
-        {
-          mainGroup: "Sondernutzungsfläche rechts vor Tür 2",
-          subProducts: [
-            {
-              gattung: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-              name: "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2",
-              options: [
-                "Armlehne mit halter ohne Schloss",
-                "mit klappbarer Armlehne auf dem Bügel",
-                "Ausführung Trennwand mit Glasscheibe",
-              ],
-            },
-          ],
-        },
-        {
-          mainGroup: "Bestuhlung",
-          subProducts: [
-            {
-              gattung: "704A - Bestuhlung",
-              name: "mit Schaum Sitzpolster",
-              options: ["ohne", "20mm", "30mm", "45mm"],
-            },
-            {
-              gattung: "704A - Bestuhlung",
-              name: "mit Schaum Rückenpolster",
-              options: ["ohne", "20mm", "30mm", "45mm"],
-            },
-            {
-              gattung: "704A - Bestuhlung",
-              name: "Alle Sitze ohne Logo/Branding. ",
-              options: ["Alle Sitze ohne Logo/Branding."],
-            },
-            {
-              gattung: "704A - Bestuhlung",
-              name: "STER 8 MS",
-              options: ["mit Schutzband", "ohne Schutzband"],
-            },
-
-            //78rı
-            {
-              gattung: "78RI - Sitzhaltegriffe",
-              name: "Topcloser",
-              options: [
-                "dunkelgrau NCS S8000N (serie)",
-                "NCS S2500N",
-                "RAL 1023",
-                "RAL 3001",
-                "RAL 9004",
-                "RAL 7037",
-                "RAL 7016",
-              ],
-            },
-            {
-              gattung: "78RI - Sitzhaltegriffe",
-              name: "Topcloser für EM",
-              options: ["dunkelgrau NCS S8000N (serie)", "RAL 1023"],
-            },
-            //78rd
-            {
-              gattung: "78RD - Sitzarmlehnen",
-              name: "Gangseitige fixiert bügel color",
-              options: [
-                "dunkelgrau NCS S8000N (serie)",
-                "RAL 1023",
-                "RAL 9004",
-                "RAL 7037",
-              ],
-            },
-            {
-              gattung: "78RD - Sitzarmlehnen",
-              name: "Gangseitige klappbare armlehne",
-              options: ["dunkelgrau NCS S8000N (serie)", "RAL 9004"],
-            },
-            //770a
-            {
-              gattung: "770A - Fahrgastsitz-Rückseite",
-              name: "Kunststoff-Fahrgastsitzrückseite",
-              options: [
-                "grau NCS S 6000 N (serie)",
-                "RAL 7037",
-                "RAL 7016",
-                "RAL 1015",
-                "RAL 3003",
-                "RAL 1003",
-                "RAL 3020",
-                "RAL 5007",
-              ],
-            },
-          ],
-        },
-        {
-          mainGroup: "Haltestangen",
-          subProducts: [
-            {
-              gattung: "65A6 - Farbe der Haltestangen und Trennwände",
-              name: "Nur Knoten in",
-              inputType: "text",
-              inputPlaceholder: "RAL Code eingeben",
-            },
-            {
-              gattung: "65A6 - Farbe der Haltestangen und Trennwände",
-              name: "Nur Deckenhaltestangen in",
-              inputType: "text",
-              inputPlaceholder: "RAL Code eingeben",
-            },
-          ],
-        },
-        {
-          mainGroup: "Abschrankung/Haarnadelstange an Tür 1",
-          subProducts: [
-            {
-              gattung: "65LD - Abschrankung an Tür 1",
-              name: "zusätzlich Teleskopabschrankung an Tür 1",
-              options: ["zusätzlich Teleskopabschrankung an Tür 1"],
-            },
-          ],
-        },
-      ],
+      availableSubProducts: [],
     };
   },
 
@@ -1451,19 +1212,28 @@ export default {
 
     onMainGroupChange() {
       console.log("Main Group Changed:", this.selectedMainGroup);
-      this.selectedGattung = null;
-      this.selectedModel = {};
+      this.selectedGattung = null; // Gattung seçimlerini sıfırla
+      this.selectedModel = {}; // Modelleri de sıfırla
       this.updateAvailableSubProducts();
     },
     updateAvailableSubProducts() {
-      this.availableSubProducts = this.getSubProductsForMainGroup(
-        this.selectedMainGroup
+      this.availableSubProducts = this.getSubProductsForMainGroupAndGattung(
+        this.selectedMainGroup,
+        this.selectedGattung
       );
     },
-    getSubProductsForMainGroup(mainGroup) {
-      // This method retrieves subproducts directly linked to a main group without gattungs
-      const found = this.products.find((p) => p.mainGroup === mainGroup?.Name);
-      return found ? found.subProducts : [];
+    getSubProductsForMainGroupAndGattung(mainGroup, gattung) {
+      const filteredProducts = this.products.filter(
+        (product) => product.MainGroupID === mainGroup.MainGroupID
+      );
+
+      if (!gattung) {
+        return filteredProducts.filter((product) => product.GattungID === null);
+      } else {
+        return filteredProducts.filter(
+          (product) => product.GattungID === gattung.GattungID
+        );
+      }
     },
 
     getSubProducts() {
@@ -1483,7 +1253,9 @@ export default {
     },
 
     onGattungChange() {
-      this.selectedModel = {};
+      console.log("Gattung Changed:", this.selectedGattung);
+
+      this.selectedModel = {}; // Modelleri de sıfırla
       this.updateAvailableSubProducts();
     },
     formatRALCode(fieldName) {
@@ -1542,7 +1314,10 @@ export default {
     },
     //koltuk seçimlerinde sınırlandırma
     isDisabled(productName) {
-      if (this.selectedGattung.Name === "704A - Bestuhlung") {
+      if (
+        this.selectedGattung &&
+        this.selectedGattung.Name === "704A - Bestuhlung"
+      ) {
         if (productName === "STER 8 MS") {
           return (
             this.selectedModel["mit Schaum Sitzpolster"] ||
@@ -1550,7 +1325,7 @@ export default {
             this.selectedModel["Alle Sitze ohne Logo/Branding."]
           );
         } else {
-          return this.selectedModel["STER 8 MS"];
+          return this.selectedModel["STER 8 MS"] === "mit Schutzband";
         }
       }
       return false;
@@ -1598,29 +1373,92 @@ export default {
         console.error("Error fetching gattungs:", error);
       }
     },
-    // async fetchProducts(){
-    //   try{
-    //     console.log("Fetching products...");
-    //     const response = await fetch("http://localhost:3000/products");
-    //     if(!response.ok){
-    //       throw new Error(`HTTP error! status: ${response.status}`);
-    //     }
-    //     const data = await response.json();
-    //     console.log("Fetched products data:", data);
-    //     this.products = data;
+    async fetchProducts() {
+      try {
+        console.log("Fetching products...");
+        const response = await fetch("http://localhost:3000/products");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        let data = await response.json();
+        console.log("Fetched products data:", data);
 
-    //   } catch(error){
-    //     console.error("Error fetching products:", error);
-    //   }
-    // },
+        // Options alanını parse et
+        data = data.map((product) => {
+          if (product.Options) {
+            try {
+              product.Options = JSON.parse(product.Options.replace(/'/g, '"'));
+            } catch (e) {
+              console.error("Error parsing options:", e);
+              product.Options = [];
+            }
+          }
+          return product;
+        });
+
+        this.products = data;
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    },
     changeLanguage(language) {
       this.$i18n.locale = language;
+    },
+    onOptionChange(productName, value) {
+      if (productName === "STER 8 MS") {
+        if (value === "ohne Schutzband") {
+          // Enable all other products
+          for (const key in this.selectedModel) {
+            if (this.selectedModel.hasOwnProperty(key)) {
+              this.selectedModel[key] = null; // Resetting the value
+            }
+          }
+        }
+      } else {
+        this.selectedModel[productName] = value;
+      }
+    },
+
+    getRalColor(code) {
+      return this.ralColors[code] || "#FFFFFF"; // Default to white if code is not found
+    },
+    shouldShowColorSquare(productName) {
+      const validProducts = [
+        "Topcloser",
+        "Topcloser für EM",
+        "Gangseitige fixiert bügel color",
+        "Gangseitige klappbare armlehne",
+        "Kunststoff-Fahrgastsitzrückseite",
+      ];
+
+      if (
+        this.selectedMainGroup &&
+        this.selectedMainGroup.Name === "Bestuhlung"
+      ) {
+        if (
+          this.selectedGattung &&
+          (this.selectedGattung.Name === "78RI - Sitzhaltegriffe" ||
+            this.selectedGattung.Name === "78RD - Sitzarmlehnen" ||
+            this.selectedGattung.Name === "770A - Fahrgastsitz-Rückseite") &&
+          validProducts.includes(productName)
+        ) {
+          return true;
+        }
+      }
+      return false;
     },
   },
 };
 </script>
 
 <style scoped>
+.color-square {
+  width: 50px;
+  height: 20px;
+  border: 1px white;
+
+  margin-right: 5px;
+}
 .wrapper {
   position: relative;
 }
