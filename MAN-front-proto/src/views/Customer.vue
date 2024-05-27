@@ -155,7 +155,104 @@
               "
               width="500"
               :src="img12C"
-            ></v-img>
+            >
+              <g>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam1_2T}deg)`,
+                  }"
+                  class="cam1_2T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam1_2T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam2_2T}deg)`,
+                  }"
+                  class="cam2_2T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam2_2T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam3_2T}deg)`,
+                  }"
+                  class="cam3_2T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam3_2T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam4_2T}deg)`,
+                  }"
+                  class="cam4_2T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam4_2T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam5_2T}deg)`,
+                  }"
+                  class="cam5_2T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam5_2T')"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+              </g>
+            </v-img>
             <v-img
               v-else-if="
                 selectedType?.Name === '18C-3T' &&
@@ -920,12 +1017,12 @@
                 </v-list-item>
                 <v-list-item v-if="selectedMainGroup">
                   <v-list-item-content class="list-item-content">
-                    Main Group: {{ selectedMainGroup }}
+                    Main Group: {{ selectedMainGroup?.Name }}
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item v-if="selectedGattung">
                   <v-list-item-content class="list-item-content">
-                    Gattung: {{ selectedGattung }}
+                    Gattung: {{ selectedGattung?.Name }}
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item v-for="(value, key) in selectedModel" :key="key">
@@ -1121,6 +1218,11 @@ export default {
         cam4_3T: 0,
         cam5_3T: 0,
         cam6_3T: 0,
+        cam1_2T: 0,
+        cam2_2T: 0,
+        cam3_3T: 0,
+        cam4_3T: 0,
+        cam5_3T: 0,
       },
       dialogVisible: {
         point1: false,
@@ -1213,7 +1315,7 @@ export default {
     onMainGroupChange() {
       console.log("Main Group Changed:", this.selectedMainGroup);
       this.selectedGattung = null; // Gattung seçimlerini sıfırla
-      this.selectedModel = {}; // Modelleri de sıfırla
+      //this.selectedModel = {}; // Modelleri de sıfırla
       this.updateAvailableSubProducts();
     },
     updateAvailableSubProducts() {
@@ -1254,8 +1356,7 @@ export default {
 
     onGattungChange() {
       console.log("Gattung Changed:", this.selectedGattung);
-
-      this.selectedModel = {}; // Modelleri de sıfırla
+      //this.selectedModel = {}; // Modelleri de sıfırla
       this.updateAvailableSubProducts();
     },
     formatRALCode(fieldName) {
@@ -1310,6 +1411,11 @@ export default {
         cam4_3T: 0,
         cam5_3T: 0,
         cam6_3T: 0,
+        cam1_2T: 0,
+        cam2_2T: 0,
+        cam3_3T: 0,
+        cam4_3T: 0,
+        cam5_3T: 0,
       };
     },
     //koltuk seçimlerinde sınırlandırma
@@ -1559,6 +1665,46 @@ export default {
   position: absolute;
   top: 70%;
   right: 88%;
+  transform: rotate();
+}
+.cam1_2T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 40%;
+  right: 1px;
+  transform: rotate();
+}
+.cam2_2T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 15%;
+  transform: rotate();
+}
+.cam3_2T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 40%;
+  transform: rotate();
+}
+.cam4_2T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 25%;
+  right: 79%;
+  transform: rotate();
+}
+.cam5_2T {
+  height: 8%;
+  width: 10%;
+  position: absolute;
+  top: 70%;
+  right: 85%;
   transform: rotate();
 }
 .v-dialog {
