@@ -141,7 +141,7 @@
                 outlined
                 hide-details
                 item-text="Name"
-                item-value="mainGroup => mainGroup"
+                item-value="MainGroupID"
                 @change="onMainGroupChange"
               ></v-select>
             </v-col>
@@ -778,6 +778,7 @@
         <!-- Gattung Dropdown -->
         <v-col>
           <v-select
+            ref="gattungSelect"
             :item-props="itemProps"
             v-model="selectedGattung"
             :items="filteredGattungs"
@@ -955,6 +956,15 @@ export default {
     this.fetchMainGroups();
     this.fetchGattungs();
     this.fetchProducts();
+  },
+  watch: {
+    selectedMainGroup(newVal) {
+      this.onMainGroupChange(newVal);
+    },
+    //gattung
+    selectedGattung(newVal) {
+      this.onGattungChange(newVal);
+    },
   },
 
   computed: {
@@ -1161,6 +1171,7 @@ export default {
       img19C: "../src/static/19C-4T.jpg",
 
       searchQuery: "",
+      availableSubProducts: [],
     };
   },
 
@@ -1201,20 +1212,28 @@ export default {
 
     onMainGroupChange() {
       console.log("Main Group Changed:", this.selectedMainGroup);
-      this.selectedGattung = null;
-      this.selectedModel = {};
+      this.selectedGattung = null; // Gattung seçimlerini sıfırla
+      this.selectedModel = {}; // Modelleri de sıfırla
       this.updateAvailableSubProducts();
     },
     updateAvailableSubProducts() {
-      this.availableSubProducts = this.getSubProductsForMainGroup(
-        this.selectedMainGroup
+      this.availableSubProducts = this.getSubProductsForMainGroupAndGattung(
+        this.selectedMainGroup,
+        this.selectedGattung
       );
     },
-    getSubProductsForMainGroup(mainGroup) {
-      const found = this.products.filter(
+    getSubProductsForMainGroupAndGattung(mainGroup, gattung) {
+      const filteredProducts = this.products.filter(
         (product) => product.MainGroupID === mainGroup.MainGroupID
       );
-      return found.length ? found : [];
+
+      if (!gattung) {
+        return filteredProducts.filter((product) => product.GattungID === null);
+      } else {
+        return filteredProducts.filter(
+          (product) => product.GattungID === gattung.GattungID
+        );
+      }
     },
 
     getSubProducts() {
@@ -1235,7 +1254,8 @@ export default {
 
     onGattungChange() {
       console.log("Gattung Changed:", this.selectedGattung);
-      this.selectedModel = {};
+
+      this.selectedModel = {}; // Modelleri de sıfırla
       this.updateAvailableSubProducts();
     },
     formatRALCode(fieldName) {
@@ -1410,11 +1430,13 @@ export default {
         "Gangseitige klappbare armlehne",
         "Kunststoff-Fahrgastsitzrückseite",
       ];
+
       if (
         this.selectedMainGroup &&
         this.selectedMainGroup.Name === "Bestuhlung"
       ) {
         if (
+          this.selectedGattung &&
           (this.selectedGattung.Name === "78RI - Sitzhaltegriffe" ||
             this.selectedGattung.Name === "78RD - Sitzarmlehnen" ||
             this.selectedGattung.Name === "770A - Fahrgastsitz-Rückseite") &&
