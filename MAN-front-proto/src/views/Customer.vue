@@ -869,6 +869,50 @@
                 </v-card>
               </v-dialog>
             </v-img>
+
+            <!-- Haltestangen -->
+
+            <v-img
+              v-else-if="selectedMainGroup?.Name === 'Haltestangen'"
+              :src="hal_customimg"
+              contain
+              max-height="700"
+              max-width="640"
+              alt="Haltestangen image"
+            >
+            </v-img>
+
+            <!-- Teleskop -->
+            <v-img
+              v-else-if="
+                selectedMainGroup?.Name ===
+                'Abschrankung/Haarnadelstange an Tür 1'
+              "
+              :src="teleskopImage"
+              contain
+              max-height="700"
+              max-width="640"
+              alt="Teleskop image"
+            >
+              <v-btn @click="toggleTeleskopImage">{{
+                teleskopButtonText
+              }}</v-btn>
+            </v-img>
+
+            <!-- gegenüber  -->
+
+            <v-img
+              v-else-if="
+                selectedMainGroup?.Name ===
+                'Sondernutzungsfläche gegenüber Tür 2'
+              "
+              :src="gegenuberImage"
+              contain
+              max-height="700"
+              max-width="640"
+              alt="Gegenuber image"
+            >
+            </v-img>
           </v-row>
         </v-col>
 
@@ -935,18 +979,27 @@
                   @change="onOptionChange(subProduct.Name, $event)"
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
-                <div v-else-if="subProduct.GattungID === 8">
-                  <v-text-field
-                    v-model="selectedModel[subProduct.Name]"
-                    :label="subProduct.InputPlaceholder"
-                    dense
-                    solo
-                    outlined
-                    hide-details="auto"
-                    @input="formatRALCode(subProduct.Name)"
-                    @click="showRALPrefix(subProduct.Name)"
-                  ></v-text-field>
-                </div>
+                <v-select
+                  v-else-if="subProduct.Name === 'Nur Deckenhaltestangen in'"
+                  v-model="selectedRalCode"
+                  :items="subProduct.Options"
+                  label="Wählen"
+                  @change="updateHalCustomImg"
+                ></v-select>
+                <v-select
+                  v-else-if="subProduct.Name === '680A - SNF gegenüber Tür 2'"
+                  :items="subProduct.Options"
+                  :item-text="(item) => item"
+                  :item-value="(item) => item"
+                  v-model="selectedGegenuberOption"
+                  :label="$t('choose')"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                  @change="updateGegenuberImage"
+                ></v-select>
+
                 <!-- Other sub-products -->
                 <v-select
                   v-else
@@ -988,56 +1041,7 @@
       </v-row>
 
       <!-- Export button -->
-      <!-- <v-row v-if="selectedType" class="pt-0 grey darken-2">
-        <v-col class="custom-row">
-          <v-btn class="custom-export" @click="xport" color="primary">
-            Export
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn class="custom-back" color="primary" @click="resetSelection">
-            Zurück
-          </v-btn>
-        </v-col>
 
-        <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
-          <v-card>
-            <v-card-title>
-              Exported Data
-              <v-spacer></v-spacer>
-              <v-btn icon @click="dialog = false">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-            </v-card-title>
-            <v-card-text>
-              <v-list dense>
-                <v-list-item>
-                  <v-list-item-content class="list-item-content">
-                    Bus Type: {{ selectedType?.Name }}
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item v-if="selectedMainGroup">
-                  <v-list-item-content class="list-item-content">
-                    Main Group: {{ selectedMainGroup?.Name }}
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item v-if="selectedGattung">
-                  <v-list-item-content class="list-item-content">
-                    Gattung: {{ selectedGattung?.Name }}
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item v-for="(value, key) in selectedModel" :key="key">
-                  <v-list-item-content class="list-item-content">
-                    {{ key }}: {{ value }}
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-card-text>
-            <v-card-actions class="justify-end">
-              <v-btn color="red" text @click="dialog = false">Close</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-row> -->
       <v-row v-if="selectedType" class="pt-0 grey darken-2">
         <v-col class="custom-row">
           <v-btn class="custom-export" @click="xport" color="primary">
@@ -1072,6 +1076,19 @@
                     <ul style="margin-left: 20px">
                       <li v-for="product in group.products" :key="product.name">
                         {{ product.name }}: {{ product.value }}
+                      </li>
+                    </ul>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-content class="list-item-content">
+                    <div><strong>Camera Rotations:</strong></div>
+                    <ul style="margin-left: 20px">
+                      <li
+                        v-for="(rotation, index) in cameraRotations"
+                        :key="index"
+                      >
+                        {{ index }}: {{ rotation }}°
                       </li>
                     </ul>
                   </v-list-item-content>
@@ -1139,6 +1156,9 @@ export default {
     this.fetchMainGroups();
     this.fetchGattungs();
     this.fetchProducts();
+    this.products.forEach((product) => {
+      this.checkAndUpdateHalCustomImg(product);
+    });
   },
   watch: {
     selectedMainGroup(newVal) {
@@ -1147,6 +1167,12 @@ export default {
     //gattung
     selectedGattung(newVal) {
       this.onGattungChange(newVal);
+    },
+    selectedRalCode(newVal, oldVal) {
+      this.updateHalCustomImg();
+    },
+    selectedGegenuberOption(newOption) {
+      this.updateGegenuberImage(newOption);
     },
   },
 
@@ -1349,6 +1375,20 @@ export default {
       showButtons: true,
       chairImage: "../src/assets/Bestuhlung/normal.bmp", // Ön yüz görüntüsü
       chairBackImage: "../src/assets/Bestuhlung/normal back.bmp", // Arka yüz görüntüsü
+      hal_customimg: "../src/assets/Haltestangen/080CC.jpg",
+      hal_3000img: "../src/assets/Haltestangen/3000.jpg",
+      hal_1003img: "../src/assets/Haltestangen/1003.jpg",
+      selectedRalCode: "RAL 080C", // Default RAL Code
+      selectedGegenuberOption: null,
+      gegenuber1img: "../src/assets/gegenüber/resim1.png",
+      gegenuber2img: "../src/assets/gegenüber/resim2.png",
+      gegenuber3img: "../src/assets/gegenüber/resim3.png",
+      gegenuberImage: "",
+
+      teleskop_on: "../src/assets/Teleskop/teleskop_on.png",
+      teleskop_off: "../src/assets/Teleskop/teleskop_off.png",
+      teleskopImage: "../src/assets/Teleskop/teleskop_off.png",
+      teleskopButtonText: "Turn On",
 
       vehicleDialog: false,
       selectedVehicle: null,
@@ -1734,6 +1774,51 @@ export default {
         }
       }
       return false;
+    },
+
+    updateHalCustomImg() {
+      if (this.selectedRalCode === "RAL 080C") {
+        this.hal_customimg = "../src/assets/Haltestangen/080CC.jpg";
+      } else if (this.selectedRalCode === "RAL 1003") {
+        this.hal_customimg = "../src/assets/Haltestangen/1003.jpg";
+      } else if (this.selectedRalCode === "RAL 3000") {
+        this.hal_customimg = "../src/assets/Haltestangen/3000.jpg";
+      }
+    },
+    checkAndUpdateHalCustomImg(product) {
+      if (product.name === "Nur Deckenhaltestangen in") {
+        this.updateHalCustomImg(product.ralCode);
+      }
+    },
+
+    toggleTeleskopImage() {
+      if (this.teleskopImage === this.teleskop_off) {
+        this.teleskopImage = this.teleskop_on;
+        this.teleskopButtonText = "Turn Off";
+      } else {
+        this.teleskopImage = this.teleskop_off;
+        this.teleskopButtonText = "Turn On";
+      }
+    },
+
+    updateGegenuberImage(option) {
+      console.log("Selected option:", option);
+      if (
+        option ===
+        "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm."
+      ) {
+        this.gegenuberImage = this.gegenuber1img;
+      } else if (
+        option ===
+        "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
+      ) {
+        this.gegenuberImage = this.gegenuber2img;
+      } else if (
+        option ===
+        "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
+      ) {
+        this.gegenuberImage = this.gegenuber3img;
+      }
     },
   },
 };
