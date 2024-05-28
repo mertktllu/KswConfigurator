@@ -103,8 +103,9 @@
               <template v-slot:default="{ isActive }">
                 <v-card title="Edit A Main Group">
                   <v-select
-                    :items="mainGroups"
-                    v-model="selectedGroup"
+                  :item-props="itemProps"
+                  v-model="selectedMainGroup"
+                  :items="mainGroups"
                     label="Select an option"
                   ></v-select>
 
@@ -216,7 +217,12 @@
                     :itemProps="itemProps"
                     :items="filteredGattungs"
                     v-model="selectedGattung"
+                    item-text="name"
                     label="Select an option"
+                    dense
+                    solo
+                    outlined
+                    hide-details
                   ></v-select>
 
                   <v-text-field clearable label="New Name" v-model="newGattungName"></v-text-field>
@@ -443,141 +449,154 @@ export default {
       }
     },
     
-    // async submitAddMainGroup() {
-    //   try {
-    //     const details = this.addMainGroup; // Admin tarafından girilen yeni ana grup adı
-    //     const actionType = "Add MainGroup"; // İşlem tipi
-    //     const response = await axios.post('http://localhost:3000/datauploadrequests', {
-    //       UserID: 1, // Admin ID
-    //       TableName: 'MainGroups',
-    //       RequestDetails: `Action: ${actionType}, Details: ${details}`,
-    //       RequestStatus: false,
-    //       RequestDate: new Date(),
-    //       ActionType: actionType, // İşlem tipi
-    //     });
-    //     if (response.status === 201) {
-    //       alert("Request sent successfully");
-    //       this.addMainGroup = '';
-    //       this.dialogMainGroup = false;
-    //     } else {
-    //       alert("Failed to send request");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error sending request to add main group:", error);
-    //     alert("Error sending request to add main group");
-    //   }
-    // },
-    // async submitDeleteMainGroup(id, name) {
-    //   try {
-    //     const details = `MainGroupID: ${id}, Name: ${name}`; // Silinen ana grup bilgisi
-    //     const actionType = "Delete MainGroup"; // İşlem tipi
-    //     const response = await axios.post('http://localhost:3000/datauploadrequests', {
-    //       UserID: 1, // Admin ID
-    //       TableName: 'MainGroups',
-    //       RequestDetails: `Action: ${actionType}, Details: ${details}`,
-    //       RequestStatus: false,
-    //       RequestDate: new Date(),
-    //       ActionType: actionType, // İşlem tipi
-    //     });
-    //     if (response.status === 201) {
-    //       alert("Request sent successfully");
-    //       this.fetchMainGroups(); // Ana grup listesini güncelle
-    //     } else {
-    //       alert("Failed to send request");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error sending request to delete main group:", error);
-    //     alert("Error sending request to delete main group");
-    //   }
-    // },
-    // async submitEditMainGroup() {
-    //   try {
-    //     const details = `MainGroupID: ${this.selectedGroup}, New Name: ${this.newGroupName}`; // Düzenlenen ana grup bilgisi
-    //     const actionType = "Edit MainGroup"; // İşlem tipi
-    //     const response = await axios.post('http://localhost:3000/datauploadrequests', {
-    //       UserID: 1, // Admin ID
-    //       TableName: 'MainGroups',
-    //       RequestDetails: `Action: ${actionType}, Details: ${details}`,
-    //       RequestStatus: false,
-    //       RequestDate: new Date(),
-    //       ActionType: actionType, // İşlem tipi
-    //     });
-    //     if (response.status === 201) {
-    //       alert("Request sent successfully");
-    //       this.newGroupName = '';
-    //       this.selectedGroup = null;
-    //       this.dialogEditMainGroup = false;
-    //       this.fetchMainGroups(); // Ana grup listesini güncelle
-    //     } else {
-    //       alert("Failed to send request");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error sending request to edit main group:", error);
-    //     alert("Error sending request to edit main group");
-    //   }
-    // },
-    // async addNewGattung() {
-    //   try {
-    //     const response = await axios.post('http://localhost:3000/gattungs', {
-    //       GattungName: this.addGattung,
-    //       MainGroupID: this.selectedMainGroup,
-    //     });
-    //     this.gattungs.push(response.data);
-    //     this.addGattung = '';
-    //     this.dialogAddGattung = false;
-    //   } catch (error) {
-    //     console.error('Error adding gattung:', error);
-    //   }
-    // },
-    // async submitDeleteGattung(id, name) {
-    //   try {
-    //     const details = `GattungID: ${id}, Name: ${name}`; // Silinen gattung bilgisi
-    //     const actionType = "Delete Gattung"; // İşlem tipi
-    //     const response = await axios.post('http://localhost:3000/datauploadrequests', {
-    //       UserID: 1, // Admin ID
-    //       TableName: 'Gattungs',
-    //       RequestDetails: `Action: ${actionType}, Details: ${details}`,
-    //       RequestStatus: false,
-    //       RequestDate: new Date(),
-    //       ActionType: actionType, // İşlem tipi
-    //     });
-    //     if (response.status === 201) {
-    //       alert("Request sent successfully");
-    //       this.fetchGattungs(); // Gattung listesini güncelle
-    //     } else {
-    //       alert("Failed to send request");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error sending request to delete gattung:", error);
-    //     alert("Error sending request to delete gattung");
-    //   }
-    // },
-    // async submitEditGattung() {
-    //   try {
-    //     const details = `GattungID: ${this.selectedGattung}, New Name: ${this.newGattungName}`; // Düzenlenen gattung bilgisi
-    //     const actionType = "Edit Gattung"; // İşlem tipi
-    //     const response = await axios.post('http://localhost:3000/datauploadrequests', {
-    //       UserID: 1, // Admin ID
-    //       TableName: 'Gattungs',
-    //       RequestDetails: `Action: ${actionType}, Details: ${details}`,
-    //       RequestStatus: false,
-    //       RequestDate: new Date(),
-    //       ActionType: actionType, // İşlem tipi
-    //     });
-    //     if (response.status === 201) {
-    //       alert("Request sent successfully");
-    //       this.newGattungName = '';
-    //       this.selectedGattung = null;
-    //       this.dialogEditGattung = false;
-    //       this.fetchGattungs(); // Gattung listesini güncelle
-    //     } else {
-    //       alert("Failed to send request");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error sending request to edit gattung:", error);
-    //     alert("Error sending request to edit gattung");
-    //   }
-    // },
+    async submitAddMainGroup() {
+      try {
+        const details = this.addMainGroup; // Admin tarafından girilen yeni ana grup adı
+        const actionType = "Add MainGroup"; // İşlem tipi
+        const response = await axios.post('http://localhost:3000/datauploadrequests', {
+          UserID: 1, // Admin ID
+          TableName: 'MainGroups',
+          RequestDetails: `Action: ${actionType}, Details: ${details}`,
+          RequestStatus: false,
+          RequestDate: new Date(),
+          ActionType: actionType, // İşlem tipi
+        });
+        if (response.status === 201) {
+          alert("Request sent successfully");
+          this.addMainGroup = '';
+          this.dialogMainGroup = false;
+        } else {
+          alert("Failed to send request");
+        }
+      } catch (error) {
+        console.error("Error sending request to add main group:", error);
+        alert("Error sending request to add main group");
+      }
+    },
+    async submitDeleteMainGroup(id, name) {
+      try {
+        const details = `MainGroupID: ${id}, Name: ${name}`; // Silinen ana grup bilgisi
+        const actionType = "Delete MainGroup"; // İşlem tipi
+        const response = await axios.post('http://localhost:3000/datauploadrequests', {
+          UserID: 1, // Admin ID
+          TableName: 'MainGroups',
+          RequestDetails: `Action: ${actionType}, Details: ${details}`,
+          RequestStatus: false,
+          RequestDate: new Date(),
+          ActionType: actionType, // İşlem tipi
+        });
+        if (response.status === 201) {
+          alert("Request sent successfully");
+          this.fetchMainGroups(); // Ana grup listesini güncelle
+        } else {
+          alert("Failed to send request");
+        }
+      } catch (error) {
+        console.error("Error sending request to delete main group:", error);
+        alert("Error sending request to delete main group");
+      }
+    },
+    async submitEditMainGroup() {
+      try {
+        const details = `MainGroupID: ${this.selectedGroup}, New Name: ${this.newGroupName}`; // Düzenlenen ana grup bilgisi
+        const actionType = "Edit MainGroup"; // İşlem tipi
+        const response = await axios.post('http://localhost:3000/datauploadrequests', {
+          UserID: 1, // Admin ID
+          TableName: 'MainGroups',
+          RequestDetails: `Action: ${actionType}, Details: ${details}`,
+          RequestStatus: false,
+          RequestDate: new Date(),
+          ActionType: actionType, // İşlem tipi
+        });
+        if (response.status === 201) {
+          alert("Request sent successfully");
+          this.newGroupName = '';
+          this.selectedGroup = null;
+          this.dialogEditMainGroup = false;
+          this.fetchMainGroups(); // Ana grup listesini güncelle
+        } else {
+          alert("Failed to send request");
+        }
+      } catch (error) {
+        console.error("Error sending request to edit main group:", error);
+        alert("Error sending request to edit main group");
+      }
+    },
+    async submitAddGattung() {
+      const details = this.addGattung; // Gattung adı details olarak kullanılıyor
+      const actionType = 'Add Gattung'; // İşlem türü
+
+      try {
+        const response = await axios.post('http://localhost:3000/datauploadrequests', {
+          UserID: 1, // Admin ID
+          TableName: 'Gattungs',
+          RequestDetails: `Action: ${actionType}, Details: ${details}`,
+          RequestStatus: false,
+          RequestDate: new Date(),
+          ActionType: actionType,
+        });
+
+        if (response.status === 201) {
+          alert('Request sent successfully');
+          this.addGattung = ''; // Formu temizle
+          this.fetchGattungs(); // Gattungs listesini güncelle
+        } else {
+          alert('Failed to send request');
+        }
+      } catch (error) {
+        console.error('Error sending request to add gattung:', error);
+        alert('Gattung ekleme isteği gönderilirken hata oluştu');
+      }
+    },
+    async submitDeleteGattung(id, name) {
+      try {
+        const details = `GattungID: ${id}, Name: ${name}`; // Silinen gattung bilgisi
+        const actionType = "Delete Gattung"; // İşlem tipi
+        const response = await axios.post('http://localhost:3000/datauploadrequests', {
+          UserID: 1, // Admin ID
+          TableName: 'Gattungs',
+          RequestDetails: `Action: ${actionType}, Details: ${details}`,
+          RequestStatus: false,
+          RequestDate: new Date(),
+          ActionType: actionType, // İşlem tipi
+        });
+        if (response.status === 201) {
+          alert("Request sent successfully");
+          this.fetchGattungs(); // Gattung listesini güncelle
+        } else {
+          alert("Failed to send request");
+        }
+      } catch (error) {
+        console.error("Error sending request to delete gattung:", error);
+        alert("Error sending request to delete gattung");
+      }
+    },
+    async submitEditGattung() {
+      try {
+        const details = `GattungID: ${this.selectedGattung}, New Name: ${this.newGattungName}`; // Düzenlenen gattung bilgisi
+        const actionType = "Edit Gattung"; // İşlem tipi
+        const response = await axios.post('http://localhost:3000/datauploadrequests', {
+          UserID: 1, // Admin ID
+          TableName: 'Gattungs',
+          RequestDetails: `Action: ${actionType}, Details: ${details}`,
+          RequestStatus: false,
+          RequestDate: new Date(),
+          ActionType: actionType, // İşlem tipi
+        });
+        if (response.status === 201) {
+          alert("Request sent successfully");
+          this.newGattungName = '';
+          this.selectedGattung = null;
+          this.dialogEditGattung = false;
+          this.fetchGattungs(); // Gattung listesini güncelle
+        } else {
+          alert("Failed to send request");
+        }
+      } catch (error) {
+        console.error("Error sending request to edit gattung:", error);
+        alert("Error sending request to edit gattung");
+      }
+    },
     rotateCamera(cameraId) {
       this.cameraRotations[cameraId] += 45; // Her tıklamada 45 derece döndür
       console.log(this.rotation);
