@@ -37,7 +37,7 @@
             >
             <v-btn
               size="small"
-              v-on:click="sendDeny(request.RequestID, request.RequestStatus)"
+              v-on:click="sendDeny(request.RequestID)"
               color="red"
             >
               <v-icon>mdi-close</v-icon></v-btn
@@ -58,50 +58,56 @@ export default {
       requests: [],
     };
   },
+
+mounted()
+{
+this.fetchRequests();
+},
   methods: {
-  async fetchRequests() {
-    try {
-      const response = await axios.get("http://localhost:3000/datauploadrequests");
-      this.requests = response.data;
-    } catch (error) {
-      console.error("Error fetching requests:", error);
-    }
-  },
-  async sendConfirm(requestId) {
-    try {
-      const response = await axios.post(`http://localhost:3000/approveRequest/${requestId}`);
-      if (response.status === 200) {
-        alert("Request approved successfully");
-        this.fetchRequests();
-      } else {
-        alert("Failed to approve request");
+    async fetchRequests() {
+      try {
+        const response = await axios.get("http://localhost:3000/datauploadrequests");
+        this.requests = response.data;
+      } catch (error) {
+        console.error("Error fetching requests:", error);
       }
-    } catch (error) {
-      console.error("Error approving request:", error);
-      alert("Error approving request");
+    },
+    async sendConfirm(requestId) {
+  try {
+    console.log(`Confirming request ID: ${requestId}`);
+    const response = await axios.post(`http://localhost:3000/approveRequest/${requestId}`);
+    if (response.status === 200) {
+      alert("Request approved successfully");
+      this.fetchRequests();
+    } else {
+      alert(`Failed to approve request: ${response.data.message || 'Unknown error'}`);
     }
-  },
-  async sendDeny(requestId) {
-    try {
-      const response = await axios.put(`http://localhost:3000/datauploadrequests/${requestId}`, {
-        RequestStatus: 2, // Assuming 2 means declined
-      });
-      if (response.status === 200) {
-        alert("Request denied successfully");
-        this.fetchRequests();
-      } else {
-        alert("Failed to deny request");
-      }
-    } catch (error) {
-      console.error("Error denying request:", error);
-      alert("Error denying request");
-    }
-  },
-  formatRequestStatus(status) {
-    return status === 1 ? "Approved" : status === 2 ? "Declined" : "Pending";
-  },
+  } catch (error) {
+    console.error("Error approving request:", error);
+    alert(`Error approving request: ${error.message}`);
+  }
 },
 
+    async sendDeny(requestId) {
+      try {
+        const response = await axios.put(`http://localhost:3000/datauploadrequests/${requestId}`, {
+          RequestStatus: 2, // Assuming 2 means declined
+        });
+        if (response.status === 200) {
+          alert("Request denied successfully");
+          this.fetchRequests();
+        } else {
+          alert(`Failed to deny request: ${response.data.message || 'Unknown error'}`);
+        }
+      } catch (error) {
+        console.error("Error denying request:", error);
+        alert(`Error denying request: ${error.message}`);
+      }
+    },
+    formatRequestStatus(status) {
+      return status === 1 ? "Approved" : status === 2 ? "Declined" : "Pending";
+    },
+  },
   created() {
     this.fetchRequests();
   },
