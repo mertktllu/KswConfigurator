@@ -257,26 +257,64 @@
     </v-row>
 
     <v-row>
-      <v-col v-if="availableSubProducts.length">
-        <v-card v-for="subProduct in availableSubProducts" :key="subProduct.Name">
+      <v-col>
+        <!-- Custom Part Selection -->
+        <v-card class="custom-part">
           <v-card-title>
-            {{ "Custom Part" }}
-            <v-btn size="small" icon class="ml-5" color="green" @click="openAddOptionDialog(subProduct)">
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
+            Custom Part
+            <v-dialog v-model="dialogAddOption" max-width="50%">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn v-bind="activatorProps" size="small" icon class="ml-5" color="green">
+                  <v-icon>mdi-plus</v-icon></v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">Add Option</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-text-field
+                    v-model="addOptionName"
+                    :rules="nameRules"
+                    label="Option Name"
+                    hide-details
+                    required
+                  ></v-text-field>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="dialogAddOption = false">Close</v-btn>
+                  <v-btn color="blue darken-1" text @click="submitAddOption">Add</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-card-title>
-          <v-card-text>
-            <v-select
-              :items="subProduct.Options"
-              :item-text="(item) => item"
-              :item-value="(item) => item"
-              v-model="selectedModel[subProduct.Name]"
-              :label="$t('choose')"
-              dense
-              solo
-              outlined
-              hide-details
-            ></v-select>
+          <v-card-text v-for="product in availableSubProducts" :key="product.Name">
+            <v-row>
+              <v-col>
+                <v-select
+                  :items="product.Options"
+                  :item-text="(item) => item"
+                  :item-value="(item) => item"
+                  v-model="selectedModel[product.Name]"
+                  :label="$t('choose')"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                ></v-select>
+              </v-col>
+              <v-col cols="1">
+                <v-btn
+                  size="small"
+                  icon
+                  class="mt-4"
+                  color="red"
+                  @click="submitDeleteOption(product, selectedModel[product.Name])"
+                >
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-col>
@@ -299,6 +337,17 @@
             <v-spacer></v-spacer>
             <v-btn text="Close" color="red" @click="isActive.value = false"></v-btn>
             <v-btn text="Add" color="green" @click="submitAddOption"></v-btn>
+            <v-btn
+              v-for="option in subProduct.Options"
+              :key="option"
+              size="small"
+              icon
+              class="ml-2"
+              color="red"
+              @click="submitDeleteOption(subProduct, option)"
+            >
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
           </v-card-actions>
         </v-card>
       </template>
@@ -320,7 +369,7 @@ export default {
       gattungs: [],
       selectedMainGroup: null,
       selectedGattung: null,
-      selectedModel: {},
+      selectedModel: {}, 
       newGroupName: '',
       newGattungName: '',
       nameRules: [(v) => !!v || 'Name is required'],
@@ -384,35 +433,38 @@ export default {
   },
   methods: {
     openAddOptionDialog(product) {
+  if (product && product.Options) {
     this.selectedOptionProduct = product;
-    this.addOptionName = '';
-    this.dialogAddOption = true;
-  },
-    async submitDeleteOption(subProduct) {
-    const productID = subProduct.ProductID;
-    const details = this.selectedModel[subProduct.Name];
-    const actionType = 'Delete Option';
+  } else {
+    this.selectedOptionProduct = { Options: [] };
+  }
+  this.addOptionName = '';
+  this.dialogAddOption = true;
+},
 
+    async submitDeleteOption(product, option) {
     try {
+      const productID = product.ProductID;
+      const gattungID = this.selectedGattung ? this.selectedGattung.GattungID : null;
+
       const response = await axios.post('http://localhost:3000/datauploadrequests', {
         UserID: 1, // Admin ID
         TableName: 'Products',
-        RequestDetails: `Action: ${actionType}, Details: ${details}`,
+        RequestDetails: `Action: Delete Option, ProductID: ${productID}, GattungID: ${gattungID}, Option: ${option}`,
         RequestStatus: false,
         RequestDate: new Date(),
-        ActionType: actionType,
-        ProductID: productID,
+        ActionType: "Delete Option",
       });
 
       if (response.status === 201) {
         alert('Request sent successfully');
-        this.fetchProducts(); // Ürün listesini güncelle
+        this.fetchProducts();
       } else {
         alert('Failed to send request');
       }
     } catch (error) {
       console.error('Error sending request to delete option:', error);
-      alert('Seçenek silme isteği gönderilirken hata oluştu');
+      alert('Error sending request to delete option');
     }
   },
     async fetchMainGroups() {

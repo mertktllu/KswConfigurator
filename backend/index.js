@@ -244,35 +244,46 @@ app.post("/approveRequest/:id", async (req, res) => {
     const request = result.recordset[0];
     const { ActionType, RequestDetails } = request;
 
-    // İlgili tabloyu ve işlemi belirleyin
     let query = "";
     if (ActionType === "Add MainGroup") {
       const details = RequestDetails.match(/Details: (.*)/)[1];
-      query = `INSERT INTO MainGroups (Name) VALUES ('${details}')`;
+      query = `INSERT INTO MainGroups (Name) VALUES (@details)`;
+      await pool.request().input("details", sql.NVarChar, details).query(query);
     } else if (ActionType === "Delete MainGroup") {
       const mainGroupId = RequestDetails.match(/MainGroupID: (\d+)/)[1];
-      query = `DELETE FROM MainGroups WHERE MainGroupID = ${mainGroupId}`;
+      query = `DELETE FROM MainGroups WHERE MainGroupID = @mainGroupId`;
+      await pool.request().input("mainGroupId", sql.Int, mainGroupId).query(query);
     } else if (ActionType === "Edit MainGroup") {
       const mainGroupId = RequestDetails.match(/MainGroupID: (\d+)/)[1];
       const newName = RequestDetails.match(/New Name: (.*)/)[1];
-      query = `UPDATE MainGroups SET Name = '${newName}' WHERE MainGroupID = ${mainGroupId}`;
+      query = `UPDATE MainGroups SET Name = @newName WHERE MainGroupID = @mainGroupId`;
+      await pool.request()
+        .input("newName", sql.NVarChar, newName)
+        .input("mainGroupId", sql.Int, mainGroupId)
+        .query(query);
     } else if (ActionType === "Add Gattung") {
       const details = RequestDetails.match(/Details: (.*)/)[1];
       const mainGroupId = request.MainGroupID;
-      query = `INSERT INTO Gattungs (Name, MainGroupID) VALUES ('${details}', ${mainGroupId})`;
+      query = `INSERT INTO Gattungs (Name, MainGroupID) VALUES (@details, @mainGroupId)`;
+      await pool.request()
+        .input("details", sql.NVarChar, details)
+        .input("mainGroupId", sql.Int, mainGroupId)
+        .query(query);
     } else if (ActionType === "Delete Gattung") {
       const gattungId = RequestDetails.match(/GattungID: (\d+)/)[1];
-      query = `DELETE FROM Gattungs WHERE GattungID = ${gattungId}`;
+      query = `DELETE FROM Gattungs WHERE GattungID = @gattungId`;
+      await pool.request().input("gattungId", sql.Int, gattungId).query(query);
     } else if (ActionType === "Edit Gattung") {
       const gattungId = RequestDetails.match(/GattungID: (\d+)/)[1];
       const newName = RequestDetails.match(/New Name: (.*)/)[1];
-      query = `UPDATE Gattungs SET Name = '${newName}' WHERE GattungID = ${gattungId}`;
+      query = `UPDATE Gattungs SET Name = @newName WHERE GattungID = @gattungId`;
+      await pool.request()
+        .input("newName", sql.NVarChar, newName)
+        .input("gattungId", sql.Int, gattungId)
+        .query(query);
     }
 
-    // İşlemi veritabanında gerçekleştirin
     if (query) {
-      await pool.request().query(query);
-
       // İsteği onaylanmış olarak güncelleyin
       await pool
         .request()
