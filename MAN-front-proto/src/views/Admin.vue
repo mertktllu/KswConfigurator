@@ -257,74 +257,53 @@
     </v-row>
 
     <v-row>
-       <!-- Custom Part Selection -->
-      -- <v-col>
-       
-
-        <v-card class="custom-part">
+      <v-col v-if="availableSubProducts.length">
+        <v-card v-for="subProduct in availableSubProducts" :key="subProduct.Name">
           <v-card-title>
-            Custom Part
-            <v-dialog max-width="50%">
-              <template v-slot:activator="{ props: activatorProps }">
-                <v-btn v-bind="activatorProps" size="small" icon class="ml-5" color="green">
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </template>
-
-              <template v-slot:default="{ isActive }">
-                <v-card title="Add Gattung">
-                  <v-card-text>
-                    <v-text-field
-                      v-model="addGattung"
-                      :counter="10"
-                      :rules="nameRules"
-                      label="Name of Gattung"
-                      hide-details
-                      required
-                    ></v-text-field>
-                  </v-card-text>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-
-                    <v-btn text="Close" color="red" @click="isActive.value = false"></v-btn>
-                    <v-btn text="Add" color="green" @click="submitAddGattung"></v-btn>
-                  </v-card-actions>
-                </v-card>
-              </template>
-            </v-dialog>
+            {{ "Custom Part" }}
+            <v-btn size="small" icon class="ml-5" color="green" @click="openAddOptionDialog(subProduct)">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
           </v-card-title>
-
-          <v-card-text v-for="product in comModels" :key="product.id">
-            <v-row>
-              <v-col>
-                <v-select
-                  :itemProps="itemProps"
-                  v-model="selectedModel[product.name]"
-                  :key="product.id"
-                  :items="product.types"
-                  :label="product.name"
-                  dense
-                  solo
-                  outlined
-                  hide-details
-                  class="ma-2"
-                >
-                </v-select>
-              </v-col>
-              <v-col cols="1">
-                <v-btn v-bind="activatorProps" size="small" icon class="mt-4" color="red">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
+          <v-card-text>
+            <v-select
+              :items="subProduct.Options"
+              :item-text="(item) => item"
+              :item-value="(item) => item"
+              v-model="selectedModel[subProduct.Name]"
+              :label="$t('choose')"
+              dense
+              solo
+              outlined
+              hide-details
+            ></v-select>
           </v-card-text>
         </v-card>
-      </v-col> 
-
-      <!-- Selection -->
-      
+      </v-col>
     </v-row>
+
+    <!-- Add Option Dialog -->
+    <v-dialog v-model="dialogAddOption" max-width="50%">
+      <template v-slot:default="{ isActive }">
+        <v-card title="Add Option">
+          <v-card-text>
+            <v-text-field
+              v-model="addOptionName"
+              :rules="nameRules"
+              label="Option Name"
+              hide-details
+              required
+            ></v-text-field>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text="Close" color="red" @click="isActive.value = false"></v-btn>
+            <v-btn text="Add" color="green" @click="submitAddOption"></v-btn>
+          </v-card-actions>
+        </v-card>
+      </template>
+    </v-dialog>
+
   </v-container>
 </template>
 
@@ -345,7 +324,9 @@ export default {
       newGroupName: '',
       newGattungName: '',
       nameRules: [(v) => !!v || 'Name is required'],
-      
+        dialogAddOption: false, // Add option dialogu için
+    addOptionName: '', // Eklenecek option adı
+    selectedOptionProduct: null, // Eklenecek optionun ait olduğu product
      
     
     };
@@ -402,6 +383,38 @@ export default {
     },
   },
   methods: {
+    openAddOptionDialog(product) {
+    this.selectedOptionProduct = product;
+    this.addOptionName = '';
+    this.dialogAddOption = true;
+  },
+    async submitDeleteOption(subProduct) {
+    const productID = subProduct.ProductID;
+    const details = this.selectedModel[subProduct.Name];
+    const actionType = 'Delete Option';
+
+    try {
+      const response = await axios.post('http://localhost:3000/datauploadrequests', {
+        UserID: 1, // Admin ID
+        TableName: 'Products',
+        RequestDetails: `Action: ${actionType}, Details: ${details}`,
+        RequestStatus: false,
+        RequestDate: new Date(),
+        ActionType: actionType,
+        ProductID: productID,
+      });
+
+      if (response.status === 201) {
+        alert('Request sent successfully');
+        this.fetchProducts(); // Ürün listesini güncelle
+      } else {
+        alert('Failed to send request');
+      }
+    } catch (error) {
+      console.error('Error sending request to delete option:', error);
+      alert('Seçenek silme isteği gönderilirken hata oluştu');
+    }
+  },
     async fetchMainGroups() {
       try {
         const response = await axios.get('http://localhost:3000/maingroups');
@@ -448,6 +461,33 @@ export default {
         console.error("Error fetching products:", error);
       }
     },
+async submitAddOption() {
+    try {
+      const productID = this.selectedOptionProduct.ProductID;
+      const gattungID = this.selectedGattung ? this.selectedGattung.GattungID : null;
+      const newOption = this.addOptionName;
+
+      const response = await axios.post('http://localhost:3000/datauploadrequests', {
+        UserID: 1, // Admin ID
+        TableName: 'Products',
+        RequestDetails: `Action: Add Option, ProductID: ${productID}, GattungID: ${gattungID}, Option: ${newOption}`,
+        RequestStatus: false,
+        RequestDate: new Date(),
+        ActionType: "Add Option",
+      });
+
+      if (response.status === 201) {
+        alert('Request sent successfully');
+        this.dialogAddOption = false;
+        this.fetchProducts();
+      } else {
+        alert('Failed to send request');
+      }
+    } catch (error) {
+      console.error('Error sending request to add option:', error);
+      alert('Error sending request to add option');
+    }
+  },
     
     async submitAddMainGroup() {
       try {

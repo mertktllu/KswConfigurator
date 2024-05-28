@@ -55,11 +55,11 @@ app.get("/gattungs", async (req, res) => {
 app.get("/maingroups", async (req, res) => {
   try {
     const pool = await poolPromise;
-    const result = await pool.request().query("SELECT * FROM MainGroups");
+    const result = await pool.request().query("SELECT MainGroupID, Name FROM MainGroups");
     res.json(result.recordset);
   } catch (error) {
     res.status(500).send(error.message);
-  }
+  }
 });
 
 app.get("/products", async (req, res) => {
@@ -82,6 +82,40 @@ app.get("/types", async (req, res) => {
   }
 });
 
+app.post("/deleteOption", async (req, res) => {
+  const { ProductID, Option } = req.body;
+
+  try {
+    const pool = await poolPromise;
+    // İlgili product'ı al
+    const productResult = await pool
+      .request()
+      .input("ProductID", sql.Int, ProductID)
+      .query("SELECT * FROM Products WHERE ProductID = @ProductID");
+
+    if (productResult.recordset.length === 0) {
+      return res.status(404).send("Product not found");
+    }
+
+    const product = productResult.recordset[0];
+    const options = JSON.parse(product.Options.replace(/'/g, '"'));
+
+    // Seçeneği listeden çıkar
+    const updatedOptions = options.filter(opt => opt !== Option);
+
+    // Güncellenmiş seçenekleri veritabanına yaz
+    await pool
+      .request()
+      .input("Options", sql.NVarChar, JSON.stringify(updatedOptions).replace(/"/g, "'"))
+      .input("ProductID", sql.Int, ProductID)
+      .query("UPDATE Products SET Options = @Options WHERE ProductID = @ProductID");
+
+    res.status(200).send("Option deleted successfully");
+  } catch (error) {
+    console.error("Error deleting option:", error);
+    res.status(500).send("An error occurred while deleting the option");
+  }
+});
 
 
 app.get("/datauploadrequests", async (req, res) => {
@@ -94,6 +128,41 @@ app.get("/datauploadrequests", async (req, res) => {
     res.status(500).send("An error occurred while fetching data upload requests.");
   }
 });
+app.post("/addOption", async (req, res) => {
+  const { ProductID, Option } = req.body;
+
+  try {
+    const pool = await poolPromise;
+    // İlgili product'ı al
+    const productResult = await pool
+      .request()
+      .input("ProductID", sql.Int, ProductID)
+      .query("SELECT * FROM Products WHERE ProductID = @ProductID");
+
+    if (productResult.recordset.length === 0) {
+      return res.status(404).send("Product not found");
+    }
+
+    const product = productResult.recordset[0];
+    const options = JSON.parse(product.Options.replace(/'/g, '"'));
+
+    // Yeni seçeneği ekle
+    options.push(Option);
+
+    // Güncellenmiş seçenekleri veritabanına yaz
+    await pool
+      .request()
+      .input("Options", sql.NVarChar, JSON.stringify(options).replace(/"/g, "'"))
+      .input("ProductID", sql.Int, ProductID)
+      .query("UPDATE Products SET Options = @Options WHERE ProductID = @ProductID");
+
+    res.status(201).send("Option added successfully");
+  } catch (error) {
+    console.error("Error adding option:", error);
+    res.status(500).send("An error occurred while adding the option");
+  }
+});
+
 
 
 app.post("/datauploadrequests", async (req, res) => {
