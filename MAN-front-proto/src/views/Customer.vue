@@ -1399,7 +1399,15 @@ export default {
     ...mapActions(["triggerSuccessLog"]),
     xport() {
       // Check if any selections have been made
-      if (!this.selectedMainGroup && !this.selectedGattung) {
+      const hasMainGroupSelection =
+        this.selectedMainGroup &&
+        this.products.some(
+          (product) =>
+            product.MainGroupID === this.selectedMainGroup.MainGroupID &&
+            this.selectedModel[product.Name]
+        );
+
+      if (!this.selectedMainGroup || !hasMainGroupSelection) {
         this.showWarningLog = true;
         setTimeout(() => {
           this.showWarningLog = false;
