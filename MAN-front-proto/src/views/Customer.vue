@@ -1043,14 +1043,20 @@
       <!-- Export button -->
 
       <v-row v-if="selectedType" class="pt-0 grey darken-2">
-        <v-col class="custom-row">
-          <v-btn class="custom-export" @click="xport" color="primary">
-            Export
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn class="custom-back" color="primary" @click="resetSelection">
-            Zurück
-          </v-btn>
+        <v-col>
+          <!-- Main Group and Gattung Selection -->
+          <!-- Your existing dropdowns for main group and gattung here -->
+
+          <!-- Export and Back Buttons -->
+          <v-col class="custom-row">
+            <v-btn class="custom-export" @click="xport" color="primary">
+              Export
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn class="custom-back" color="primary" @click="resetSelection">
+              Zurück
+            </v-btn>
+          </v-col>
         </v-col>
 
         <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
@@ -1080,19 +1086,7 @@
                     </ul>
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item>
-                  <v-list-item-content class="list-item-content">
-                    <div><strong>Camera Rotations:</strong></div>
-                    <ul style="margin-left: 20px">
-                      <li
-                        v-for="(rotation, index) in cameraRotations"
-                        :key="index"
-                      >
-                        {{ index }}: {{ rotation }}°
-                      </li>
-                    </ul>
-                  </v-list-item-content>
-                </v-list-item>
+                <v-list-item> </v-list-item>
               </v-list>
             </v-card-text>
             <v-card-actions class="justify-end">
@@ -1515,8 +1509,29 @@ export default {
         }
       });
 
+      // Filter and include camera rotations for the selected Typ
+      const selectedTypPart = this.selectedType.Name.split("-")[1];
+      const cameraRotationsForTyp = Object.keys(this.cameraRotations)
+        .filter((key) => key.includes(selectedTypPart))
+        .reduce((obj, key) => {
+          obj[key] = this.cameraRotations[key];
+          return obj;
+        }, {});
+
+      // Add camera rotations as a separate main group entry
+      if (Object.keys(cameraRotationsForTyp).length > 0) {
+        this.exportData.push({
+          mainGroup: "Camera Rotations",
+          products: Object.keys(cameraRotationsForTyp).map((key) => ({
+            name: key,
+            value: cameraRotationsForTyp[key] + "°",
+          })),
+        });
+      }
+
       this.dialog = true;
     },
+
     finishExport() {
       this.triggerSuccessLog(); // Trigger success log in Vuex store
       this.dialog = false;
