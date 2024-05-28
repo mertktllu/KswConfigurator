@@ -543,7 +543,8 @@ async submitAddOption() {
     
     async submitAddMainGroup() {
       try {
-        const details = this.addMainGroup; // Admin tarafından girilen yeni ana grup adı
+        const details = this.addMainGroup; 
+        const mainGroupName = this.addMainGroup; // Admin tarafından girilen yeni ana grup adı
         const actionType = "Add MainGroup"; // İşlem tipi
         const response = await axios.post('http://localhost:3000/datauploadrequests', {
           UserID: 1, // Admin ID
