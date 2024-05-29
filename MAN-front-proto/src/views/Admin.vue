@@ -655,32 +655,34 @@ async submitAddOption() {
   }
 },
 
-    async submitAddGattung() {
-      const details = this.addGattung; // Gattung adı details olarak kullanılıyor
-      const actionType = 'Add Gattung'; // İşlem türü
+async submitAddGattung() {
+  try {
+    const details = `${this.addGattung}, MainGroupID: ${this.selectedMainGroup.MainGroupID}`; // Gattung adı ve MainGroupID details olarak kullanılıyor
+    const actionType = 'Add Gattung'; // İşlem türü
+    console.log(`RequestDetails: ${details}`); // Eklenen log
 
-      try {
-        const response = await axios.post('http://localhost:3000/datauploadrequests', {
-          UserID: 1, // Admin ID
-          TableName: 'Gattungs',
-          RequestDetails: `Action: ${actionType}, Details: ${details}`,
-          RequestStatus: false,
-          RequestDate: new Date(),
-          ActionType: actionType,
-        });
+    const response = await axios.post('http://localhost:3000/datauploadrequests', {
+      UserID: 1, // Admin ID
+      TableName: 'Gattungs',
+      RequestDetails: `Action: ${actionType}, Details: ${details}`,
+      RequestStatus: false,
+      RequestDate: new Date(),
+      ActionType: actionType,
+    });
 
-        if (response.status === 201) {
-          alert('Request sent successfully');
-          this.addGattung = ''; // Formu temizle
-          this.fetchGattungs(); // Gattungs listesini güncelle
-        } else {
-          alert('Failed to send request');
-        }
-      } catch (error) {
-        console.error('Error sending request to add gattung:', error);
-        alert('Gattung ekleme isteği gönderilirken hata oluştu');
-      }
-    },
+    if (response.status === 201) {
+      alert('Request sent successfully');
+      this.addGattung = ''; // Formu temizle
+      this.fetchGattungs(); // Gattungs listesini güncelle
+    } else {
+      alert('Failed to send request');
+    }
+  } catch (error) {
+    console.error('Error sending request to add gattung:', error);
+    alert('Gattung ekleme isteği gönderilirken hata oluştu');
+  }
+},
+
     async submitDeleteGattung(id, name) {
       try {
         const details = `GattungID: ${id}, Name: ${name}`; // Silinen gattung bilgisi
@@ -705,31 +707,33 @@ async submitAddOption() {
       }
     },
     async submitEditGattung() {
-      try {
-        const details = `GattungID: ${this.selectedGattung}, New Name: ${this.newGattungName}`; // Düzenlenen gattung bilgisi
-        const actionType = "Edit Gattung"; // İşlem tipi
-        const response = await axios.post('http://localhost:3000/datauploadrequests', {
-          UserID: 1, // Admin ID
-          TableName: 'Gattungs',
-          RequestDetails: `Action: ${actionType}, Details: ${details}`,
-          RequestStatus: false,
-          RequestDate: new Date(),
-          ActionType: actionType, // İşlem tipi
-        });
-        if (response.status === 201) {
-          alert("Request sent successfully");
-          this.newGattungName = '';
-          this.selectedGattung = null;
-          this.dialogEditGattung = false;
-          this.fetchGattungs(); // Gattung listesini güncelle
-        } else {
-          alert("Failed to send request");
-        }
-      } catch (error) {
-        console.error("Error sending request to edit gattung:", error);
-        alert("Error sending request to edit gattung");
-      }
-    },
+  try {
+    const details = `GattungID: ${this.selectedGattung.GattungID}, New Name: ${this.newGattungName}, MainGroupID: ${this.selectedMainGroup.MainGroupID}`; // Düzenlenen gattung bilgisi
+    const actionType = "Edit Gattung"; // İşlem tipi
+    console.log(`RequestDetails: ${details}`); // Eklenen log
+    const response = await axios.post('http://localhost:3000/datauploadrequests', {
+      UserID: 1, // Admin ID
+      TableName: 'Gattungs',
+      RequestDetails: `Action: ${actionType}, Details: ${details}`,
+      RequestStatus: false,
+      RequestDate: new Date(),
+      ActionType: actionType, // İşlem tipi
+    });
+    if (response.status === 201) {
+      alert("Request sent successfully");
+      this.newGattungName = '';
+      this.selectedGattung = null;
+      this.dialogEditGattung = false;
+      this.fetchGattungs(); // Gattung listesini güncelle
+    } else {
+      alert("Failed to send request");
+    }
+  } catch (error) {
+    console.error("Error sending request to edit gattung:", error);
+    alert("Error sending request to edit gattung");
+  }
+},
+
     rotateCamera(cameraId) {
       this.cameraRotations[cameraId] += 45; // Her tıklamada 45 derece döndür
       console.log(this.rotation);

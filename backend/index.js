@@ -297,13 +297,15 @@ app.post("/approveRequest/:id", async (req, res) => {
               const gattungName = addGattungDetailsMatch[1];
               const mainGroupId = addGattungDetailsMatch[2];
               const gattungValue = gattungName; // Name ile aynı değeri kullanıyoruz
-          
-              query = `INSERT INTO Gattungs (Name, MainGroupID, Value) VALUES (@gattungName, @mainGroupId, @gattungvalue)`;
+              
+              query = `INSERT INTO Gattungs (Name, MainGroupID, Value) VALUES (@gattungName, @mainGroupId, @gattungValue)`;
               inputs = [
                 { name: 'gattungName', type: sql.NVarChar, value: gattungName },
                 { name: 'mainGroupId', type: sql.Int, value: mainGroupId },
                 { name: 'gattungValue', type: sql.NVarChar, value: gattungName } // Aynı değeri kullanıyoruz
               ];
+              console.log(`Executing query: ${query}`);
+              console.log(`Inputs: ${JSON.stringify(inputs)}`); // Eklenen log
             } else {
               console.log("Invalid format for Add Gattung");
               return res.status(400).send("Invalid format for Add Gattung");
@@ -323,18 +325,35 @@ app.post("/approveRequest/:id", async (req, res) => {
         break;
         case "Edit Gattung":
           const editGattungIdMatch = RequestDetails.match(/GattungID: (\d+)/);
-          const newGattungNameMatch = RequestDetails.match(/New Name: (.*)/);
+          const newGattungNameMatch = RequestDetails.match(/New Name: ([^,]*)/);
+          const mainGroupIdMatch = RequestDetails.match(/MainGroupID: (\d+)/);
+  
           console.log(`RequestDetails: ${RequestDetails}`); // Eklenen log
-          if (editGattungIdMatch && editGattungIdMatch[1] && newGattungNameMatch && newGattungNameMatch[1]) {
+  
+          if (editGattungIdMatch && editGattungIdMatch[1] && newGattungNameMatch && newGattungNameMatch[1] && mainGroupIdMatch && mainGroupIdMatch[1]) {
             const gattungId = editGattungIdMatch[1];
             const newName = newGattungNameMatch[1];
+            const mainGroupId = mainGroupIdMatch[1];
+  
+            console.log(`GattungID: ${gattungId}`);
+            console.log(`New Name: ${newName}`);
+            console.log(`MainGroupID: ${mainGroupId}`);
+  
+            // Gattung güncelleme sorgusu
             query = `UPDATE Gattungs SET Name = @newName, Value = @newName WHERE GattungID = @gattungId`;
             inputs = [
               { name: 'newName', type: sql.NVarChar, value: newName },
               { name: 'gattungId', type: sql.Int, value: gattungId }
             ];
+  
+            // MainGroupID'yi ayrı bir sorgu ile güncelleme
+            await pool.request()
+              .input("mainGroupId", sql.Int, mainGroupId)
+              .input("gattungId", sql.Int, gattungId)
+              .query("UPDATE Gattungs SET MainGroupID = @mainGroupId WHERE GattungID = @gattungId");
+  
             console.log(`Executing query: ${query}`);
-            console.log(`Inputs: ${JSON.stringify(inputs)}`); // Eklenen log
+            console.log(`Inputs: ${JSON.stringify(inputs)}`);
           } else {
             console.log("Invalid format for Edit Gattung");
             return res.status(400).send("Invalid format for Edit Gattung");
