@@ -628,31 +628,33 @@ async submitAddOption() {
       }
     },
     async submitEditMainGroup() {
-      try {
-        const details = `MainGroupID: ${this.selectedGroup}, New Name: ${this.newGroupName}`; // Düzenlenen ana grup bilgisi
-        const actionType = "Edit MainGroup"; // İşlem tipi
-        const response = await axios.post('http://localhost:3000/datauploadrequests', {
-          UserID: 1, // Admin ID
-          TableName: 'MainGroups',
-          RequestDetails: `Action: ${actionType}, Details: ${details}`,
-          RequestStatus: false,
-          RequestDate: new Date(),
-          ActionType: actionType, // İşlem tipi
-        });
-        if (response.status === 201) {
-          alert("Request sent successfully");
-          this.newGroupName = '';
-          this.selectedGroup = null;
-          this.dialogEditMainGroup = false;
-          this.fetchMainGroups(); // Ana grup listesini güncelle
-        } else {
-          alert("Failed to send request");
-        }
-      } catch (error) {
-        console.error("Error sending request to edit main group:", error);
-        alert("Error sending request to edit main group");
-      }
-    },
+  try {
+    const details = `MainGroupID: ${this.selectedMainGroup.MainGroupID}, New Name: ${this.newGroupName}`; // Düzenlenen ana grup bilgisi
+    const actionType = "Edit MainGroup"; // İşlem tipi
+    console.log(`RequestDetails: ${details}`); // Eklenen log
+    const response = await axios.post('http://localhost:3000/datauploadrequests', {
+      UserID: 1, // Admin ID
+      TableName: 'MainGroups',
+      RequestDetails: `Action: ${actionType}, Details: ${details}`,
+      RequestStatus: false,
+      RequestDate: new Date(),
+      ActionType: actionType, // İşlem tipi
+    });
+    if (response.status === 201) {
+      alert("Request sent successfully");
+      this.newGroupName = '';
+      this.selectedMainGroup = null;
+      this.dialogEditMainGroup = false;
+      this.fetchMainGroups(); // Ana grup listesini güncelle
+    } else {
+      alert("Failed to send request");
+    }
+  } catch (error) {
+    console.error("Error sending request to edit main group:", error);
+    alert("Error sending request to edit main group");
+  }
+},
+
     async submitAddGattung() {
       const details = this.addGattung; // Gattung adı details olarak kullanılıyor
       const actionType = 'Add Gattung'; // İşlem türü
