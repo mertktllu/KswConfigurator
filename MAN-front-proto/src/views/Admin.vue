@@ -513,16 +513,21 @@ export default {
         console.error("Error fetching products:", error);
       }
     },
+
 async submitAddOption() {
     try {
-      const productID = this.selectedOptionProduct.ProductID;
+      const productName = this.addOptionName;  // Burada productName'i alıyoruz
       const gattungID = this.selectedGattung ? this.selectedGattung.GattungID : null;
-      const newOption = this.addOptionName;
+
+      if (!productName || !gattungID) {
+        alert('ProductName and GattungID are required');
+        return;
+      }
 
       const response = await axios.post('http://localhost:3000/datauploadrequests', {
         UserID: 1, // Admin ID
         TableName: 'Products',
-        RequestDetails: `Action: Add Option, ProductID: ${productID}, GattungID: ${gattungID}, Option: ${newOption}`,
+        RequestDetails: `Action: Add Option, ProductName: ${productName}, GattungID: ${gattungID}`,
         RequestStatus: false,
         RequestDate: new Date(),
         ActionType: "Add Option",
@@ -538,6 +543,39 @@ async submitAddOption() {
     } catch (error) {
       console.error('Error sending request to add option:', error);
       alert('Error sending request to add option');
+    }
+  },
+
+  confirmAction(requestID, actionType) {
+    this.requestId = requestID;
+    this.actionType = actionType;
+    this.dialog = true;
+  },
+  async executeAction() {
+    this.dialog = false;
+    if (this.actionType === 'approve') {
+      await this.approveRequest(this.requestId);
+    } else if (this.actionType === 'deny') {
+      await this.denyRequest(this.requestId);
+    } else if (this.actionType === 'addOption') {
+      await this.submitAddOption();
+    }
+  },
+
+
+  confirmAction(requestID, actionType) {
+    this.requestId = requestID;
+    this.actionType = actionType;
+    this.dialog = true;
+  },
+  async executeAction() {
+    this.dialog = false;
+    if (this.actionType === 'approve') {
+      await this.approveRequest(this.requestId);
+    } else if (this.actionType === 'deny') {
+      await this.denyRequest(this.requestId);
+    } else if (this.actionType === 'addOption') {
+      await this.submitAddOption();
     }
   },
     

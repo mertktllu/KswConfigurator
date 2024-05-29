@@ -23,14 +23,14 @@
                 <v-col cols="2">
                   <v-btn
                     size="small"
-                    @click="approveRequest(request.RequestID)"
+                    @click="confirmAction(request.RequestID, 'approve')"
                     color="green"
                   >
                     <v-icon>mdi-check</v-icon>
                   </v-btn>
                   <v-btn
                     size="small"
-                    @click="denyRequest(request.RequestID)"
+                    @click="confirmAction(request.RequestID, 'deny')"
                     color="red"
                   >
                     <v-icon>mdi-close</v-icon>
@@ -42,6 +42,19 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <!-- Confirm Dialog -->
+    <v-dialog v-model="dialog" max-width="400">
+      <v-card>
+        <v-card-title class="headline">Confirm Action</v-card-title>
+        <v-card-text>Are you sure you want to proceed?</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="executeAction">Yes</v-btn>
+          <v-btn color="red darken-1" text @click="dialog = false">No</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -52,6 +65,9 @@ export default {
   data() {
     return {
       requests: [],
+      dialog: false,
+      actionType: '',
+      requestId: null,
     };
   },
   mounted() {
@@ -68,33 +84,39 @@ export default {
         console.error("Error fetching requests:", error);
       }
     },
-    async approveRequest(requestID) {
-  try {
-    const response = await axios.post(
-      `http://localhost:3000/approveRequest/${requestID}`,
-      {
-        userId: localStorage.getItem("userId"),
+    confirmAction(requestID, actionType) {
+      this.requestId = requestID;
+      this.actionType = actionType;
+      this.dialog = true;
+    },
+    async executeAction() {
+      this.dialog = false;
+      if (this.actionType === 'approve') {
+        await this.approveRequest(this.requestId);
+      } else if (this.actionType === 'deny') {
+        await this.denyRequest(this.requestId);
       }
-    );
-    if (response.status === 200) {
-      alert("Request approved successfully");
-      this.fetchRequests(); // Refresh the list
-    } else {
-      alert("Failed to approve request");
-    }
-  } catch (error) {
-    console.error("Error approving request:", error); // Hatalı satır düzeltildi
-    alert("Error approving request");
-  }
-},
-
+    },
+    async approveRequest(requestID) {
+      try {
+        const response = await axios.post(
+          `http://localhost:3000/approveRequest/${requestID}`
+        );
+        if (response.status === 200) {
+          alert("Request approved successfully");
+          this.fetchRequests(); // Refresh the list
+        } else {
+          alert("Failed to approve request");
+        }
+      } catch (error) {
+        console.error("Error approving request:", error);
+        alert("Error approving request");
+      }
+    },
     async denyRequest(requestID) {
       try {
         const response = await axios.post(
           `http://localhost:3000/denyRequest/${requestID}`,
-          {
-            userId: localStorage.getItem("userId"),
-          }
         );
         if (response.status === 200) {
           alert("Request denied and removed successfully");
@@ -105,22 +127,6 @@ export default {
       } catch (error) {
         console.error("Error denying request:", error);
         alert("Error denying request");
-      }
-    },
-    async deleteRequest(requestID) {
-      try {
-        const response = await axios.delete(
-          `http://localhost:3000/datauploadrequests/${requestID}`
-        );
-        if (response.status === 200) {
-          alert("Request deleted successfully");
-          this.fetchRequests(); // Listeyi güncelle
-        } else {
-          alert("Failed to delete request");
-        }
-      } catch (error) {
-        console.error("Error deleting request:", error);
-        alert("Error deleting request");
       }
     },
   },

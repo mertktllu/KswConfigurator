@@ -261,16 +261,17 @@ app.post("/approveRequest/:id", async (req, res) => {
           return res.status(400).send("Invalid Details format for Add MainGroup");
         }
         break;
-      case "Delete MainGroup":
+        case "Delete MainGroup":
         const deleteMainGroupIdMatch = RequestDetails.match(/MainGroupID: (\d+)/);
         if (deleteMainGroupIdMatch && deleteMainGroupIdMatch[1]) {
           const mainGroupId = deleteMainGroupIdMatch[1];
           query = `DELETE FROM MainGroups WHERE MainGroupID = @mainGroupId`;
           inputs = [{ name: 'mainGroupId', type: sql.Int, value: mainGroupId }];
         } else {
+          console.log("Invalid MainGroupID format for Delete MainGroup");
           return res.status(400).send("Invalid MainGroupID format for Delete MainGroup");
         }
-        break;
+        break
       case "Edit MainGroup":
         const editMainGroupIdMatch = RequestDetails.match(/MainGroupID: (\d+)/);
         const newMainGroupNameMatch = RequestDetails.match(/New Name: (.*)/);
@@ -325,33 +326,37 @@ app.post("/approveRequest/:id", async (req, res) => {
           return res.status(400).send("Invalid format for Edit Gattung");
         }
         break;
-      case "Add Option":
-        const addOptionProductIdMatch = RequestDetails.match(/ProductID: (\d+)/);
-        const addOptionMatch = RequestDetails.match(/Option: (.*)/);
-        if (addOptionProductIdMatch && addOptionProductIdMatch[1] && addOptionMatch && addOptionMatch[1]) {
-          const productId = addOptionProductIdMatch[1];
-          const option = addOptionMatch[1];
-
-          // Get existing options
-          const productResult = await pool.request().input("ProductID", sql.Int, productId).query("SELECT * FROM Products WHERE ProductID = @ProductID");
-          if (productResult.recordset.length === 0) {
-            return res.status(404).send("Product not found");
+        case "Add Option":
+          const addOptionProductNameMatch = RequestDetails.match(/ProductName: (.*), GattungID: (\d+)/);
+          if (addOptionProductNameMatch && addOptionProductNameMatch[1] && addOptionProductNameMatch[2]) {
+            const productName = addOptionProductNameMatch[1];
+            const gattungId = addOptionProductNameMatch[2];
+  
+            // Get existing options
+            const productResult = await pool.request()
+              .input("ProductName", sql.NVarChar, productName)
+              .input("GattungID", sql.Int, gattungId)
+              .query("SELECT * FROM Products WHERE Name = @ProductName AND GattungID = @GattungID");
+  
+            if (productResult.recordset.length === 0) {
+              return res.status(404).send("Product not found");
+            }
+  
+            const product = productResult.recordset[0];
+            const options = JSON.parse(product.Options.replace(/'/g, '"'));
+            options.push(productName);
+  
+            // Update product with new options
+            query = `UPDATE Products SET Options = @options WHERE ProductID = @productId`;
+            inputs = [
+              { name: 'options', type: sql.NVarChar, value: JSON.stringify(options).replace(/"/g, "'") },
+              { name: 'productId', type: sql.Int, value: product.ProductID }
+            ];
+          } else {
+            console.log("Invalid format for Add Option");
+            return res.status(400).send("Invalid format for Add Option");
           }
-
-          const product = productResult.recordset[0];
-          const options = JSON.parse(product.Options.replace(/'/g, '"'));
-          options.push(option);
-
-          // Update product with new options
-          query = `UPDATE Products SET Options = @options WHERE ProductID = @productId`;
-          inputs = [
-            { name: 'options', type: sql.NVarChar, value: JSON.stringify(options).replace(/"/g, "'") },
-            { name: 'productId', type: sql.Int, value: productId }
-          ];
-        } else {
-          return res.status(400).send("Invalid format for Add Option");
-        }
-        break;
+          break;
       case "Delete Option":
         const deleteOptionProductIdMatch = RequestDetails.match(/ProductID: (\d+)/);
         const deleteOptionMatch = RequestDetails.match(/Option: (.*)/);
