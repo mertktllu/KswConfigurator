@@ -517,9 +517,9 @@ export default {
 async submitAddOption() {
     try {
       const productName = this.addOptionName;  // Burada productName'i alıyoruz
-      const gattungID = this.selectedGattung ? this.selectedGattung.GattungID : null;
+      const maingroupID = this.selectedMainGroup ? this.selectedMainGroup.MainGroupID : null;
 
-      if (!productName || !gattungID) {
+      if (!productName || !maingroupID) {
         alert('ProductName and GattungID are required');
         return;
       }
@@ -527,7 +527,7 @@ async submitAddOption() {
       const response = await axios.post('http://localhost:3000/datauploadrequests', {
         UserID: 1, // Admin ID
         TableName: 'Products',
-        RequestDetails: `Action: Add Option, ProductName: ${productName}, GattungID: ${gattungID}`,
+        RequestDetails: `Action: Add Option, ProductName: ${productName}, MainGroupID: ${maingroupID}`,
         RequestStatus: false,
         RequestDate: new Date(),
         ActionType: "Add Option",
