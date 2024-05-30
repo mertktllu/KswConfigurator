@@ -495,8 +495,9 @@
                     fill="#6887F5"
                   />
                   <rect width="29" height="29" rx="3" fill="#6887F5" />
-                </svg> </g
-            ></v-img>
+                </svg>
+              </g>
+            </v-img>
 
             <!-- rare -->
             <v-img
@@ -913,6 +914,95 @@
               alt="Gegenuber image"
             >
             </v-img>
+          </v-row>
+          <v-row
+            v-if="selectedType && selectedMainGroup?.Name === 'Camera'"
+            class="d-flex justify-center mt-4"
+          >
+            <v-col class="d-flex justify-center">
+              <svg width="200" height="200" viewBox="0 0 200 200">
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="90"
+                  stroke="black"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <line
+                  x1="100"
+                  y1="10"
+                  x2="100"
+                  y2="20"
+                  stroke="black"
+                  stroke-width="2"
+                />
+                <line
+                  x1="100"
+                  y1="180"
+                  x2="100"
+                  y2="190"
+                  stroke="black"
+                  stroke-width="2"
+                />
+                <line
+                  x1="10"
+                  y1="100"
+                  x2="20"
+                  y2="100"
+                  stroke="black"
+                  stroke-width="2"
+                />
+                <line
+                  x1="180"
+                  y1="100"
+                  x2="190"
+                  y2="100"
+                  stroke="black"
+                  stroke-width="2"
+                />
+                <line
+                  x1="140"
+                  y1="140"
+                  x2="148"
+                  y2="148"
+                  stroke="black"
+                  stroke-width="2"
+                />
+                <line
+                  x1="60"
+                  y1="140"
+                  x2="52"
+                  y2="148"
+                  stroke="black"
+                  stroke-width="2"
+                />
+                <line
+                  x1="140"
+                  y1="60"
+                  x2="148"
+                  y2="52"
+                  stroke="black"
+                  stroke-width="2"
+                />
+                <line
+                  x1="60"
+                  y1="60"
+                  x2="52"
+                  y2="52"
+                  stroke="black"
+                  stroke-width="2"
+                />
+                <text x="95" y="30" font-size="12" fill="black">270°</text>
+                <text x="95" y="190" font-size="12" fill="black">90°</text>
+                <text x="30" y="105" font-size="12" fill="black">180°</text>
+                <text x="160" y="105" font-size="12" fill="black">0°</text>
+                <text x="135" y="45" font-size="12" fill="black">315°</text>
+                <text x="35" y="165" font-size="12" fill="black">135°</text>
+                <text x="35" y="45" font-size="12" fill="black">225°</text>
+                <text x="135" y="165" font-size="12" fill="black">45°</text>
+              </svg>
+            </v-col>
           </v-row>
         </v-col>
 
@@ -1382,7 +1472,7 @@ export default {
       teleskop_on: "../src/assets/Teleskop/teleskop_on.png",
       teleskop_off: "../src/assets/Teleskop/teleskop_off.png",
       teleskopImage: "../src/assets/Teleskop/teleskop_off.png",
-      teleskopButtonText: "Turn On",
+      teleskopButtonText: "SHOW",
 
       vehicleDialog: false,
       selectedVehicle: null,
@@ -1809,10 +1899,10 @@ export default {
     toggleTeleskopImage() {
       if (this.teleskopImage === this.teleskop_off) {
         this.teleskopImage = this.teleskop_on;
-        this.teleskopButtonText = "Turn Off";
+        this.teleskopButtonText = "Show";
       } else {
         this.teleskopImage = this.teleskop_off;
-        this.teleskopButtonText = "Turn On";
+        this.teleskopButtonText = "Show";
       }
     },
 
