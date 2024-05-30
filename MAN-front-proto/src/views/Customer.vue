@@ -502,12 +502,12 @@
             <!-- rare -->
             <v-img
               v-else-if="
-                selectedMainGroup?.Name === '528M (Rear Target Display)'
+                selectedMainGroup?.Name === '528M (Fahrtzielanzeige Heck)'
               "
               :src="RareImage"
               contain
               max-height="700"
-              max-width="700"
+              max-width="1000"
               alt="528M image"
             ></v-img>
 
@@ -878,9 +878,57 @@
               :src="hal_customimg"
               contain
               max-height="700"
-              max-width="640"
+              max-width="1000"
               alt="Haltestangen image"
             >
+              <v-row>
+                <v-btn
+                  icon
+                  style="
+                    position: absolute;
+                    top: 52%;
+                    left: 82%;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgba(255, 255, 255, 0.6);
+                    color: black;
+                  "
+                  @click="onPointClick('point7')"
+                >
+                  <v-icon>mdi-circle</v-icon>
+                </v-btn>
+              </v-row>
+              <v-dialog
+                v-model="dialogVisible.point7"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Nur Knoten
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point7"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point7 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-img>
 
             <!-- Teleskop -->
@@ -892,7 +940,7 @@
               :src="teleskopImage"
               contain
               max-height="700"
-              max-width="640"
+              max-width="1000"
               alt="Teleskop image"
             >
               <v-btn @click="toggleTeleskopImage">{{
@@ -910,8 +958,22 @@
               :src="gegenuberImage"
               contain
               max-height="700"
-              max-width="640"
+              max-width="1000"
               alt="Gegenuber image"
+            >
+            </v-img>
+            <!-- rechts  -->
+
+            <v-img
+              v-else-if="
+                selectedMainGroup?.Name ===
+                'Sondernutzungsfläche rechts vor Tür 2'
+              "
+              :src="rechtImage"
+              contain
+              max-height="700"
+              max-width="640"
+              alt="Rechts image"
             >
             </v-img>
           </v-row>
@@ -1042,7 +1104,7 @@
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedModel[subProduct.Name]"
-                  :label="$t('choose')"
+                  :label="$t('selectOption')"
                   :disabled="isDisabled(subProduct.Name)"
                   dense
                   solo
@@ -1060,7 +1122,7 @@
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedModel[subProduct.Name]"
-                  :label="$t('choose')"
+                  :label="$t('selectOption')"
                   :disabled="isDisabled(subProduct.Name)"
                   dense
                   solo
@@ -1073,7 +1135,7 @@
                   v-else-if="subProduct.Name === 'Nur Deckenhaltestangen in'"
                   v-model="selectedRalCode"
                   :items="subProduct.Options"
-                  label="Wählen"
+                  :label="$t('selectOption')"
                   @change="updateHalCustomImg"
                 ></v-select>
                 <v-select
@@ -1082,12 +1144,45 @@
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedGegenuberOption"
-                  :label="$t('choose')"
+                  :label="$t('selectOption')"
                   dense
                   solo
                   outlined
                   hide-details
                   @change="updateGegenuberImage"
+                ></v-select>
+                <v-select
+                  v-else-if="
+                    subProduct.Name ===
+                    '680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2'
+                  "
+                  :items="subProduct.Options"
+                  :item-text="(item) => item"
+                  :item-value="(item) => item"
+                  v-model="selectedGegenuberOption"
+                  :label="$t('selectOption')"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                  @change="updateGegenuberImage"
+                ></v-select>
+
+                <v-select
+                  v-else-if="
+                    subProduct.Name ===
+                    '681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2'
+                  "
+                  :items="subProduct.Options"
+                  :item-text="(item) => item"
+                  :item-value="(item) => item"
+                  v-model="selectedRechtsOption"
+                  :label="$t('selectOption')"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                  @change="updateRechtsImage"
                 ></v-select>
 
                 <!-- Other sub-products -->
@@ -1097,7 +1192,7 @@
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedModel[subProduct.Name]"
-                  :label="$t('choose')"
+                  :label="$t('selectOption')"
                   dense
                   solo
                   outlined
@@ -1257,6 +1352,9 @@ export default {
     },
     selectedGegenuberOption(newOption) {
       this.updateGegenuberImage(newOption);
+    },
+    selectedRechtsOption(newOption) {
+      this.updateRechtsImage(newOption);
     },
   },
 
@@ -1427,6 +1525,7 @@ export default {
         point4: false,
         point5: false,
         point6: false,
+        point7: false,
       },
       detailImages: {
         point1: "../src/assets/Bestuhlung/topcloser.bmp", // Buraya detaylı resimlerin yollarını yazın
@@ -1438,6 +1537,7 @@ export default {
         point4_2: "../src/assets/Bestuhlung/armlehne or bugel color.bmp",
         point5: "../src/assets/Bestuhlung/rückseite.bmp",
         point6: "../src/assets/Bestuhlung/back.bmp",
+        point7: "../src/assets/Haltestangen/fittings.jpg",
       },
 
       ralColors: {
@@ -1464,10 +1564,16 @@ export default {
       hal_1003img: "../src/assets/Haltestangen/1003.jpg",
       selectedRalCode: "RAL 080C", // Default RAL Code
       selectedGegenuberOption: null,
+      selectedRechtsOption: null,
       gegenuber1img: "../src/assets/gegenüber/resim1.png",
       gegenuber2img: "../src/assets/gegenüber/resim2.png",
       gegenuber3img: "../src/assets/gegenüber/resim3.png",
       gegenuberImage: "",
+      rechtImage: "",
+      glasscheibeimg: "../src/assets/gegenüber/glasscibe.png",
+      klappbare_armlehneimg: "../src/assets/gegenüber/klappbare armlehne 2.png",
+      mit_halter_ohne_schlossimg:
+        "../src/assets/gegenüber/mit halter ohne schloss.png",
 
       teleskop_on: "../src/assets/Teleskop/teleskop_on.png",
       teleskop_off: "../src/assets/Teleskop/teleskop_off.png",
@@ -1522,27 +1628,12 @@ export default {
     },
     ...mapActions(["triggerSuccessLog"]),
     xport() {
-      // Check if any selections have been made
-      const hasMainGroupSelection =
-        this.selectedMainGroup &&
-        this.products.some(
-          (product) =>
-            product.MainGroupID === this.selectedMainGroup.MainGroupID &&
-            this.selectedModel[product.Name]
-        );
-
-      if (!this.selectedMainGroup || !hasMainGroupSelection) {
-        this.showWarningLog = true;
-        setTimeout(() => {
-          this.showWarningLog = false;
-        }, 3000); // Warning log will disappear after 3 seconds
-        return;
-      }
-
       this.exportData = [];
       const mainGroups = this.mainGroups.filter((mainGroup) =>
         this.products.some(
-          (product) => product.MainGroupID === mainGroup.MainGroupID
+          (product) =>
+            product.MainGroupID === mainGroup.MainGroupID &&
+            this.selectedModel[product.Name]
         )
       );
 
@@ -1599,7 +1690,7 @@ export default {
         }
       });
 
-      // Filter and include camera rotations for the selected Typ
+      // Include camera rotations for the selected type
       const selectedTypPart = this.selectedType.Name.split("-")[1];
       const cameraRotationsForTyp = Object.keys(this.cameraRotations)
         .filter((key) => key.includes(selectedTypPart))
@@ -1608,7 +1699,6 @@ export default {
           return obj;
         }, {});
 
-      // Add camera rotations as a separate main group entry
       if (Object.keys(cameraRotationsForTyp).length > 0) {
         this.exportData.push({
           mainGroup: "Camera Rotations",
@@ -1619,9 +1709,15 @@ export default {
         });
       }
 
-      this.dialog = true;
+      if (this.exportData.length > 0) {
+        this.dialog = true;
+      } else {
+        this.showWarningLog = true;
+        setTimeout(() => {
+          this.showWarningLog = false;
+        }, 3000);
+      }
     },
-
     finishExport() {
       this.triggerSuccessLog(); // Trigger success log in Vuex store
       this.dialog = false;
@@ -1905,24 +2001,45 @@ export default {
         this.teleskopButtonText = "Show";
       }
     },
-
+    updateRechtsImage(option) {
+      if (option) {
+        this.selectedModel[
+          "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
+        ] = option; // Ensure the selected model is updated
+        if (option === "Armlehne mit halter ohne Schloss") {
+          this.rechtImage = this.glasscheibeimg;
+        } else if (option === "Mit klappbarer Armlehne auf dem Bügel") {
+          this.rechtImage = this.klappbare_armlehneimg;
+        } else if (option === "Ausführung Trennwand mit Glasscheibe") {
+          this.rechtImage = this.mit_halter_ohne_schlossimg;
+        }
+      }
+    },
     updateGegenuberImage(option) {
-      console.log("Selected option:", option);
-      if (
-        option ===
-        "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm."
-      ) {
-        this.gegenuberImage = this.gegenuber1img;
-      } else if (
-        option ===
-        "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
-      ) {
-        this.gegenuberImage = this.gegenuber2img;
-      } else if (
-        option ===
-        "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
-      ) {
-        this.gegenuberImage = this.gegenuber3img;
+      if (option) {
+        this.selectedModel["680A - SNF gegenüber Tür 2"] = option; // Ensure the selected model is updated
+        if (
+          option ===
+          "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm."
+        ) {
+          this.gegenuberImage = this.gegenuber1img;
+        } else if (
+          option ===
+          "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
+        ) {
+          this.gegenuberImage = this.gegenuber2img;
+        } else if (
+          option ===
+          "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
+        ) {
+          this.gegenuberImage = this.gegenuber3img;
+        } else if (option === "Armlehne mit halter ohne Schloss") {
+          this.gegenuberImage = this.glasscheibeimg;
+        } else if (option === "Mit klappbarer Armlehne auf dem Bügel") {
+          this.gegenuberImage = this.klappbare_armlehneimg;
+        } else if (option === "Ausführung Trennwand mit Glasscheibe") {
+          this.gegenuberImage = this.mit_halter_ohne_schlossimg;
+        }
       }
     },
   },
