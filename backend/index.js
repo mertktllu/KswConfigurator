@@ -272,35 +272,47 @@ app.post("/approveRequest/:id", async (req, res) => {
           return res.status(400).send("Invalid MainGroupID format for Delete MainGroup");
         }
         break
-      case "Edit MainGroup":
-        const editMainGroupIdMatch = RequestDetails.match(/MainGroupID: (\d+)/);
-        const newMainGroupNameMatch = RequestDetails.match(/New Name: (.*)/);
-        if (editMainGroupIdMatch && editMainGroupIdMatch[1] && newMainGroupNameMatch && newMainGroupNameMatch[1]) {
-          const mainGroupId = editMainGroupIdMatch[1];
-          const newName = newMainGroupNameMatch[1];
-          query = `UPDATE MainGroups SET Name = @newName, Value = @newName WHERE MainGroupID = @mainGroupId`;
-          inputs = [
-            { name: 'newName', type: sql.NVarChar, value: newName },
-            { name: 'mainGroupId', type: sql.Int, value: mainGroupId }
-          ];
-        } else {
-          return res.status(400).send("Invalid format for Edit MainGroup");
-        }
-        break;
-     case "Add Gattung":
-  const addGattungDetailsMatch = RequestDetails.match(/Details: (.*), MainGroupID: (\d+)/);
-  if (addGattungDetailsMatch && addGattungDetailsMatch[1] && addGattungDetailsMatch[2]) {
-    const details = addGattungDetailsMatch[1];
-    const mainGroupId = addGattungDetailsMatch[2];
-    query = `INSERT INTO Gattungs (Name, MainGroupID) VALUES (@details, @mainGroupId)`;
-    inputs = [
-      { name: 'details', type: sql.NVarChar, value: details },
-      { name: 'mainGroupId', type: sql.Int, value: mainGroupId }
-    ];
-  } else {
-    return res.status(400).send("Invalid format for Add Gattung");
-  }
-  break;
+        case "Edit MainGroup":
+          const editMainGroupIdMatch = RequestDetails.match(/MainGroupID: (\d+)/);
+          const newMainGroupNameMatch = RequestDetails.match(/New Name: (.*)/);
+          console.log(`RequestDetails: ${RequestDetails}`); // Eklenen log
+          if (editMainGroupIdMatch && editMainGroupIdMatch[1] && newMainGroupNameMatch && newMainGroupNameMatch[1]) {
+            const mainGroupId = editMainGroupIdMatch[1];
+            const newName = newMainGroupNameMatch[1];
+            query = `UPDATE MainGroups SET Name = @newName, Value = @newName WHERE MainGroupID = @mainGroupId`;
+            inputs = [
+              { name: 'newName', type: sql.NVarChar, value: newName },
+              { name: 'mainGroupId', type: sql.Int, value: mainGroupId }
+            ];
+            console.log(`Executing query: ${query}`);
+            console.log(`Inputs: ${JSON.stringify(inputs)}`); // Eklenen log
+          } else {
+            console.log("Invalid format for Edit MainGroup");
+            return res.status(400).send("Invalid format for Edit MainGroup");
+          }
+          break;
+          case "Add Gattung":
+            const addGattungDetailsMatch = RequestDetails.match(/Details: (.*), MainGroupID: (\d+)/);
+            if (addGattungDetailsMatch && addGattungDetailsMatch[1] && addGattungDetailsMatch[2]) {
+              const gattungName = addGattungDetailsMatch[1];
+              const mainGroupId = addGattungDetailsMatch[2];
+              const gattungValue = gattungName; // Name ile aynı değeri kullanıyoruz
+              
+              query = `INSERT INTO Gattungs (Name, MainGroupID, Value) VALUES (@gattungName, @mainGroupId, @gattungValue)`;
+              inputs = [
+                { name: 'gattungName', type: sql.NVarChar, value: gattungName },
+                { name: 'mainGroupId', type: sql.Int, value: mainGroupId },
+                { name: 'gattungValue', type: sql.NVarChar, value: gattungName } // Aynı değeri kullanıyoruz
+              ];
+              console.log(`Executing query: ${query}`);
+              console.log(`Inputs: ${JSON.stringify(inputs)}`); // Eklenen log
+            } else {
+              console.log("Invalid format for Add Gattung");
+              return res.status(400).send("Invalid format for Add Gattung");
+            }
+            break;
+          
+
       case "Delete Gattung":
         const deleteGattungIdMatch = RequestDetails.match(/GattungID: (\d+)/);
         if (deleteGattungIdMatch && deleteGattungIdMatch[1]) {
@@ -311,53 +323,100 @@ app.post("/approveRequest/:id", async (req, res) => {
           return res.status(400).send("Invalid GattungID format for Delete Gattung");
         }
         break;
-      case "Edit Gattung":
-        const editGattungIdMatch = RequestDetails.match(/GattungID: (\d+)/);
-        const newGattungNameMatch = RequestDetails.match(/New Name: (.*)/);
-        if (editGattungIdMatch && editGattungIdMatch[1] && newGattungNameMatch && newGattungNameMatch[1]) {
-          const gattungId = editGattungIdMatch[1];
-          const newName = newGattungNameMatch[1];
-          query = `UPDATE Gattungs SET Name = @newName WHERE GattungID = @gattungId`;
-          inputs = [
-            { name: 'newName', type: sql.NVarChar, value: newName },
-            { name: 'gattungId', type: sql.Int, value: gattungId }
-          ];
-        } else {
-          return res.status(400).send("Invalid format for Edit Gattung");
-        }
-        break;
-        case "Add Option":
-          const addOptionProductNameMatch = RequestDetails.match(/ProductName: (.*), GattungID: (\d+)/);
-          if (addOptionProductNameMatch && addOptionProductNameMatch[1] && addOptionProductNameMatch[2]) {
-            const productName = addOptionProductNameMatch[1];
-            const gattungId = addOptionProductNameMatch[2];
+        case "Edit Gattung":
+          const editGattungIdMatch = RequestDetails.match(/GattungID: (\d+)/);
+          const newGattungNameMatch = RequestDetails.match(/New Name: ([^,]*)/);
+          const mainGroupIdMatch = RequestDetails.match(/MainGroupID: (\d+)/);
   
-            // Get existing options
-            const productResult = await pool.request()
-              .input("ProductName", sql.NVarChar, productName)
-              .input("GattungID", sql.Int, gattungId)
-              .query("SELECT * FROM Products WHERE Name = @ProductName AND GattungID = @GattungID");
+          console.log(`RequestDetails: ${RequestDetails}`); // Eklenen log
   
-            if (productResult.recordset.length === 0) {
-              return res.status(404).send("Product not found");
-            }
+          if (editGattungIdMatch && editGattungIdMatch[1] && newGattungNameMatch && newGattungNameMatch[1] && mainGroupIdMatch && mainGroupIdMatch[1]) {
+            const gattungId = editGattungIdMatch[1];
+            const newName = newGattungNameMatch[1];
+            const mainGroupId = mainGroupIdMatch[1];
   
-            const product = productResult.recordset[0];
-            const options = JSON.parse(product.Options.replace(/'/g, '"'));
-            options.push(productName);
+            console.log(`GattungID: ${gattungId}`);
+            console.log(`New Name: ${newName}`);
+            console.log(`MainGroupID: ${mainGroupId}`);
   
-            // Update product with new options
-            query = `UPDATE Products SET Options = @options WHERE ProductID = @productId`;
+            // Gattung güncelleme sorgusu
+            query = `UPDATE Gattungs SET Name = @newName, Value = @newName WHERE GattungID = @gattungId`;
             inputs = [
-              { name: 'options', type: sql.NVarChar, value: JSON.stringify(options).replace(/"/g, "'") },
-              { name: 'productId', type: sql.Int, value: product.ProductID }
+              { name: 'newName', type: sql.NVarChar, value: newName },
+              { name: 'gattungId', type: sql.Int, value: gattungId }
             ];
+  
+            // MainGroupID'yi ayrı bir sorgu ile güncelleme
+            await pool.request()
+              .input("mainGroupId", sql.Int, mainGroupId)
+              .input("gattungId", sql.Int, gattungId)
+              .query("UPDATE Gattungs SET MainGroupID = @mainGroupId WHERE GattungID = @gattungId");
+  
+            console.log(`Executing query: ${query}`);
+            console.log(`Inputs: ${JSON.stringify(inputs)}`);
           } else {
-            console.log("Invalid format for Add Option");
-            return res.status(400).send("Invalid format for Add Option");
+            console.log("Invalid format for Edit Gattung");
+            return res.status(400).send("Invalid format for Edit Gattung");
           }
           break;
-      case "Delete Option":
+          // case "Add Option":
+            const addOptionMatch = RequestDetails.match(/Option: (.+), MainGroupID: (\d+)/);
+            if (addOptionMatch && addOptionMatch[1] && addOptionMatch[2]) {
+              const option = addOptionMatch[1];
+              const mainGroupId = addOptionMatch[2];
+              console.log(`Option: ${option}, MainGroupID: ${mainGroupId}`); // Eklenen log
+          
+              // Get product by main group ID
+              const productResult = await pool.request()
+                .input("MainGroupID", sql.Int, mainGroupId)
+                .query("SELECT * FROM Products WHERE MainGroupID = @MainGroupID");
+          
+              if (productResult.recordset.length === 0) {
+                return res.status(404).send("Products not found for the given MainGroupID");
+              }
+          
+              // Update options for each product found in the main group
+              const queries = productResult.recordset.map(async (product) => {
+                let options = [];
+                try {
+                  options = JSON.parse(product.Options.replace(/'/g, '"'));
+                } catch (e) {
+                  console.error("Error parsing options:", e);
+                  options = [];
+                }
+                options.push(option);
+          
+                // Update product with new options
+                const query = `UPDATE Products SET Options = @options WHERE ProductID = @productId`;
+                const inputs = [
+                  { name: 'options', type: sql.NVarChar, value: JSON.stringify(options).replace(/"/g, "'") },
+                  { name: 'productId', type: sql.Int, value: product.ProductID }
+                ];
+          
+                console.log(`Executing query: ${query}`);
+                console.log(`Inputs: ${JSON.stringify(inputs)}`); // Eklenen log
+          
+                const requestQuery = pool.request();
+                inputs.forEach(input => requestQuery.input(input.name, input.type, input.value));
+                return requestQuery.query(query);
+              });
+          
+              await Promise.all(queries);
+          
+              await pool.request()
+                .input("RequestID", sql.Int, id)
+                .query("UPDATE DataUploadRequests SET RequestStatus = 1 WHERE RequestID = @RequestID");
+          
+              return res.send("Request approved and applied successfully");
+            } else {
+              console.log("Invalid format for Add Option");
+              return res.status(400).send("Invalid format for Add Option");
+            }
+            break;
+          
+          
+          
+      case "Delete Option": 
         const deleteOptionProductIdMatch = RequestDetails.match(/ProductID: (\d+)/);
         const deleteOptionMatch = RequestDetails.match(/Option: (.*)/);
         if (deleteOptionProductIdMatch && deleteOptionProductIdMatch[1] && deleteOptionMatch && deleteOptionMatch[1]) {
