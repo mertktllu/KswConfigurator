@@ -408,6 +408,41 @@
               </template>
             </v-dialog>
           </v-card-title>
+          <v-card-text
+            v-for="product in availableSubProducts"
+            :key="product.Name"
+          >
+            <v-row>
+              <v-col>
+                <div>{{ product.Name }}</div>
+                <!-- Product Name added here -->
+                <v-select
+                  :items="product.Options"
+                  :item-text="(item) => item"
+                  :item-value="(item) => item"
+                  v-model="selectedModel[product.Name]"
+                  :label="$t('choose')"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                ></v-select>
+              </v-col>
+              <v-col cols="1">
+                <v-btn
+                  size="small"
+                  icon
+                  class="mt-4"
+                  color="red"
+                  @click="
+                    submitDeleteOption(product, selectedModel[product.Name])
+                  "
+                >
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>

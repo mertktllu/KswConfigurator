@@ -1815,9 +1815,9 @@ export default {
       this.vehicleDialog = false;
     },
     resetSelection() {
-      this.selectedType = null;
-      this.selectedMainGroup = null;
-      this.selectedGattung = null;
+      this.selectedType = "";
+      this.selectedMainGroup = "";
+      this.selectedGattung = "";
       this.selectedModel = {};
       this.cameraRotations = {
         cam1_4T: 0,
