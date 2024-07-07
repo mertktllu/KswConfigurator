@@ -59,31 +59,8 @@
               class="vehicle-card"
             >
               <v-img :src="type.Image" class="vehicle-image"></v-img>
-              <v-card-title>{{ type.Name }}</v-card-title>
-              <v-card-subtitle>
-                <div>
-                  <p>
-                    <strong>{{ $t("fuel") }}:</strong> {{ type.Fuel }}
-                  </p>
-                  <p>
-                    <strong>{{ $t("length") }}:</strong> {{ type.Length }}
-                  </p>
-                  <p>
-                    <strong>{{ $t("seats") }}:</strong> {{ type.Seats }}
-                  </p>
-                  <p>
-                    <strong>{{ $t("features") }}:</strong>
-                  </p>
-                  <ul class="feature-list">
-                    <li
-                      v-for="feature in type.Features.split(', ')"
-                      :key="feature"
-                    >
-                      {{ feature }}
-                    </li>
-                  </ul>
-                </div>
-              </v-card-subtitle>
+              <v-card-title class="vehicle-title">{{ type.Name }}</v-card-title>
+              <v-card-subtitle> </v-card-subtitle>
             </v-card>
           </v-col>
         </v-row>
@@ -150,7 +127,7 @@
           <v-row class="">
             <v-img
               v-if="
-                selectedType?.Name === '12C-2T' &&
+                selectedType?.Name === 'L4C' &&
                 selectedMainGroup?.Name === 'Camera'
               "
               width="500"
@@ -255,7 +232,7 @@
             </v-img>
             <v-img
               v-else-if="
-                selectedType?.Name === '18C-3T' &&
+                selectedType?.Name === 'LE' &&
                 selectedMainGroup?.Name === 'Camera'
               "
               width="500"
@@ -378,7 +355,7 @@
             </v-img>
             <v-img
               v-else-if="
-                selectedType?.Name === '19C-4T' &&
+                selectedType?.Name === 'Intercity' &&
                 selectedMainGroup?.Name === 'Camera'
               "
               :src="img19C"
@@ -781,16 +758,6 @@
                       <v-col cols="12">
                         <v-img
                           :src="detailImages.point4_1"
-                          class="elevation-12"
-                          style="border-radius: 10px; width: 100%"
-                        ></v-img>
-                      </v-col>
-                    </v-row>
-
-                    <v-row justify="center">
-                      <v-col cols="12">
-                        <v-img
-                          :src="detailImages.point4_2"
                           class="elevation-12"
                           style="border-radius: 10px; width: 100%"
                         ></v-img>
@@ -1226,7 +1193,6 @@
       </v-row>
 
       <!-- Export button -->
-
       <v-row v-if="selectedType" class="pt-0 grey darken-2">
         <v-col>
           <!-- Main Group and Gattung Selection -->
@@ -1441,11 +1407,11 @@ export default {
 
     selectedVehicleImage() {
       switch (this.selectedVehicle?.Name) {
-        case "12C-2T":
+        case "L4C":
           return "../src/static/12C-2T.jpg";
-        case "18C-3T":
+        case "LE":
           return "../src/static/18C-3T.jpg";
-        case "19C-4T":
+        case "Intercity":
           return "../src/static/19C-4T.jpg";
         default:
           return "";
@@ -1815,9 +1781,9 @@ export default {
       this.vehicleDialog = false;
     },
     resetSelection() {
-      this.selectedType = null;
-      this.selectedMainGroup = null;
-      this.selectedGattung = null;
+      this.selectedType = "";
+      this.selectedMainGroup = "";
+      this.selectedGattung = "";
       this.selectedModel = {};
       this.cameraRotations = {
         cam1_4T: 0,
@@ -2245,7 +2211,7 @@ export default {
 }
 
 .vehicle-image {
-  height: 200px;
+  height: 380px;
   object-fit: cover;
 }
 
@@ -2310,5 +2276,11 @@ export default {
 }
 .language-switcher .v-text-field {
   max-width: 320px;
+}
+.vehicle-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 </style>
