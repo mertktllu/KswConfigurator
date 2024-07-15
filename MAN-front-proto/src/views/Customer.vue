@@ -53,11 +53,7 @@
             :key="index"
             class="vehicle-col"
           >
-            <v-card
-              @click="openVehicleDialog(type)"
-              hoverable
-              class="vehicle-card"
-            >
+            <v-card @click="selectVehicle(type)" hoverable class="vehicle-card">
               <v-img :src="type.Image" class="vehicle-image"></v-img>
               <v-card-title class="vehicle-title">{{ type.Name }}</v-card-title>
               <v-card-subtitle> </v-card-subtitle>
@@ -1285,6 +1281,57 @@
       >
         Please make a selection before exporting!
       </v-alert>
+
+      <!-- Main Content Screen -->
+      <div v-if="selectionStarted">
+        <!-- Your existing main content and selection layout... -->
+
+        <!-- Export and Show Details Buttons -->
+        <div class="fixed-buttons">
+          <v-btn class="custom-export" @click="xport" color="primary">
+            Export
+          </v-btn>
+          <v-btn
+            class="show-details ml-2"
+            color="primary"
+            @click="showDetails"
+            :disabled="!hasSelections"
+          >
+            Show Details
+          </v-btn>
+        </div>
+      </div>
+
+      <!-- Show Details Dialog -->
+      <v-dialog v-model="showDetailsDialog" max-width="800px">
+        <v-card>
+          <v-card-title>Details</v-card-title>
+          <v-card-text>
+            <p><strong>Main Group:</strong> {{ selectedMainGroup?.Name }}</p>
+            <p><strong>Gattung:</strong> {{ selectedGattung?.Name }}</p>
+            <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
+              <div
+                v-for="(detail, index) in selectedDetails"
+                :key="index"
+                :style="{
+                  position: 'absolute',
+                  top: detail.position.top,
+                  left: detail.position.left,
+                  color: detail.color || 'red',
+                  fontSize: '20px',
+                }"
+              >
+                {{ detail.text }}
+              </div>
+            </v-img>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="blue" @click="downloadDetailsImage">Download</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="red" @click="showDetailsDialog = false">Close</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </v-container>
 </template>
@@ -1325,6 +1372,9 @@ export default {
   },
 
   computed: {
+    hasSelections() {
+      return Object.keys(this.selectedModel).length > 0;
+    },
     comModels() {
       const found = this.products.find(
         (p) => p.name === this.selectedMainGroup
@@ -1460,6 +1510,9 @@ export default {
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
+      showDetailsDialog: false,
+      accumulatedDetails: [],
+      selectedDetails: [],
       types: [],
       mainGroups: [],
       gattungs: [],
@@ -1536,10 +1589,9 @@ export default {
       gegenuber3img: "../src/assets/gegenüber/resim3.png",
       gegenuberImage: "",
       rechtImage: "",
-      glasscheibeimg: "../src/assets/gegenüber/glasscibe.png",
+      glasscheibeimg: "../src/assets/gegenüber/mit halter ohne schloss.png",
       klappbare_armlehneimg: "../src/assets/gegenüber/klappbare armlehne 2.png",
-      mit_halter_ohne_schlossimg:
-        "../src/assets/gegenüber/mit halter ohne schloss.png",
+      mit_halter_ohne_schlossimg: "../src/assets/gegenüber/glasscibe.png",
 
       teleskop_on: "../src/assets/Teleskop/teleskop_on.png",
       teleskop_off: "../src/assets/Teleskop/teleskop_off.png",
@@ -1559,6 +1611,8 @@ export default {
       exportData: [],
       showSuccessLog: false,
       showWarningLog: false,
+
+      imgSrc: "",
     };
   },
 
@@ -2008,11 +2062,252 @@ export default {
         }
       }
     },
+    selectVehicle(type) {
+      this.selectedType = type;
+      this.selectionStarted = true; // Set to true when a vehicle is selected
+    },
+    updateSelection(key, value) {
+      if (value) {
+        this.$set(this.selectedModel, key, value);
+      } else {
+        this.$delete(this.selectedModel, key);
+      }
+    },
+    showDetails() {
+      console.log("Show Details button clicked"); // Debug log
+      // Export data üzerinden dönerek product'ları kontrol edelim
+      this.exportData.forEach((group) => {
+        group.products.forEach((product) => {
+          // Burada her bir product'ın value'sine göre işlem yapacağız
+          if (product.value === "Armlehne mit halter ohne Schloss") {
+            this.accumulatedDetails.push({
+              text: product.value,
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
+          } else if (
+            product.value === "Mit klappbarer Armlehne auf dem Bügel"
+          ) {
+            this.accumulatedDetails.push({
+              text: product.value,
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../src/assets/gegenüber/klappbare armlehne 2.png";
+          } else if (product.value === "Ausführung Trennwand mit Glasscheibe") {
+            this.accumulatedDetails.push({
+              text: product.value,
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../src/assets/gegenüber/glasscibe.png";
+          }
+          // Diğer ürün değerlerine göre resim ve detay eklemeleri yapılabilir
+        });
+      });
+      // Reset accumulated details
+      this.accumulatedDetails = [];
+      if (this.selectedMainGroup.Name === "Bestuhlung") {
+        // Add existing selected details
+        if (this.selectedModel["mit Schaum Sitzpolster"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["mit Schaum Sitzpolster"],
+            position: { top: "35%", left: "35%" },
+          });
+        }
+        if (this.selectedModel["mit Schaum Rückenpolster"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["mit Schaum Rückenpolster"],
+            position: { top: "65%", left: "25%" },
+          });
+        }
+        // Add details for Gattung 78RI
+        if (this.selectedModel["Topcloser"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Topcloser"],
+            position: { top: "8%", left: "30%" },
+            color: this.getRalColor(this.selectedModel["Topcloser"]),
+          });
+        }
+        // Add details for Kunststoff-Fahrgastsitzrückseite
+        if (this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Kunststoff-Fahrgastsitzrückseite"],
+            position: { top: "40%", left: "80%" },
+            color: this.getRalColor(
+              this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]
+            ),
+          });
+        }
+        if (this.selectedModel["Gangseitige klappbare armlehne"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Gangseitige klappbare armlehne"],
+            position: { top: "50%", left: "8%" },
+            color: this.getRalColor(
+              this.selectedModel["Gangseitige klappbare armlehne"]
+            ),
+          });
+        }
+        this.imgSrc = "../src/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
+      } else if (this.selectedMainGroup.Name === "Haltestangen") {
+        // Add details for Haltestangen
+        if (this.selectedModel["Nur Knoten in"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Nur Knoten in"],
+            position: { top: "52%", left: "82%" },
+          });
+        }
+        if (this.selectedModel["Nur Deckenhaltestangen in"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Nur Deckenhaltestangen in"],
+            position: { top: "20%", left: "50%" },
+          });
+          // Update imgSrc based on selected RAL code
+        }
+        this.imgSrc = "../src/assets/Haltestangen/080CC.jpg";
+      } else if (
+        this.selectedMainGroup.Name === "528M (Fahrtzielanzeige Heck)"
+      ) {
+        if (this.selectedModel["Model"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Model"],
+            position: { top: "50%", left: "45%" },
+          });
+        }
+        if (this.selectedModel["Size"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Size"],
+            position: { top: "55%", left: "45%" },
+          });
+        }
+        if (this.selectedModel["Led Color"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Led Color"],
+            position: { top: "60%", left: "45%" },
+          });
+        }
+        if (this.selectedModel["Rearmost"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Rearmost"],
+            position: { top: "65%", left: "45%" },
+          });
+        }
+        this.imgSrc = "../src/assets/RareDisplay/image004.png";
+      } else if (this.selectedMainGroup.Name === "Camera") {
+        // Add details for Camera
+        if (this.selectedModel["Type"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Type"],
+            position: { top: "20%", left: "50%" },
+          });
+        }
+        if (this.selectedModel["Recorder"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Recorder"],
+            position: { top: "30%", left: "50%" },
+          });
+        }
+        if (this.selectedModel["Length"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Length"],
+            position: { top: "40%", left: "50%" },
+          });
+        }
+        // Update imgSrc based on selected Type
+        if (this.selectedType?.Name === "L4C") {
+          this.imgSrc = "../src/static/12C-2T.jpg";
+        } else if (this.selectedType?.Name === "LE") {
+          this.imgSrc = "../src/static/18C-3T.jpg";
+        } else if (this.selectedType?.Name === "Intercity") {
+          this.imgSrc = "../src/static/19C-4T.jpg";
+        }
+        // } else if (
+        //   this.selectedMainGroup.Name === "Sondernutzungsfläche rechts vor Tür 2"
+        // ) {
+        //   if (
+        //     this.selectedGattung.Name ===
+        //     "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+        //   ) {
+        //     const selectedOption =
+        //       this.selectedModel[
+        //         "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+        //       ];
+        //     if (selectedOption === "Armlehne mit halter ohne Schloss") {
+        //       this.accumulatedDetails.push({
+        //         text: "Armlehne mit halter ohne Schloss",
+        //         position: { top: "40%", left: "40%" },
+        //       });
+        //       this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
+        //     } else if (
+        //       selectedOption === "Mit klappbarer Armlehne auf dem Bügel"
+        //     ) {
+        //       this.accumulatedDetails.push({
+        //         text: "Mit klappbarer Armlehne auf dem Bügel",
+        //         position: { top: "40%", left: "40%" },
+        //       });
+        //       this.imgSrc = "../src/assets/gegenüber/klappbare armlehne 2.png";
+        //     } else if (
+        //       selectedOption === "Ausführung Trennwand mit Glasscheibe"
+        //     ) {
+        //       this.accumulatedDetails.push({
+        //         text: "Ausführung Trennwand mit Glasscheibe",
+        //         position: { top: "40%", left: "40%" },
+        //       });
+        //       this.imgSrc = "../src/assets/gegenüber/glasscibe.png";
+        //     }
+        //   }
+      }
+      this.selectedDetails = [...this.accumulatedDetails];
+      this.showDetailsDialog = true;
+      console.log("Dialog should now be open"); // Debug log
+    },
+
+    async downloadDetailsImage() {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      const img = new Image();
+
+      img.src = this.imgSrc;
+      await img.decode();
+
+      canvas.width = img.width;
+      canvas.height = img.height;
+      context.drawImage(img, 0, 0);
+
+      this.selectedDetails.forEach((detail) => {
+        context.fillStyle = detail.color || "red";
+        context.font = "20px Arial";
+        const top = (parseFloat(detail.position.top) / 100) * canvas.height;
+        const left = (parseFloat(detail.position.left) / 100) * canvas.width;
+        context.fillText(detail.text, left, top);
+      });
+
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = `${this.selectedMainGroup.Name}.png`; // Dosya adını main group name olarak ayarlayın
+      link.click();
+    },
   },
 };
 </script>
 
 <style scoped>
+.fixed-buttons {
+  position: fixed;
+  bottom: 0px;
+  right: 110px;
+  display: flex;
+  align-items: center;
+}
+
+.show-details {
+  margin-top: 20px;
+}
+.bus-image {
+  width: 100%;
+  height: auto;
+}
+.relative {
+  position: relative;
+}
 .custom-alert {
   position: fixed;
   top: 16px;
