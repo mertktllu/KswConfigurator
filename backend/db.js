@@ -1,9 +1,9 @@
 const sql = require("mssql/msnodesqlv8");
 
 const config = {
-  database: "manDB",
-  server: "DESKTOP-AB3LDT8\\SQLEXPRESS",
-  driver: "msnodesqlv8",
+  database: process.env.DATABASE_NAME,
+  server: process.env.DATABASE_SERVER,
+  driver: process.env.DATABASE_DRIVER,
   options: {
     trustedConnection: true,
     trustServerCertificate: true,
