@@ -1,7 +1,7 @@
 const sql = require("mssql/msnodesqlv8");
 
 const config = {
-  database: process.env.DATABASE_NAME,
+ database: process.env.DATABASE_NAME,
   server: process.env.DATABASE_SERVER,
   driver: process.env.DATABASE_DRIVER,
   options: {
