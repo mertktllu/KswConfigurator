@@ -15,6 +15,7 @@ const config = {
     encrypt: true,
     rowCollectionOnDone: true,
     trustServerCertificate: true,
+    port: parseInt(process.env.DATABASE_PORT, 10) || 1433 // Port numarasını ekleyin
   }
 };
 
