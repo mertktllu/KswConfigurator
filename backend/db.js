@@ -12,6 +12,7 @@ const config = {
   },
   options: {
     database: process.env.DATABASE_NAME,
+    port: parseInt(process.env.DATABASE_PORT, 10) || 1433, // Default port 1433
     encrypt: true,
     rowCollectionOnDone: true,
     trustServerCertificate: true,
@@ -29,5 +30,7 @@ connection.on('connect', err => {
     console.log('Connected to the database');
   }
 });
+
+connection.connect();
 
 module.exports = connection;

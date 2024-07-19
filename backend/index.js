@@ -5,6 +5,13 @@ const bodyParser = require("body-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+dbConnection.on('connect', err => {
+  if (err) {
+    console.error('Database Connection Failed! Bad Config: ', err);
+  } else {
+    console.log('Connected to the database');
+  }
+});
 
 app.use(cors());
 app.use(bodyParser.json());
