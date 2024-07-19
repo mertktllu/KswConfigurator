@@ -1,2 +1,1 @@
-
-web: npx serve -s dist
+web: node backend/index.js

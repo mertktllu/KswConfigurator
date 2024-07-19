@@ -1,15 +1,13 @@
 require('dotenv').config();
 const express = require("express");
 const { sql, poolPromise } = require("./db");
-const dbConnection = require('./db'); 
+const path = require("path"); // path modülünü ekleyin
 const cors = require("cors");
-const bodyParser = require
-
-// Vue.js build edilen dosyaları servis et
-app.use(express.static(path.join(__dirname, 'dist')));
+const bodyParser = require("body-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 dbConnection.on('connect', err => {
   if (err) {
     console.error('Database Connection Failed! Bad Config: ', err);
@@ -22,6 +20,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 
+// Vue.js build edilen dosyaları servis et
+app.use(express.static(path.join(__dirname, '../dist')));
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
