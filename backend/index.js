@@ -1,5 +1,6 @@
 const express = require("express");
 const { sql, poolPromise } = require("./db");
+const dbConnection = require('./db'); 
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
