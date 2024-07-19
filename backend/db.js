@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { Connection, Request } = require('tedious');
 
 // Config settings for the SQL server

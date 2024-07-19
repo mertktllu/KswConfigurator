@@ -1,8 +1,12 @@
+require('dotenv').config();
 const express = require("express");
 const { sql, poolPromise } = require("./db");
 const dbConnection = require('./db'); 
 const cors = require("cors");
-const bodyParser = require("body-parser");
+const bodyParser = require
+
+// Vue.js build edilen dosyaları servis et
+app.use(express.static(path.join(__dirname, 'dist')));
 
 const app = express();
 const PORT = process.env.PORT || 3000;
