@@ -1,27 +1,22 @@
-const sql = require("mssql/msnodesqlv8");
+const sql = require('mssql');
 
 const config = {
-  server: 'DESKTOP-AB3LDT8\\SQLEXPRESS', // Sunucu adı
-  database: 'DbMan', // Veritabanı adı
-  driver: 'msnodesqlv8', // msnodesqlv8
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASS,
+  server: process.env.DATABASE_SERVER,
+  database: process.env.DATABASE_NAME,
+  driver: process.env.DATABASE_DRIVER,
+  port: parseInt(process.env.DATABASE_PORT),
   options: {
-    trustedConnection: true,
-    trustServerCertificate: true,
+    encrypt: false, // true if you're connecting to an Azure SQL database
+    enableArithAbort: true,
   },
 };
 
-const poolPromise = new sql.ConnectionPool(config)
-  .connect()
-  .then((pool) => {
-    console.log("Connected to MSSQL");
-    return pool;
-  })
-  .catch((err) => {
-    console.error("Database Connection Failed! Bad Config: ", err);
-    throw err;
-  });
-
-module.exports = {
-  sql,
-  poolPromise,
-};
+sql.connect(config, (err) => {
+  if (err) {
+    console.log('Database Connection Failed! Bad Config: ', err);
+  } else {
+    console.log('Connected to the database');
+  }
+});
