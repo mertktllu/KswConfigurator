@@ -5,7 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 dbConnection.on('connect', err => {
   if (err) {
     console.error('Database Connection Failed! Bad Config: ', err);
