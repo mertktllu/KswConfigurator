@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require("express");
 const { sql, poolPromise } = require("./db");
+const dbConnection = require('./db');
 const path = require("path"); // path modülünü ekleyin
 const cors = require("cors");
 const bodyParser = require("body-parser");
