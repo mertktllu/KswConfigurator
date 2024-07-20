@@ -1,21 +1,12 @@
 require('dotenv').config();
 const express = require("express");
-const { sql, poolPromise } = require("./db");
-const dbConnection = require('./db');
-const path = require("path"); // path modülünü ekleyin
+const db = require("./db");
+const path = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-dbConnection.on('connect', err => {
-  if (err) {
-    console.error('Database Connection Failed! Bad Config: ', err);
-  } else {
-    console.log('Connected to the database');
-  }
-});
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,22 +14,19 @@ app.use(express.json());
 
 // Vue.js build edilen dosyaları servis et
 app.use(express.static(path.join(__dirname, '../dist')));
+
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .input("Email", sql.NVarChar, email)
-      .input("Password", sql.NVarChar, password)
-      .query(
-        "SELECT * FROM Users WHERE Email = @Email AND Password = @Password"
-      );
+    const result = await db.query(
+      "SELECT * FROM Users WHERE Email = $1 AND Password = $2",
+      [email, password]
+    );
 
-    if (result.recordset.length > 0) {
-      const user = result.recordset[0];
-      res.json({ success: true, role: user.Role });
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
+      res.json({ success: true, role: user.role });
     } else {
       res.json({ success: false, message: "Incorrect username or password." });
     }
@@ -49,9 +37,8 @@ app.post("/login", async (req, res) => {
 
 app.get("/users", async (req, res) => {
   try {
-    const pool = await poolPromise;
-    const result = await pool.request().query("SELECT UserID, Name FROM Users");
-    res.json(result.recordset);
+    const result = await db.query("SELECT UserID, Name FROM Users");
+    res.json(result.rows);
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -59,11 +46,8 @@ app.get("/users", async (req, res) => {
 
 app.get("/gattungs", async (req, res) => {
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .query("SELECT GattungID, Name, MainGroupID FROM Gattungs");
-    res.json(result.recordset);
+    const result = await db.query("SELECT GattungID, Name, MainGroupID FROM Gattungs");
+    res.json(result.rows);
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -71,11 +55,8 @@ app.get("/gattungs", async (req, res) => {
 
 app.get("/maingroups", async (req, res) => {
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .query("SELECT MainGroupID, Name FROM MainGroups");
-    res.json(result.recordset);
+    const result = await db.query("SELECT MainGroupID, Name FROM MainGroups");
+    res.json(result.rows);
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -83,23 +64,22 @@ app.get("/maingroups", async (req, res) => {
 
 app.get("/products", async (req, res) => {
   try {
-    const pool = await poolPromise;
-    const result = await pool.request().query("SELECT * FROM Products");
-    res.json(result.recordset);
+    const result = await db.query("SELECT * FROM Products");
+    res.json(result.rows);
   } catch (error) {
     res.status(500).send(error.message);
   }
 });
+
 app.get("/products/byMainGroup/:mainGroupId", async (req, res) => {
   const { mainGroupId } = req.params;
 
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .input("MainGroupID", sql.Int, mainGroupId)
-      .query("SELECT * FROM Products WHERE MainGroupID = @MainGroupID");
-    res.json(result.recordset);
+    const result = await db.query(
+      "SELECT * FROM Products WHERE MainGroupID = $1",
+      [mainGroupId]
+    );
+    res.json(result.rows);
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -107,9 +87,8 @@ app.get("/products/byMainGroup/:mainGroupId", async (req, res) => {
 
 app.get("/types", async (req, res) => {
   try {
-    const pool = await poolPromise;
-    const result = await pool.request().query("SELECT * FROM Types");
-    res.json(result.recordset);
+    const result = await db.query("SELECT * FROM Types");
+    res.json(result.rows);
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -119,35 +98,23 @@ app.post("/deleteOption", async (req, res) => {
   const { ProductID, Option } = req.body;
 
   try {
-    const pool = await poolPromise;
-    // İlgili product'ı al
-    const productResult = await pool
-      .request()
-      .input("ProductID", sql.Int, ProductID)
-      .query("SELECT * FROM Products WHERE ProductID = @ProductID");
+    const productResult = await db.query("SELECT * FROM Products WHERE ProductID = $1", [ProductID]);
 
-    if (productResult.recordset.length === 0) {
+    if (productResult.rows.length === 0) {
       return res.status(404).send("Product not found");
     }
 
-    const product = productResult.recordset[0];
-    const options = JSON.parse(product.Options.replace(/'/g, '"'));
+    const product = productResult.rows[0];
+    const options = JSON.parse(product.options.replace(/'/g, '"'));
 
     // Seçeneği listeden çıkar
     const updatedOptions = options.filter((opt) => opt !== Option);
 
     // Güncellenmiş seçenekleri veritabanına yaz
-    await pool
-      .request()
-      .input(
-        "Options",
-        sql.NVarChar,
-        JSON.stringify(updatedOptions).replace(/"/g, "'")
-      )
-      .input("ProductID", sql.Int, ProductID)
-      .query(
-        "UPDATE Products SET Options = @Options WHERE ProductID = @ProductID"
-      );
+    await db.query("UPDATE Products SET Options = $1 WHERE ProductID = $2", [
+      JSON.stringify(updatedOptions).replace(/"/g, "'"),
+      ProductID,
+    ]);
 
     res.status(200).send("Option deleted successfully");
   } catch (error) {
@@ -158,11 +125,8 @@ app.post("/deleteOption", async (req, res) => {
 
 app.get("/datauploadrequests", async (req, res) => {
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .query("SELECT * FROM DataUploadRequests");
-    res.json(result.recordset);
+    const result = await db.query("SELECT * FROM DataUploadRequests");
+    res.json(result.rows);
   } catch (error) {
     console.error("Error fetching data upload requests:", error);
     res
@@ -175,35 +139,23 @@ app.post("/addOption", async (req, res) => {
   const { ProductID, Option } = req.body;
 
   try {
-    const pool = await poolPromise;
-    // İlgili product'ı al
-    const productResult = await pool
-      .request()
-      .input("ProductID", sql.Int, ProductID)
-      .query("SELECT * FROM Products WHERE ProductID = @ProductID");
+    const productResult = await db.query("SELECT * FROM Products WHERE ProductID = $1", [ProductID]);
 
-    if (productResult.recordset.length === 0) {
+    if (productResult.rows.length === 0) {
       return res.status(404).send("Product not found");
     }
 
-    const product = productResult.recordset[0];
-    const options = JSON.parse(product.Options.replace(/'/g, '"'));
+    const product = productResult.rows[0];
+    const options = JSON.parse(product.options.replace(/'/g, '"'));
 
     // Yeni seçeneği ekle
     options.push(Option);
 
     // Güncellenmiş seçenekleri veritabanına yaz
-    await pool
-      .request()
-      .input(
-        "Options",
-        sql.NVarChar,
-        JSON.stringify(options).replace(/"/g, "'")
-      )
-      .input("ProductID", sql.Int, ProductID)
-      .query(
-        "UPDATE Products SET Options = @Options WHERE ProductID = @ProductID"
-      );
+    await db.query("UPDATE Products SET Options = $1 WHERE ProductID = $2", [
+      JSON.stringify(options).replace(/"/g, "'"),
+      ProductID,
+    ]);
 
     res.status(201).send("Option added successfully");
   } catch (error) {
@@ -222,21 +174,13 @@ app.post("/datauploadrequests", async (req, res) => {
     ActionType,
   } = req.body;
 
-  console.log("Received data:", req.body); // Gelen verileri kontrol etmek için
+  console.log("Received data:", req.body);
 
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .input("UserID", sql.Int, UserID)
-      .input("TableName", sql.NVarChar, TableName)
-      .input("RequestDetails", sql.NVarChar, RequestDetails)
-      .input("RequestStatus", sql.Bit, RequestStatus)
-      .input("RequestDate", sql.DateTime, RequestDate)
-      .input("ActionType", sql.NVarChar, ActionType)
-      .query(
-        "INSERT INTO DataUploadRequests (UserID, TableName, RequestDetails, RequestStatus, RequestDate, ActionType) VALUES (@UserID, @TableName, @RequestDetails, @RequestStatus, @RequestDate, @ActionType)"
-      );
+    await db.query(
+      "INSERT INTO DataUploadRequests (UserID, TableName, RequestDetails, RequestStatus, RequestDate, ActionType) VALUES ($1, $2, $3, $4, $5, $6)",
+      [UserID, TableName, RequestDetails, RequestStatus, RequestDate, ActionType]
+    );
 
     res.status(201).send("Data upload request created successfully.");
   } catch (error) {
@@ -252,16 +196,12 @@ app.put("/datauploadrequests/:id", async (req, res) => {
   const { RequestStatus } = req.body;
 
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .input("ID", sql.Int, id)
-      .input("RequestStatus", sql.Int, RequestStatus)
-      .query(
-        "UPDATE DataUploadRequests SET RequestStatus = @RequestStatus WHERE RequestID = @ID"
-      );
+    const result = await db.query(
+      "UPDATE DataUploadRequests SET RequestStatus = $1 WHERE RequestID = $2",
+      [RequestStatus, id]
+    );
 
-    if (result.rowsAffected[0] > 0) {
+    if (result.rowCount > 0) {
       res.send("Data upload request updated successfully.");
     } else {
       res.status(404).send("Request not found.");
@@ -278,11 +218,7 @@ app.delete("/datauploadrequests/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .input("ID", sql.Int, id)
-      .query("DELETE FROM DataUploadRequests WHERE RequestID = @ID");
+    await db.query("DELETE FROM DataUploadRequests WHERE RequestID = $1", [id]);
 
     res.send("Data upload request deleted successfully.");
   } catch (error) {
@@ -297,17 +233,13 @@ app.post("/approveRequest/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .input("RequestID", sql.Int, id)
-      .query("SELECT * FROM DataUploadRequests WHERE RequestID = @RequestID");
+    const result = await db.query("SELECT * FROM DataUploadRequests WHERE RequestID = $1", [id]);
 
-    if (result.recordset.length === 0) {
+    if (result.rows.length === 0) {
       return res.status(404).send("Request not found");
     }
 
-    const request = result.recordset[0];
+    const request = result.rows[0];
     const { ActionType, RequestDetails } = request;
 
     if (!RequestDetails) {
@@ -322,8 +254,8 @@ app.post("/approveRequest/:id", async (req, res) => {
         const addDetailsMatch = RequestDetails.match(/Details: (.*)/);
         if (addDetailsMatch && addDetailsMatch[1]) {
           const details = addDetailsMatch[1];
-          query = `INSERT INTO MainGroups (Name, Value) VALUES (@details, @details)`;
-          inputs = [{ name: "details", type: sql.NVarChar, value: details }];
+          query = `INSERT INTO MainGroups (Name, Value) VALUES ($1, $1)`;
+          inputs = [details];
         } else {
           return res
             .status(400)
@@ -336,8 +268,8 @@ app.post("/approveRequest/:id", async (req, res) => {
           RequestDetails.match(/MainGroupID: (\d+)/);
         if (deleteMainGroupIdMatch && deleteMainGroupIdMatch[1]) {
           const mainGroupId = deleteMainGroupIdMatch[1];
-          query = `DELETE FROM MainGroups WHERE MainGroupID = @mainGroupId`;
-          inputs = [{ name: "mainGroupId", type: sql.Int, value: mainGroupId }];
+          query = `DELETE FROM MainGroups WHERE MainGroupID = $1`;
+          inputs = [mainGroupId];
         } else {
           return res
             .status(400)
@@ -356,11 +288,8 @@ app.post("/approveRequest/:id", async (req, res) => {
         ) {
           const mainGroupId = editMainGroupIdMatch[1];
           const newName = newMainGroupNameMatch[1];
-          query = `UPDATE MainGroups SET Name = @newName, Value = @newName WHERE MainGroupID = @mainGroupId`;
-          inputs = [
-            { name: "newName", type: sql.NVarChar, value: newName },
-            { name: "mainGroupId", type: sql.Int, value: mainGroupId },
-          ];
+          query = `UPDATE MainGroups SET Name = $1, Value = $1 WHERE MainGroupID = $2`;
+          inputs = [newName, mainGroupId];
         } else {
           return res.status(400).send("Invalid format for Edit MainGroup");
         }
@@ -377,11 +306,8 @@ app.post("/approveRequest/:id", async (req, res) => {
         ) {
           const gattungName = addGattungDetailsMatch[1];
           const mainGroupId = addGattungDetailsMatch[2];
-          query = `INSERT INTO Gattungs (Name, MainGroupID, Value) VALUES (@gattungName, @mainGroupId, @gattungName)`;
-          inputs = [
-            { name: "gattungName", type: sql.NVarChar, value: gattungName },
-            { name: "mainGroupId", type: sql.Int, value: mainGroupId },
-          ];
+          query = `INSERT INTO Gattungs (Name, MainGroupID, Value) VALUES ($1, $2, $1)`;
+          inputs = [gattungName, mainGroupId];
         } else {
           return res.status(400).send("Invalid format for Add Gattung");
         }
@@ -391,8 +317,8 @@ app.post("/approveRequest/:id", async (req, res) => {
         const deleteGattungIdMatch = RequestDetails.match(/GattungID: (\d+)/);
         if (deleteGattungIdMatch && deleteGattungIdMatch[1]) {
           const gattungId = deleteGattungIdMatch[1];
-          query = `DELETE FROM Gattungs WHERE GattungID = @gattungId`;
-          inputs = [{ name: "gattungId", type: sql.Int, value: gattungId }];
+          query = `DELETE FROM Gattungs WHERE GattungID = $1`;
+          inputs = [gattungId];
         } else {
           return res
             .status(400)
@@ -415,18 +341,12 @@ app.post("/approveRequest/:id", async (req, res) => {
           const gattungId = editGattungIdMatch[1];
           const newName = newGattungNameMatch[1];
           const mainGroupId = mainGroupIdMatch[1];
-          query = `UPDATE Gattungs SET Name = @newName, Value = @newName WHERE GattungID = @gattungId`;
-          inputs = [
-            { name: "newName", type: sql.NVarChar, value: newName },
-            { name: "gattungId", type: sql.Int, value: gattungId },
-          ];
-          await pool
-            .request()
-            .input("mainGroupId", sql.Int, mainGroupId)
-            .input("gattungId", sql.Int, gattungId)
-            .query(
-              "UPDATE Gattungs SET MainGroupID = @mainGroupId WHERE GattungID = @gattungId"
-            );
+          query = `UPDATE Gattungs SET Name = $1, Value = $1 WHERE GattungID = $2`;
+          inputs = [newName, gattungId];
+          await db.query(
+            "UPDATE Gattungs SET MainGroupID = $1 WHERE GattungID = $2",
+            [mainGroupId, gattungId]
+          );
         } else {
           return res.status(400).send("Invalid format for Edit Gattung");
         }
@@ -443,22 +363,14 @@ app.post("/approveRequest/:id", async (req, res) => {
             InputType,
             InputPlaceholder,
           } = productDetails;
-          query = `INSERT INTO Products (MainGroupID, GattungID, Name, Options, InputType, InputPlaceholder) VALUES (@MainGroupID, @GattungID, @Name, @Options, @InputType, @InputPlaceholder)`;
+          query = `INSERT INTO Products (MainGroupID, GattungID, Name, Options, InputType, InputPlaceholder) VALUES ($1, $2, $3, $4, $5, $6)`;
           inputs = [
-            { name: "MainGroupID", type: sql.Int, value: MainGroupID },
-            { name: "GattungID", type: sql.Int, value: GattungID },
-            { name: "Name", type: sql.NVarChar, value: Name },
-            {
-              name: "Options",
-              type: sql.NVarChar,
-              value: JSON.stringify(Options).replace(/"/g, "'"),
-            },
-            { name: "InputType", type: sql.NVarChar, value: InputType },
-            {
-              name: "InputPlaceholder",
-              type: sql.NVarChar,
-              value: InputPlaceholder,
-            },
+            MainGroupID,
+            GattungID,
+            Name,
+            JSON.stringify(Options).replace(/"/g, "'"),
+            InputType,
+            InputPlaceholder,
           ];
         } catch (err) {
           console.error("Error parsing product details:", err);
@@ -478,24 +390,17 @@ app.post("/approveRequest/:id", async (req, res) => {
         ) {
           const productId = deleteOptionProductIdMatch[1];
           const option = deleteOptionMatch[1];
-          const productResult = await pool
-            .request()
-            .input("ProductID", sql.Int, productId)
-            .query("SELECT * FROM Products WHERE ProductID = @ProductID");
-          if (productResult.recordset.length === 0) {
+          const productResult = await db.query("SELECT * FROM Products WHERE ProductID = $1", [productId]);
+          if (productResult.rows.length === 0) {
             return res.status(404).send("Product not found");
           }
-          const product = productResult.recordset[0];
-          const options = JSON.parse(product.Options.replace(/'/g, '"'));
+          const product = productResult.rows[0];
+          const options = JSON.parse(product.options.replace(/'/g, '"'));
           const updatedOptions = options.filter((opt) => opt !== option);
-          query = `UPDATE Products SET Options = @options WHERE ProductID = @productId`;
+          query = `UPDATE Products SET Options = $1 WHERE ProductID = $2`;
           inputs = [
-            {
-              name: "options",
-              type: sql.NVarChar,
-              value: JSON.stringify(updatedOptions).replace(/"/g, "'"),
-            },
-            { name: "productId", type: sql.Int, value: productId },
+            JSON.stringify(updatedOptions).replace(/"/g, "'"),
+            productId,
           ];
         } else {
           return res.status(400).send("Invalid format for Delete Option");
@@ -508,15 +413,8 @@ app.post("/approveRequest/:id", async (req, res) => {
 
     if (query) {
       try {
-        const requestQuery = pool.request();
-        inputs.forEach((input) =>
-          requestQuery.input(input.name, input.type, input.value)
-        );
-        await requestQuery.query(query);
-        await pool
-          .request()
-          .input("RequestID", sql.Int, id)
-          .query("DELETE FROM DataUploadRequests WHERE RequestID = @RequestID");
+        await db.query(query, inputs);
+        await db.query("DELETE FROM DataUploadRequests WHERE RequestID = $1", [id]);
         return res.send("Request approved and applied successfully");
       } catch (err) {
         console.error("Error executing query:", err);
@@ -537,13 +435,9 @@ app.post("/denyRequest/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .input("ID", sql.Int, id)
-      .query("DELETE FROM DataUploadRequests WHERE RequestID = @ID");
+    const result = await db.query("DELETE FROM DataUploadRequests WHERE RequestID = $1", [id]);
 
-    if (result.rowsAffected[0] > 0) {
+    if (result.rowCount > 0) {
       res.send("Data upload request denied successfully.");
     } else {
       res.status(404).send("Request not found.");
