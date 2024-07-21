@@ -17,13 +17,14 @@ app.get("*", (req, res) => {
 });
 
 
-app.post("/maingroups", async (req, res) => {
+app.post('/maingroups', async (req, res) => {
   const { name } = req.body;
   try {
-    const result = await db.query("INSERT INTO MainGroups (Name) VALUES ($1) RETURNING *", [name]);
+    const result = await db.query('INSERT INTO MainGroups (Name) VALUES ($1) RETURNING *', [name]);
     res.status(201).json(result.rows[0]);
-  } catch (error) {
-    res.status(500).send(error.message);
+  } catch (err) {
+    console.error('Error adding main group', err.stack);
+    res.status(500).send('Error adding main group');
   }
 });
 
@@ -94,14 +95,16 @@ app.get("/gattungs", async (req, res) => {
   }
 });
 
-app.get("/maingroups", async (req, res) => {
+app.get('/maingroups', async (req, res) => {
   try {
-    const result = await db.query("SELECT MainGroupID, Name FROM MainGroups");
+    const result = await db.query('SELECT * FROM MainGroups');
     res.json(result.rows);
-  } catch (error) {
-    res.status(500).send(error.message);
+  } catch (err) {
+    console.error('Error fetching main groups', err.stack);
+    res.status(500).send('Error fetching main groups');
   }
 });
+
 
 app.get("/products", async (req, res) => {
   try {
