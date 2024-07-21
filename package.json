@@ -38,8 +38,7 @@
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-i18n": "~2.3.2",
     "vue-cli-plugin-vuetify": "^2.5.8",
-    "vuetify-loader": "^2.0.0",
-    "vue-template-compiler": "^2.6.11"
+    "vuetify-loader": "^1.7.0"
   },
   "engines": {
     "node": "20.x"
