@@ -57,7 +57,7 @@ app.post("/login", async (req, res) => {
 });
 
 
-app.get("/users", async (req, res) => {
+app.get("/api/users", async (req, res) => {
   try {
     const result = await db.query("SELECT UserID, Name FROM Users");
     res.json(result.rows);
