@@ -469,7 +469,7 @@ app.post("/denyRequest/:id", async (req, res) => {
       .send("An error occurred while denying the data upload request.");
   }
 });
-
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
