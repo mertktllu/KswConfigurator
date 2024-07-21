@@ -13,6 +13,7 @@ const corsOptions = {
   origin: 'http://localhost:8080', // Frontend uygulamanızın localhost adresi
   optionsSuccessStatus: 200
 };
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(express.json());
