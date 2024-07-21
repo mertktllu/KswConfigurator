@@ -23,10 +23,14 @@ pool.connect((err) => {
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Static files
 app.use(express.static(path.join(__dirname, '../dist')));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
+});
 
 
 app.post('/login', async (req, res) => {

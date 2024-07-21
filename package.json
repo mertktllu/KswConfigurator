@@ -4,16 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vue-cli-service build",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore",
-    "start": "npx serve -s dist",
+    "start": "node backend/index.js",
     "postinstall": "npm run build"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
     "@vitejs/plugin-vue": "^4.0.0",
-    "@vue/cli-service": "^5.0.0",
     "axios": "^1.7.1",
     "body-parser": "^1.19.0",
     "core-js": "^3.29.0",
@@ -26,7 +25,6 @@
     "roboto-fontface": "*",
     "sass": "^1.60.0",
     "sequelize": "^6.37.3",
-    "unplugin-fonts": "^1.0.3",
     "vite": "^4.5.3",
     "vite-plugin-vuetify": "^1.0.0",
     "vue": "^3.2.0",
