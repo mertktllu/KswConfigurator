@@ -1,12 +1,11 @@
-module.exports = {
-    pluginOptions: {
-      i18n: {
-        locale: 'en',
-        fallbackLocale: 'en',
-        localeDir: 'locales',
-        enableInSFC: true
-      }
+const { WebpackPluginVuetify } = require('webpack-plugin-vuetify');
 
-    }
-  }
-  
+module.exports = {
+  configureWebpack: {
+    plugins: [
+      new WebpackPluginVuetify({
+        // Vuetify plugin options
+      }),
+    ],
+  },
+};
