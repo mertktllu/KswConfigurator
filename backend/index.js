@@ -30,27 +30,31 @@ function authenticateToken(req, res, next) {
 // Vue.js build edilen dosyaları servis et
 app.use(express.static(path.join(__dirname, '../dist')));
 
-app.post("/login", async (req, res) => {
+app.post('/login', async (req, res) => {
   const { email, password } = req.body;
+  console.log('Login request received:', { email, password });
 
   try {
     const result = await db.query(
-      "SELECT * FROM Users WHERE Email = $1 AND Password = $2",
+      'SELECT * FROM Users WHERE Email = $1 AND Password = $2',
       [email, password]
     );
 
+    console.log('Database query result:', result);
+
     if (result.rows.length > 0) {
       const user = result.rows[0];
+      console.log('User found:', user);
       res.json({ success: true, role: user.role });
     } else {
-      res.json({ success: false, message: "Incorrect username or password." });
+      console.log('Incorrect username or password');
+      res.json({ success: false, message: 'Incorrect username or password.' });
     }
   } catch (error) {
-    console.error("Error during login:", error);
+    console.error('Error during login:', error);
     res.json({ success: false, message: error.message });
   }
 });
-
 
 app.get("/users", async (req, res) => {
   try {
