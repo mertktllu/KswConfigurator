@@ -7,8 +7,7 @@ require('dotenv').config();
 const cors = require('cors');
 
 const corsOptions = {
-  origin: 'https://kswconfigurator-7fc475022be0.herokuapp.com',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  origin: '*', // Tüm domainlere izin ver
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 };
