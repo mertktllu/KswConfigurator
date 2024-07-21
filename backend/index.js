@@ -4,14 +4,14 @@ const app = express();
 
 const db = require('./db'); // db.js dosyasını burada kullanıyoruz
 require('dotenv').config();
+// CORS ayarları
 const cors = require('cors');
-
 const corsOptions = {
-  origin: '*', // veya belirli bir domain belirtin
-  optionsSuccessStatus: 200,
+  origin: '*',
+  optionsSuccessStatus: 200
 };
-
 app.use(cors(corsOptions));
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
