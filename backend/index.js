@@ -16,8 +16,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, '../dist')));
-
 
 
 app.post('/api/maingroups', async (req, res) => {
@@ -496,6 +494,11 @@ app.post("/denyRequest/:id", async (req, res) => {
       .send("An error occurred while denying the data upload request.");
   }
 });
+
+
+app.use(express.static(path.join(__dirname, '../dist')));
+
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
