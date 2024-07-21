@@ -1,18 +1,19 @@
 require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require('path'); 
+const express = require("express");
+const db = require("./db");
+const path = require("path");
+const cors = require("cors"); // CORS paketini dahil edin ve sadece bir kez tanımlayın
+const bodyParser = require("body-parser");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
-app.use(cors());
 
+app.use(cors(corsOptions)); // CORS middleware'ini kullanın
 
 app.use(bodyParser.json());
 app.use(express.json());
+
 function authenticateToken(req, res, next) {
   const token = req.header('Authorization');
   if (!token) return res.status(403).send({ message: 'Permission error' });
