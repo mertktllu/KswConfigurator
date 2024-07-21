@@ -7,6 +7,15 @@ const bodyParser = require("body-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const cors = require("cors");
+
+const corsOptions = {
+  origin: '*', // Tüm domainlere izin verir
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
 
 app.use(cors());
 app.use(bodyParser.json());
