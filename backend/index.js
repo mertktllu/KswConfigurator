@@ -22,7 +22,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
-app.post('/maingroups', async (req, res) => {
+app.post('/api/maingroups', async (req, res) => {
   const { name } = req.body;
   try {
     const result = await db.query('INSERT INTO MainGroups (Name) VALUES ($1) RETURNING *', [name]);
@@ -32,7 +32,6 @@ app.post('/maingroups', async (req, res) => {
     res.status(500).send('Error adding main group');
   }
 });
-
 app.get('/test-db', async (req, res) => {
   try {
     const result = await db.query('SELECT NOW()');
