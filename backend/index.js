@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-app.post('/api/maingroups', async (req, res) => {
+app.post('/maingroups', async (req, res) => {
   const { name } = req.body;
   try {
     const result = await db.query('INSERT INTO MainGroups (Name) VALUES ($1) RETURNING *', [name]);
@@ -94,7 +94,7 @@ app.get("/gattungs", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-app.get('/api/maingroups', async (req, res) => {
+app.get('/maingroups', async (req, res) => {
   console.log('Fetching main groups...');
   try {
     const result = await db.query('SELECT MainGroupID, Name FROM MainGroups');
