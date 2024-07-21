@@ -98,9 +98,11 @@ app.get("/maingroups", async (req, res) => {
     const result = await db.query("SELECT MainGroupID, Name FROM MainGroups");
     res.json(result.rows);
   } catch (error) {
+    console.error("Error fetching main groups:", error);
     res.status(500).send(error.message);
   }
 });
+
 
 
 app.get("/products", async (req, res) => {
