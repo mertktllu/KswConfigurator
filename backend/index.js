@@ -6,12 +6,14 @@ const db = require('./db'); // db.js dosyasını burada kullanıyoruz
 require('dotenv').config();
 const cors = require('cors');
 
-app.use(cors({
+const corsOptions = {
   origin: 'https://kswconfigurator-7fc475022be0.herokuapp.com',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
-}));
+};
 
+app.use(cors(corsOptions));
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
