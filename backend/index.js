@@ -8,8 +8,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(cors());
 
+const cors = require('cors');
+
+const corsOptions = {
+  origin: '*', // veya belirli bir domain: 'http://example.com'
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(express.json());
 
