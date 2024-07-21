@@ -600,7 +600,7 @@ export default {
     },
     async fetchMainGroups() {
       try {
-        const response = await axios.get("http://localhost:3000/maingroups");
+        const response = await axios.get("https://kswconfigurator-7fc475022be0.herokuapp.com/maingroups");
         this.mainGroups = response.data;
         console.log(this.mainGroups);
       } catch (error) {
