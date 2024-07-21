@@ -93,13 +93,12 @@ app.get("/gattungs", async (req, res) => {
   }
 });
 
-app.get('/maingroups', async (req, res) => {
+app.get("/maingroups", async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM MainGroups');
+    const result = await db.query("SELECT MainGroupID, Name FROM MainGroups");
     res.json(result.rows);
-  } catch (err) {
-    console.error('Error fetching main groups', err.stack);
-    res.status(500).send('Error fetching main groups');
+  } catch (error) {
+    res.status(500).send(error.message);
   }
 });
 
