@@ -10,13 +10,27 @@ const PORT = process.env.PORT || 3000;
 
 // CORS ayarlarını yapılandırın
 const corsOptions = {
-  origin: 'http://localhost:8080', // Frontend uygulamanızın localhost adresi
+  origin: 'http://localhost:8080', // Frontend uygulamanızın localhost adresi veya ihtiyacınıza göre değiştirin
   optionsSuccessStatus: 200
 };
-app.use(cors(corsOptions));
+
+app.use(cors(corsOptions)); // CORS middleware'ini kullanın
 
 app.use(bodyParser.json());
 app.use(express.json());
+function authenticateToken(req, res, next) {
+  const token = req.header('Authorization');
+  if (!token) return res.status(403).send({ message: 'Permission error' });
+
+  // JWT doğrulama işlemleri
+  try {
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = verified;
+    next();
+  } catch (err) {
+    res.status(403).send({ message: 'Permission error' });
+  }
+}
 
 // Vue.js build edilen dosyaları servis et
 app.use(express.static(path.join(__dirname, '../dist')));
