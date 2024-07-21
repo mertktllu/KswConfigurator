@@ -1,16 +1,13 @@
 const express = require('express');
+const path = require('path');
+const app = express();
 const cors = require('cors');
 const { Pool } = require('pg');
-const path = require('path');
-
 require('dotenv').config();
 
-const app = express();
-const port = process.env.PORT || 3000;
-
+// Database connection
 const isProduction = process.env.NODE_ENV === 'production';
 const connectionString = process.env.DATABASE_URL;
-
 const pool = new Pool({
   connectionString: connectionString,
   ssl: isProduction ? { rejectUnauthorized: false } : false
@@ -24,29 +21,13 @@ pool.connect((err) => {
   }
 });
 
-const corsOptions = {
-  origin: '*', // veya belirli bir domain: 'http://example.com'
-  optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
+// Middleware
 app.use(express.json());
-function authenticateToken(req, res, next) {
-  const token = req.header('Authorization');
-  if (!token) return res.status(403).send({ message: 'Permission error' });
+app.use(cors());
 
-  // JWT doğrulama işlemleri
-  try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = verified;
-    next();
-  } catch (err) {
-    res.status(403).send({ message: 'Permission error' });
-  }
-}
-
-// Vue.js build edilen dosyaları servis et
+// Static files
 app.use(express.static(path.join(__dirname, '../dist')));
+
 
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
