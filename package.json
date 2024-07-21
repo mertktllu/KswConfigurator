@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "postinstall": "npm run build"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
@@ -22,8 +21,7 @@
     "vue": "^3.2.0",
     "vue-i18n": "^9.13.1",
     "vue-router": "^4.0.0",
-    "vuetify": "^3.6.13",
-    "vuetify-loader": "^2.0.0-alpha.9",
+    "vuetify": "^3.0.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
@@ -35,13 +33,12 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "sass": "^1.60.0",
-    "sass-loader": "^10.1.1",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
     "vue-cli-plugin-i18n": "~2.3.2",
-    "vue-template-compiler": "^2.6.11",
-    "webpack": "^5.93.0",
-    "webpack-cli": "^4.10.0",
-    "webpack-plugin-vuetify": "^3.0.3"
+    "vue-cli-plugin-vuetify": "^2.5.8",
+    "vuetify-loader": "^2.0.0",
+    "vue-template-compiler": "^2.6.11"
   },
   "engines": {
     "node": "20.x"
