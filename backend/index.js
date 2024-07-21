@@ -31,9 +31,11 @@ app.post("/login", async (req, res) => {
       res.json({ success: false, message: "Incorrect username or password." });
     }
   } catch (error) {
+    console.error("Error during login:", error);
     res.json({ success: false, message: error.message });
   }
 });
+
 
 app.get("/users", async (req, res) => {
   try {
