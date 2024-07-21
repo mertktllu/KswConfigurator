@@ -1,7 +1,7 @@
 /**
  * main.js
  *
- * Bootstraps Vuetify and other plugins then mounts the App
+ * Bootstraps Vuetify and other plugins then mounts the App`
  */
 
 // Components
@@ -19,9 +19,6 @@ import { registerPlugins } from "@/plugins";
 // Import Vuex store
 import store from "./store"; // Add this line
 
-// Import Vue Router
-import router from './router'; // Add this line
-
 const app = createApp(App);
 
 registerPlugins(app);
@@ -30,8 +27,5 @@ app.use(i18n);
 
 // Use Vuex store
 app.use(store); // Add this line
-
-// Use Vue Router
-app.use(router); // Add this line
 
 app.mount("#app");
