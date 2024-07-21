@@ -2,22 +2,18 @@ require('dotenv').config();
 const express = require("express");
 const db = require("./db");
 const path = require("path");
-const cors = require("cors");
+const cors = require("cors"); // CORS paketini dahil edin ve sadece bir kez tanımlayın
 const bodyParser = require("body-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const cors = require("cors");
 
+// CORS ayarlarını yapılandırın
 const corsOptions = {
-  origin: '*', // Tüm domainlere izin verir
+  origin: 'http://localhost:8080', // Frontend uygulamanızın localhost adresi
   optionsSuccessStatus: 200
 };
 
-app.use(cors(corsOptions));
-
-
-app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 
