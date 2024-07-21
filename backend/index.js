@@ -11,6 +11,9 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
+app.get('/admin', (req, res) => {
+  res.send('Admin panel');
+});
 
 // Middleware
 app.use(express.json());
