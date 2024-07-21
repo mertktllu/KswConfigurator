@@ -1,15 +1,26 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path');
-const db = require('./db');
+const { Pool } = require('pg');
+require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
+const isProduction = process.env.NODE_ENV === 'production';
+const connectionString = process.env.DATABASE_URL;
 
-const cors = require('cors');
+const pool = new Pool({
+  connectionString: connectionString,
+  ssl: isProduction ? { rejectUnauthorized: false } : false
+});
+
+pool.connect((err) => {
+  if (err) {
+    console.error('Database connection error', err.stack);
+  } else {
+    console.log('Database connected successfully');
+  }
+});
 
 const corsOptions = {
   origin: '*', // veya belirli bir domain: 'http://example.com'
@@ -17,9 +28,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(bodyParser.json());
 app.use(express.json());
-
 function authenticateToken(req, res, next) {
   const token = req.header('Authorization');
   if (!token) return res.status(403).send({ message: 'Permission error' });
