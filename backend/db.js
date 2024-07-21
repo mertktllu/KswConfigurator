@@ -1,11 +1,12 @@
 const { Pool } = require('pg');
+require('dotenv').config();
+
+const isProduction = process.env.NODE_ENV === 'production';
 const connectionString = process.env.DATABASE_URL;
 
 const pool = new Pool({
   connectionString: connectionString,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: isProduction ? { rejectUnauthorized: false } : false
 });
 
 pool.connect((err) => {
@@ -16,4 +17,7 @@ pool.connect((err) => {
   }
 });
 
-module.exports = pool;
+
+module.exports = {
+  query: (text, params) => pool.query(text, params),
+};
