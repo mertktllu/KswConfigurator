@@ -2,24 +2,8 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const cors = require('cors');
-const { Pool } = require('pg');
+const db = require('./db'); // db.js dosyasını burada kullanıyoruz
 require('dotenv').config();
-
-// Database connection
-const isProduction = process.env.NODE_ENV === 'production';
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({
-  connectionString: connectionString,
-  ssl: isProduction ? { rejectUnauthorized: false } : false
-});
-
-pool.connect((err) => {
-  if (err) {
-    console.error('Database connection error', err.stack);
-  } else {
-    console.log('Database connected successfully');
-  }
-});
 
 // Middleware
 app.use(express.json());
@@ -31,7 +15,6 @@ app.use(express.static(path.join(__dirname, '../dist')));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
-
 
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
