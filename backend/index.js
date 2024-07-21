@@ -6,13 +6,8 @@ const db = require('./db'); // db.js dosyasını burada kullanıyoruz
 require('dotenv').config();
 const cors = require('cors');
 
-const corsOptions = {
-  origin: '*', // Tüm domainlere izin ver
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-};
 
-app.use(cors(corsOptions));
+app.use(cors());
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -100,13 +95,14 @@ app.get("/gattungs", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-
-app.get("/maingroups", async (req, res) => {
+app.get('/maingroups', async (req, res) => {
+  console.log('Fetching main groups...');
   try {
-    const result = await db.query("SELECT MainGroupID, Name FROM MainGroups");
+    const result = await db.query('SELECT MainGroupID, Name FROM MainGroups');
+    console.log('Query result:', result.rows);
     res.json(result.rows);
   } catch (error) {
-    console.error("Error fetching main groups:", error);
+    console.error('Error fetching main groups:', error);
     res.status(500).send(error.message);
   }
 });
