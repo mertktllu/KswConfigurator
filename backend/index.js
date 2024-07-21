@@ -18,9 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, '../dist')));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist/index.html"));
-});
+
 
 app.post('/api/maingroups', async (req, res) => {
   const { name } = req.body;
@@ -497,6 +495,9 @@ app.post("/denyRequest/:id", async (req, res) => {
       .status(500)
       .send("An error occurred while denying the data upload request.");
   }
+});
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
