@@ -99,7 +99,7 @@ app.get("/gattungs", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-app.get('/maingroups', async (req, res) => {
+app.get('/api/maingroups', async (req, res) => {
   console.log('Fetching main groups...');
   try {
     const result = await db.query('SELECT MainGroupID, Name FROM MainGroups');
@@ -110,7 +110,6 @@ app.get('/maingroups', async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-
 
 
 app.get("/products", async (req, res) => {
