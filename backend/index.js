@@ -1,14 +1,21 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const cors = require('cors');
+
 const db = require('./db'); // db.js dosyasını burada kullanıyoruz
 require('dotenv').config();
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'https://kswconfigurator-7fc475022be0.herokuapp.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+
 app.use(express.static(path.join(__dirname, '../dist')));
 
 app.get("*", (req, res) => {
