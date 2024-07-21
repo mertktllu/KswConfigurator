@@ -22,7 +22,7 @@
     "vue": "^3.2.0",
     "vue-i18n": "^9.13.1",
     "vue-router": "^4.0.0",
-    "vuetify": "^3.6.13-3.7.0-beta.0.0",
+    "vuetify": "^3.0.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
@@ -33,11 +33,13 @@
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0-beta.4",
+    "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-i18n": "~2.3.2",
-    "vue-cli-plugin-vuetify": "^2.5.8"
+    "vue-cli-plugin-vuetify": "^2.5.8",
+    "vuetify-loader": "^2.0.0",
+    "vue-template-compiler": "^2.6.11"
   },
   "engines": {
     "node": "20.x"
