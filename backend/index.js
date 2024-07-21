@@ -15,7 +15,6 @@ app.use(express.static(path.join(__dirname, '../dist')));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
-
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
   console.log('Login request received:', { email, password });

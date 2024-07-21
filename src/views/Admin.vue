@@ -609,7 +609,7 @@ export default {
     },
     async fetchGattungs() {
       try {
-        const response = await axios.get("http://localhost:3000/gattungs");
+        const response = await axios.get("https://kswconfigurator-7fc475022be0.herokuapp.com/gattungs");
         this.gattungs = response.data;
         console.log(this.gattungs);
       } catch (error) {
