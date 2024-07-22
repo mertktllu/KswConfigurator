@@ -99,14 +99,14 @@
                     v-for="groups in mainGroups"
                     :key="groups.MainGroupID"
                   >
-                    {{ groups.Name }}
+                    {{ groups.name }}
                     <v-btn
                       size="x-small"
                       icon
                       class="ml-5"
                       color="red"
                       @click="
-                        submitDeleteMainGroup(groups.MainGroupID, groups.Name)
+                        submitDeleteMainGroup(groups.maingroupid, groups.name)
                       "
                     >
                       <v-icon>mdi-delete</v-icon>
@@ -180,8 +180,8 @@
               solo
               outlined
               hide-details
-              item-text="Name"
-              item-value="MainGroupID"
+              item-text="name"
+              item-value="maingroupid"
               @change="onMainGroupChange"
             ></v-select>
           </v-card-text>
@@ -256,16 +256,16 @@
                   <v-card
                     class="ma-3"
                     v-for="gattung in gattungs"
-                    :key="gattung.GattungID"
+                    :key="gattung.gattungid"
                   >
-                    {{ gattung.Name }}
+                    {{ gattung.name }}
                     <v-btn
                       size="x-small"
                       icon
                       class="ml-5"
                       color="red"
                       @click="
-                        submitDeleteGattung(gattung.GattungID, gattung.Name)
+                        submitDeleteGattung(gattung.gattungid, gattung.name)
                       "
                     >
                       <v-icon>mdi-delete</v-icon>
@@ -414,13 +414,13 @@
           >
             <v-row>
               <v-col>
-                <div>{{ product.Name }}</div>
+                <div>{{ product.name }}</div>
                 <!-- Product Name added here -->
                 <v-select
-                  :items="product.Options"
+                  :items="product.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[product.Name]"
+                  v-model="selectedModel[product.name]"
                   :label="$t('choose')"
                   dense
                   solo
@@ -435,7 +435,7 @@
                   class="mt-4"
                   color="red"
                   @click="
-                    submitDeleteOption(product, selectedModel[product.Name])
+                    submitDeleteOption(product, selectedModel[product.name])
                   "
                 >
                   <v-icon>mdi-delete</v-icon>
@@ -469,7 +469,7 @@
             ></v-btn>
             <v-btn text="Add" color="green" @click="submitAddOption"></v-btn>
             <v-btn
-              v-for="option in subProduct.Options"
+              v-for="option in subProduct.options"
               :key="option"
               size="small"
               icon
@@ -532,19 +532,19 @@ export default {
 
       // Main Group'a ait productları al
       const currentGroupProducts = this.products.filter(
-        (product) => product.MainGroupID === this.selectedMainGroup.MainGroupID
+        (product) => product.maingroupid === this.selectedMainGroup.maingroupid
       );
 
       // Eğer Gattung seçilmemişse ve currentGroupProducts içinde GattungID null olanlar varsa onları döndür
       if (!this.selectedGattung) {
         return currentGroupProducts.filter(
-          (product) => product.GattungID === null
+          (product) => product.gattungid === null
         );
       }
 
       // Eğer Gattung seçilmişse, seçilen GattungID'ye ait productları döndür
       return currentGroupProducts.filter(
-        (product) => product.GattungID === this.selectedGattung.GattungID
+        (product) => product.gattungid === this.selectedGattung.gattungid
       );
     },
 
@@ -553,7 +553,7 @@ export default {
         return [];
       }
       return this.gattungs.filter(
-        (gattung) => gattung.MainGroupID === this.selectedMainGroup.MainGroupID
+        (gattung) => gattung.maingroupid === this.selectedMainGroup.maingroupid
       );
     },
   },
@@ -570,9 +570,9 @@ export default {
 
     async submitDeleteOption(product, option) {
       try {
-        const productID = product.ProductID;
+        const productID = product.productid;
         const gattungID = this.selectedGattung
-          ? this.selectedGattung.GattungID
+          ? this.selectedGattung.gattungid
           : null;
 
         const response = await axios.post(
