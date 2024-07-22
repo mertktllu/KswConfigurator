@@ -600,14 +600,16 @@ export default {
     },
     async fetchMainGroups() {
     try {
-      const response = await axios.get('https://kswconfigurator-7fc475022be0.herokuapp.com/maingroups');
-      this.mainGroups = response.data.map(group => ({
-        maingroupid: group.maingroupid,
-        name: group.name.trim(),
-      }));
+      const response = await axios.get("https://kswconfigurator-7fc475022be0.herokuapp.com/maingroups");
+      this.mainGroups = response.data.map(group => {
+        return {
+          ...group,
+          name: group.name ? group.name.trim() : group.name
+        };
+      });
       console.log(this.mainGroups);
     } catch (error) {
-      console.error('Error fetching main groups:', error);
+      console.error("Ana grupları alırken hata oluştu:", error);
     }
   },
     async fetchGattungs() {
