@@ -422,7 +422,7 @@
                   :items="product.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[product.Name]"
+                  v-model="selectedModel[product.name]"
                   :label="$t('choose')"
                   dense
                   solo
@@ -471,7 +471,7 @@
             ></v-btn>
             <v-btn text="Add" color="green" @click="submitAddOption"></v-btn>
             <v-btn
-              v-for="option in subProduct.Options"
+              v-for="option in subProduct.options"
               :key="option"
               size="small"
               icon
@@ -555,7 +555,7 @@ export default {
         return [];
       }
       return this.gattungs.filter(
-        (gattung) => gattung.MainGroupID === this.selectedMainGroup.MainGroupID
+        (gattung) => gattung.mainGroupID === this.selectedMainGroup.mainGroupID
       );
     },
   },
