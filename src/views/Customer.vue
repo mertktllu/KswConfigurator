@@ -55,7 +55,7 @@
           >
             <v-card @click="selectVehicle(type)" hoverable class="vehicle-card">
               <v-img :src="type.Image" class="vehicle-image"></v-img>
-              <v-card-title class="vehicle-title">{{ type.Name }}</v-card-title>
+              <v-card-title class="vehicle-title">{{ type.name }}</v-card-title>
               <v-card-subtitle> </v-card-subtitle>
             </v-card>
           </v-col>
@@ -91,7 +91,7 @@
           <v-row>
             <v-col>
               <v-text-field
-                v-model="selectedType.Name"
+                v-model="selectedType.name"
                 :label="$t('type')"
                 dense
                 solo
@@ -113,8 +113,8 @@
                 solo
                 outlined
                 hide-details
-                item-text="Name"
-                item-value="MainGroupID"
+                item-text="name"
+                item-value="maingroupid"
                 @change="onMainGroupChange"
               ></v-select>
             </v-col>
@@ -123,8 +123,8 @@
           <v-row class="">
             <v-img
               v-if="
-                selectedType?.Name === 'L4C' &&
-                selectedMainGroup?.Name === 'Camera'
+                selectedType?.name === 'L4C' &&
+                selectedMainGroup?.name === 'Camera'
               "
               width="500"
               :src="img12C"
@@ -234,8 +234,8 @@
 
             <v-img
               v-else-if="
-                selectedType?.Name === 'LE' &&
-                selectedMainGroup?.Name === 'Camera'
+                selectedType?.name === 'LE' &&
+                selectedMainGroup?.name === 'Camera'
               "
               width="500"
               :src="img18C"
@@ -363,8 +363,8 @@
             </v-img>
             <v-img
               v-else-if="
-                selectedType?.Name === 'Intercity' &&
-                selectedMainGroup?.Name === 'Camera'
+                selectedType?.name === 'Intercity' &&
+                selectedMainGroup?.name === 'Camera'
               "
               width="500"
               :src="img19C"
@@ -494,7 +494,7 @@
             <!-- rare -->
             <v-img
               v-else-if="
-                selectedMainGroup?.Name === '528M (Fahrtzielanzeige Heck)'
+                selectedMainGroup?.name === '528M (Fahrtzielanzeige Heck)'
               "
               :src="RareImage"
               contain
@@ -505,7 +505,7 @@
 
             <!-- Bestuhlung -->
             <v-img
-              v-else-if="selectedMainGroup?.Name === 'Bestuhlung'"
+              v-else-if="selectedMainGroup?.name === 'Bestuhlung'"
               :src="chairImage"
               style="width: 120%; height: auto; display: block; bottom: auto"
             >
@@ -529,7 +529,7 @@
 
               <v-row v-if="showButtons">
                 <v-row
-                  v-if="selectedGattung?.Name === '78RI - Sitzhaltegriffe'"
+                  v-if="selectedGattung?.name === '78RI - Sitzhaltegriffe'"
                 >
                   <v-btn
                     icon
@@ -549,7 +549,7 @@
                 </v-row>
 
                 <v-row
-                  v-else-if="selectedGattung?.Name === '78RD - Sitzarmlehnen'"
+                  v-else-if="selectedGattung?.name === '78RD - Sitzarmlehnen'"
                 >
                   <v-btn
                     icon
@@ -569,7 +569,7 @@
                 </v-row>
 
                 <v-row
-                  v-else-if="selectedGattung?.Name === '704A - Bestuhlung'"
+                  v-else-if="selectedGattung?.name === '704A - Bestuhlung'"
                 >
                   <v-btn
                     icon
@@ -606,7 +606,7 @@
 
                 <v-row
                   v-else-if="
-                    selectedGattung?.Name === '770A - Fahrgastsitz-Rückseite'
+                    selectedGattung?.name === '770A - Fahrgastsitz-Rückseite'
                   "
                 >
                   <v-btn
@@ -856,7 +856,7 @@
             <!-- Haltestangen -->
 
             <v-img
-              v-else-if="selectedMainGroup?.Name === 'Haltestangen'"
+              v-else-if="selectedMainGroup?.name === 'Haltestangen'"
               :src="hal_customimg"
               contain
               max-height="700"
@@ -916,7 +916,7 @@
             <!-- Teleskop -->
             <v-img
               v-else-if="
-                selectedMainGroup?.Name ===
+                selectedMainGroup?.name ===
                 'Abschrankung/Haarnadelstange an Tür 1'
               "
               :src="teleskopImage"
@@ -934,7 +934,7 @@
 
             <v-img
               v-else-if="
-                selectedMainGroup?.Name ===
+                selectedMainGroup?.name ===
                 'Sondernutzungsfläche gegenüber Tür 2'
               "
               :src="gegenuberImage"
@@ -948,7 +948,7 @@
 
             <v-img
               v-else-if="
-                selectedMainGroup?.Name ===
+                selectedMainGroup?.name ===
                 'Sondernutzungsfläche rechts vor Tür 2'
               "
               :src="rechtImage"
@@ -960,14 +960,14 @@
             </v-img>
           </v-row>
           <v-row
-            v-if="selectedType && selectedMainGroup?.Name === 'Camera'"
+            v-if="selectedType && selectedMainGroup?.name === 'Camera'"
             class="d-flex justify-center mt-4"
           >
             <v-col class="d-flex justify-center">
               <v-row
                 v-if="
-                  selectedType?.Name === 'L4C' &&
-                  selectedMainGroup?.Name === 'Camera'
+                  selectedType?.name === 'L4C' &&
+                  selectedMainGroup?.name === 'Camera'
                 "
               >
                 <v-checkbox
@@ -993,8 +993,8 @@
               </v-row>
               <v-col
                 v-else-if="
-                  selectedType?.Name === 'LE' &&
-                  selectedMainGroup?.Name === 'Camera'
+                  selectedType?.name === 'LE' &&
+                  selectedMainGroup?.name === 'Camera'
                 "
               >
                 <v-row>
@@ -1026,8 +1026,8 @@
               </v-col>
               <v-row
                 v-else-if="
-                  selectedType?.Name === 'Intercity' &&
-                  selectedMainGroup?.Name === 'Camera'
+                  selectedType?.name === 'Intercity' &&
+                  selectedMainGroup?.name === 'Camera'
                 "
               >
                 <v-checkbox
@@ -1156,7 +1156,7 @@
             solo
             outlined
             hide-details
-            item-text="Name"
+            item-text="name"
             item-value="gattung => gattung"
             @change="onGattungChange"
           ></v-select>
@@ -1165,56 +1165,56 @@
           <v-col v-if="availableSubProducts.length">
             <v-card
               v-for="subProduct in availableSubProducts"
-              :key="subProduct.Name"
+              :key="subProduct.name"
             >
-              <v-card-title>{{ subProduct.Name }}</v-card-title>
+              <v-card-title>{{ subProduct.name }}</v-card-title>
               <v-card-text>
                 <!-- Normal select dropdown -->
                 <v-select
                   v-if="
                     subProduct.GattungID === 4 &&
-                    subProduct.Name !== 'STER 8 MS'
+                    subProduct.name !== 'STER 8 MS'
                   "
                   :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.Name]"
+                  v-model="selectedModel[subProduct.name]"
                   :label="$t('selectOption')"
-                  :disabled="isDisabled(subProduct.Name)"
+                  :disabled="isDisabled(subProduct.name)"
                   dense
                   solo
                   outlined
                   hide-details
-                  @change="onOptionChange(subProduct.Name, $event)"
+                  @change="onOptionChange(subProduct.name, $event)"
                 ></v-select>
                 <!-- Text input for STER 8 MS -->
                 <v-select
                   v-else-if="
                     subProduct.GattungID === 4 &&
-                    subProduct.Name === 'STER 8 MS'
+                    subProduct.name === 'STER 8 MS'
                   "
                   :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.Name]"
+                  v-model="selectedModel[subProduct.name]"
                   :label="$t('selectOption')"
-                  :disabled="isDisabled(subProduct.Name)"
+                  :disabled="isDisabled(subProduct.name)"
                   dense
                   solo
                   outlined
                   hide-details
-                  @change="onOptionChange(subProduct.Name, $event)"
+                  @change="onOptionChange(subProduct.name, $event)"
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <v-select
-                  v-else-if="subProduct.Name === 'Nur Deckenhaltestangen in'"
+                  v-else-if="subProduct.name === 'Nur Deckenhaltestangen in'"
                   v-model="selectedRalCode"
                   :items="subProduct.Options"
                   :label="$t('selectOption')"
                   @change="updateHalCustomImg"
                 ></v-select>
                 <v-select
-                  v-else-if="subProduct.Name === '680A - SNF gegenüber Tür 2'"
+                  v-else-if="subProduct.name === '680A - SNF gegenüber Tür 2'"
                   :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
@@ -1228,7 +1228,7 @@
                 ></v-select>
                 <v-select
                   v-else-if="
-                    subProduct.Name ===
+                    subProduct.name ===
                     '680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2'
                   "
                   :items="subProduct.Options"
@@ -1245,7 +1245,7 @@
 
                 <v-select
                   v-else-if="
-                    subProduct.Name ===
+                    subProduct.name ===
                     '681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2'
                   "
                   :items="subProduct.Options"
@@ -1266,7 +1266,7 @@
                   :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.Name]"
+                  v-model="selectedModel[subProduct.name]"
                   :label="$t('selectOption')"
                   dense
                   solo
@@ -1276,10 +1276,10 @@
                 <!-- Color square -->
                 <div
                   class="color-square"
-                  v-if="shouldShowColorSquare(subProduct.Name)"
+                  v-if="shouldShowColorSquare(subProduct.name)"
                   :style="{
                     backgroundColor: getRalColor(
-                      selectedModel[subProduct.Name]
+                      selectedModel[subProduct.name]
                     ),
                   }"
                 ></div>
@@ -1321,7 +1321,7 @@
         <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
           <v-card>
             <v-card-title>
-              Bus Type: {{ selectedType?.Name }}
+              Bus Type: {{ selectedType?.name }}
               <v-spacer></v-spacer>
               <v-btn icon @click="dialog = false">
                 <v-icon>mdi-close</v-icon>
@@ -1419,8 +1419,8 @@
         <v-card>
           <v-card-title>Details</v-card-title>
           <v-card-text>
-            <p><strong>Main Group:</strong> {{ selectedMainGroup?.Name }}</p>
-            <p><strong>Gattung:</strong> {{ selectedGattung?.Name }}</p>
+            <p><strong>Main Group:</strong> {{ selectedMainGroup?.name }}</p>
+            <p><strong>Gattung:</strong> {{ selectedGattung?.name }}</p>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
               <div
                 v-for="(detail, index) in selectedDetails"
@@ -1587,7 +1587,7 @@ export default {
     },
 
     selectedVehicleImage() {
-      switch (this.selectedVehicle?.Name) {
+      switch (this.selectedVehicle?.name) {
         case "L4C":
           return "../src/static/12C-2T.jpg";
         case "LE":
@@ -1626,7 +1626,7 @@ export default {
       const query = this.searchQuery.toLowerCase();
       return this.types.filter(
         (type) =>
-          type.Name.toLowerCase().includes(query) ||
+          type.name.toLowerCase().includes(query) ||
           type.Fuel.toLowerCase().includes(query) ||
           type.Length.toLowerCase().includes(query) ||
           type.Seats.toLowerCase().includes(query) ||
@@ -1751,10 +1751,10 @@ export default {
       vehicleDialog: false,
       selectedVehicle: null,
 
-      RareImage: "../src/assets/RareDisplay/image004.png",
-      img12C: "../src/static/12C-2T.jpg",
-      img18C: "../src/static/18C-3T.jpg",
-      img19C: "../src/static/19C-4T.jpg",
+      RareImage: "src/assets/RareDisplay/image004.png",
+      img12C: "src/static/12C-2T.jpg",
+      img18C: "src/static/18C-3T.jpg",
+      img19C: "src/static/19C-4T.jpg",
 
       searchQuery: "",
       availableSubProducts: [],
@@ -1781,14 +1781,14 @@ export default {
     },
     itemProps(item) {
       return {
-        title: item?.Name,
+        title: item?.name,
         value: item,
         // MainGroupID: item?.MainGroupID, // MainGroupID'yi ekledik
       };
     },
     itemPropsGattung(item) {
       return {
-        title: item?.Name,
+        title: item?.name,
         value: item,
         MainGroupID: item?.MainGroupID,
         GattungID: item?.GattungID,
@@ -1805,7 +1805,7 @@ export default {
         this.products.some(
           (product) =>
             product.MainGroupID === mainGroup.MainGroupID &&
-            this.selectedModel[product.Name]
+            this.selectedModel[product.name]
         )
       );
 
@@ -1820,19 +1820,19 @@ export default {
               .filter(
                 (product) =>
                   product.GattungID === gattung.GattungID &&
-                  this.selectedModel[product.Name]
+                  this.selectedModel[product.name]
               )
               .map((product) => {
                 return {
-                  name: product.Name,
-                  value: this.selectedModel[product.Name],
+                  name: product.name,
+                  value: this.selectedModel[product.name],
                 };
               });
 
             if (products.length > 0) {
               this.exportData.push({
-                mainGroup: mainGroup.Name,
-                gattung: gattung.Name,
+                mainGroup: mainGroup.name,
+                gattung: gattung.name,
                 products,
               });
             }
@@ -1843,18 +1843,18 @@ export default {
               (product) =>
                 product.MainGroupID === mainGroup.MainGroupID &&
                 !product.GattungID &&
-                this.selectedModel[product.Name]
+                this.selectedModel[product.name]
             )
             .map((product) => {
               return {
-                name: product.Name,
-                value: this.selectedModel[product.Name],
+                name: product.name,
+                value: this.selectedModel[product.name],
               };
             });
 
           if (products.length > 0) {
             this.exportData.push({
-              mainGroup: mainGroup.Name,
+              mainGroup: mainGroup.name,
               gattung: null,
               products,
             });
@@ -1863,7 +1863,7 @@ export default {
       });
 
       // Include camera rotations for the selected type
-      const selectedTypPart = this.selectedType.Name.split("-")[1];
+      const selectedTypPart = this.selectedType.name.split("-")[1];
       const cameraRotationsForTyp = Object.keys(this.cameraRotations)
         .filter((key) => key.includes(selectedTypPart))
         .reduce((obj, key) => {
@@ -2017,7 +2017,7 @@ export default {
     isDisabled(productName) {
       if (
         this.selectedGattung &&
-        this.selectedGattung.Name === "704A - Bestuhlung"
+        this.selectedGattung.name === "704A - Bestuhlung"
       ) {
         if (productName === "STER 8 MS") {
           return (
@@ -2134,13 +2134,13 @@ export default {
 
       if (
         this.selectedMainGroup &&
-        this.selectedMainGroup.Name === "Bestuhlung"
+        this.selectedMainGroup.name === "Bestuhlung"
       ) {
         if (
           this.selectedGattung &&
-          (this.selectedGattung.Name === "78RI - Sitzhaltegriffe" ||
-            this.selectedGattung.Name === "78RD - Sitzarmlehnen" ||
-            this.selectedGattung.Name === "770A - Fahrgastsitz-Rückseite") &&
+          (this.selectedGattung.name === "78RI - Sitzhaltegriffe" ||
+            this.selectedGattung.name === "78RD - Sitzarmlehnen" ||
+            this.selectedGattung.name === "770A - Fahrgastsitz-Rückseite") &&
           validProducts.includes(productName)
         ) {
           return true;
@@ -2231,7 +2231,7 @@ export default {
 
       // Reset accumulated details
       this.accumulatedDetails = [];
-      if (this.selectedMainGroup.Name === "Bestuhlung") {
+      if (this.selectedMainGroup.name === "Bestuhlung") {
         // Add existing selected details
         if (this.selectedModel["mit Schaum Sitzpolster"]) {
           this.accumulatedDetails.push({
@@ -2273,7 +2273,7 @@ export default {
           });
         }
         this.imgSrc = "../src/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
-      } else if (this.selectedMainGroup.Name === "Haltestangen") {
+      } else if (this.selectedMainGroup.name === "Haltestangen") {
         // Add details for Haltestangen
         if (this.selectedModel["Nur Knoten in"]) {
           this.accumulatedDetails.push({
@@ -2290,7 +2290,7 @@ export default {
         }
         this.imgSrc = "../src/assets/Haltestangen/080CC.jpg";
       } else if (
-        this.selectedMainGroup.Name === "528M (Fahrtzielanzeige Heck)"
+        this.selectedMainGroup.name === "528M (Fahrtzielanzeige Heck)"
       ) {
         if (this.selectedModel["Model"]) {
           this.accumulatedDetails.push({
@@ -2317,7 +2317,7 @@ export default {
           });
         }
         this.imgSrc = "../src/assets/RareDisplay/image004.png";
-      } else if (this.selectedMainGroup.Name === "Camera") {
+      } else if (this.selectedMainGroup.name === "Camera") {
         // Add details for Camera
         if (this.selectedModel["Type"]) {
           this.accumulatedDetails.push({
@@ -2338,18 +2338,18 @@ export default {
           });
         }
         // Update imgSrc based on selected Type
-        if (this.selectedType?.Name === "L4C") {
+        if (this.selectedType?.name === "L4C") {
           this.imgSrc = "../src/static/12C-2T.jpg";
           this.addCameraIcons("2T");
-        } else if (this.selectedType?.Name === "LE") {
+        } else if (this.selectedType?.name === "LE") {
           this.imgSrc = "../src/static/18C-3T.jpg";
           this.addCameraIcons("3T");
-        } else if (this.selectedType?.Name === "Intercity") {
+        } else if (this.selectedType?.name === "Intercity") {
           this.imgSrc = "../src/static/19C-4T.jpg";
           this.addCameraIcons("4T");
         }
       } else if (
-        this.selectedMainGroup.Name === "Sondernutzungsfläche rechts vor Tür 2"
+        this.selectedMainGroup.name === "Sondernutzungsfläche rechts vor Tür 2"
       ) {
         if (
           this.selectedModel[
@@ -2477,7 +2477,7 @@ export default {
 
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");
-      link.download = `${this.selectedMainGroup.Name}.png`; // Dosya adını main group name olarak ayarlayın
+      link.download = `${this.selectedMainGroup.name}.png`; // Dosya adını main group name olarak ayarlayın
       link.click();
     },
   },
