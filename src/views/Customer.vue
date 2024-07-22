@@ -55,7 +55,7 @@
           >
             <v-card @click="selectVehicle(type)" hoverable class="vehicle-card">
               <v-img :src="type.Image" class="vehicle-image"></v-img>
-              <v-card-title class="vehicle-title">{{ type.Name }}</v-card-title>
+              <v-card-title class="vehicle-title">{{ type.name }}</v-card-title>
               <v-card-subtitle> </v-card-subtitle>
             </v-card>
           </v-col>
@@ -1321,7 +1321,7 @@
         <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
           <v-card>
             <v-card-title>
-              Bus Type: {{ selectedType?.name }}
+              Bus Type: {{ selectedType?.Name }}
               <v-spacer></v-spacer>
               <v-btn icon @click="dialog = false">
                 <v-icon>mdi-close</v-icon>
@@ -2035,7 +2035,7 @@ export default {
     async fetchTypes() {
       try {
         console.log("Fetching types...");
-        const response = await fetch("http://localhost:3000/types");
+        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/types");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -2049,7 +2049,7 @@ export default {
     async fetchMainGroups() {
       try {
         console.log("Fetching main groups...");
-        const response = await fetch("http://localhost:3000/maingroups");
+        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/maingroups");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -2063,7 +2063,7 @@ export default {
     async fetchGattungs() {
       try {
         console.log("Fetching gattungs...");
-        const response = await fetch("http://localhost:3000/gattungs");
+        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/gattungs");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -2077,7 +2077,7 @@ export default {
     async fetchProducts() {
       try {
         console.log("Fetching products...");
-        const response = await fetch("http://localhost:3000/products");
+        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/products");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
