@@ -172,18 +172,18 @@
           </v-card-title>
           <v-card-text>
             <v-select
-            v-model="selectedMainGroup"
-            :items="mainGroups"
-            :item-text="itemPropsMainGroup"
-            :item-value="itemPropsMainGroup"
-            label="Hauptgruppe"
-            dense
-            solo
-            outlined
-            hide-details
-            @change="onMainGroupChange"
-          ></v-select>
-
+  :item-props="itemProps"
+    v-model="selectedMainGroup"
+  :items="mainGroups"
+  label="Hauptgruppe"
+  dense
+  solo
+  outlined
+  hide-details
+  item-text="name"
+  item-value="maingroupid"
+  @change="onMainGroupChange"
+></v-select>
 <pre>{{ mainGroups }}</pre> <!-- Veriyi görüntülemek için basit bir yöntem -->
 
           </v-card-text>
@@ -338,17 +338,19 @@
           </v-card-title>
           <v-card-text>
             <v-select
-            v-model="selectedGattung"
-            :items="gattungs"
-            :item-text="itemPropsGattung"
-            :item-value="itemPropsGattung"
-            label="Gattung"
-            dense
-            solo
-            outlined
-            hide-details
-            @change="onGattungChange"
-          ></v-select>
+              :itemProps="itemProps"
+              :items="filteredGattungs"
+              v-model="selectedGattung"
+              label="Gattung"
+              :disabled="!selectedMainGroup || !filteredGattungs.length"
+              item-text="name"
+              item-value="value"
+              dense
+              solo
+              outlined
+              hide-details
+            >
+            </v-select>
           </v-card-text>
         </v-card>
       </v-col>
@@ -904,20 +906,12 @@ export default {
       console.log(this.rotation);
     },
 
-    itemPropsMainGroup(item) {
-  return {
-    title: item.name,
-    value: item.maingroupid,
-  };
-},
-itemPropsGattung(item) {
-  return {
-    title: item.name,
-    value: item.gattungid,
-  };
-},
-
-
+    itemProps(item) {
+      return {
+        title: item?.Name,
+        value: item,
+      };
+    },
 
     onMainGroupChange() {
       this.selectedGattung = null;
