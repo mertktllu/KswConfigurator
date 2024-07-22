@@ -97,7 +97,7 @@
                   <v-card
                     class="ma-3"
                     v-for="groups in mainGroups"
-                    :key="groups.MainGroupID"
+                    :key="groups.maingroupid"
                   >
                     {{ groups.Name }}
                     <v-btn
@@ -106,7 +106,7 @@
                       class="ml-5"
                       color="red"
                       @click="
-                        submitDeleteMainGroup(groups.MainGroupID, groups.Name)
+                        submitDeleteMainGroup(groups.maingroupid, groups.name)
                       "
                     >
                       <v-icon>mdi-delete</v-icon>
@@ -258,16 +258,16 @@
                   <v-card
                     class="ma-3"
                     v-for="gattung in gattungs"
-                    :key="gattung.GattungID"
+                    :key="gattung.gattungid"
                   >
-                    {{ gattung.Name }}
+                    {{ gattung.name }}
                     <v-btn
                       size="x-small"
                       icon
                       class="ml-5"
                       color="red"
                       @click="
-                        submitDeleteGattung(gattung.GattungID, gattung.Name)
+                        submitDeleteGattung(gattung.gattungid, gattung.name)
                       "
                     >
                       <v-icon>mdi-delete</v-icon>
