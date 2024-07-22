@@ -659,10 +659,10 @@ export default {
           .split(",")
           .map((option) => option.trim());
         const mainGroupID = this.selectedMainGroup
-          ? this.selectedMainGroup.MainGroupID
+          ? this.selectedMainGroup.maingroupid
           : null;
         const gattungID = this.selectedGattung
-          ? this.selectedGattung.GattungID
+          ? this.selectedGattung.gattungid
           : null;
 
         const response = await axios.post(
@@ -673,8 +673,8 @@ export default {
             RequestDetails: JSON.stringify({
               Name: this.newProductName,
               Options: options,
-              MainGroupID: mainGroupID,
-              GattungID: gattungID,
+              MainGroupID: maingroupid,
+              GattungID: gattungid,
               InputType: null,
               InputPlaceholder: null,
             }),
