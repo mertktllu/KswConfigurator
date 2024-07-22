@@ -419,7 +419,7 @@
                 <div>{{ product.name }}</div>
                 <!-- Product Name added here -->
                 <v-select
-                  :items="product.Options"
+                  :items="product.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedModel[product.name]"
