@@ -99,7 +99,7 @@
                     v-for="groups in mainGroups"
                     :key="groups.maingroupid"
                   >
-                    {{ groups.Name }}
+                    {{ groups.name }}
                     <v-btn
                       size="x-small"
                       icon
