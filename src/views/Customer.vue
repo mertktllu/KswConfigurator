@@ -2267,7 +2267,7 @@ RareImage: "src/assets/RareDisplay/image004.png",
             ),
           });
         }
-        this.imgSrc = "/src/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
+        this.imgSrc = "/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
       } else if (this.selectedMainGroup.name === "Haltestangen") {
         // Add details for Haltestangen
         if (this.selectedModel["Nur Knoten in"]) {
