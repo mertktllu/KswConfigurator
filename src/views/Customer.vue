@@ -91,7 +91,7 @@
           <v-row>
             <v-col>
               <v-text-field
-                v-model="selectedType.name"
+                v-model="selectedType.Name"
                 :label="$t('type')"
                 dense
                 solo
@@ -141,6 +141,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam1_2T')"
+                  :class="{ disabled: !cameraEnabled.cam1_2T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -160,6 +161,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam2_2T')"
+                  :class="{ disabled: !cameraEnabled.cam2_2T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -179,6 +181,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam3_2T')"
+                  :class="{ disabled: !cameraEnabled.cam3_2T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -198,6 +201,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam4_2T')"
+                  :class="{ disabled: !cameraEnabled.cam4_2T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -217,6 +221,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam5_2T')"
+                  :class="{ disabled: !cameraEnabled.cam5_2T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -226,6 +231,7 @@
                 </svg>
               </g>
             </v-img>
+
             <v-img
               v-else-if="
                 selectedType?.Name === 'LE' &&
@@ -246,6 +252,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam1_3T')"
+                  :class="{ disabled: !cameraEnabled.cam1_3T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -265,6 +272,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam2_3T')"
+                  :class="{ disabled: !cameraEnabled.cam2_3T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -284,6 +292,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam3_3T')"
+                  :class="{ disabled: !cameraEnabled.cam3_3T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -303,6 +312,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam4_3T')"
+                  :class="{ disabled: !cameraEnabled.cam4_3T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -322,6 +332,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam5_3T')"
+                  :class="{ disabled: !cameraEnabled.cam5_3T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -340,6 +351,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam6_3T')"
+                  :class="{ disabled: !cameraEnabled.cam6_3T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -354,6 +366,7 @@
                 selectedType?.Name === 'Intercity' &&
                 selectedMainGroup?.Name === 'Camera'
               "
+              width="500"
               :src="img19C"
             >
               <g>
@@ -368,6 +381,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam1_4T')"
+                  :class="{ disabled: !cameraEnabled.cam1_4T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -387,6 +401,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam2_4T')"
+                  :class="{ disabled: !cameraEnabled.cam2_4T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -406,6 +421,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam3_4T')"
+                  :class="{ disabled: !cameraEnabled.cam3_4T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -425,6 +441,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam4_4T')"
+                  :class="{ disabled: !cameraEnabled.cam4_4T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -444,6 +461,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam5_4T')"
+                  :class="{ disabled: !cameraEnabled.cam5_4T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -462,6 +480,7 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   @click="rotateCamera('cam6_4T')"
+                  :class="{ disabled: !cameraEnabled.cam6_4T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -945,6 +964,99 @@
             class="d-flex justify-center mt-4"
           >
             <v-col class="d-flex justify-center">
+              <v-row
+                v-if="
+                  selectedType?.Name === 'L4C' &&
+                  selectedMainGroup?.Name === 'Camera'
+                "
+              >
+                <v-checkbox
+                  v-model="cameraEnabled.cam1_2T"
+                  label="Cam 1"
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="cameraEnabled.cam2_2T"
+                  label="Cam 2"
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="cameraEnabled.cam3_2T"
+                  label="Cam 3"
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="cameraEnabled.cam4_2T"
+                  label="Cam 4"
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="cameraEnabled.cam5_2T"
+                  label="Cam 5"
+                ></v-checkbox>
+              </v-row>
+              <v-col
+                v-else-if="
+                  selectedType?.Name === 'LE' &&
+                  selectedMainGroup?.Name === 'Camera'
+                "
+              >
+                <v-row>
+                  <v-checkbox
+                    v-model="cameraEnabled.cam1_3T"
+                    label="Cam 1"
+                  ></v-checkbox>
+                  <v-checkbox
+                    v-model="cameraEnabled.cam2_3T"
+                    label="Cam 2"
+                  ></v-checkbox>
+                  <v-checkbox
+                    v-model="cameraEnabled.cam3_3T"
+                    label="Cam 3"
+                  ></v-checkbox>
+                  <v-checkbox
+                    v-model="cameraEnabled.cam4_3T"
+                    label="Cam 4"
+                  ></v-checkbox>
+                  <v-checkbox
+                    v-model="cameraEnabled.cam5_3T"
+                    label="Cam 5"
+                  ></v-checkbox>
+                  <v-checkbox
+                    v-model="cameraEnabled.cam6_3T"
+                    label="Cam 6"
+                  ></v-checkbox>
+                </v-row>
+              </v-col>
+              <v-row
+                v-else-if="
+                  selectedType?.Name === 'Intercity' &&
+                  selectedMainGroup?.Name === 'Camera'
+                "
+              >
+                <v-checkbox
+                  v-model="cameraEnabled.cam1_4T"
+                  label="Cam 1"
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="cameraEnabled.cam2_4T"
+                  label="Cam 2"
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="cameraEnabled.cam3_4T"
+                  label="Cam 3"
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="cameraEnabled.cam4_4T"
+                  label="Cam 4"
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="cameraEnabled.cam5_4T"
+                  label="Cam 5"
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="cameraEnabled.cam6_4T"
+                  label="Cam 5"
+                ></v-checkbox>
+              </v-row>
+            </v-col>
+            <v-col class="d-flex justify-center">
               <svg width="200" height="200" viewBox="0 0 200 200">
                 <circle
                   cx="100"
@@ -1317,11 +1429,30 @@
                   position: 'absolute',
                   top: detail.position.top,
                   left: detail.position.left,
-                  color: detail.color || 'red',
-                  fontSize: '20px',
                 }"
               >
-                {{ detail.text }}
+                <template v-if="detail.icon">
+                  <svg
+                    :style="{ transform: `rotate(${detail.rotation}deg)` }"
+                    width="30"
+                    height="20"
+                    viewBox="0 0 48 29"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                      fill="#6887F5"
+                    />
+                    <rect width="29" height="29" rx="3" fill="#6887F5" />
+                  </svg>
+                </template>
+                <template v-else>
+                  <span
+                    :style="{ color: detail.color || 'red', fontSize: '20px' }"
+                    >{{ detail.text }}</span
+                  >
+                </template>
               </div>
             </v-img>
           </v-card-text>
@@ -1537,6 +1668,25 @@ export default {
         cam4_2T: 0,
         cam5_2T: 0,
       },
+      cameraEnabled: {
+        cam1_4T: true,
+        cam2_4T: true,
+        cam3_4T: true,
+        cam4_4T: true,
+        cam5_4T: true,
+        cam6_4T: true,
+        cam1_3T: true,
+        cam2_3T: true,
+        cam3_3T: true,
+        cam4_3T: true,
+        cam5_3T: true,
+        cam6_3T: true,
+        cam1_2T: true,
+        cam2_2T: true,
+        cam3_2T: true,
+        cam4_2T: true,
+        cam5_2T: true,
+      },
       dialogVisible: {
         point1: false,
         point2: false,
@@ -1621,12 +1771,14 @@ export default {
     goHome() {
       router.push("/");
     },
-
-    rotateCamera(cameraId) {
-      this.cameraRotations[cameraId] += 45; // Her tıklamada 45 derece döndür
-      console.log(this.rotation);
+    toggleCamera(cameraId) {
+      this.cameraEnabled[cameraId] = !this.cameraEnabled[cameraId]; // Toggle camera enabled/disabled state
     },
-
+    rotateCamera(cameraId) {
+      if (this.cameraEnabled[cameraId]) {
+        this.cameraRotations[cameraId] += 45; // Rotate by 45 degrees on each click
+      }
+    },
     itemProps(item) {
       return {
         title: item?.Name,
@@ -1883,7 +2035,7 @@ export default {
     async fetchTypes() {
       try {
         console.log("Fetching types...");
-        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/types");
+        const response = await fetch("http://localhost:3000/types");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -1897,7 +2049,7 @@ export default {
     async fetchMainGroups() {
       try {
         console.log("Fetching main groups...");
-        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/maingroups");
+        const response = await fetch("http://localhost:3000/maingroups");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -1911,7 +2063,7 @@ export default {
     async fetchGattungs() {
       try {
         console.log("Fetching gattungs...");
-        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/gattungs");
+        const response = await fetch("http://localhost:3000/gattungs");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -1925,7 +2077,7 @@ export default {
     async fetchProducts() {
       try {
         console.log("Fetching products...");
-        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/products");
+        const response = await fetch("http://localhost:3000/products");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -2076,33 +2228,7 @@ export default {
     showDetails() {
       console.log("Show Details button clicked"); // Debug log
       // Export data üzerinden dönerek product'ları kontrol edelim
-      this.exportData.forEach((group) => {
-        group.products.forEach((product) => {
-          // Burada her bir product'ın value'sine göre işlem yapacağız
-          if (product.value === "Armlehne mit halter ohne Schloss") {
-            this.accumulatedDetails.push({
-              text: product.value,
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
-          } else if (
-            product.value === "Mit klappbarer Armlehne auf dem Bügel"
-          ) {
-            this.accumulatedDetails.push({
-              text: product.value,
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../src/assets/gegenüber/klappbare armlehne 2.png";
-          } else if (product.value === "Ausführung Trennwand mit Glasscheibe") {
-            this.accumulatedDetails.push({
-              text: product.value,
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../src/assets/gegenüber/glasscibe.png";
-          }
-          // Diğer ürün değerlerine göre resim ve detay eklemeleri yapılabilir
-        });
-      });
+
       // Reset accumulated details
       this.accumulatedDetails = [];
       if (this.selectedMainGroup.Name === "Bestuhlung") {
@@ -2214,52 +2340,121 @@ export default {
         // Update imgSrc based on selected Type
         if (this.selectedType?.Name === "L4C") {
           this.imgSrc = "../src/static/12C-2T.jpg";
+          this.addCameraIcons("2T");
         } else if (this.selectedType?.Name === "LE") {
           this.imgSrc = "../src/static/18C-3T.jpg";
+          this.addCameraIcons("3T");
         } else if (this.selectedType?.Name === "Intercity") {
           this.imgSrc = "../src/static/19C-4T.jpg";
+          this.addCameraIcons("4T");
         }
-        // } else if (
-        //   this.selectedMainGroup.Name === "Sondernutzungsfläche rechts vor Tür 2"
-        // ) {
-        //   if (
-        //     this.selectedGattung.Name ===
-        //     "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-        //   ) {
-        //     const selectedOption =
-        //       this.selectedModel[
-        //         "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-        //       ];
-        //     if (selectedOption === "Armlehne mit halter ohne Schloss") {
-        //       this.accumulatedDetails.push({
-        //         text: "Armlehne mit halter ohne Schloss",
-        //         position: { top: "40%", left: "40%" },
-        //       });
-        //       this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
-        //     } else if (
-        //       selectedOption === "Mit klappbarer Armlehne auf dem Bügel"
-        //     ) {
-        //       this.accumulatedDetails.push({
-        //         text: "Mit klappbarer Armlehne auf dem Bügel",
-        //         position: { top: "40%", left: "40%" },
-        //       });
-        //       this.imgSrc = "../src/assets/gegenüber/klappbare armlehne 2.png";
-        //     } else if (
-        //       selectedOption === "Ausführung Trennwand mit Glasscheibe"
-        //     ) {
-        //       this.accumulatedDetails.push({
-        //         text: "Ausführung Trennwand mit Glasscheibe",
-        //         position: { top: "40%", left: "40%" },
-        //       });
-        //       this.imgSrc = "../src/assets/gegenüber/glasscibe.png";
-        //     }
-        //   }
+      } else if (
+        this.selectedMainGroup.Name === "Sondernutzungsfläche rechts vor Tür 2"
+      ) {
+        if (
+          this.selectedModel[
+            "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+          ] === "Armlehne mit halter ohne Schloss"
+        ) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Armlehne mit halter ohne Schloss"],
+            position: { top: "40%", left: "40%" },
+          });
+        }
+        this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
+        if (selectedOption === "Mit klappbarer Armlehne auf dem Bügel") {
+          this.accumulatedDetails.push({
+            text: "Mit klappbarer Armlehne auf dem Bügel",
+            position: { top: "40%", left: "40%" },
+          });
+          this.imgSrc = "../src/assets/gegenüber/klappbare armlehne 2.png";
+        }
+        if (selectedOption === "Ausführung Trennwand mit Glasscheibe") {
+          this.accumulatedDetails.push({
+            text: "Ausführung Trennwand mit Glasscheibe",
+            position: { top: "40%", left: "40%" },
+          });
+          this.imgSrc = "../src/assets/gegenüber/glasscibe.png";
+        }
       }
+      // } else if (
+      //   this.selectedMainGroup.Name === "Sondernutzungsfläche rechts vor Tür 2"
+      // ) {
+      //   if (
+      //     this.selectedGattung.Name ===
+      //     "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+      //   ) {
+      //     const selectedOption =
+      //       this.selectedModel[
+      //         "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+      //       ];
+      //     if (selectedOption === "Armlehne mit halter ohne Schloss") {
+      //       this.accumulatedDetails.push({
+      //         text: "Armlehne mit halter ohne Schloss",
+      //         position: { top: "40%", left: "40%" },
+      //       });
+      //       this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
+      //     } else if (
+      //       selectedOption === "Mit klappbarer Armlehne auf dem Bügel"
+      //     ) {
+      //       this.accumulatedDetails.push({
+      //         text: "Mit klappbarer Armlehne auf dem Bügel",
+      //         position: { top: "40%", left: "40%" },
+      //       });
+      //       this.imgSrc = "../src/assets/gegenüber/klappbare armlehne 2.png";
+      //     } else if (
+      //       selectedOption === "Ausführung Trennwand mit Glasscheibe"
+      //     ) {
+      //       this.accumulatedDetails.push({
+      //         text: "Ausführung Trennwand mit Glasscheibe",
+      //         position: { top: "40%", left: "40%" },
+      //       });
+      //       this.imgSrc = "../src/assets/gegenüber/glasscibe.png";
+      //     }
+      //   }
+
       this.selectedDetails = [...this.accumulatedDetails];
       this.showDetailsDialog = true;
       console.log("Dialog should now be open"); // Debug log
     },
+    addCameraIcons(suffix) {
+      for (let i = 1; i <= 6; i++) {
+        const cameraKey = `cam${i}_${suffix}`;
+        if (this.cameraRotations[cameraKey] !== undefined) {
+          this.accumulatedDetails.push({
+            icon: true,
+            position: this.getCameraPosition(cameraKey),
+            rotation: (this.cameraRotations[cameraKey] + 360) % 360,
+          });
+        }
+      }
+    },
 
+    getCameraPosition(cameraKey) {
+      const positions = {
+        cam1_2T: { top: "35%", left: "90%" },
+        cam2_2T: { top: "25%", left: "79%" },
+        cam3_2T: { top: "25%", left: "55%" },
+        cam4_2T: { top: "25%", left: "15%" },
+        cam5_2T: { top: "70%", left: "8%" },
+
+        cam1_3T: { top: "45%", left: "95%" },
+        cam2_3T: { top: "25%", left: "85%" },
+        cam3_3T: { top: "25%", left: "65%" },
+        cam4_3T: { top: "70%", left: "50%" },
+        cam5_3T: { top: "25%", left: "30%" },
+        cam6_3T: { top: "70%", left: "5%" },
+
+        cam1_4T: { top: "45%", left: "95%" },
+        cam2_4T: { top: "25%", left: "85%" },
+        cam3_4T: { top: "25%", left: "62%" },
+        cam4_4T: { top: "70%", left: "50%" },
+        cam5_4T: { top: "25%", left: "30%" },
+        cam6_4T: { top: "25%", left: "16%" },
+      };
+
+      return positions[cameraKey] || { top: "0%", left: "0%" };
+    },
     async downloadDetailsImage() {
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
@@ -2463,6 +2658,10 @@ export default {
   top: 70%;
   right: 85%;
   transform: rotate();
+}
+.disabled {
+  pointer-events: none; /* Disable click events */
+  opacity: 0.5; /* Reduce opacity to show it is disabled */
 }
 .v-dialog {
   background-color: rgba(
