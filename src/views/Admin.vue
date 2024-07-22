@@ -643,7 +643,7 @@ export default {
   } catch (error) {
     console.error("Error fetching products:", error);
   }
-}
+},
 
     async submitAddOption() {
       try {
