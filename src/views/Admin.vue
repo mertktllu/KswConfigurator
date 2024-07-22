@@ -180,11 +180,11 @@
               solo
               outlined
               hide-details
-              item-text="Name"
-              item-value="MainGroupID"
+              item-text="name"
+              item-value="maingroupid"
               @change="onMainGroupChange"
             ></v-select>
-<pre>{{ mainGroups }}</pre> <!-- Veriyi görüntülemek için basit bir yöntem -->
+
 
           </v-card-text>
         </v-card>
