@@ -576,7 +576,7 @@ export default {
           : null;
 
         const response = await axios.post(
-          "http://localhost:3000/datauploadrequests",
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "Products",
@@ -600,7 +600,7 @@ export default {
     },
     async fetchMainGroups() {
       try {
-        const response = await axios.get("http://localhost:3000/maingroups");
+        const response = await axios.get("https://kswconfigurator-7fc475022be0.herokuapp.com/maingroups");
         this.mainGroups = response.data;
         console.log(this.mainGroups);
       } catch (error) {
@@ -609,7 +609,7 @@ export default {
     },
     async fetchGattungs() {
       try {
-        const response = await axios.get("http://localhost:3000/gattungs");
+        const response = await axios.get("https://kswconfigurator-7fc475022be0.herokuapp.com/gattungs");
         this.gattungs = response.data;
         console.log(this.gattungs);
       } catch (error) {
@@ -619,7 +619,7 @@ export default {
     async fetchProducts() {
       try {
         console.log("Fetching products...");
-        const response = await fetch("http://localhost:3000/products");
+        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/products");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -658,7 +658,7 @@ export default {
           : null;
 
         const response = await axios.post(
-          "http://localhost:3000/datauploadrequests",
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "Products",
@@ -727,7 +727,7 @@ export default {
         const mainGroupName = this.addMainGroup; // Admin tarafından girilen yeni ana grup adı
         const actionType = "Add MainGroup"; // İşlem tipi
         const response = await axios.post(
-          "http://localhost:3000/datauploadrequests",
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "MainGroups",
@@ -754,7 +754,7 @@ export default {
         const details = `MainGroupID: ${id}, Name: ${name}`; // Silinen ana grup bilgisi
         const actionType = "Delete MainGroup"; // İşlem tipi
         const response = await axios.post(
-          "http://localhost:3000/datauploadrequests",
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "MainGroups",
@@ -781,7 +781,7 @@ export default {
         const actionType = "Edit MainGroup"; // İşlem tipi
         console.log(`RequestDetails: ${details}`); // Eklenen log
         const response = await axios.post(
-          "http://localhost:3000/datauploadrequests",
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "MainGroups",
@@ -813,7 +813,7 @@ export default {
         console.log(`RequestDetails: ${details}`); // Eklenen log
 
         const response = await axios.post(
-          "http://localhost:3000/datauploadrequests",
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "Gattungs",
@@ -842,7 +842,7 @@ export default {
         const details = `GattungID: ${id}, Name: ${name}`; // Silinen gattung bilgisi
         const actionType = "Delete Gattung"; // İşlem tipi
         const response = await axios.post(
-          "http://localhost:3000/datauploadrequests",
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "Gattungs",
@@ -869,7 +869,7 @@ export default {
         const actionType = "Edit Gattung"; // İşlem tipi
         console.log(`RequestDetails: ${details}`); // Eklenen log
         const response = await axios.post(
-          "http://localhost:3000/datauploadrequests",
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "Gattungs",

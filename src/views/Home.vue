@@ -85,7 +85,7 @@ export default {
     async validateUser() {
       if (this.$refs.form.validate()) {
         try {
-          const response = await axios.post("http://localhost:3000/login", {
+          const response = await axios.post("https://kswconfigurator-7fc475022be0.herokuapp.com/login", {
             email: this.email,
             password: this.password,
           });
