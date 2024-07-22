@@ -1726,8 +1726,8 @@ export default {
       },
 
       showButtons: true,
-      chairImage: "../src/assets/Bestuhlung/normal.bmp", // Ön yüz görüntüsü
-      chairBackImage: "../src/assets/Bestuhlung/normal back.bmp", // Arka yüz görüntüsü
+      chairImage: "src/assets/Bestuhlung/normal.bmp", // Ön yüz görüntüsü
+      chairBackImage: "src/assets/Bestuhlung/normal back.bmp", // Arka yüz görüntüsü
       hal_customimg: "../src/assets/Haltestangen/080CC.jpg",
       hal_3000img: "../src/assets/Haltestangen/3000.jpg",
       hal_1003img: "../src/assets/Haltestangen/1003.jpg",
