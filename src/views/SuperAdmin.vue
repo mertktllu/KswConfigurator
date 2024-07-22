@@ -85,23 +85,23 @@ export default {
         console.error("Error fetching requests:", error);
       }
     },
-    confirmAction(requestID, actionType) {
-      this.requestId = requestID;
+    confirmAction(requestid, actionType) {
+      this.requestid = requestid;
       this.actionType = actionType;
       this.dialog = true;
     },
     async executeAction() {
       this.dialog = false;
       if (this.actionType === 'approve') {
-        await this.approveRequest(this.requestId);
+        await this.approveRequest(this.requestid);
       } else if (this.actionType === 'deny') {
-        await this.denyRequest(this.requestId);
+        await this.denyRequest(this.requestid);
       }
     },
-    async approveRequest(requestID) {
+    async approveRequest(requestid) {
       try {
         const response = await axios.post(
-          `https://kswconfigurator-7fc475022be0.herokuapp.com/approveRequest/${requestID}`
+          `https://kswconfigurator-7fc475022be0.herokuapp.com/approveRequest/${requestid}`
         );
         if (response.status === 200) {
           alert("Request approved successfully");
@@ -114,10 +114,10 @@ export default {
         alert("Error approving request");
       }
     },
-    async denyRequest(requestID) {
+    async denyRequest(requestid) {
       try {
         const response = await axios.post(
-          `https://kswconfigurator-7fc475022be0.herokuapp.com/denyRequest/${requestID}`
+          `https://kswconfigurator-7fc475022be0.herokuapp.com/denyRequest/${requestid}`
         );
         if (response.status === 200) {
           alert("Request denied and removed successfully");
