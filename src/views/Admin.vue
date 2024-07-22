@@ -172,18 +172,18 @@
           </v-card-title>
           <v-card-text>
             <v-select
-  :item-props="itemProps"
-    v-model="selectedMainGroup"
-  :items="mainGroups"
-  label="Hauptgruppe"
-  dense
-  solo
-  outlined
-  hide-details
-  item-text="name"
-  item-value="maingroupid"
-  @change="onMainGroupChange"
-></v-select>
+              :item-props="itemProps"
+              v-model="selectedMainGroup"
+              :items="mainGroups"
+              :label="$t('mainGroup')"
+              dense
+              solo
+              outlined
+              hide-details
+              item-text="Name"
+              item-value="MainGroupID"
+              @change="onMainGroupChange"
+            ></v-select>
 <pre>{{ mainGroups }}</pre> <!-- Veriyi görüntülemek için basit bir yöntem -->
 
           </v-card-text>
