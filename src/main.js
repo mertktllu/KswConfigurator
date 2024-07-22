@@ -6,8 +6,6 @@
 
 // Components
 import App from "./App.vue";
-import plugins from './plugins';
-
 
 // Composables
 import { createApp } from "vue";
@@ -16,7 +14,7 @@ import { createApp } from "vue";
 import i18n from "./i18n";
 
 // Plugins
-import { registerPlugins } from "src/plugins";
+import { registerPlugins } from "@/plugins";
 
 // Import Vuex store
 import store from "./store"; // Add this line

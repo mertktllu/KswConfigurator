@@ -97,16 +97,16 @@
                   <v-card
                     class="ma-3"
                     v-for="groups in mainGroups"
-                    :key="groups.maingroupid"
+                    :key="groups.MainGroupID"
                   >
-                    {{ groups.name }}
+                    {{ groups.Name }}
                     <v-btn
                       size="x-small"
                       icon
                       class="ml-5"
                       color="red"
                       @click="
-                        submitDeleteMainGroup(groups.maingroupid, groups.name)
+                        submitDeleteMainGroup(groups.MainGroupID, groups.Name)
                       "
                     >
                       <v-icon>mdi-delete</v-icon>
@@ -180,12 +180,10 @@
               solo
               outlined
               hide-details
-              item-text="name"
-              item-value="maingroupid"
+              item-text="Name"
+              item-value="MainGroupID"
               @change="onMainGroupChange"
             ></v-select>
-
-
           </v-card-text>
         </v-card>
       </v-col>
@@ -258,16 +256,16 @@
                   <v-card
                     class="ma-3"
                     v-for="gattung in gattungs"
-                    :key="gattung.gattungid"
+                    :key="gattung.GattungID"
                   >
-                    {{ gattung.name }}
+                    {{ gattung.Name }}
                     <v-btn
                       size="x-small"
                       icon
                       class="ml-5"
                       color="red"
                       @click="
-                        submitDeleteGattung(gattung.gattungid, gattung.name)
+                        submitDeleteGattung(gattung.GattungID, gattung.Name)
                       "
                     >
                       <v-icon>mdi-delete</v-icon>
@@ -412,24 +410,23 @@
           </v-card-title>
           <v-card-text
             v-for="product in availableSubProducts"
-            :key="product.name"
+            :key="product.Name"
           >
             <v-row>
               <v-col>
-                <div>{{ product.name }}</div>
+                <div>{{ product.Name }}</div>
                 <!-- Product Name added here -->
                 <v-select
-  :items="product.options"
-  :item-text="(item) => item"
-  :item-value="(item) => item"
-  v-model="selectedModel[product.name]"
-  :label="$t('selectOption')"
-  dense
-  solo
-  outlined
-  hide-details
-></v-select>
-
+                  :items="product.Options"
+                  :item-text="(item) => item"
+                  :item-value="(item) => item"
+                  v-model="selectedModel[product.Name]"
+                  :label="$t('choose')"
+                  dense
+                  solo
+                  outlined
+                  hide-details
+                ></v-select>
               </v-col>
               <v-col cols="1">
                 <v-btn
@@ -438,7 +435,7 @@
                   class="mt-4"
                   color="red"
                   @click="
-                    submitDeleteOption(product, selectedModel[product.name])
+                    submitDeleteOption(product, selectedModel[product.Name])
                   "
                 >
                   <v-icon>mdi-delete</v-icon>
@@ -472,7 +469,7 @@
             ></v-btn>
             <v-btn text="Add" color="green" @click="submitAddOption"></v-btn>
             <v-btn
-              v-for="option in subProduct.options"
+              v-for="option in subProduct.Options"
               :key="option"
               size="small"
               icon
@@ -535,29 +532,30 @@ export default {
 
       // Main Group'a ait productları al
       const currentGroupProducts = this.products.filter(
-        (product) => product.maingroupid === this.selectedMainGroup.maingroupid
+        (product) => product.MainGroupID === this.selectedMainGroup.MainGroupID
       );
 
       // Eğer Gattung seçilmemişse ve currentGroupProducts içinde GattungID null olanlar varsa onları döndür
       if (!this.selectedGattung) {
         return currentGroupProducts.filter(
-          (product) => product.gattungid === null
+          (product) => product.GattungID === null
         );
       }
 
       // Eğer Gattung seçilmişse, seçilen GattungID'ye ait productları döndür
       return currentGroupProducts.filter(
-        (product) => product.gattungid === this.selectedGattung.gattungid
+        (product) => product.GattungID === this.selectedGattung.GattungID
       );
     },
+
     filteredGattungs() {
       if (!this.selectedMainGroup) {
         return [];
       }
       return this.gattungs.filter(
-        gattung => gattung.maingroupid === this.selectedMainGroup.maingroupid
+        (gattung) => gattung.MainGroupID === this.selectedMainGroup.MainGroupID
       );
-    }
+    },
   },
   methods: {
     openAddOptionDialog(product) {
@@ -601,22 +599,17 @@ export default {
       }
     },
     async fetchMainGroups() {
-    try {
-      const response = await axios.get("https://kswconfigurator-7fc475022be0.herokuapp.com/maingroups");
-      this.mainGroups = response.data.map(group => {
-        return {
-          ...group,
-          name: group.name ? group.name.trim() : group.name
-        };
-      });
-      console.log("Maingroup",this.mainGroups);
-    } catch (error) {
-      console.error("Ana grupları alırken hata oluştu:", error);
-    }
-  },
+      try {
+        const response = await axios.get("http://localhost:3000/maingroups");
+        this.mainGroups = response.data;
+        console.log(this.mainGroups);
+      } catch (error) {
+        console.error("Error fetching main groups:", error);
+      }
+    },
     async fetchGattungs() {
       try {
-        const response = await axios.get("https://kswconfigurator-7fc475022be0.herokuapp.com/gattungs");
+        const response = await axios.get("http://localhost:3000/gattungs");
         this.gattungs = response.data;
         console.log(this.gattungs);
       } catch (error) {
@@ -624,34 +617,33 @@ export default {
       }
     },
     async fetchProducts() {
-  try {
-    console.log("Fetching products...");
-    const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/products");
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    let data = await response.json();
-    console.log("Fetched products data:", data);
-
-    // Options alanını parse et
-    data = data.map((product) => {
-      if (product.options) {
-        try {
-          product.options = JSON.parse(product.options.replace(/'/g, '"'));
-        } catch (e) {
-          console.error("Error parsing options:", e);
-          product.options = [];
+      try {
+        console.log("Fetching products...");
+        const response = await fetch("http://localhost:3000/products");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+        let data = await response.json();
+        console.log("Fetched products data:", data);
+
+        // Options alanını parse et
+        data = data.map((product) => {
+          if (product.Options) {
+            try {
+              product.Options = JSON.parse(product.Options.replace(/'/g, '"'));
+            } catch (e) {
+              console.error("Error parsing options:", e);
+              product.Options = [];
+            }
+          }
+          return product;
+        });
+
+        this.products = data;
+      } catch (error) {
+        console.error("Error fetching products:", error);
       }
-      return product;
-    });
-
-    this.products = data;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-  }
-},
-
+    },
 
     async submitAddOption() {
       try {
@@ -659,22 +651,22 @@ export default {
           .split(",")
           .map((option) => option.trim());
         const mainGroupID = this.selectedMainGroup
-          ? this.selectedMainGroup.maingroupid
+          ? this.selectedMainGroup.MainGroupID
           : null;
         const gattungID = this.selectedGattung
-          ? this.selectedGattung.gattungid
+          ? this.selectedGattung.GattungID
           : null;
 
         const response = await axios.post(
-          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
+          "http://localhost:3000/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "Products",
             RequestDetails: JSON.stringify({
               Name: this.newProductName,
               Options: options,
-              MainGroupID: maingroupid,
-              GattungID: gattungid,
+              MainGroupID: mainGroupID,
+              GattungID: gattungID,
               InputType: null,
               InputPlaceholder: null,
             }),
@@ -735,7 +727,7 @@ export default {
         const mainGroupName = this.addMainGroup; // Admin tarafından girilen yeni ana grup adı
         const actionType = "Add MainGroup"; // İşlem tipi
         const response = await axios.post(
-          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
+          "http://localhost:3000/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "MainGroups",
@@ -762,7 +754,7 @@ export default {
         const details = `MainGroupID: ${id}, Name: ${name}`; // Silinen ana grup bilgisi
         const actionType = "Delete MainGroup"; // İşlem tipi
         const response = await axios.post(
-          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
+          "http://localhost:3000/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "MainGroups",
@@ -789,7 +781,7 @@ export default {
         const actionType = "Edit MainGroup"; // İşlem tipi
         console.log(`RequestDetails: ${details}`); // Eklenen log
         const response = await axios.post(
-          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
+          "http://localhost:3000/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "MainGroups",
@@ -821,7 +813,7 @@ export default {
         console.log(`RequestDetails: ${details}`); // Eklenen log
 
         const response = await axios.post(
-          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
+          "http://localhost:3000/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "Gattungs",
@@ -850,7 +842,7 @@ export default {
         const details = `GattungID: ${id}, Name: ${name}`; // Silinen gattung bilgisi
         const actionType = "Delete Gattung"; // İşlem tipi
         const response = await axios.post(
-          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
+          "http://localhost:3000/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "Gattungs",
@@ -877,7 +869,7 @@ export default {
         const actionType = "Edit Gattung"; // İşlem tipi
         console.log(`RequestDetails: ${details}`); // Eklenen log
         const response = await axios.post(
-          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
+          "http://localhost:3000/datauploadrequests",
           {
             UserID: 1, // Admin ID
             TableName: "Gattungs",
@@ -909,7 +901,7 @@ export default {
 
     itemProps(item) {
       return {
-        title: item?.name,
+        title: item?.Name,
         value: item,
       };
     },

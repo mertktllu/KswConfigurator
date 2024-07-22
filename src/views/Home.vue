@@ -60,7 +60,7 @@
 
 <script>
 import axios from "axios";
-import router from "src/router";
+import router from "@/router";
 
 export default {
   data() {
@@ -83,39 +83,30 @@ export default {
 
   methods: {
     async validateUser() {
-  if (this.$refs.form.validate()) {
-    try {
-      const response = await axios.post("https://kswconfigurator-7fc475022be0.herokuapp.com/login", {
-        email: this.email,
-        password: this.password,
-      });
+      if (this.$refs.form.validate()) {
+        try {
+          const response = await axios.post("http://localhost:3000/login", {
+            email: this.email,
+            password: this.password,
+          });
 
-      console.log(response.data); // Yanıtı konsola yazdır
-
-      if (response.data.success) {
-  const role = response.data.role.trim(); // Boşlukları kaldır
-  console.log('User role:', role); // Role'u konsola yazdır
-  if (role === "SuperAdmin") {
-    this.$router.push("/sadmin");
-    console.log('Redirecting to /sadmin');
-  } else if (role === "Admin") {
-    this.$router.push("/admin");
-    console.log('Redirecting to /admin');
-  } else if (role === "Customer") {
-    this.$router.push("/customer");
-    console.log('Redirecting to /customer');
-  }
-} else {
-  alert(response.data.message);
-}
-
-    } catch (error) {
-      console.error("An error occurred during login:", error); // Hata mesajını konsola yazdır
-      alert("An error occurred during login.");
-    }
-  }
-},
-
+          if (response.data.success) {
+            const role = response.data.role;
+            if (role === "SuperAdmin") {
+              this.$router.push("/sadmin");
+            } else if (role === "Admin") {
+              this.$router.push("/admin");
+            } else if (role === "Customer") {
+              this.$router.push("/customer");
+            }
+          } else {
+            alert(response.data.message);
+          }
+        } catch (error) {
+          alert("An error occurred during login.");
+        }
+      }
+    },
     clearForm() {
       this.$refs.form.reset();
       this.$refs.form.resetValidation();
