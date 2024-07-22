@@ -16,7 +16,7 @@
           <v-card-title class="text-center">Reviews</v-card-title>
           <v-card-text>
             <v-list>
-              <v-row v-for="request in requests" :key="request.RequestID">
+              <v-row v-for="request in requests" :key="request.requestId">
                 <v-col>
                   {{ request.RequestDetails }}
                 </v-col>
