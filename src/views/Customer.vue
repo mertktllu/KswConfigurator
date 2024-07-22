@@ -1727,8 +1727,8 @@ export default {
       },
 
       showButtons: true,
-      chairImage: "/src/assets/Bestuhlung/normal.bmp",
-chairBackImage: "/src/assets/Bestuhlung/normal back.bmp",
+      chairImage: "/assets/Bestuhlung/normal.bmp",
+chairBackImage: "/assets/Bestuhlung/normal back.bmp",
 hal_customimg: "assets/Haltestangen/080CC.jpg",
 hal_3000img: "assets/Haltestangen/3000.jpg",
 hal_1003img: "assets/Haltestangen/1003.jpg",
@@ -1969,8 +1969,8 @@ RareImage: "src/assets/RareDisplay/image004.png",
     toggleChair() {
       this.showButtons = !this.showButtons;
       this.chairImage = this.showButtons
-        ? "/src/assets/Bestuhlung/normal.bmp"
-        : "/src/assets/Bestuhlung/normal back.bmp";
+        ? "/assets/Bestuhlung/normal.bmp"
+        : "/assets/Bestuhlung/normal back.bmp";
     },
 
     openVehicleDialog(type) {
