@@ -1970,8 +1970,8 @@ RareImage: "src/assets/RareDisplay/image004.png",
     toggleChair() {
       this.showButtons = !this.showButtons;
       this.chairImage = this.showButtons
-        ? "../src/assets/Bestuhlung/normal.bmp"
-        : "../src/assets/Bestuhlung/normal back.bmp";
+        ? "src/assets/Bestuhlung/normal.bmp"
+        : "src/assets/Bestuhlung/normal back.bmp";
     },
 
     openVehicleDialog(type) {
