@@ -93,17 +93,22 @@ export default {
       console.log(response.data); // Yanıtı konsola yazdır
 
       if (response.data.success) {
-        const role = response.data.role;
-        if (role === "SuperAdmin") {
-          this.$router.push("/sadmin");
-        } else if (role === "Admin") {
-          this.$router.push("/admin");
-        } else if (role === "Customer") {
-          this.$router.push("/customer");
-        }
-      } else {
-        alert(response.data.message);
-      }
+  const role = response.data.role.trim(); // Boşlukları kaldır
+  console.log('User role:', role); // Role'u konsola yazdır
+  if (role === "SuperAdmin") {
+    this.$router.push("/sadmin");
+    console.log('Redirecting to /sadmin');
+  } else if (role === "Admin") {
+    this.$router.push("/admin");
+    console.log('Redirecting to /admin');
+  } else if (role === "Customer") {
+    this.$router.push("/customer");
+    console.log('Redirecting to /customer');
+  }
+} else {
+  alert(response.data.message);
+}
+
     } catch (error) {
       console.error("An error occurred during login:", error); // Hata mesajını konsola yazdır
       alert("An error occurred during login.");

@@ -61,12 +61,12 @@ app.post('/login', async (req, res) => {
       [email, password]
     );
 
-    console.log('Database query result:', result);
+    console.log('Database query result:', result.rows);
 
     if (result.rows.length > 0) {
       const user = result.rows[0];
       console.log('User found:', user);
-      res.json({ success: true, role: user.role });
+      res.json({ success: true, role: user.role.trim() }); // Boşlukları kaldırarak rol döndür
     } else {
       console.log('Incorrect username or password');
       res.json({ success: false, message: 'Incorrect username or password.' });
@@ -76,6 +76,7 @@ app.post('/login', async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 });
+
 
 app.get("/users", async (req, res) => {
   try {
