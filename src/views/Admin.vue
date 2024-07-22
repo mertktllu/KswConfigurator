@@ -184,7 +184,7 @@
   item-value="maingroupid"
   @change="onMainGroupChange"
 ></v-select>
-<pre>{{ mainGroups }}</pre> <!-- Veriyi görüntülemek için basit bir yöntem -->
+
 
           </v-card-text>
         </v-card>
