@@ -258,7 +258,7 @@
                   <v-card
                     class="ma-3"
                     v-for="gattung in gattungs"
-                    :key="gattung.gattungid"
+                    :key="gattung.GattungID"
                   >
                     {{ gattung.Name }}
                     <v-btn
@@ -267,7 +267,7 @@
                       class="ml-5"
                       color="red"
                       @click="
-                        submitDeleteGattung(gattung.gattungid, gattung.name)
+                        submitDeleteGattung(gattung.GattungID, gattung.Name)
                       "
                     >
                       <v-icon>mdi-delete</v-icon>
@@ -535,19 +535,19 @@ export default {
 
       // Main Group'a ait productları al
       const currentGroupProducts = this.products.filter(
-        (product) => product.MainGroupID === this.selectedMainGroup.MainGroupID
+        (product) => product.maingroupid === this.selectedMainGroup.maingroupid
       );
 
       // Eğer Gattung seçilmemişse ve currentGroupProducts içinde GattungID null olanlar varsa onları döndür
       if (!this.selectedGattung) {
         return currentGroupProducts.filter(
-          (product) => product.GattungID === null
+          (product) => product.gattungid === null
         );
       }
 
       // Eğer Gattung seçilmişse, seçilen GattungID'ye ait productları döndür
       return currentGroupProducts.filter(
-        (product) => product.GattungID === this.selectedGattung.GattungID
+        (product) => product.gattungid === this.selectedGattung.gattungid
       );
     },
     filteredGattungs() {
