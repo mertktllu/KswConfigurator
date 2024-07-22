@@ -172,13 +172,18 @@
           </v-card-title>
           <v-card-text>
             <v-select
-      v-model="selectedMainGroup"
-      :items="mainGroups"
-      item-text="Name"
-      item-value="MainGroupID"
-      label="Select MainGroup"
-      @change="onMainGroupChange"
-    ></v-select>
+              :item-props="itemProps"
+              v-model="selectedMainGroup"
+              :items="mainGroups"
+              :label="$t('mainGroup')"
+              dense
+              solo
+              outlined
+              hide-details
+              item-text="name"
+              item-value="maingroupid"
+              @change="onMainGroupChange"
+            ></v-select>
 
 
           </v-card-text>
@@ -544,13 +549,12 @@ export default {
         (product) => product.GattungID === this.selectedGattung.GattungID
       );
     },
-
     filteredGattungs() {
       if (!this.selectedMainGroup) {
         return [];
       }
       return this.gattungs.filter(
-        (gattung) => gattung.MainGroupID === this.selectedMainGroup.MainGroupID
+        gattung => gattung.maingroupid === this.selectedMainGroup.maingroupid
       );
     }
   },
