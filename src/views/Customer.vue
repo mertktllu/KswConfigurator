@@ -1728,8 +1728,8 @@ export default {
       },
 
       showButtons: true,
-      chairImage: "assets/Bestuhlung/normal.bmp",
-chairBackImage: "assets/Bestuhlung/normal back.bmp",
+      chairImage: "src/assets/Bestuhlung/normal.bmp",
+chairBackImage: "src/assets/Bestuhlung/normal back.bmp",
 hal_customimg: "assets/Haltestangen/080CC.jpg",
 hal_3000img: "assets/Haltestangen/3000.jpg",
 hal_1003img: "assets/Haltestangen/1003.jpg",
