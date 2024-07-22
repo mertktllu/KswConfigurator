@@ -172,7 +172,8 @@
           </v-card-title>
           <v-card-text>
             <v-select
-  v-model="selectedMainGroup"
+  :item-props="itemProps"
+            v-model="selectedMainGroup"
   :items="mainGroups"
   label="Hauptgruppe"
   dense
