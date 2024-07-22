@@ -180,8 +180,8 @@
   solo
   outlined
   hide-details
-  item-text="Name"
-  item-value="MainGroupID"
+  item-text="name"
+  item-value="maingroupid"
   @change="onMainGroupChange"
 ></v-select>
 <pre>{{ mainGroups }}</pre> <!-- Veriyi görüntülemek için basit bir yöntem -->
@@ -907,11 +907,11 @@ export default {
     },
 
     itemProps(item) {
-  return {
-    title: item.name,
-    value: item.maingroupid,
-  };
-},
+      return {
+        title: item?.Name,
+        value: item,
+      };
+    },
 
     onMainGroupChange() {
       this.selectedGattung = null;
