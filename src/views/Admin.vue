@@ -911,7 +911,7 @@ export default {
     title: item.name,
     value: item.maingroupid,
   };
-}
+},
 
     onMainGroupChange() {
       this.selectedGattung = null;
