@@ -91,7 +91,7 @@
           <v-row>
             <v-col>
               <v-text-field
-                v-model="selectedType.Name"
+                v-model="selectedType.name"
                 :label="$t('type')"
                 dense
                 solo
