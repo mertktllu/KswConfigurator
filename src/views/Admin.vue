@@ -172,17 +172,17 @@
           </v-card-title>
           <v-card-text>
             <v-select
-  :item-props="itemProps"
-            v-model="selectedMainGroup"
+  v-model="selectedMainGroup"
   :items="mainGroups"
+  item-text="name"
+  item-value="maingroupid"
   label="Hauptgruppe"
   dense
   solo
   outlined
   hide-details
-  item-text="name"
-  item-value="maingroupid"
   @change="onMainGroupChange"
+
 ></v-select>
 
 
