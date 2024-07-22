@@ -1627,10 +1627,10 @@ export default {
       return this.types.filter(
         (type) =>
           type.name.toLowerCase().includes(query) ||
-          type.Fuel.toLowerCase().includes(query) ||
-          type.Length.toLowerCase().includes(query) ||
-          type.Seats.toLowerCase().includes(query) ||
-          type.Features.toLowerCase().includes(query)
+          type.fuel.toLowerCase().includes(query) ||
+          type.length.toLowerCase().includes(query) ||
+          type.seats.toLowerCase().includes(query) ||
+          type.features.toLowerCase().includes(query)
       );
     },
   },
