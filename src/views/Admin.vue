@@ -258,7 +258,7 @@
                   <v-card
                     class="ma-3"
                     v-for="gattung in gattungs"
-                    :key="gattung.GattungID"
+                    :key="gattung.gattungid"
                   >
                     {{ gattung.Name }}
                     <v-btn
@@ -267,7 +267,7 @@
                       class="ml-5"
                       color="red"
                       @click="
-                        submitDeleteGattung(gattung.GattungID, gattung.Name)
+                        submitDeleteGattung(gattung.gattungid, gattung.name)
                       "
                     >
                       <v-icon>mdi-delete</v-icon>
@@ -419,16 +419,17 @@
                 <div>{{ product.name }}</div>
                 <!-- Product Name added here -->
                 <v-select
-                  :items="product.options"
-                  :item-text="(item) => item"
-                  :item-value="(item) => item"
-                  v-model="selectedModel[product.name]"
-                  :label="$t('choose')"
-                  dense
-                  solo
-                  outlined
-                  hide-details
-                ></v-select>
+  :items="product.options"
+  :item-text="(item) => item"
+  :item-value="(item) => item"
+  v-model="selectedModel[product.name]"
+  :label="$t('selectOption')"
+  dense
+  solo
+  outlined
+  hide-details
+></v-select>
+
               </v-col>
               <v-col cols="1">
                 <v-btn
@@ -623,33 +624,34 @@ export default {
       }
     },
     async fetchProducts() {
-      try {
-        console.log("Fetching products...");
-        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/products");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+  try {
+    console.log("Fetching products...");
+    const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/products");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    let data = await response.json();
+    console.log("Fetched products data:", data);
+
+    // Options alanını parse et
+    data = data.map((product) => {
+      if (product.options) {
+        try {
+          product.options = JSON.parse(product.options.replace(/'/g, '"'));
+        } catch (e) {
+          console.error("Error parsing options:", e);
+          product.options = [];
         }
-        let data = await response.json();
-        console.log("Fetched products data:", data);
-
-        // Options alanını parse et
-        data = data.map((product) => {
-          if (product.Options) {
-            try {
-              product.Options = JSON.parse(product.Options.replace(/'/g, '"'));
-            } catch (e) {
-              console.error("Error parsing options:", e);
-              product.Options = [];
-            }
-          }
-          return product;
-        });
-
-        this.products = data;
-      } catch (error) {
-        console.error("Error fetching products:", error);
       }
-    },
+      return product;
+    });
+
+    this.products = data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+  }
+},
+
 
     async submitAddOption() {
       try {
