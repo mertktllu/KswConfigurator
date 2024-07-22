@@ -172,7 +172,7 @@
           </v-card-title>
           <v-card-text>
             <v-select
-
+  :item-props="itemProps"
             v-model="selectedMainGroup"
   :items="mainGroups"
   label="Hauptgruppe"
@@ -907,11 +907,11 @@ export default {
     },
 
     itemProps(item) {
-      return {
-        title: item?.Name,
-        value: item,
-      };
-    },
+  return {
+    title: item.name,
+    value: item.maingroupid,
+  };
+}
 
     onMainGroupChange() {
       this.selectedGattung = null;
