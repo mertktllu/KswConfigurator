@@ -1468,7 +1468,7 @@
 </template>
 
 <script>
-import router from "@/router";
+import router from "src/router";
 import axios from "axios";
 import { mapActions } from "vuex";
 export default {

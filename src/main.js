@@ -14,7 +14,7 @@ import { createApp } from "vue";
 import i18n from "./i18n";
 
 // Plugins
-import { registerPlugins } from "@/plugins";
+import { registerPlugins } from "src/plugins";
 
 // Import Vuex store
 import store from "./store"; // Add this line
