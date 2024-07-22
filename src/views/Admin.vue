@@ -607,7 +607,7 @@ export default {
           name: group.name ? group.name.trim() : group.name
         };
       });
-      console.log(this.mainGroups);
+      console.log("Maingroup",this.mainGroups);
     } catch (error) {
       console.error("Ana grupları alırken hata oluştu:", error);
     }
