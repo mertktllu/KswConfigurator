@@ -77,15 +77,15 @@ export default {
     async fetchRequests() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/datauploadrequests"
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests"
         );
         this.requests = response.data;
       } catch (error) {
         console.error("Error fetching requests:", error);
       }
     },
-    confirmAction(requestID, actionType) {
-      this.requestId = requestID;
+    confirmAction(requestid, actionType) {
+      this.requestId = requestid;
       this.actionType = actionType;
       this.dialog = true;
     },
@@ -100,7 +100,7 @@ export default {
     async approveRequest(requestID) {
       try {
         const response = await axios.post(
-          `http://localhost:3000/approveRequest/${requestID}`
+          `https://kswconfigurator-7fc475022be0.herokuapp.com/approveRequest/${requestid}`
         );
         if (response.status === 200) {
           alert("Request approved successfully");
@@ -116,7 +116,7 @@ export default {
     async denyRequest(requestID) {
       try {
         const response = await axios.post(
-          `http://localhost:3000/denyRequest/${requestID}`,
+          `https://kswconfigurator-7fc475022be0.herokuapp.com/denyRequest/${requestid}`,
         );
         if (response.status === 200) {
           alert("Request denied and removed successfully");
