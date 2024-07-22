@@ -1697,16 +1697,16 @@ export default {
         point7: false,
       },
       detailImages: {
-    point1: "/src/assets/Bestuhlung/topcloser.bmp",
-    point1_1: "/src/assets/Bestuhlung/topcloser detail.bmp",
-    point2: "/src/assets/Bestuhlung/Rück.bmp",
-    point3: "/src/assets/Bestuhlung/sitz.bmp",
-    point4: "/src/assets/Bestuhlung/bugel or armlehne color.bmp",
-    point4_1: "/src/assets/Bestuhlung/armlehne color.bmp",
-    point5: "/src/assets/Bestuhlung/rückseite.bmp",
-    point6: "/src/assets/Bestuhlung/back.bmp",
-    point7: "/src/assets/Haltestangen/fittings.jpg",
-},
+      point1: '/assets/Bestuhlung/topcloser.bmp',
+      point1_1: '/assets/Bestuhlung/topcloser detail.bmp',
+      point2: '/assets/Bestuhlung/Rück.bmp',
+      point3: '/assets/Bestuhlung/sitz.bmp',
+      point4: '/assets/Bestuhlung/bugel or armlehne color.bmp',
+      point4_1: '/assets/Bestuhlung/armlehne color.bmp',
+      point5: '/assets/Bestuhlung/rückseite.bmp',
+      point6: '/assets/Bestuhlung/back.bmp',
+      point7: '/assets/Haltestangen/fittings.jpg',
+    },
 
 
 
