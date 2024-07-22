@@ -412,11 +412,11 @@
           </v-card-title>
           <v-card-text
             v-for="product in availableSubProducts"
-            :key="product.Name"
+            :key="product.name"
           >
             <v-row>
               <v-col>
-                <div>{{ product.Name }}</div>
+                <div>{{ product.name }}</div>
                 <!-- Product Name added here -->
                 <v-select
                   :items="product.Options"
@@ -437,7 +437,7 @@
                   class="mt-4"
                   color="red"
                   @click="
-                    submitDeleteOption(product, selectedModel[product.Name])
+                    submitDeleteOption(product, selectedModel[product.name])
                   "
                 >
                   <v-icon>mdi-delete</v-icon>
