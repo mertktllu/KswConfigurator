@@ -1969,8 +1969,8 @@ RareImage: "src/assets/RareDisplay/image004.png",
     toggleChair() {
       this.showButtons = !this.showButtons;
       this.chairImage = this.showButtons
-        ? "src/assets/Bestuhlung/normal.bmp"
-        : "src/assets/Bestuhlung/normal back.bmp";
+        ? "/src/assets/Bestuhlung/normal.bmp"
+        : "/src/assets/Bestuhlung/normal back.bmp";
     },
 
     openVehicleDialog(type) {
@@ -2267,7 +2267,7 @@ RareImage: "src/assets/RareDisplay/image004.png",
             ),
           });
         }
-        this.imgSrc = "../src/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
+        this.imgSrc = "/src/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
       } else if (this.selectedMainGroup.name === "Haltestangen") {
         // Add details for Haltestangen
         if (this.selectedModel["Nur Knoten in"]) {
