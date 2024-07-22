@@ -1781,7 +1781,7 @@ export default {
     },
     itemProps(item) {
       return {
-        title: item?.Name,
+        title: item?.name,
         value: item,
         // MainGroupID: item?.MainGroupID, // MainGroupID'yi ekledik
       };
