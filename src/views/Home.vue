@@ -83,30 +83,34 @@ export default {
 
   methods: {
     async validateUser() {
-      if (this.$refs.form.validate()) {
-        try {
-          const response = await axios.post("https://kswconfigurator-7fc475022be0.herokuapp.com/login", {
-            email: this.email,
-            password: this.password,
-          });
+  if (this.$refs.form.validate()) {
+    try {
+      const response = await axios.post("https://kswconfigurator-7fc475022be0.herokuapp.com/login", {
+        email: this.email,
+        password: this.password,
+      });
 
-          if (response.data.success) {
-            const role = response.data.role;
-            if (role === "SuperAdmin") {
-              this.$router.push("/sadmin");
-            } else if (role === "Admin") {
-              this.$router.push("/admin");
-            } else if (role === "Customer") {
-              this.$router.push("/customer");
-            }
-          } else {
-            alert(response.data.message);
-          }
-        } catch (error) {
-          alert("An error occurred during login.");
+      console.log(response.data); // Yanıtı konsola yazdır
+
+      if (response.data.success) {
+        const role = response.data.role;
+        if (role === "SuperAdmin") {
+          this.$router.push("/sadmin");
+        } else if (role === "Admin") {
+          this.$router.push("/admin");
+        } else if (role === "Customer") {
+          this.$router.push("/customer");
         }
+      } else {
+        alert(response.data.message);
       }
-    },
+    } catch (error) {
+      console.error("An error occurred during login:", error); // Hata mesajını konsola yazdır
+      alert("An error occurred during login.");
+    }
+  }
+},
+
     clearForm() {
       this.$refs.form.reset();
       this.$refs.form.resetValidation();
