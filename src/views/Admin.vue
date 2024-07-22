@@ -172,7 +172,7 @@
           </v-card-title>
           <v-card-text>
             <v-select
-  :item-props="itemProps"
+
             v-model="selectedMainGroup"
   :items="mainGroups"
   label="Hauptgruppe"
