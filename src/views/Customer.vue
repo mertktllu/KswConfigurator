@@ -113,8 +113,8 @@
                 solo
                 outlined
                 hide-details
-                item-text="Name"
-                item-value="MainGroupID"
+                item-text="name"
+                item-value="maingroupid"
                 @change="onMainGroupChange"
               ></v-select>
             </v-col>
@@ -123,8 +123,8 @@
           <v-row class="">
             <v-img
               v-if="
-                selectedType?.Name === 'L4C' &&
-                selectedMainGroup?.Name === 'Camera'
+                selectedType?.name === 'L4C' &&
+                selectedMainGroup?.name === 'Camera'
               "
               width="500"
               :src="img12C"
@@ -234,8 +234,8 @@
 
             <v-img
               v-else-if="
-                selectedType?.Name === 'LE' &&
-                selectedMainGroup?.Name === 'Camera'
+                selectedType?.name === 'LE' &&
+                selectedMainGroup?.name === 'Camera'
               "
               width="500"
               :src="img18C"
@@ -363,8 +363,8 @@
             </v-img>
             <v-img
               v-else-if="
-                selectedType?.Name === 'Intercity' &&
-                selectedMainGroup?.Name === 'Camera'
+                selectedType?.name === 'Intercity' &&
+                selectedMainGroup?.name === 'Camera'
               "
               width="500"
               :src="img19C"
@@ -494,7 +494,7 @@
             <!-- rare -->
             <v-img
               v-else-if="
-                selectedMainGroup?.Name === '528M (Fahrtzielanzeige Heck)'
+                selectedMainGroup?.name === '528M (Fahrtzielanzeige Heck)'
               "
               :src="RareImage"
               contain
@@ -505,7 +505,7 @@
 
             <!-- Bestuhlung -->
             <v-img
-              v-else-if="selectedMainGroup?.Name === 'Bestuhlung'"
+              v-else-if="selectedMainGroup?.name === 'Bestuhlung'"
               :src="chairImage"
               style="width: 120%; height: auto; display: block; bottom: auto"
             >
@@ -529,7 +529,7 @@
 
               <v-row v-if="showButtons">
                 <v-row
-                  v-if="selectedGattung?.Name === '78RI - Sitzhaltegriffe'"
+                  v-if="selectedGattung?.name === '78RI - Sitzhaltegriffe'"
                 >
                   <v-btn
                     icon
@@ -549,7 +549,7 @@
                 </v-row>
 
                 <v-row
-                  v-else-if="selectedGattung?.Name === '78RD - Sitzarmlehnen'"
+                  v-else-if="selectedGattung?.name === '78RD - Sitzarmlehnen'"
                 >
                   <v-btn
                     icon
@@ -569,7 +569,7 @@
                 </v-row>
 
                 <v-row
-                  v-else-if="selectedGattung?.Name === '704A - Bestuhlung'"
+                  v-else-if="selectedGattung?.name === '704A - Bestuhlung'"
                 >
                   <v-btn
                     icon
@@ -606,7 +606,7 @@
 
                 <v-row
                   v-else-if="
-                    selectedGattung?.Name === '770A - Fahrgastsitz-Rückseite'
+                    selectedGattung?.name === '770A - Fahrgastsitz-Rückseite'
                   "
                 >
                   <v-btn
@@ -856,7 +856,7 @@
             <!-- Haltestangen -->
 
             <v-img
-              v-else-if="selectedMainGroup?.Name === 'Haltestangen'"
+              v-else-if="selectedMainGroup?.name === 'Haltestangen'"
               :src="hal_customimg"
               contain
               max-height="700"
@@ -916,7 +916,7 @@
             <!-- Teleskop -->
             <v-img
               v-else-if="
-                selectedMainGroup?.Name ===
+                selectedMainGroup?.name ===
                 'Abschrankung/Haarnadelstange an Tür 1'
               "
               :src="teleskopImage"
@@ -934,7 +934,7 @@
 
             <v-img
               v-else-if="
-                selectedMainGroup?.Name ===
+                selectedMainGroup?.name ===
                 'Sondernutzungsfläche gegenüber Tür 2'
               "
               :src="gegenuberImage"
@@ -948,7 +948,7 @@
 
             <v-img
               v-else-if="
-                selectedMainGroup?.Name ===
+                selectedMainGroup?.name ===
                 'Sondernutzungsfläche rechts vor Tür 2'
               "
               :src="rechtImage"
@@ -960,14 +960,14 @@
             </v-img>
           </v-row>
           <v-row
-            v-if="selectedType && selectedMainGroup?.Name === 'Camera'"
+            v-if="selectedType && selectedMainGroup?.name === 'Camera'"
             class="d-flex justify-center mt-4"
           >
             <v-col class="d-flex justify-center">
               <v-row
                 v-if="
-                  selectedType?.Name === 'L4C' &&
-                  selectedMainGroup?.Name === 'Camera'
+                  selectedType?.name === 'L4C' &&
+                  selectedMainGroup?.name === 'Camera'
                 "
               >
                 <v-checkbox
@@ -993,8 +993,8 @@
               </v-row>
               <v-col
                 v-else-if="
-                  selectedType?.Name === 'LE' &&
-                  selectedMainGroup?.Name === 'Camera'
+                  selectedType?.name === 'LE' &&
+                  selectedMainGroup?.name === 'Camera'
                 "
               >
                 <v-row>
@@ -1026,8 +1026,8 @@
               </v-col>
               <v-row
                 v-else-if="
-                  selectedType?.Name === 'Intercity' &&
-                  selectedMainGroup?.Name === 'Camera'
+                  selectedType?.name === 'Intercity' &&
+                  selectedMainGroup?.name === 'Camera'
                 "
               >
                 <v-checkbox
@@ -1156,7 +1156,7 @@
             solo
             outlined
             hide-details
-            item-text="Name"
+            item-text="name"
             item-value="gattung => gattung"
             @change="onGattungChange"
           ></v-select>
@@ -1165,57 +1165,57 @@
           <v-col v-if="availableSubProducts.length">
             <v-card
               v-for="subProduct in availableSubProducts"
-              :key="subProduct.Name"
+              :key="subProduct.name"
             >
-              <v-card-title>{{ subProduct.Name }}</v-card-title>
+              <v-card-title>{{ subProduct.name }}</v-card-title>
               <v-card-text>
                 <!-- Normal select dropdown -->
                 <v-select
                   v-if="
-                    subProduct.GattungID === 4 &&
-                    subProduct.Name !== 'STER 8 MS'
+                    subProduct.gattungid === 4 &&
+                    subProduct.name !== 'STER 8 MS'
                   "
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.Name]"
+                  v-model="selectedModel[subProduct.name]"
                   :label="$t('selectOption')"
-                  :disabled="isDisabled(subProduct.Name)"
+                  :disabled="isDisabled(subProduct.name)"
                   dense
                   solo
                   outlined
                   hide-details
-                  @change="onOptionChange(subProduct.Name, $event)"
+                  @change="onOptionChange(subProduct.name, $event)"
                 ></v-select>
                 <!-- Text input for STER 8 MS -->
                 <v-select
                   v-else-if="
-                    subProduct.GattungID === 4 &&
-                    subProduct.Name === 'STER 8 MS'
+                    subProduct.gattungid === 4 &&
+                    subProduct.name === 'STER 8 MS'
                   "
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.Name]"
+                  v-model="selectedModel[subProduct.name]"
                   :label="$t('selectOption')"
-                  :disabled="isDisabled(subProduct.Name)"
+                  :disabled="isDisabled(subProduct.name)"
                   dense
                   solo
                   outlined
                   hide-details
-                  @change="onOptionChange(subProduct.Name, $event)"
+                  @change="onOptionChange(subProduct.name, $event)"
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <v-select
-                  v-else-if="subProduct.Name === 'Nur Deckenhaltestangen in'"
+                  v-else-if="subProduct.name === 'Nur Deckenhaltestangen in'"
                   v-model="selectedRalCode"
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :label="$t('selectOption')"
                   @change="updateHalCustomImg"
                 ></v-select>
                 <v-select
-                  v-else-if="subProduct.Name === '680A - SNF gegenüber Tür 2'"
-                  :items="subProduct.Options"
+                  v-else-if="subProduct.name === '680A - SNF gegenüber Tür 2'"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedGegenuberOption"
@@ -1228,10 +1228,10 @@
                 ></v-select>
                 <v-select
                   v-else-if="
-                    subProduct.Name ===
+                    subProduct.name ===
                     '680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2'
                   "
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedGegenuberOption"
@@ -1248,7 +1248,7 @@
                     subProduct.Name ===
                     '681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2'
                   "
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedRechtsOption"
@@ -1263,10 +1263,10 @@
                 <!-- Other sub-products -->
                 <v-select
                   v-else
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.Name]"
+                  v-model="selectedModel[subProduct.name]"
                   :label="$t('selectOption')"
                   dense
                   solo
@@ -1276,10 +1276,10 @@
                 <!-- Color square -->
                 <div
                   class="color-square"
-                  v-if="shouldShowColorSquare(subProduct.Name)"
+                  v-if="shouldShowColorSquare(subProduct.name)"
                   :style="{
                     backgroundColor: getRalColor(
-                      selectedModel[subProduct.Name]
+                      selectedModel[subProduct.name]
                     ),
                   }"
                 ></div>
@@ -1321,7 +1321,7 @@
         <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
           <v-card>
             <v-card-title>
-              Bus Type: {{ selectedType?.Name }}
+              Bus Type: {{ selectedType?.name }}
               <v-spacer></v-spacer>
               <v-btn icon @click="dialog = false">
                 <v-icon>mdi-close</v-icon>
@@ -1419,8 +1419,8 @@
         <v-card>
           <v-card-title>Details</v-card-title>
           <v-card-text>
-            <p><strong>Main Group:</strong> {{ selectedMainGroup?.Name }}</p>
-            <p><strong>Gattung:</strong> {{ selectedGattung?.Name }}</p>
+            <p><strong>Main Group:</strong> {{ selectedMainGroup?.name }}</p>
+            <p><strong>Gattung:</strong> {{ selectedGattung?.name }}</p>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
               <div
                 v-for="(detail, index) in selectedDetails"
