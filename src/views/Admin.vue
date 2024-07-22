@@ -617,33 +617,33 @@ export default {
       }
     },
     async fetchProducts() {
-      try {
-        console.log("Fetching products...");
-        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/products");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+  try {
+    console.log("Fetching products...");
+    const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/products");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    let data = await response.json();
+    console.log("Fetched products data:", data);
+
+    // Options alanını parse et
+    data = data.map((product) => {
+      if (product.options) {
+        try {
+          product.options = JSON.parse(product.options.replace(/'/g, '"'));
+        } catch (e) {
+          console.error("Error parsing options:", e);
+          product.options = [];
         }
-        let data = await response.json();
-        console.log("Fetched products data:", data);
-
-        // Options alanını parse et
-        data = data.map((product) => {
-          if (product.Options) {
-            try {
-              product.Options = JSON.parse(product.Options.replace(/'/g, '"'));
-            } catch (e) {
-              console.error("Error parsing options:", e);
-              product.Options = [];
-            }
-          }
-          return product;
-        });
-
-        this.products = data;
-      } catch (error) {
-        console.error("Error fetching products:", error);
       }
-    },
+      return product;
+    });
+
+    this.products = data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+  }
+}
 
     async submitAddOption() {
       try {
