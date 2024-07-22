@@ -338,18 +338,19 @@
           </v-card-title>
           <v-card-text>
             <v-select
-              :item-props="itemProps"
-              v-model="selectedMainGroup"
-              :items="mainGroups"
-              :label="$t('mainGroup')"
+              :itemProps="itemProps"
+              :items="filteredGattungs"
+              v-model="selectedGattung"
+              label="Gattung"
+              :disabled="!selectedMainGroup || !filteredGattungs.length"
+              item-text="name"
+              item-value="value"
               dense
               solo
               outlined
               hide-details
-              item-text="Name"
-              item-value="MainGroupID"
-              @change="onMainGroupChange"
-            ></v-select>
+            >
+            </v-select>
           </v-card-text>
         </v-card>
       </v-col>
