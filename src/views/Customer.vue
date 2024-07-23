@@ -1563,19 +1563,19 @@ export default {
 
       // Main Group'a ait productları al
       const currentGroupProducts = this.products.filter(
-        (product) => product.MainGroupID === this.selectedMainGroup.MainGroupID
+        (product) => product.maingroupid === this.selectedMainGroup.maingroupid
       );
 
       // Eğer Gattung seçilmemişse ve currentGroupProducts içinde GattungID null olanlar varsa onları döndür
       if (!this.selectedGattung) {
         return currentGroupProducts.filter(
-          (product) => product.GattungID === null
+          (product) => product.gattungid === null
         );
       }
 
       // Eğer Gattung seçilmişse, seçilen GattungID'ye ait productları döndür
       return currentGroupProducts.filter(
-        (product) => product.GattungID === this.selectedGattung.GattungID
+        (product) => product.gattungid === this.selectedGattung.gattungid
       );
     },
     filteredGattungs() {
@@ -1584,14 +1584,14 @@ export default {
       }
 
       return this.gattungs.filter(
-        (gattung) => gattung.MainGroupID === this.selectedMainGroup.MainGroupID
+        (gattung) => gattung.maingroupid === this.selectedMainGroup.maingroupid
       );
     },
 
     selectedVehicleImage() {
       switch (this.selectedVehicle?.name) {
         case "L4C":
-          return "/static/12C-2T.jpg";
+          return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/12C-2T.jpg";
         case "LE":
           return "/static/18C-3T.jpg";
         case "Intercity":
