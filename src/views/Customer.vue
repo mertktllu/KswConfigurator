@@ -1589,11 +1589,11 @@ export default {
     selectedVehicleImage() {
       switch (this.selectedVehicle?.name) {
         case "L4C":
-          return "../src/static/12C-2T.jpg";
+          return "/static/12C-2T.jpg";
         case "LE":
-          return "../src/static/18C-3T.jpg";
+          return "/static/18C-3T.jpg";
         case "Intercity":
-          return "../src/static/19C-4T.jpg";
+          return "/static/19C-4T.jpg";
         default:
           return "";
       }
@@ -1729,25 +1729,27 @@ export default {
       showButtons: true,
       chairImage: "/assets/Bestuhlung/normal.bmp",
 chairBackImage: "/assets/Bestuhlung/normal back.bmp",
-hal_customimg: "assets/Haltestangen/080CC.jpg",
-hal_3000img: "assets/Haltestangen/3000.jpg",
-hal_1003img: "assets/Haltestangen/1003.jpg",
-gegenuber1img: "src/assets/gegenüber/resim1.png",
-gegenuber2img: "src/assets/gegenüber/resim2.png",
-gegenuber3img: "src/assets/gegenüber/resim3.png",
+hal_customimg: "/assets/Haltestangen/080CC.jpg",
+hal_3000img: "/assets/Haltestangen/3000.jpg",
+hal_1003img: "/assets/Haltestangen/1003.jpg",
+
+gegenuber1img: "/assets/gegenüber/resim1.png",
+gegenuber2img: "/assets/gegenüber/resim2.png",
+gegenuber3img: "/assets/gegenüber/resim3.png",
 gegenuberImage: "",
 rechtImage: "",
-glasscheibeimg: "src/assets/gegenüber/mit halter ohne schloss.png",
-klappbare_armlehneimg: "src/assets/gegenüber/klappbare armlehne 2.png",
-mit_halter_ohne_schlossimg: "src/assets/gegenüber/glasscibe.png",
+glasscheibeimg: "/assets/gegenüber/mit halter ohne schloss.png",
+klappbare_armlehneimg: "/assets/gegenüber/klappbare armlehne 2.png",
+mit_halter_ohne_schlossimg: "/assets/gegenüber/glasscibe.png",
 
-teleskop_on: "src/assets/Teleskop/teleskop_on.png",
-teleskop_off: "src/assets/Teleskop/teleskop_off.png",
-teleskopImage: "src/assets/Teleskop/teleskop_off.png",
-img12C: "src/static/12C-2T.jpg",
-img18C: "src/static/18C-3T.jpg",
-img19C: "src/static/19C-4T.jpg",
-RareImage: "src/assets/RareDisplay/image004.png",
+
+teleskop_on: "/assets/Teleskop/teleskop_on.png",
+teleskop_off: "/assets/Teleskop/teleskop_off.png",
+teleskopImage: "/assets/Teleskop/teleskop_off.png",
+img12C: "/static/12C-2T.jpg",
+img18C: "/static/18C-3T.jpg",
+img19C: "/static/19C-4T.jpg",
+RareImage: "/assets/RareDisplay/image004.png",
 
 
 
@@ -2334,13 +2336,13 @@ RareImage: "src/assets/RareDisplay/image004.png",
         }
         // Update imgSrc based on selected Type
         if (this.selectedType?.name === "L4C") {
-          this.imgSrc = "../src/static/12C-2T.jpg";
+          this.imgSrc = "/static/12C-2T.jpg";
           this.addCameraIcons("2T");
         } else if (this.selectedType?.name === "LE") {
-          this.imgSrc = "../src/static/18C-3T.jpg";
+          this.imgSrc = "/static/18C-3T.jpg";
           this.addCameraIcons("3T");
         } else if (this.selectedType?.name === "Intercity") {
-          this.imgSrc = "../src/static/19C-4T.jpg";
+          this.imgSrc = "/static/19C-4T.jpg";
           this.addCameraIcons("4T");
         }
       } else if (
