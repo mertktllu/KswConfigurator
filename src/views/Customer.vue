@@ -1482,7 +1482,9 @@ export default {
     this.products.forEach((product) => {
       this.checkAndUpdateHalCustomImg(product);
     });
+    console.log("Component mounted! Chair Image:", this.chairImage);
   },
+  
   watch: {
     selectedMainGroup(newVal) {
       this.onMainGroupChange(newVal);
@@ -1727,7 +1729,7 @@ export default {
       },
 
       showButtons: true,
-      chairImage: "https://kswconfigurator-7fc475022be0.herokuapp.com/assets/Bestuhlung/normal.bmp",
+      chairImage: "/assets/Bestuhlung/normal.bmp",
 chairBackImage: "/assets/Bestuhlung/normal back.bmp",
 hal_customimg: "/assets/Haltestangen/080CC.jpg",
 hal_3000img: "/assets/Haltestangen/3000.jpg",
@@ -1927,7 +1929,7 @@ RareImage: "/assets/RareDisplay/image004.png",
         );
       }
     },
-    onMainGroupChange(newVal) {
+     onMainGroupChange(newVal) {
     console.log("Main Group Changed:", newVal);
     this.updateAvailableSubProducts();
 
@@ -1987,7 +1989,7 @@ RareImage: "/assets/RareDisplay/image004.png",
     toggleChair() {
       this.showButtons = !this.showButtons;
       this.chairImage = this.showButtons
-        ? "https://kswconfigurator-7fc475022be0.herokuapp.com/assets/Bestuhlung/normal.bmp"
+        ? "/assets/Bestuhlung/normal.bmp"
         : "/assets/Bestuhlung/normal back.bmp";
     },
 
