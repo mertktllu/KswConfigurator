@@ -1727,7 +1727,7 @@ export default {
       },
 
       showButtons: true,
-      chairImage: "/assets/Bestuhlung/normal.bmp",
+      chairImage: "https://kswconfigurator-7fc475022be0.herokuapp.com/assets/Bestuhlung/normal.bmp",
 chairBackImage: "/assets/Bestuhlung/normal back.bmp",
 hal_customimg: "/assets/Haltestangen/080CC.jpg",
 hal_3000img: "/assets/Haltestangen/3000.jpg",
