@@ -1590,6 +1590,8 @@ export default {
 
     computed: {
   selectedVehicleImage() {
+
+    console.log("selectedType called");
     if (!this.selectedType) {
       console.log("selectedType is null or undefined");
       return "";
