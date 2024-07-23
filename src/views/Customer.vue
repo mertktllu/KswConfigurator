@@ -1537,7 +1537,7 @@ export default {
         switch (this.selectedModel["Model"]) {
           case "BUSTEC":
             imageDetails.showImage = true;
-            imageDetails.src = "../src/assets/RareDisplay/Bustec.jpg"; // Replace with the actual path to the BUSTEC image
+            imageDetails.src = "/assets/RareDisplay/Bustec.jpg"; // Replace with the actual path to the BUSTEC image
             imageDetails.alt = "BUSTEC Image";
             break;
           case "MODEL X":
@@ -2148,11 +2148,11 @@ RareImage: "/assets/RareDisplay/image004.png",
 
     updateHalCustomImg() {
       if (this.selectedRalCode === "RAL 080C") {
-        this.hal_customimg = "../src/assets/Haltestangen/080CC.jpg";
+        this.hal_customimg = "/assets/Haltestangen/080CC.jpg";
       } else if (this.selectedRalCode === "RAL 1003") {
-        this.hal_customimg = "../src/assets/Haltestangen/1003.jpg";
+        this.hal_customimg = "/assets/Haltestangen/1003.jpg";
       } else if (this.selectedRalCode === "RAL 3000") {
-        this.hal_customimg = "../src/assets/Haltestangen/3000.jpg";
+        this.hal_customimg = "/assets/Haltestangen/3000.jpg";
       }
     },
     checkAndUpdateHalCustomImg(product) {
@@ -2285,7 +2285,7 @@ RareImage: "/assets/RareDisplay/image004.png",
           });
           // Update imgSrc based on selected RAL code
         }
-        this.imgSrc = "../src/assets/Haltestangen/080CC.jpg";
+        this.imgSrc = "/assets/Haltestangen/080CC.jpg";
       } else if (
         this.selectedMainGroup.name === "528M (Fahrtzielanzeige Heck)"
       ) {
@@ -2313,7 +2313,7 @@ RareImage: "/assets/RareDisplay/image004.png",
             position: { top: "65%", left: "45%" },
           });
         }
-        this.imgSrc = "../src/assets/RareDisplay/image004.png";
+        this.imgSrc = "/assets/RareDisplay/image004.png";
       } else if (this.selectedMainGroup.name === "Camera") {
         // Add details for Camera
         if (this.selectedModel["Type"]) {
@@ -2358,20 +2358,20 @@ RareImage: "/assets/RareDisplay/image004.png",
             position: { top: "40%", left: "40%" },
           });
         }
-        this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
+        this.imgSrc = "/assets/gegenüber/mit halter ohne schloss.png";
         if (selectedOption === "Mit klappbarer Armlehne auf dem Bügel") {
           this.accumulatedDetails.push({
             text: "Mit klappbarer Armlehne auf dem Bügel",
             position: { top: "40%", left: "40%" },
           });
-          this.imgSrc = "../src/assets/gegenüber/klappbare armlehne 2.png";
+          this.imgSrc = "/assets/gegenüber/klappbare armlehne 2.png";
         }
         if (selectedOption === "Ausführung Trennwand mit Glasscheibe") {
           this.accumulatedDetails.push({
             text: "Ausführung Trennwand mit Glasscheibe",
             position: { top: "40%", left: "40%" },
           });
-          this.imgSrc = "../src/assets/gegenüber/glasscibe.png";
+          this.imgSrc = "/assets/gegenüber/glasscibe.png";
         }
       }
       // } else if (
