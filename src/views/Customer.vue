@@ -2366,13 +2366,13 @@ RareImage: "/assets/RareDisplay/image004.png",
           });
         }
         // Update imgSrc based on selected Type
-        if (this.selectedType?.name === "L4C") {
+        if (this.selectedType?.Name === "L4C") {
           this.imgSrc = "/static/12C-2T.jpg";
           this.addCameraIcons("2T");
-        } else if (this.selectedType?.name === "LE") {
+        } else if (this.selectedType?.Name === "LE") {
           this.imgSrc = "/static/18C-3T.jpg";
           this.addCameraIcons("3T");
-        } else if (this.selectedType?.name === "Intercity") {
+        } else if (this.selectedType?.Name === "Intercity") {
           this.imgSrc = "/static/19C-4T.jpg";
           this.addCameraIcons("4T");
         }
