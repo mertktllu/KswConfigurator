@@ -731,10 +731,10 @@ export default {
           {
             UserID: 1, // Admin ID
             TableName: "MainGroups",
-            RequestDetails: `Action: ${actionType}, Details: ${details}`,
-            RequestStatus: false,
-            RequestDate: new Date(),
-            ActionType: actionType, // İşlem tipi
+            requestdetails: `Action: ${actionType}, Details: ${details}`,
+            requeststatus: false,
+            requestdate: new Date(),
+            actiontype: actionType, // İşlem tipi
           }
         );
         if (response.status === 201) {

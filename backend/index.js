@@ -239,12 +239,12 @@ app.post("/datauploadrequests", async (req, res) => {
 
 app.put("/datauploadrequests/:id", async (req, res) => {
   const { id } = req.params;
-  const { RequestStatus } = req.body;
+  const { requeststatus } = req.body;
 
   try {
     const result = await db.query(
       "UPDATE DataUploadRequests SET requeststatus = $1 WHERE requestid = $2",
-      [RequestStatus, id]
+      [requeststatus, id]
     );
 
     if (result.rowCount > 0) {
