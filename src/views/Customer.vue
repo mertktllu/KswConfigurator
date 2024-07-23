@@ -1588,18 +1588,31 @@ export default {
       );
     },
 
-    selectedVehicleImage() {
-      switch (this.selectedVehicle?.name) {
-        case "L4C":
-          return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/12C-2T.jpg";
-        case "LE":
-          return "/static/18C-3T.jpg";
-        case "Intercity":
-          return "/static/19C-4T.jpg";
-        default:
-          return "";
-      }
-    },
+    computed: {
+  selectedVehicleImage() {
+    if (!this.selectedType) {
+      console.log("selectedType is null or undefined");
+      return "";
+    }
+    console.log("selectedType:", this.selectedType);
+
+    switch (this.selectedType.name) {
+      case "L4C":
+        console.log("Returning /assets/12C-2T.jpg");
+        return "/assets/12C-2T.jpg";
+      case "LE":
+        console.log("Returning /assets/18C-3T.jpg");
+        return "/assets/18C-3T.jpg";
+      case "Intercity":
+        console.log("Returning /assets/19C-4T.jpg");
+        return "/assets/19C-4T.jpg";
+      default:
+        console.log("Returning default empty string");
+        return "";
+    }
+  },
+},
+
 
     filteredSubProducts() {
       const subProducts = this.products.find(
