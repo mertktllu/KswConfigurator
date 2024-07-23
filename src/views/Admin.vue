@@ -731,10 +731,10 @@ export default {
           {
             UserID: 1, // Admin ID
             TableName: "MainGroups",
-            requestdetails: `Action: ${actionType}, Details: ${details}`,
-            requeststatus: false,
-            requestdate: new Date(),
-            actiontype: actionType, // İşlem tipi
+            RequestDetails: `Action: ${actionType}, Details: ${details}`,
+            RequestStatus: false,
+            RequestDate: new Date(),
+            ActionType: actionType, // İşlem tipi
           }
         );
         if (response.status === 201) {
@@ -808,7 +808,7 @@ export default {
 
     async submitAddGattung() {
       try {
-        const details = `${this.addGattung}, MainGroupID: ${this.selectedMainGroup.maingroupid}`; // Gattung adı ve MainGroupID details olarak kullanılıyor
+        const details = `${this.addGattung}, MainGroupID: ${this.selectedMainGroup.MainGroupID}`; // Gattung adı ve MainGroupID details olarak kullanılıyor
         const actionType = "Add Gattung"; // İşlem türü
         console.log(`RequestDetails: ${details}`); // Eklenen log
 
