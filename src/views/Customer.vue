@@ -1987,7 +1987,7 @@ RareImage: "/assets/RareDisplay/image004.png",
     toggleChair() {
       this.showButtons = !this.showButtons;
       this.chairImage = this.showButtons
-        ? "/assets/Bestuhlung/normal.bmp"
+        ? "https://kswconfigurator-7fc475022be0.herokuapp.com/assets/Bestuhlung/normal.bmp"
         : "/assets/Bestuhlung/normal back.bmp";
     },
 
