@@ -481,7 +481,7 @@ app.post("/denyRequest/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const result = await db.query("DELETE FROM DataUploadRequests WHERE RequestID = $1", [id]);
+    const result = await db.query("DELETE FROM DataUploadRequests WHERE requestid = $1", [id]);
 
     if (result.rowCount > 0) {
       res.send("Data upload request denied successfully.");
