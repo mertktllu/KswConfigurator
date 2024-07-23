@@ -1596,7 +1596,7 @@ export default {
     }
     console.log("selectedType:", this.selectedType);
 
-    switch (this.selectedType.name) {
+    switch (this.selectedType.Name) {
       case "L4C":
         console.log("Returning /assets/12C-2T.jpg");
         return "/assets/12C-2T.jpg";
