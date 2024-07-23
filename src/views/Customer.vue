@@ -1588,7 +1588,7 @@ export default {
       );
     },
 
-    computed: {
+    
   selectedVehicleImage() {
 
     console.log("selectedType called");
@@ -1613,7 +1613,7 @@ export default {
         return "";
     }
   },
-},
+
 
 
     filteredSubProducts() {
