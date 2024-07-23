@@ -16,21 +16,21 @@
           <v-card-title class="text-center">Reviews</v-card-title>
           <v-card-text>
             <v-list>
-              <v-row v-for="request in requests" :key="request.RequestID">
+              <v-row v-for="request in requests" :key="request.requestid">
                 <v-col>
-                  {{ request.RequestDetails }}
+                  {{ request.requestdetails }}
                 </v-col>
                 <v-col cols="2">
                   <v-btn
                     size="small"
-                    @click="confirmAction(request.RequestID, 'approve')"
+                    @click="confirmAction(request.requestid, 'approve')"
                     color="green"
                   >
                     <v-icon>mdi-check</v-icon>
                   </v-btn>
                   <v-btn
                     size="small"
-                    @click="confirmAction(request.RequestID, 'deny')"
+                    @click="confirmAction(request.requestid, 'deny')"
                     color="red"
                   >
                     <v-icon>mdi-close</v-icon>
