@@ -54,7 +54,7 @@
             class="vehicle-col"
           >
             <v-card @click="selectVehicle(type)" hoverable class="vehicle-card">
-              <v-img :src="type.Image" class="vehicle-image"></v-img>
+              <v-img :src="type.image" class="vehicle-image"></v-img>
               <v-card-title class="vehicle-title">{{ type.name }}</v-card-title>
               <v-card-subtitle> </v-card-subtitle>
             </v-card>
@@ -1729,7 +1729,7 @@ export default {
       },
 
       showButtons: true,
-      chairImage: "/assets/Bestuhlung/normal.bmp",
+      chairImage: "/public/assets/Bestuhlung/normal.bmp",
 chairBackImage: "/assets/Bestuhlung/normal back.bmp",
 hal_customimg: "/assets/Haltestangen/080CC.jpg",
 hal_3000img: "/assets/Haltestangen/3000.jpg",
