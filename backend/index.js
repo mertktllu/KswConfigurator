@@ -243,7 +243,7 @@ app.put("/datauploadrequests/:id", async (req, res) => {
 
   try {
     const result = await db.query(
-      "UPDATE DataUploadRequests SET RequestStatus = $1 WHERE RequestID = $2",
+      "UPDATE DataUploadRequests SET requeststatus = $1 WHERE requestid = $2",
       [RequestStatus, id]
     );
 
