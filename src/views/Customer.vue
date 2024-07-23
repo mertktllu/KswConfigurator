@@ -2245,6 +2245,7 @@ RareImage: "/assets/RareDisplay/image004.png",
       }
     },
     selectVehicle(type) {
+      console.log("selectVehicle function called with type:", type);
       this.selectedType = type;
       this.selectionStarted = true; // Set to true when a vehicle is selected
     },
