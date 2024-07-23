@@ -1527,7 +1527,10 @@ export default {
         return [];
       }
     },
-
+    testComputed() {
+      console.log("testComputed function called");
+      return "Computed property is working!";
+    },
     modelImageDetails() {
       let imageDetails = {
         showImage: false,
