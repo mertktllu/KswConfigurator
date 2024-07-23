@@ -1927,6 +1927,22 @@ RareImage: "/assets/RareDisplay/image004.png",
         );
       }
     },
+    onMainGroupChange(newVal) {
+    console.log("Main Group Changed:", newVal);
+    this.updateAvailableSubProducts();
+
+    // Görsel güncellemesi
+    if (newVal.name.includes('Haltestangen')) {
+      this.selectedImage = this.hal_customimg;  // Haltestangen için görsel
+    } else if (newVal.name.includes('Bestuhlung')) {
+      this.selectedImage = this.chairImage;  // Bestuhlung için görsel
+      console.log("Bestuhlung Image:", this.chairImage);
+    } else if (newVal.name.includes('Camera')) {
+      this.selectedImage = this.img12C;  // Camera için görsel
+    } else {
+      this.selectedImage = '';  // Default görsel ya da boş bırak
+    }
+  },
 
     getSubProducts() {
       if (this.selectedGattung) {
