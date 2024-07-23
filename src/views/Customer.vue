@@ -1643,7 +1643,7 @@ export default {
     },
 
     filteredTypes() {
-      Console.log("Filtred Types");
+      console.log("Filtred Types");
       const query = this.searchQuery.toLowerCase();
       return this.types.filter(
         (type) =>
