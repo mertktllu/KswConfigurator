@@ -16,21 +16,21 @@
           <v-card-title class="text-center">Reviews</v-card-title>
           <v-card-text>
             <v-list>
-              <v-row v-for="request in requests" :key="request.requestid">
+              <v-row v-for="request in requests" :key="request.RequestID">
                 <v-col>
-                  {{ request.requestdetails }}
+                  {{ request.RequestDetails }}
                 </v-col>
                 <v-col cols="2">
                   <v-btn
                     size="small"
-                    @click="confirmAction(request.requestid, 'approve')"
+                    @click="confirmAction(request.RequestID, 'approve')"
                     color="green"
                   >
                     <v-icon>mdi-check</v-icon>
                   </v-btn>
                   <v-btn
                     size="small"
-                    @click="confirmAction(request.requestid, 'deny')"
+                    @click="confirmAction(request.RequestID, 'deny')"
                     color="red"
                   >
                     <v-icon>mdi-close</v-icon>
@@ -84,8 +84,8 @@ export default {
         console.error("Error fetching requests:", error);
       }
     },
-    confirmAction(requestid, actionType) {
-      this.requestId = requestid;
+    confirmAction(requestID, actionType) {
+      this.requestId = requestID;
       this.actionType = actionType;
       this.dialog = true;
     },
@@ -100,7 +100,7 @@ export default {
     async approveRequest(requestID) {
       try {
         const response = await axios.post(
-          `https://kswconfigurator-7fc475022be0.herokuapp.com/approveRequest/${requestid}`
+          `https://kswconfigurator-7fc475022be0.herokuapp.com/approveRequest/${requestID}`
         );
         if (response.status === 200) {
           alert("Request approved successfully");
@@ -116,7 +116,7 @@ export default {
     async denyRequest(requestID) {
       try {
         const response = await axios.post(
-          `https://kswconfigurator-7fc475022be0.herokuapp.com/denyRequest/${requestid}`,
+          `https://kswconfigurator-7fc475022be0.herokuapp.com/denyRequest/${requestID}`,
         );
         if (response.status === 200) {
           alert("Request denied and removed successfully");
