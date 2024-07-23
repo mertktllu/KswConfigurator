@@ -777,7 +777,7 @@ export default {
     },
     async submitEditMainGroup() {
       try {
-        const details = `MainGroupID: ${this.selectedMainGroup.MainGroupID}, New Name: ${this.newGroupName}`; // Düzenlenen ana grup bilgisi
+        const details = `MainGroupID: ${this.selectedMainGroup.maingroupid}, New Name: ${this.newGroupName}`; // Düzenlenen ana grup bilgisi
         const actionType = "Edit MainGroup"; // İşlem tipi
         console.log(`RequestDetails: ${details}`); // Eklenen log
         const response = await axios.post(
@@ -808,7 +808,7 @@ export default {
 
     async submitAddGattung() {
       try {
-        const details = `${this.addGattung}, MainGroupID: ${this.selectedMainGroup.MainGroupID}`; // Gattung adı ve MainGroupID details olarak kullanılıyor
+        const details = `${this.addGattung}, MainGroupID: ${this.selectedMainGroup.maingroupid}`; // Gattung adı ve MainGroupID details olarak kullanılıyor
         const actionType = "Add Gattung"; // İşlem türü
         console.log(`RequestDetails: ${details}`); // Eklenen log
 
