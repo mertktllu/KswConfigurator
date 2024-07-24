@@ -41,7 +41,7 @@ export default defineConfig({
     port: 25565,
   },
   build: {
-    outDir: path.resolve(__dirname, 'dist'),
+    outDir: 'dist',
     assetsDir: 'assets'
   }
 });
