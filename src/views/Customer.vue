@@ -1517,11 +1517,14 @@ console.log("selectedType:", this.selectedType);
 
 switch (this.selectedType.name) {
  case "L4C":
+ console.log("L4C");
    return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/12C-2T.jpg";
-   console.log("L4C");
+  
  case "LE":
+ console.log("L4C");
    return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/18C-3T.jpg";
  case "Intercity":
+ console.log("L4C");
    return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/19C-4T.jpg";
  default:
    return "";
