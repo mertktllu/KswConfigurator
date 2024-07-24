@@ -496,13 +496,14 @@ app.post("/denyRequest/:id", async (req, res) => {
   }
 });
 
+// Statik dosyaları sunmak
+app.use(express.static(path.join(__dirname, '../dist')));
 
-// assets klasörünü sunmak
+// Assets klasörünü sunmak
 app.use('/assets', express.static(path.join(__dirname, '../dist/assets')));
 
-// static klasörünü sunmak
+// Static klasörünü sunmak
 app.use('/static', express.static(path.join(__dirname, '../dist/static')));
-
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./dist/index.html"));
