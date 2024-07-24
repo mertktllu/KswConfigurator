@@ -494,7 +494,7 @@
             <!-- rare -->
             <v-img
               v-else-if="
-                selectedMainGroup?.name === '528M (Fahrtzielanzeige Heck)'
+                selectedMainGroup?.name?.trim() === '528M (Fahrtzielanzeige Heck)'
               "
               :src="RareImage"
               contain
@@ -505,7 +505,7 @@
 
             <!-- Bestuhlung -->
             <img
-  v-else-if="selectedMainGroup?.fieldName === 'Bestuhlung'"
+  v-else-if="selectedMainGroupTrimmed?.name === 'Bestuhlung'"
   src="https://mandb.s3.eu-north-1.amazonaws.com/normal.png"
   style="width: 120%; height: auto; display: block; bottom: auto"
 ></img>
@@ -1163,6 +1163,12 @@ export default {
   },
 
   computed: {
+    
+    computed: {
+  selectedMainGroupTrimmed() {
+    return this.selectedMainGroup?.name?.trim() || '';
+  }
+},
 
     selectedVehicleImage() {
 
