@@ -19,11 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 // Statik dosyaları sunmak
 app.use(express.static(path.join(__dirname, '../dist')));
 
-// Assets klasörünü sunmak
-app.use('/assets', express.static(path.join(__dirname, '../dist/assets')));
 
-// Static klasörünü sunmak
-app.use('/static', express.static(path.join(__dirname, '../dist/static')));
 
 app.post('/maingroups', async (req, res) => {
   const { name } = req.body;
