@@ -20,8 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../dist')));
 console.log(__dirname);
 
-// Assets klasörünü sunmak
-app.use('/assets', express.static(path.join(__dirname, '../public')));
+
 
 
 
