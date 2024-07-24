@@ -506,7 +506,7 @@
             <!-- Bestuhlung -->
             <v-img
               v-else-if="selectedMainGroup?.name === 'Bestuhlung'"
-              :src="/assets/Bestuhlung/normal.bmp"
+              :src="chairImage"
               style="width: 120%; height: auto; display: block; bottom: auto"
             >
               <v-row>
