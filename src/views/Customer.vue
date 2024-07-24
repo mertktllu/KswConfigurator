@@ -1602,19 +1602,16 @@ export default {
     console.log("selectedType:", this.selectedType);
 
     switch (this.selectedType.name) {
-      case "L4C":
-        console.log("Returning /assets/12C-2T.jpg");
-        return "/assets/12C-2T.jpg";
-      case "LE":
-        console.log("Returning /assets/18C-3T.jpg");
-        return "/assets/18C-3T.jpg";
-      case "Intercity":
-        console.log("Returning /assets/19C-4T.jpg");
-        return "/assets/19C-4T.jpg";
-      default:
-        console.log("Returning default empty string");
-        return "";
-    }
+     case "L4C":
+       return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/12C-2T.jpg";
+       console.log("L4C");
+     case "LE":
+       return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/18C-3T.jpg";
+     case "Intercity":
+       return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/19C-4T.jpg";
+     default:
+       return "";
+   }
   },
 
 
