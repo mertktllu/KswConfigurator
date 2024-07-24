@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Statik dosyaları sunmak
 app.use(express.static(path.join(__dirname, '../dist')));
+app.use('/static', express.static(path.join(__dirname, '../public')));
 console.log(__dirname);
 
 
