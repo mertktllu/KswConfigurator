@@ -1,5 +1,4 @@
 const express = require('express');
-const serveStatic=require('serve-static');
 const path = require('path');
 const app = express();
 
@@ -17,7 +16,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', serveStatic(path.join(__dirname, '/dist')))
+// Statik dosyaları sunmak
+app.use(express.static(path.join(__dirname, '../dist')));
 
 
 
