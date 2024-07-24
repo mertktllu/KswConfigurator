@@ -4,7 +4,7 @@
     <v-row>
       <v-col class="d-flex justify-start">
         <v-img
-          src="https://upload.wikimedia.org/wikipedia/commons/5/54/Logo_MAN.png"
+          src="https://mandb.s3.eu-north-1.amazonaws.com/normal.png"
           contain
           max-height="60"
           max-width="100"
