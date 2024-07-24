@@ -497,6 +497,7 @@ app.post("/denyRequest/:id", async (req, res) => {
 });
 
 
+app.use(express.static(path.join(__dirname, '../dist')));
 
 app.use('/assets', express.static(path.join(__dirname, '../public/assets')));
 app.use('/static', express.static(path.join(__dirname, '../public/static')));
