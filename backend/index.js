@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const AWS = require('aws-sdk');
 
 const db = require('./db'); // db.js dosyasını burada kullanıyoruz
 require('dotenv').config();

@@ -1750,7 +1750,7 @@ switch (this.selectedType.name) {
       },
 
       showButtons: true,
-      chairImage: "/public/normal.png",
+      chairImage: "https://eu-north-1.console.aws.amazon.com/s3/object/mandb?region=eu-north-1&bucketType=general&prefix=normal.png",
 chairBackImage: "/assets/Bestuhlung/normal back.bmp",
 hal_customimg: "/assets/Haltestangen/080CC.jpg",
 hal_3000img: "/assets/Haltestangen/3000.jpg",
