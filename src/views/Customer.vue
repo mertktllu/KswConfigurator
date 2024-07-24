@@ -1164,11 +1164,9 @@ export default {
 
   computed: {
     
-    computed: {
-  selectedMainGroupTrimmed() {
+    selectedMainGroupTrimmed() {
     return this.selectedMainGroup?.name?.trim() || '';
-  }
-},
+  },
 
     selectedVehicleImage() {
 
