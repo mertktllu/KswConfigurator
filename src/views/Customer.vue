@@ -504,11 +504,11 @@
             ></v-img>
 
             <!-- Bestuhlung -->
-            <v-img
+            <img
   v-else-if="selectedMainGroup?.name === 'Bestuhlung'"
   src="https://mandb.s3.eu-north-1.amazonaws.com/normal.png"
   style="width: 120%; height: auto; display: block; bottom: auto"
-></v-img>
+></img>
 
 
             <!-- Haltestangen -->
