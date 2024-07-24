@@ -12,7 +12,7 @@ import { createApp } from "vue";
 
 // Import i18n configuration
 import i18n from "./i18n";
-
+Vue.config.devtools = true;
 // Plugins
 import { registerPlugins } from "@/plugins";
 
