@@ -123,8 +123,8 @@
           <v-row class="">
             <v-img
               v-if="
-                selectedType?.name === 'L4C' &&
-                selectedMainGroup?.name === 'Camera'
+                selectedType?.name?.trim() === 'L4C' &&
+               selectedMainGroup?.name?.trim() === 'Camera'
               "
               width="500"
               :src="img12C"
@@ -234,8 +234,8 @@
 
             <v-img
               v-else-if="
-                selectedType?.name === 'LE' &&
-                selectedMainGroup?.name === 'Camera'
+                selectedType?.name?.trim() === 'LE' &&
+                selectedMainGroup?.name?.trim() === 'Camera'
               "
               width="500"
               :src="img18C"
@@ -363,8 +363,8 @@
             </v-img>
             <v-img
               v-else-if="
-                selectedType?.name === 'Intercity' &&
-                selectedMainGroup?.name === 'Camera'
+                selectedType?.name?.trim() === 'Intercity' &&
+                selectedMainGroup?.name?.trim() === 'Camera'
               "
               width="500"
               :src="img19C"
@@ -505,7 +505,7 @@
 
             <!-- Bestuhlung -->
             <img
-   v-else-if="selectedMainGroup?.name.trim() === 'Bestuhlung'"
+  v-else-if="selectedMainGroup?.fieldName === 'Bestuhlung'"
   src="https://mandb.s3.eu-north-1.amazonaws.com/normal.png"
   style="width: 120%; height: auto; display: block; bottom: auto"
 ></img>
