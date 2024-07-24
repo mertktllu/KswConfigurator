@@ -21,11 +21,11 @@ app.use(express.static(path.join(__dirname, '../dist')));
 console.log(__dirname);
 
 // Assets klasörünü sunmak
-app.use('/assets', express.static(path.join(__dirname, '../dist/assets')));
+app.use('/assets', express.static(path.join(__dirname, '../public/assets')));
 
 
 // Static klasörünü sunmak
-app.use('/static', express.static(path.join(__dirname, '../dist/static')));
+app.use('/static', express.static(path.join(__dirname, '../public/static')));
 
 app.post('/maingroups', async (req, res) => {
   const { name } = req.body;
