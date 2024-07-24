@@ -497,8 +497,11 @@ app.post("/denyRequest/:id", async (req, res) => {
 });
 
 
-app.use(express.static(path.join(__dirname, '../dist')));
+// assets klasörünü sunmak
+app.use('/assets', express.static(path.join(__dirname, '../dist/assets')));
 
+// static klasörünü sunmak
+app.use('/static', express.static(path.join(__dirname, '../dist/static')));
 
 
 app.get("*", (req, res) => {
