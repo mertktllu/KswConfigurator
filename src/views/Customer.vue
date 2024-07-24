@@ -1506,30 +1506,7 @@ export default {
 
   computed: {
 
-    selectedVehicleImage() {
 
-console.log("selectedType called");
-if (!this.selectedType) {
-  console.log("selectedType is null or undefined");
-  return "";
-}
-console.log("selectedType:", this.selectedType);
-
-switch (this.selectedType.name) {
- case "L4C":
- console.log("L4C");
-   return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/12C-2T.jpg";
-  
- case "LE":
- console.log("L4C");
-   return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/18C-3T.jpg";
- case "Intercity":
- console.log("L4C");
-   return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/19C-4T.jpg";
- default:
-   return "";
-}
-},
 
     hasSelections() {
       return Object.keys(this.selectedModel).length > 0;
@@ -1788,6 +1765,30 @@ RareImage: "/assets/RareDisplay/image004.png",
 
   // ... methods, etc.
   methods: {
+    selectedVehicleImage() {
+
+console.log("selectedType called");
+if (!this.selectedType) {
+  console.log("selectedType is null or undefined");
+  return "";
+}
+console.log("selectedType:", this.selectedType);
+
+switch (this.selectedType.name) {
+ case "L4C":
+ console.log("L4C");
+   return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/12C-2T.jpg";
+  
+ case "LE":
+ console.log("L4C");
+   return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/18C-3T.jpg";
+ case "Intercity":
+ console.log("L4C");
+   return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/19C-4T.jpg";
+ default:
+   return "";
+}
+},
     goHome() {
       router.push("/");
     },
