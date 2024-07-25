@@ -1476,8 +1476,8 @@ RareImage: "/assets/RareDisplay/image004.png",
       return {
         title: item?.name,
         value: item,
-        MainGroupID: item?.MainGroupID,
-        GattungID: item?.GattungID,
+        maingroupid: item?.maingroupid,
+        gattungid: item?.gattungid,
       };
     },
 
@@ -1490,14 +1490,14 @@ RareImage: "/assets/RareDisplay/image004.png",
       const mainGroups = this.mainGroups.filter((mainGroup) =>
         this.products.some(
           (product) =>
-            product.MainGroupID === mainGroup.MainGroupID &&
+            product.maingroupid === mainGroup.maingroupid &&
             this.selectedModel[product.name]
         )
       );
 
       mainGroups.forEach((mainGroup) => {
         const gattungs = this.gattungs.filter(
-          (gattung) => gattung.MainGroupID === mainGroup.MainGroupID
+          (gattung) => gattung.maingroupid === mainGroup.maingroupid
         );
 
         if (gattungs.length > 0) {
@@ -1505,7 +1505,7 @@ RareImage: "/assets/RareDisplay/image004.png",
             const products = this.products
               .filter(
                 (product) =>
-                  product.GattungID === gattung.GattungID &&
+                  product.gattungid === gattung.gattungid &&
                   this.selectedModel[product.name]
               )
               .map((product) => {
@@ -1527,8 +1527,8 @@ RareImage: "/assets/RareDisplay/image004.png",
           const products = this.products
             .filter(
               (product) =>
-                product.MainGroupID === mainGroup.MainGroupID &&
-                !product.GattungID &&
+                product.maingroupid === mainGroup.maingroupid &&
+                !product.gattungid &&
                 this.selectedModel[product.name]
             )
             .map((product) => {
@@ -1605,14 +1605,14 @@ RareImage: "/assets/RareDisplay/image004.png",
     },
     getSubProductsForMainGroupAndGattung(mainGroup, gattung) {
       const filteredProducts = this.products.filter(
-        (product) => product.MainGroupID === mainGroup.MainGroupID
+        (product) => product.maingroupid === mainGroup.maingroupid
       );
 
       if (!gattung) {
-        return filteredProducts.filter((product) => product.GattungID === null);
+        return filteredProducts.filter((product) => product.gattungid === null);
       } else {
         return filteredProducts.filter(
-          (product) => product.GattungID === gattung.GattungID
+          (product) => product.gattungid === gattung.gattungid
         );
       }
     },
