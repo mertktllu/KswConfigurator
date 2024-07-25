@@ -1083,14 +1083,12 @@
             <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim()  }}</p>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
               <div
-              v-for="(detail, index) in selectedDetails"
-              :key="index"
-              :style="{
-                color: detail.color || 'red',
-                fontSize: '20px',
-                position: 'absolute',
-                top: `${detail.position.top}%`,
-                left: `${detail.position.left}%`,
+                v-for="(detail, index) in selectedDetails"
+                :key="index"
+                :style="{
+                  position: 'absolute',
+                  top: detail.position.top,
+                  left: detail.position.left,
                 }"
               >
                 <template v-if="detail.icon">
@@ -1325,7 +1323,7 @@ switch (this.selectedType.name?.trim()) {
   data() {
     return {
       selectedGegenuberOption:null,
-      updateGegenuberImage:null,
+      updateGegenuberImage
       selectedRechtsOption:null,
       selectedType: null,
       selectedRalCode: null,
