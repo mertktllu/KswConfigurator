@@ -1196,13 +1196,13 @@ switch (this.selectedType.name?.trim()) {
     },
     comModels() {
       const found = this.products.find(
-        (p) => p.name === this.selectedMainGroup
+        (p) => p.name?.trim() === this.selectedMainGroup
       );
       return found ? found.subProducts : [];
     },
     comModelsGat() {
       const foundGattung = this.gattungProducts.find(
-        (g) => g.name === this.selectedGattung
+        (g) => g.name?.trim() === this.selectedGattung
       );
       if (foundGattung) {
         return foundGattung.subProducts;
@@ -1495,7 +1495,7 @@ RareImage: "/assets/RareDisplay/image004.png",
         this.products.some(
           (product) =>
             product.maingroupid === mainGroup.maingroupid &&
-            this.selectedModel[product.name]
+            this.selectedModel[product.name?.trim()]
         )
       );
 
@@ -1510,19 +1510,19 @@ RareImage: "/assets/RareDisplay/image004.png",
               .filter(
                 (product) =>
                   product.gattungid === gattung.gattungid &&
-                  this.selectedModel[product.name]
+                  this.selectedModel[product.name?.trim()]
               )
               .map((product) => {
                 return {
                   name: product.name,
-                  value: this.selectedModel[product.name],
+                  value: this.selectedModel[product.name?.trim()],
                 };
               });
 
             if (products.length > 0) {
               this.exportData.push({
-                mainGroup: mainGroup.name,
-                gattung: gattung.name,
+                mainGroup: mainGroup.name?.trim(),
+                gattung: gattung.name?.trim(),
                 products,
               });
             }
@@ -1533,18 +1533,18 @@ RareImage: "/assets/RareDisplay/image004.png",
               (product) =>
                 product.maingroupid === mainGroup.maingroupid &&
                 !product.gattungid &&
-                this.selectedModel[product.name]
+                this.selectedModel[product.name?.trim()]
             )
             .map((product) => {
               return {
-                name: product.name,
-                value: this.selectedModel[product.name],
+                name: product.name?.trim(),
+                value: this.selectedModel[product.name?.trim()],
               };
             });
 
           if (products.length > 0) {
             this.exportData.push({
-              mainGroup: mainGroup.name,
+              mainGroup: mainGroup.name?.trim(),
               gattung: null,
               products,
             });
@@ -1866,7 +1866,7 @@ RareImage: "/assets/RareDisplay/image004.png",
       }
     },
     checkAndUpdateHalCustomImg(product) {
-      if (product.name === "Nur Deckenhaltestangen in") {
+      if (product.name?.trim() === "Nur Deckenhaltestangen in") {
         this.updateHalCustomImg(product.ralCode);
       }
     },
