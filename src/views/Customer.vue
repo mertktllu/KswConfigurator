@@ -852,8 +852,7 @@
                     subProduct.name?.trim() === 'STER 8 MS'
                   "
                   :items="subProduct.options"
-                  :item-text="(item) => item"
-                  :item-value="(item) => item"
+                  D
                   v-model="selectedModel[subProduct.name?.trim()]"
                   :label="$t('selectOption')"
                   :disabled="isDisabled(subProduct.name?.trim())"
@@ -868,8 +867,8 @@
   v-else-if="subProduct.name?.trim() === 'Nur Deckenhaltestangen in'"
   v-model="selectedRalCode"
   :items="subProduct.options"
-  item-text="text"
-  item-value="value"
+  :item-text="(item) => item"
+  :item-value="(item) => item"
   :label="$t('selectOption')"
   @change="updateHalCustomImg"
 ></v-select>
