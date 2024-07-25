@@ -1722,6 +1722,7 @@ RareImage: "/assets/RareDisplay/image004.png",
     //koltuk seçimlerinde sınırlandırma
     isDisabled(productName) {
       if (
+        
         this.selectedGattung &&
         this.selectedGattung.name?.trim() === "704A - Bestuhlung"
       ) {
