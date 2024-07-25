@@ -1861,11 +1861,11 @@ RareImage: "/assets/RareDisplay/image004.png",
 
     updateHalCustomImg() {
       console.log("checkandupdatexx");
-      if (this.selectedRalCode?.trim() === "RAL 080C") {
+      if (this.selectedRalCode === "RAL 080C") {
         this.hal_customimg = "/assets/Haltestangen/080CC.jpg";
-      } else if (this.selectedRalCode?.trim() === "RAL 1003") {
+      } else if (this.selectedRalCode === "RAL 1003") {
         this.hal_customimg = "/assets/Haltestangen/1003.jpg";
-      } else if (this.selectedRalCode?.trim() === "RAL 3000") {
+      } else if (this.selectedRalCode=== "RAL 3000") {
         this.hal_customimg = "/assets/Haltestangen/3000.jpg";
       }
     },
