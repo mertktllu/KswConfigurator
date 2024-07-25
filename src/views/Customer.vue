@@ -870,7 +870,7 @@
   :item-text="(item) => item"
   :item-value="(item) => item"
   :label="$t('selectOption')"
-  @change="updateHalCustomImg"
+  @change="handleRalCodeChange"
 ></v-select>
 
                 <v-select
@@ -1451,7 +1451,10 @@ RareImage: "/assets/RareDisplay/image004.png",
   // ... methods, etc.
   methods: {
 
-    
+    handleRalCodeChange() {
+      console.log("RAL kodu değişti:", this.selectedRalCode);
+      this.updateHalCustomImg();
+    },
 
 
     goHome() {
