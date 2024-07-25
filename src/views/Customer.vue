@@ -851,7 +851,7 @@
                     subProduct.gattungid === 4 &&
                     subProduct.name?.trim()  === 'STER 8 MS'
                   "
-                  :items="getFormattedOptions(selectedProduct.Options)"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedModel[subProduct.name?.trim()]"
@@ -889,7 +889,7 @@
                     subProduct.name?.trim()  ===
                     '680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2'
                   "
-                  :items="getFormattedOptions(selectedProduct.options)"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedGegenuberOption"
@@ -921,7 +921,7 @@
                 <!-- Other sub-products -->
                 <v-select
                   v-else
-                  :items="getFormattedOptions(selectedProduct.options)"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedModel[subProduct.name?.trim() ]"
@@ -1803,12 +1803,12 @@ RareImage: "/assets/RareDisplay/image004.png",
 
     // Options alanını parse et
     data = data.map((product) => {
-      if (product.Options) {
+      if (product.options) {
         try {
-          product.Options = JSON.parse(product.Options.replace(/'/g, '"'));
+          product.options = JSON.parse(product.options.replace(/'/g, '"'));
         } catch (e) {
           console.error("Error parsing options:", e);
-          product.Options = [];
+          product.options = [];
         }
       }
       return product;
@@ -1819,6 +1819,7 @@ RareImage: "/assets/RareDisplay/image004.png",
     console.error("Error fetching products:", error);
   }
 },
+
     changeLanguage(language) {
       this.$i18n.locale = language;
     },
