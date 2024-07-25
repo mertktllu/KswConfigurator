@@ -864,20 +864,15 @@
                   @change="onOptionChange(subProduct.name?.trim(), $event)"
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
-                <v-select
-  v-if="subProduct.name?.trim() === 'Nur Deckenhaltestangen in'"
+               <v-select
+  v-else-if="subProduct.name?.trim() === 'Nur Deckenhaltestangen in'"
   v-model="selectedRalCode"
-  :items="[
-    { text: 'RAL 080C', value: 'RAL 080C' },
-    { text: 'RAL 1003', value: 'RAL 1003' },
-    { text: 'RAL 3000', value: 'RAL 3000' }
-  ]"
-  label="Select an Option"
-  solo
-  hide-details
+  :items="subProduct.options"
+  item-text="text"
+  item-value="value"
+  :label="$t('selectOption')"
   @change="updateHalCustomImg"
-/>
-
+></v-select>
 
                 <v-select
                   v-else-if="subProduct.name?.trim()  === '680A - SNF gegenüber Tür 2'"
