@@ -830,26 +830,26 @@
                 <!-- Normal select dropdown -->
                 <v-select
                   v-if="
-                    subProduct.GattungID === 4 &&
-                    subProduct.name !== 'STER 8 MS'
+                    subProduct.gattungid === 4 &&
+                    subProduct.name?.trim()  !== 'STER 8 MS'
                   "
                   :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.name]"
+                  v-model="selectedModel[subProduct.name?.trim() ]"
                   :label="$t('selectOption')"
-                  :disabled="isDisabled(subProduct.name)"
+                  :disabled="isDisabled(subProduct.name)?.trim() "
                   dense
                   solo
                   outlined
                   hide-details
-                  @change="onOptionChange(subProduct.name, $event)"
+                  @change="onOptionChange(subProduct.name?.trim() , $event)"
                 ></v-select>
                 <!-- Text input for STER 8 MS -->
                 <v-select
                   v-else-if="
-                    subProduct.GattungID === 4 &&
-                    subProduct.name === 'STER 8 MS'
+                    subProduct.gattungid === 4 &&
+                    subProduct.name?.trim()  === 'STER 8 MS'
                   "
                   :items="subProduct.Options"
                   :item-text="(item) => item"
@@ -865,14 +865,14 @@
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <v-select
-                  v-else-if="subProduct.name === 'Nur Deckenhaltestangen in'"
+                  v-else-if="subProduct.name?.trim()  === 'Nur Deckenhaltestangen in'"
                   v-model="selectedRalCode"
                   :items="subProduct.Options"
                   :label="$t('selectOption')"
                   @change="updateHalCustomImg"
                 ></v-select>
                 <v-select
-                  v-else-if="subProduct.name === '680A - SNF gegenüber Tür 2'"
+                  v-else-if="subProduct.name?.trim()  === '680A - SNF gegenüber Tür 2'"
                   :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
@@ -886,7 +886,7 @@
                 ></v-select>
                 <v-select
                   v-else-if="
-                    subProduct.name ===
+                    subProduct.name?.trim()  ===
                     '680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2'
                   "
                   :items="subProduct.Options"
@@ -903,7 +903,7 @@
 
                 <v-select
                   v-else-if="
-                    subProduct.name ===
+                    subProduct.name?.trim()  ===
                     '681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2'
                   "
                   :items="subProduct.Options"
@@ -924,7 +924,7 @@
                   :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.name]"
+                  v-model="selectedModel[subProduct.name?.trim() ]"
                   :label="$t('selectOption')"
                   dense
                   solo
@@ -934,7 +934,7 @@
                 <!-- Color square -->
                 <div
                   class="color-square"
-                  v-if="shouldShowColorSquare(subProduct.name)"
+                  v-if="shouldShowColorSquare(subProduct.name?.trim() )"
                   :style="{
                     backgroundColor: getRalColor(
                       selectedModel[subProduct.name]
@@ -979,7 +979,7 @@
         <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
           <v-card>
             <v-card-title>
-              Bus Type: {{ selectedType?.Name }}
+              Bus Type: {{ selectedType?.Name?.trim()  }}
               <v-spacer></v-spacer>
               <v-btn icon @click="dialog = false">
                 <v-icon>mdi-close</v-icon>
@@ -1077,8 +1077,8 @@
         <v-card>
           <v-card-title>Details</v-card-title>
           <v-card-text>
-            <p><strong>Main Group:</strong> {{ selectedMainGroup?.name }}</p>
-            <p><strong>Gattung:</strong> {{ selectedGattung?.name }}</p>
+            <p><strong>Main Group:</strong> {{ selectedMainGroup?.name?.trim()  }}</p>
+            <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim()  }}</p>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
               <div
                 v-for="(detail, index) in selectedDetails"
@@ -1836,13 +1836,13 @@ RareImage: "/assets/RareDisplay/image004.png",
 
       if (
         this.selectedMainGroup &&
-        this.selectedMainGroup.name === "Bestuhlung"
+        this.selectedMainGroup.name?.trim()=== "Bestuhlung"
       ) {
         if (
           this.selectedGattung &&
-          (this.selectedGattung.name === "78RI - Sitzhaltegriffe" ||
-            this.selectedGattung.name === "78RD - Sitzarmlehnen" ||
-            this.selectedGattung.name === "770A - Fahrgastsitz-Rückseite") &&
+          (this.selectedGattung.name.trim() === "78RI - Sitzhaltegriffe" ||
+            this.selectedGattung.name.trim() === "78RD - Sitzarmlehnen" ||
+            this.selectedGattung.name.trim() === "770A - Fahrgastsitz-Rückseite") &&
           validProducts.includes(productName)
         ) {
           return true;
@@ -1934,7 +1934,7 @@ RareImage: "/assets/RareDisplay/image004.png",
 
       // Reset accumulated details
       this.accumulatedDetails = [];
-      if (this.selectedMainGroup.name === "Bestuhlung") {
+      if (this.selectedMainGroup.name.trim() === "Bestuhlung") {
         // Add existing selected details
         if (this.selectedModel["mit Schaum Sitzpolster"]) {
           this.accumulatedDetails.push({
@@ -1976,7 +1976,7 @@ RareImage: "/assets/RareDisplay/image004.png",
           });
         }
         this.imgSrc = "/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
-      } else if (this.selectedMainGroup.name === "Haltestangen") {
+      } else if (this.selectedMainGroup.name.trim() === "Haltestangen") {
         // Add details for Haltestangen
         if (this.selectedModel["Nur Knoten in"]) {
           this.accumulatedDetails.push({
@@ -1993,7 +1993,7 @@ RareImage: "/assets/RareDisplay/image004.png",
         }
         this.imgSrc = "/assets/Haltestangen/080CC.jpg";
       } else if (
-        this.selectedMainGroup.name === "528M (Fahrtzielanzeige Heck)"
+        this.selectedMainGroup.name.trim() === "528M (Fahrtzielanzeige Heck)"
       ) {
         if (this.selectedModel["Model"]) {
           this.accumulatedDetails.push({
@@ -2020,7 +2020,7 @@ RareImage: "/assets/RareDisplay/image004.png",
           });
         }
         this.imgSrc = "/assets/RareDisplay/image004.png";
-      } else if (this.selectedMainGroup.name === "Camera") {
+      } else if (this.selectedMainGroup.name.trim() === "Camera") {
         // Add details for Camera
         if (this.selectedModel["Type"]) {
           this.accumulatedDetails.push({
@@ -2052,7 +2052,7 @@ RareImage: "/assets/RareDisplay/image004.png",
           this.addCameraIcons("4T");
         }
       } else if (
-        this.selectedMainGroup.name === "Sondernutzungsfläche rechts vor Tür 2"
+        this.selectedMainGroup.name.trim() === "Sondernutzungsfläche rechts vor Tür 2"
       ) {
         if (
           this.selectedModel[
@@ -2180,7 +2180,7 @@ RareImage: "/assets/RareDisplay/image004.png",
 
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");
-      link.download = `${this.selectedMainGroup.name}.png`; // Dosya adını main group name olarak ayarlayın
+      link.download = `${this.selectedMainGroup.name.trim()}.png`; // Dosya adını main group name olarak ayarlayın
       link.click();
     },
   },
