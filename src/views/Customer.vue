@@ -979,7 +979,7 @@
         <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
           <v-card>
             <v-card-title>
-              Bus Type: {{ selectedType?.Name?.trim()  }}
+              Bus Type: {{ selectedType?.name?.trim()  }}
               <v-spacer></v-spacer>
               <v-btn icon @click="dialog = false">
                 <v-icon>mdi-close</v-icon>
@@ -1449,18 +1449,7 @@ RareImage: "/assets/RareDisplay/image004.png",
   // ... methods, etc.
   methods: {
 
-    getFormattedOptions(options) {
-    // Options'un dizi olup olmadığını kontrol et ve doğru formatta olup olmadığını kontrol et
-    if (Array.isArray(options)) {
-      return options.map((option) => {
-        return {
-          name: option, // Burada gerekli şekilde option.name olarak da kullanabilirsiniz
-          value: option // Burada gerekli şekilde option.value olarak da kullanabilirsiniz
-        };
-      });
-    }
-    return [];
-  },
+    
 
 
     goHome() {
@@ -2057,13 +2046,13 @@ RareImage: "/assets/RareDisplay/image004.png",
           });
         }
         // Update imgSrc based on selected Type
-        if (this.selectedType?.Name === "L4C") {
+        if (this.selectedType?.name === "L4C") {
           this.imgSrc = "/static/12C-2T.jpg";
           this.addCameraIcons("2T");
-        } else if (this.selectedType?.Name === "LE") {
+        } else if (this.selectedType?.name === "LE") {
           this.imgSrc = "/static/18C-3T.jpg";
           this.addCameraIcons("3T");
-        } else if (this.selectedType?.Name === "Intercity") {
+        } else if (this.selectedType?.name === "Intercity") {
           this.imgSrc = "/static/19C-4T.jpg";
           this.addCameraIcons("4T");
         }
