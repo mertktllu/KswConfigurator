@@ -866,7 +866,7 @@
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <v-select
                   v-else-if="subProduct.name?.trim()  === 'Nur Deckenhaltestangen in'"
-                  v-model="selectedRalCode"
+                  v-model="selectedRalCode?.trim()"
                   :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
