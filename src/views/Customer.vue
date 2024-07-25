@@ -997,8 +997,8 @@
                     </div>
                     <div><strong>Products:</strong></div>
                     <ul style="margin-left: 20px">
-                      <li v-for="product in group.products" :key="product.name">
-                        {{ product.name }}: {{ product.value }}
+                      <li v-for="product in group.products" :key="product.name?.trim()">
+                        {{ product.name?.trim() }}: {{ product.value }}
                       </li>
                     </ul>
                   </v-list-item-content>
