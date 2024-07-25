@@ -1076,53 +1076,61 @@
 
       <!-- Show Details Dialog -->
       <v-dialog v-model="showDetailsDialog" max-width="800px">
-        <v-card>
-          <v-card-title>Details</v-card-title>
-          <v-card-text>
-            <p><strong>Main Group:</strong> {{ selectedMainGroup?.name?.trim()  }}</p>
-            <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim()  }}</p>
-            <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
-              <div
-                v-for="(detail, index) in selectedDetails"
-                :key="index"
-                :style="{
-                  position: 'absolute',
-                  top: detail.position.top,
-                  left: detail.position.left,
-                }"
-              >
-                <template v-if="detail.icon">
-                  <svg
-                    :style="{ transform: `rotate(${detail.rotation}deg)` }"
-                    width="30"
-                    height="20"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
-                </template>
-                <template v-else>
-                  <span
-                    :style="{ color: detail.color || 'red', fontSize: '20px' }"
-                    >{{ detail.text }}</span
-                  >
-                </template>
-              </div>
-            </v-img>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="blue" @click="downloadDetailsImage">Download</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="red" @click="showDetailsDialog = false">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+  <v-card>
+    <v-card-title>Details</v-card-title>
+    <v-card-text>
+      <p><strong>Main Group:</strong> {{ selectedMainGroup?.name?.trim() }}</p>
+      <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim() }}</p>
+      <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
+        <div
+          v-for="(detail, index) in selectedDetails"
+          :key="index"
+          :style="{
+            position: 'absolute',
+            top: detail.position.top,
+            left: detail.position.left,
+          }"
+        >
+          <template v-if="detail.icon">
+            <svg
+              :style="{ transform: `rotate(${detail.rotation}deg)` }"
+              width="30"
+              height="20"
+              viewBox="0 0 48 29"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                fill="#6887F5"
+              />
+              <rect width="29" height="29" rx="3" fill="#6887F5" />
+            </svg>
+          </template>
+          <template v-else>
+            <span
+              :style="{ color: detail.color || 'red', fontSize: '20px' }"
+              >{{ detail.text }}</span
+            >
+          </template>
+        </div>
+      </v-img>
+    </v-card-text>
+    <v-card-text>
+      <ul class="detail-list">
+        <li v-for="(detail, index) in selectedDetails" :key="index">
+          <span :style="{ color: detail.color || 'black' }">{{ detail.text }}</span>
+        </li>
+      </ul>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn color="blue" @click="downloadDetailsImage">Download</v-btn>
+      <v-spacer></v-spacer>
+      <v-btn color="red" @click="showDetailsDialog = false">Close</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+
     </div>
   </v-container>
 </template>
