@@ -838,7 +838,7 @@
                   :item-value="(item) => item"
                   v-model="selectedModel[subProduct.name?.trim() ]"
                   :label="$t('selectOption')"
-                  :disabled="isDisabled(subProduct.name)?.trim() "
+                  :disabled="isDisabled(subProduct.name?.trim())"
                   dense
                   solo
                   outlined
@@ -1178,14 +1178,14 @@ console.log("selectedType:", this.selectedType);
 switch (this.selectedType.name?.trim()) {
  case "L4C":
  console.log("L4C");
-   return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/12C-2T.jpg";
+   return "/static/12C-2T.jpg";
   
  case "LE":
  console.log("L4C");
-   return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/18C-3T.jpg";
+   return "/static/18C-3T.jpg";
  case "Intercity":
  console.log("L4C");
-   return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/19C-4T.jpg";
+   return "/static/19C-4T.jpg";
  default:
    return "";
 }
