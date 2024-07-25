@@ -836,7 +836,7 @@
                   :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.name?.trim() ]"
+                  v-model="selectedModel[subProduct.name?.trim()]"
                   :label="$t('selectOption')"
                   :disabled="isDisabled(subProduct.name?.trim())"
                   dense
@@ -849,7 +849,7 @@
                 <v-select
                   v-else-if="
                     subProduct.gattungid === 4 &&
-                    subProduct.name?.trim()  === 'STER 8 MS'
+                    subProduct.name?.trim() === 'STER 8 MS'
                   "
                   :items="subProduct.options"
                   :item-text="(item) => item"
@@ -865,12 +865,19 @@
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <v-select
-                  v-else-if="subProduct.name?.trim()  === 'Nur Deckenhaltestangen in'"
-                  v-model="selectedRalCode"
-                  :items="subProduct.options"
-                  :label="$t('selectOption')"
-                  @change="updateHalCustomImg"
-                ></v-select>
+  v-else-if="subProduct.name?.trim() === 'Nur Deckenhaltestangen in'"
+  v-model="selectedRalCode"
+  :items="subProduct.options"
+  item-text="name"
+  item-value="value"
+  :label="$t('selectOption')"
+  @change="updateHalCustomImg"
+  dense
+  solo
+  outlined
+  hide-details
+></v-select>
+
                 <v-select
                   v-else-if="subProduct.name?.trim()  === '680A - SNF gegenüber Tür 2'"
                   :items="subProduct.options"
