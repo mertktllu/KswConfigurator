@@ -851,7 +851,7 @@
                     subProduct.gattungid === 4 &&
                     subProduct.name?.trim()  === 'STER 8 MS'
                   "
-                  :items="subProduct.options"
+                  :items="getFormattedOptions(selectedProduct.Options)"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedModel[subProduct.name?.trim()]"
@@ -889,7 +889,7 @@
                     subProduct.name?.trim()  ===
                     '680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2'
                   "
-                  :items="subProduct.options"
+                  :items="getFormattedOptions(selectedProduct.options)"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedGegenuberOption"
@@ -921,7 +921,7 @@
                 <!-- Other sub-products -->
                 <v-select
                   v-else
-                  :items="subProduct.options"
+                  :items="getFormattedOptions(selectedProduct.options)"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedModel[subProduct.name?.trim() ]"
