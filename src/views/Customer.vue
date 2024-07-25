@@ -833,7 +833,7 @@
                     subProduct.gattungid === 4 &&
                     subProduct.name?.trim()  !== 'STER 8 MS'
                   "
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedModel[subProduct.name?.trim() ]"
@@ -867,13 +867,13 @@
                 <v-select
                   v-else-if="subProduct.name?.trim()  === 'Nur Deckenhaltestangen in'"
                   v-model="selectedRalCode"
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :label="$t('selectOption')"
                   @change="updateHalCustomImg"
                 ></v-select>
                 <v-select
                   v-else-if="subProduct.name?.trim()  === '680A - SNF gegenüber Tür 2'"
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedGegenuberOption"
@@ -889,7 +889,7 @@
                     subProduct.name?.trim()  ===
                     '680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2'
                   "
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedGegenuberOption"
@@ -906,7 +906,7 @@
                     subProduct.name?.trim()  ===
                     '681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2'
                   "
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedRechtsOption"
@@ -921,7 +921,7 @@
                 <!-- Other sub-products -->
                 <v-select
                   v-else
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedModel[subProduct.name?.trim() ]"
@@ -937,7 +937,7 @@
                   v-if="shouldShowColorSquare(subProduct.name?.trim() )"
                   :style="{
                     backgroundColor: getRalColor(
-                      selectedModel[subProduct.name]
+                      selectedModel[subProduct.name?.trim]
                     ),
                   }"
                 ></div>
@@ -1287,7 +1287,7 @@ switch (this.selectedType.name) {
       )?.subProducts;
       return (
         subProducts?.filter(
-          (subProduct) => this.selectedModel[subProduct.name]
+          (subProduct) => this.selectedModel[subProduct.name?.trim]
         ) || []
       );
     },
