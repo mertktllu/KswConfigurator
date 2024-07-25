@@ -865,15 +865,15 @@
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <v-select
-                  v-else-if="subProduct.name?.trim()  === 'Nur Deckenhaltestangen in'"
-                  v-model="selectedRalCode"
-                  :items="subProduct.options"
-                  :item-text="(item) => item"
-                  :item-value="(item) => item"
-                  
-                  :label="$t('selectOption')"
-                  @change="updateHalCustomImg"
-                ></v-select>
+  v-else-if="subProduct.name?.trim() === 'Nur Deckenhaltestangen in'"
+  v-model="selectedRalCode"
+  :items="subProduct.options"
+  item-text="text"
+  item-value="value"
+  :label="$t('selectOption')"
+  @change="updateHalCustomImg"
+></v-select>
+
                 <v-select
                   v-else-if="subProduct.name?.trim()  === '680A - SNF gegenüber Tür 2'"
                   :items="subProduct.options"
