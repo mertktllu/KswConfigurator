@@ -1322,11 +1322,14 @@ switch (this.selectedType.name?.trim()) {
 
   data() {
     return {
+      selectedGegenuberOption:null,
+      updateGegenuberImage:null,
+      selectedRechtsOption:null,
       selectedType: null,
       selectedRalCode: null,
       selectedMainGroup: null,
       selectedGattung: null,
-      selectedModel: {},
+      selectedModel: {}, 
       showDetailsDialog: false,
       accumulatedDetails: [],
       selectedDetails: [],
