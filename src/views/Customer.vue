@@ -1860,6 +1860,7 @@ RareImage: "/assets/RareDisplay/image004.png",
     },
 
     updateHalCustomImg() {
+      console.log("checkandupdatexx");
       if (this.selectedRalCode === "RAL 080C") {
         this.hal_customimg = "/assets/Haltestangen/080CC.jpg";
       } else if (this.selectedRalCode === "RAL 1003") {
@@ -1870,6 +1871,7 @@ RareImage: "/assets/RareDisplay/image004.png",
     },
     checkAndUpdateHalCustomImg(product) {
       if (product.name?.trim() === "Nur Deckenhaltestangen in") {
+        console.log("checkandupdate");
         this.updateHalCustomImg(product.ralCode?.trim());
       }
     },
