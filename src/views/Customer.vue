@@ -866,7 +866,7 @@
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <v-select
                   v-else-if="subProduct.name?.trim()  === 'Nur Deckenhaltestangen in'"
-                  v-model="selectedRalCode?.trim()"
+                  v-model="selectedRalCode"
                   :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
@@ -1864,9 +1864,9 @@ RareImage: "/assets/RareDisplay/image004.png",
       console.log("checkandupdatexx");
       if (this.selectedRalCode?.trim() === "RAL 080C") {
         this.hal_customimg = "/assets/Haltestangen/080CC.jpg";
-      } else if (this.selectedRalCode === "RAL 1003") {
+      } else if (this.selectedRalCode?.trim() === "RAL 1003") {
         this.hal_customimg = "/assets/Haltestangen/1003.jpg";
-      } else if (this.selectedRalCode === "RAL 3000") {
+      } else if (this.selectedRalCode?.trim() === "RAL 3000") {
         this.hal_customimg = "/assets/Haltestangen/3000.jpg";
       }
     },
