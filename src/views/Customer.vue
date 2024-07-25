@@ -868,7 +868,7 @@
                   v-else-if="subProduct.name?.trim()  === 'Nur Deckenhaltestangen in'"
                   v-model="selectedRalCode"
                   :items="subProduct.options"
-                   item-text="(item) => item"
+                  :item-text="(item) => item"
                   :item-value="(item) => item"
                   :label="$t('selectOption')"
                   @change="updateHalCustomImg"
