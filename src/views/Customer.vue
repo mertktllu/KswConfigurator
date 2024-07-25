@@ -618,7 +618,7 @@
             </v-img>
           </v-row>
           <v-row
-            v-if="selectedType && selectedMainGroup?.name === 'Camera'"
+            v-if="selectedType && selectedMainGroup?.name?.trim() === 'Camera'"
             class="d-flex justify-center mt-4"
           >
             <v-col class="d-flex justify-center">
@@ -685,7 +685,7 @@
               <v-row
                 v-else-if="
                   selectedType?.name?.trim() === 'Intercity' &&
-                  selectedMainGroup?.name === 'Camera'
+                  selectedMainGroup?.name?.trim() === 'Camera'
                 "
               >
                 <v-checkbox
@@ -1175,7 +1175,7 @@ if (!this.selectedType) {
 }
 console.log("selectedType:", this.selectedType);
 
-switch (this.selectedType.name) {
+switch (this.selectedType.name?.trim()) {
  case "L4C":
  console.log("L4C");
    return "https://kswconfigurator-7fc475022be0.herokuapp.com/static/12C-2T.jpg";
@@ -1309,7 +1309,7 @@ switch (this.selectedType.name) {
       const query = this.searchQuery.toLowerCase();
       return this.types.filter(
         (type) =>
-          type.name.toLowerCase().includes(query) ||
+          type.name?.trim().toLowerCase().includes(query) ||
           type.fuel.toLowerCase().includes(query) ||
           type.length.toLowerCase().includes(query) ||
           type.seats.toLowerCase().includes(query) ||
@@ -1723,7 +1723,7 @@ RareImage: "/assets/RareDisplay/image004.png",
     isDisabled(productName) {
       if (
         this.selectedGattung &&
-        this.selectedGattung.name === "704A - Bestuhlung"
+        this.selectedGattung.name?.trim() === "704A - Bestuhlung"
       ) {
         if (productName === "STER 8 MS") {
           return (
@@ -2046,18 +2046,18 @@ RareImage: "/assets/RareDisplay/image004.png",
           });
         }
         // Update imgSrc based on selected Type
-        if (this.selectedType?.name === "L4C") {
+        if (this.selectedType?.name?.trim() === "L4C") {
           this.imgSrc = "/static/12C-2T.jpg";
           this.addCameraIcons("2T");
-        } else if (this.selectedType?.name === "LE") {
+        } else if (this.selectedType?.name?.trim() === "LE") {
           this.imgSrc = "/static/18C-3T.jpg";
           this.addCameraIcons("3T");
-        } else if (this.selectedType?.name === "Intercity") {
+        } else if (this.selectedType?.name?.trim() === "Intercity") {
           this.imgSrc = "/static/19C-4T.jpg";
           this.addCameraIcons("4T");
         }
       } else if (
-        this.selectedMainGroup.name.trim() === "Sondernutzungsfläche rechts vor Tür 2"
+        this.selectedMainGroup.name?.trim() === "Sondernutzungsfläche rechts vor Tür 2"
       ) {
         if (
           this.selectedModel[
@@ -2185,7 +2185,7 @@ RareImage: "/assets/RareDisplay/image004.png",
 
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");
-      link.download = `${this.selectedMainGroup.name.trim()}.png`; // Dosya adını main group name olarak ayarlayın
+      link.download = `${this.selectedMainGroup.name?.trim()}.png`; // Dosya adını main group name olarak ayarlayın
       link.click();
     },
   },
