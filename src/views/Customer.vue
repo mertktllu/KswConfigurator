@@ -823,9 +823,9 @@
           <v-col v-if="availableSubProducts.length">
             <v-card
               v-for="subProduct in availableSubProducts"
-              :key="subProduct.name"
+              :key="subProduct.name?.trim()"
             >
-              <v-card-title>{{ subProduct.name }}</v-card-title>
+              <v-card-title>{{ subProduct.name?.trim() }}</v-card-title>
               <v-card-text>
                 <!-- Normal select dropdown -->
                 <v-select
@@ -851,17 +851,17 @@
                     subProduct.gattungid === 4 &&
                     subProduct.name?.trim()  === 'STER 8 MS'
                   "
-                  :items="subProduct.Options"
+                  :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.name]"
+                  v-model="selectedModel[subProduct.name?.trim()]"
                   :label="$t('selectOption')"
-                  :disabled="isDisabled(subProduct.name)"
+                  :disabled="isDisabled(subProduct.name?.trim())"
                   dense
                   solo
                   outlined
                   hide-details
-                  @change="onOptionChange(subProduct.name, $event)"
+                  @change="onOptionChange(subProduct.name?.trim(), $event)"
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <v-select
