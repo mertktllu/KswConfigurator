@@ -505,7 +505,7 @@
 
             <!-- Bestuhlung -->
             <img
-  v-else-if="selectedMainGroup?.fieldName === 'Bestuhlung'"
+  v-else-if="selectedMainGroup?.name?.trim() === 'Bestuhlung'"
   src="https://mandb.s3.eu-north-1.amazonaws.com/normal.png"
   style="width: 120%; height: auto; display: block; bottom: auto"
 ></img>
@@ -514,7 +514,7 @@
             <!-- Haltestangen -->
 
             <v-img
-              v-else-if="selectedMainGroup?.name === 'Haltestangen'"
+              v-else-if="selectedMainGroup?.name?.trim() === 'Haltestangen'"
               :src="hal_customimg"
               contain
               max-height="700"
@@ -574,7 +574,7 @@
             <!-- Teleskop -->
             <v-img
               v-else-if="
-                selectedMainGroup?.name ===
+                selectedMainGroup?.name?.trim() ===
                 'Abschrankung/Haarnadelstange an Tür 1'
               "
               :src="teleskopImage"
@@ -592,7 +592,7 @@
 
             <v-img
               v-else-if="
-                selectedMainGroup?.name ===
+                selectedMainGroup?.name?.trim() ===
                 'Sondernutzungsfläche gegenüber Tür 2'
               "
               :src="gegenuberImage"
@@ -606,7 +606,7 @@
 
             <v-img
               v-else-if="
-                selectedMainGroup?.name ===
+                selectedMainGroup?.name?.trim() ===
                 'Sondernutzungsfläche rechts vor Tür 2'
               "
               :src="rechtImage"
@@ -624,8 +624,8 @@
             <v-col class="d-flex justify-center">
               <v-row
                 v-if="
-                  selectedType?.name === 'L4C' &&
-                  selectedMainGroup?.name === 'Camera'
+                  selectedType?.name?.trim() === 'L4C' &&
+                  selectedMainGroup?.name?.trim() === 'Camera'
                 "
               >
                 <v-checkbox
@@ -651,8 +651,8 @@
               </v-row>
               <v-col
                 v-else-if="
-                  selectedType?.name === 'LE' &&
-                  selectedMainGroup?.name === 'Camera'
+                  selectedType?.name?.trim() === 'LE' &&
+                  selectedMainGroup?.name?.trim() === 'Camera'
                 "
               >
                 <v-row>
@@ -684,7 +684,7 @@
               </v-col>
               <v-row
                 v-else-if="
-                  selectedType?.name === 'Intercity' &&
+                  selectedType?.name?.trim() === 'Intercity' &&
                   selectedMainGroup?.name === 'Camera'
                 "
               >
