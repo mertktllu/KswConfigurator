@@ -1323,6 +1323,7 @@ switch (this.selectedType.name?.trim()) {
   data() {
     return {
       selectedType: null,
+      selectedRalCode: null,
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
