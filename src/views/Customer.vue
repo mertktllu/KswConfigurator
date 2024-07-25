@@ -1870,7 +1870,7 @@ RareImage: "/assets/RareDisplay/image004.png",
     },
     checkAndUpdateHalCustomImg(product) {
       if (product.name?.trim() === "Nur Deckenhaltestangen in") {
-        this.updateHalCustomImg(product.ralCode);
+        this.updateHalCustomImg(product.ralCode?.trim());
       }
     },
 
