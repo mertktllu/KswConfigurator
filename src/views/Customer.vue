@@ -1323,7 +1323,7 @@ switch (this.selectedType.name?.trim()) {
   data() {
     return {
       selectedGegenuberOption:null,
-      updateGegenuberImage
+      updateGegenuberImage:null,
       selectedRechtsOption:null,
       selectedType: null,
       selectedRalCode: null,
