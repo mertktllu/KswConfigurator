@@ -870,6 +870,7 @@
                   :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
+                  
                   :label="$t('selectOption')"
                   @change="updateHalCustomImg"
                 ></v-select>
@@ -1861,7 +1862,7 @@ RareImage: "/assets/RareDisplay/image004.png",
 
     updateHalCustomImg() {
       console.log("checkandupdatexx");
-      if (this.selectedRalCode === "RAL 080C") {
+      if (this.selectedRalCode?.trim() === "RAL 080C") {
         this.hal_customimg = "/assets/Haltestangen/080CC.jpg";
       } else if (this.selectedRalCode === "RAL 1003") {
         this.hal_customimg = "/assets/Haltestangen/1003.jpg";
