@@ -179,15 +179,14 @@ app.post("/deleteOption", async (req, res) => {
 
 app.get("/datauploadrequests", async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM DataUploadRequests");
+    const result = await db.query("SELECT * FROM datauploadrequests");
     res.json(result.rows);
   } catch (error) {
     console.error("Error fetching data upload requests:", error);
-    res
-      .status(500)
-      .send("An error occurred while fetching data upload requests.");
+    res.status(500).send("An error occurred while fetching data upload requests.");
   }
 });
+
 
 app.post("/addOption", async (req, res) => {
   const { ProductID, Option } = req.body;
@@ -220,30 +219,29 @@ app.post("/addOption", async (req, res) => {
 
 app.post("/datauploadrequests", async (req, res) => {
   const {
-    UserID,
-    TableName,
-    RequestDetails,
-    RequestStatus,
-    RequestDate,
-    ActionType,
+    userid,
+    tablename,
+    requestdetails,
+    requeststatus,
+    requestdate,
+    actiontype,
   } = req.body;
 
   console.log("Received data:", req.body);
 
   try {
     await db.query(
-      "INSERT INTO DataUploadRequests (UserID, TableName, RequestDetails, RequestStatus, RequestDate, ActionType) VALUES ($1, $2, $3, $4, $5, $6)",
-      [UserID, TableName, RequestDetails, RequestStatus, RequestDate, ActionType]
+      "INSERT INTO datauploadrequests (userid, tablename, requestdetails, requeststatus, requestdate, actiontype) VALUES ($1, $2, $3, $4, $5, $6)",
+      [userid, tablename, requestdetails, requeststatus, requestdate, actiontype]
     );
 
     res.status(201).send("Data upload request created successfully.");
   } catch (error) {
     console.error("Error creating data upload request:", error);
-    res
-      .status(500)
-      .send("An error occurred while creating the data upload request.");
+    res.status(500).send("An error occurred while creating the data upload request.");
   }
 });
+
 
 app.put("/datauploadrequests/:id", async (req, res) => {
   const { id } = req.params;
@@ -251,7 +249,7 @@ app.put("/datauploadrequests/:id", async (req, res) => {
 
   try {
     const result = await db.query(
-      "UPDATE DataUploadRequests SET requeststatus = $1 WHERE requestid = $2",
+      "UPDATE datauploadrequests SET requeststatus = $1 WHERE requestid = $2",
       [requeststatus, id]
     );
 
@@ -262,11 +260,10 @@ app.put("/datauploadrequests/:id", async (req, res) => {
     }
   } catch (error) {
     console.error("Error updating data upload request:", error);
-    res
-      .status(500)
-      .send("An error occurred while updating the data upload request.");
+    res.status(500).send("An error occurred while updating the data upload request.");
   }
 });
+
 
 app.delete("/datauploadrequests/:id", async (req, res) => {
   const { id } = req.params;
