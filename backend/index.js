@@ -49,16 +49,6 @@ app.get('/test-db', async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
   console.log('Login request received:', { email, password });
@@ -284,7 +274,7 @@ app.post("/approveRequest/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const result = await db.query("SELECT * FROM DataUploadRequests WHERE RequestID = $1", [id]);
+    const result = await db.query("SELECT * FROM datauploadrequests WHERE requestid = $1", [id]);
 
     if (result.rows.length === 0) {
       return res.status(404).send("Request not found");
@@ -302,10 +292,10 @@ app.post("/approveRequest/:id", async (req, res) => {
 
     switch (ActionType) {
       case "Add MainGroup":
-        const addDetailsMatch = RequestDetails.match(/Details: (.*)/);
+        const addDetailsMatch = RequestDetails.match(/details: (.*)/);
         if (addDetailsMatch && addDetailsMatch[1]) {
           const details = addDetailsMatch[1];
-          query = `INSERT INTO MainGroups (Name, Value) VALUES ($1, $1)`;
+          query = `INSERT INTO MainGroups (name, value) VALUES ($1, $1)`;
           inputs = [details];
         } else {
           return res
