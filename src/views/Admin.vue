@@ -689,38 +689,24 @@ export default {
         alert("Error sending request to add product");
       }
     },
-    confirmAction(requestID, actionType) {
-      this.requestId = requestID;
+    confirmAction(requestid, actionType) {
+      this.requestid = requestid;
       this.actionType = actionType;
       this.dialog = true;
     },
     async executeAction() {
       this.dialog = false;
       if (this.actionType === "approve") {
-        await this.approveRequest(this.requestId);
+        await this.approveRequest(this.requestid);
       } else if (this.actionType === "deny") {
-        await this.denyRequest(this.requestId);
+        await this.denyRequest(this.requestid);
       } else if (this.actionType === "addOption") {
         await this.submitAddOption();
       }
     },
 
-    confirmAction(requestID, actionType) {
-      this.requestId = requestID;
-      this.actionType = actionType;
-      this.dialog = true;
-    },
-    async executeAction() {
-      this.dialog = false;
-      if (this.actionType === "approve") {
-        await this.approveRequest(this.requestId);
-      } else if (this.actionType === "deny") {
-        await this.denyRequest(this.requestId);
-      } else if (this.actionType === "addOption") {
-        await this.submitAddOption();
-      }
-    },
-
+    
+   
     async submitAddMainGroup() {
       try {
         const details = this.addMainGroup;
