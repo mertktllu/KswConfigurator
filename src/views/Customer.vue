@@ -1760,7 +1760,7 @@ export default {
       },
 
       showButtons: true,
-      chairImage: "/assets/Bestuhlung/normal.bmp",
+      chairImage: "https://mandb.s3.eu-north-1.amazonaws.com/normal.png",
       chairBackImage: "/assets/Bestuhlung/normal back.bmp",
       hal_customimg: "/assets/Haltestangen/080CC.jpg",
       hal_3000img: "/assets/Haltestangen/3000.jpg",
@@ -2028,7 +2028,7 @@ export default {
     toggleChair() {
       this.showButtons = !this.showButtons;
       this.chairImage = this.showButtons
-        ? "/assets/Bestuhlung/normal.bmp"
+        ? "https://mandb.s3.eu-north-1.amazonaws.com/normal.png"
         : "/assets/Bestuhlung/normal back.bmp";
     },
 
