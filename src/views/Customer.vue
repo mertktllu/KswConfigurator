@@ -2374,7 +2374,7 @@ export default {
           this.imgSrc = "../assets/Haltestangen/080CC.jpg";
         }
       } else if (
-        this.selectedMainGroup?.name?.trim() === "Fahrtzielanzeige Heck"
+        this.selectedMainGroup?.name?.trim() === "Fahrtziealanzeige Heck"
       ) {
         if (this.selectedGattung?.name?.trim() === "528M") {
           if (this.selectedModel["Model"]) {
