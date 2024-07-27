@@ -1770,9 +1770,9 @@ export default {
       hal_3000img: "/assets/Haltestangen/3000.jpg",
       hal_1003img: "/assets/Haltestangen/1003.jpg",
 
-      gegenuber1img: "/assets/gegenüber/resim1.png",
-      gegenuber2img: "/assets/gegenüber/resim2.png",
-      gegenuber3img: "/assets/gegenüber/resim3.png",
+      gegenuber1img: "/assets/gegenüber/Resim1.png",
+      gegenuber2img: "/assets/gegenüber/Resim2.png",
+      gegenuber3img: "/assets/gegenüber/Resim3.png",
       gegenuberImage: "",
       rechtImage: "",
       glasscheibeimg: "/assets/gegenüber/mit halter ohne schloss.png",
