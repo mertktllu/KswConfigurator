@@ -1435,9 +1435,15 @@
             </p>
             <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim() }}</p>
             <template v-if="selectedMainGroup?.name?.trim() === 'Camera'">
-              <p><strong>Type:</strong> {{ selectedModel.Type }}</p>
-              <p><strong>Recorder:</strong> {{ selectedModel.Recorder }}</p>
-              <p><strong>Length:</strong> {{ selectedModel.Length }}</p>
+              <p v-if="selectedModel.Type">
+                <strong>Type:</strong> {{ selectedModel.Type }}
+              </p>
+              <p v-if="selectedModel.Recorder">
+                <strong>Recorder:</strong> {{ selectedModel.Recorder }}
+              </p>
+              <p v-if="selectedModel.Length">
+                <strong>Length:</strong> {{ selectedModel.Length }}
+              </p>
             </template>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
               <div
