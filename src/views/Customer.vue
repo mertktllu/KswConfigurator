@@ -71,7 +71,12 @@
         <v-card>
           <v-card-title> {{ $t("title") }} </v-card-title>
           <v-card-text class="text-center">
-            <v-img :src="selectedVehicleImage" max-height="300px" @load="onImageLoad" @error="onImageError"></v-img>
+            <v-img
+              :src="selectedVehicleImage"
+              max-height="300px"
+              @load="onImageLoad"
+              @error="onImageError"
+            ></v-img>
           </v-card-text>
           <v-card-actions class="justify-end">
             <v-btn color="primary" @click="chooseVehicle">{{
@@ -124,7 +129,7 @@
             <v-img
               v-if="
                 selectedType?.name?.trim() === 'L4C' &&
-               selectedMainGroup?.name?.trim() === 'Camera'
+                selectedMainGroup?.name?.trim() === 'Camera'
               "
               width="500"
               :src="img12C"
@@ -504,15 +509,352 @@
             ></v-img>
 
             <!-- Bestuhlung -->
-            <img
-  v-else-if="selectedMainGroup?.name?.trim() === 'Bestuhlung'"
-  src="https://mandb.s3.eu-north-1.amazonaws.com/normal.png"
-  style="width: 120%; height: auto; display: block; bottom: auto"
-></img>
+            <v-img
+              v-else-if="selectedMainGroup?.name?.trim() === 'Bestuhlung'"
+              src="https://mandb.s3.eu-north-1.amazonaws.com/normal.png"
+              style="width: 120%; height: auto; display: block; bottom: auto"
+            >
+              <v-row>
+                <v-btn
+                  color="grey"
+                  @click="toggleChair"
+                  style="
+                    position: absolute;
+                    top: 60%;
+                    left: 10%;
+                    width: 120px;
+                    height: 40px;
+                    color: black;
+                    background-color: rgba(255, 255, 255, 0.7);
+                  "
+                >
+                  Übersetzen
+                </v-btn>
+              </v-row>
+              <v-row v-if="showButtons">
+                <v-row
+                  v-if="selectedGattung?.Name === '78RI - Sitzhaltegriffe'"
+                >
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 8%;
+                      left: 39%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point1')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
 
+                <v-row
+                  v-else-if="selectedGattung?.Name === '78RD - Sitzarmlehnen'"
+                >
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 47%;
+                      left: 27%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point4')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
 
+                <v-row
+                  v-else-if="selectedGattung?.Name === '704A - Bestuhlung'"
+                >
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 35%;
+                      left: 39%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point2')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 60%;
+                      left: 35%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point3')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
+
+                <v-row
+                  v-else-if="
+                    selectedGattung?.Name === '770A - Fahrgastsitz-Rückseite'
+                  "
+                >
+                  <v-btn
+                    icon
+                    style="
+                      position: absolute;
+                      top: 40%;
+                      left: 62%;
+                      border-radius: 50%;
+                      width: 40px;
+                      height: 40px;
+                      background-color: rgba(255, 255, 255, 0.7);
+                    "
+                    @click="onPointClick('point5')"
+                  >
+                    <v-icon>mdi-circle</v-icon>
+                  </v-btn>
+                </v-row>
+              </v-row>
+              <!-- arkadaki buton -->
+              <v-row v-else>
+                <v-btn
+                  icon
+                  style="
+                    position: absolute;
+                    top: 35%;
+                    left: 39%;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    background-color: rgba(255, 255, 255, 0.7);
+                  "
+                  @click="onPointClick('point6')"
+                >
+                  <v-icon>mdi-circle</v-icon>
+                </v-btn>
+              </v-row>
+              <v-dialog
+                v-model="dialogVisible.point1"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Top Closer
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point1"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point1_1"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point1 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point2"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Rück
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point2"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point2 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point3"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Sitz
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point3"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point3 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point4"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Bügel or Armlehne
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point4"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point4_1"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point4 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point5"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Rückseite
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point5"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point5 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-dialog
+                v-model="dialogVisible.point6"
+                persistent
+                max-width="600px"
+              >
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
+                    Back
+                  </v-card-title>
+                  <v-container>
+                    <v-row justify="center">
+                      <v-col cols="12">
+                        <v-img
+                          :src="detailImages.point6"
+                          class="elevation-12"
+                          style="border-radius: 10px; width: 100%"
+                        ></v-img>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions class="justify-end">
+                    <v-btn
+                      color="red"
+                      text
+                      @click="dialogVisible.point6 = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-img>
             <!-- Haltestangen -->
-
             <v-img
               v-else-if="selectedMainGroup?.name?.trim() === 'Haltestangen'"
               :src="hal_customimg"
@@ -570,7 +912,6 @@
                 </v-card>
               </v-dialog>
             </v-img>
-
             <!-- Teleskop -->
             <v-img
               v-else-if="
@@ -587,9 +928,7 @@
                 teleskopButtonText
               }}</v-btn>
             </v-img>
-
             <!-- gegenüber  -->
-
             <v-img
               v-else-if="
                 selectedMainGroup?.name?.trim() ===
@@ -603,7 +942,6 @@
             >
             </v-img>
             <!-- rechts  -->
-
             <v-img
               v-else-if="
                 selectedMainGroup?.name?.trim() ===
@@ -831,7 +1169,7 @@
                 <v-select
                   v-if="
                     subProduct.gattungid === 4 &&
-                    subProduct.name?.trim()  !== 'STER 8 MS'
+                    subProduct.name?.trim() !== 'STER 8 MS'
                   "
                   :items="subProduct.options"
                   :item-text="(item) => item"
@@ -843,7 +1181,7 @@
                   solo
                   outlined
                   hide-details
-                  @change="onOptionChange(subProduct.name?.trim() , $event)"
+                  @change="onOptionChange(subProduct.name?.trim(), $event)"
                 ></v-select>
                 <!-- Text input for STER 8 MS -->
                 <v-select
@@ -863,18 +1201,22 @@
                   @change="onOptionChange(subProduct.name?.trim(), $event)"
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
-               <v-select
-  v-else-if="subProduct.name?.trim() === 'Nur Deckenhaltestangen in'"
-  v-model="selectedRalCode"
-  :items="subProduct.options"
-  :item-text="(item) => item"
-  :item-value="(item) => item"
-  :label="$t('selectOption')"
-  @change="handleRalCodeChange"
-></v-select>
+                <v-select
+                  v-else-if="
+                    subProduct.name?.trim() === 'Nur Deckenhaltestangen in'
+                  "
+                  v-model="selectedRalCode"
+                  :items="subProduct.options"
+                  :item-text="(item) => item"
+                  :item-value="(item) => item"
+                  :label="$t('selectOption')"
+                  @change="handleRalCodeChange"
+                ></v-select>
 
                 <v-select
-                  v-else-if="subProduct.name?.trim()  === '680A - SNF gegenüber Tür 2'"
+                  v-else-if="
+                    subProduct.name?.trim() === '680A - SNF gegenüber Tür 2'
+                  "
                   :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
@@ -888,7 +1230,7 @@
                 ></v-select>
                 <v-select
                   v-else-if="
-                    subProduct.name?.trim()  ===
+                    subProduct.name?.trim() ===
                     '680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2'
                   "
                   :items="subProduct.options"
@@ -905,7 +1247,7 @@
 
                 <v-select
                   v-else-if="
-                    subProduct.name?.trim()  ===
+                    subProduct.name?.trim() ===
                     '681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2'
                   "
                   :items="subProduct.options"
@@ -926,7 +1268,7 @@
                   :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.name?.trim() ]"
+                  v-model="selectedModel[subProduct.name?.trim()]"
                   :label="$t('selectOption')"
                   dense
                   solo
@@ -936,7 +1278,7 @@
                 <!-- Color square -->
                 <div
                   class="color-square"
-                  v-if="shouldShowColorSquare(subProduct.name?.trim() )"
+                  v-if="shouldShowColorSquare(subProduct.name?.trim())"
                   :style="{
                     backgroundColor: getRalColor(
                       selectedModel[subProduct.name?.trim]
@@ -981,7 +1323,7 @@
         <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
           <v-card>
             <v-card-title>
-              Bus Type: {{ selectedType?.name?.trim()  }}
+              Bus Type: {{ selectedType?.name?.trim() }}
               <v-spacer></v-spacer>
               <v-btn icon @click="dialog = false">
                 <v-icon>mdi-close</v-icon>
@@ -999,7 +1341,10 @@
                     </div>
                     <div><strong>Products:</strong></div>
                     <ul style="margin-left: 20px">
-                      <li v-for="product in group.products" :key="product.name?.trim()">
+                      <li
+                        v-for="product in group.products"
+                        :key="product.name?.trim()"
+                      >
                         {{ product.name?.trim() }}: {{ product.value }}
                       </li>
                     </ul>
@@ -1079,8 +1424,10 @@
         <v-card>
           <v-card-title>Details</v-card-title>
           <v-card-text>
-            <p><strong>Main Group:</strong> {{ selectedMainGroup?.name?.trim()  }}</p>
-            <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim()  }}</p>
+            <p>
+              <strong>Main Group:</strong> {{ selectedMainGroup?.name?.trim() }}
+            </p>
+            <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim() }}</p>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
               <div
                 v-for="(detail, index) in selectedDetails"
@@ -1144,7 +1491,7 @@ export default {
     });
     console.log("Component mounted! Chair Image:", this.chairImage);
   },
-  
+
   watch: {
     selectedMainGroup(newVal) {
       this.onMainGroupChange(newVal);
@@ -1165,33 +1512,29 @@ export default {
   },
 
   computed: {
-    
-  
-
     selectedVehicleImage() {
+      console.log("selectedType called");
+      if (!this.selectedType) {
+        console.log("selectedType is null or undefined");
+        return "";
+      }
+      console.log("selectedType:", this.selectedType);
 
-console.log("selectedType called");
-if (!this.selectedType) {
-  console.log("selectedType is null or undefined");
-  return "";
-}
-console.log("selectedType:", this.selectedType);
+      switch (this.selectedType.name?.trim()) {
+        case "L4C":
+          console.log("L4C");
+          return "/static/12C-2T.jpg";
 
-switch (this.selectedType.name?.trim()) {
- case "L4C":
- console.log("L4C");
-   return "/static/12C-2T.jpg";
-  
- case "LE":
- console.log("L4C");
-   return "/static/18C-3T.jpg";
- case "Intercity":
- console.log("L4C");
-   return "/static/19C-4T.jpg";
- default:
-   return "";
-}
-},
+        case "LE":
+          console.log("L4C");
+          return "/static/18C-3T.jpg";
+        case "Intercity":
+          console.log("L4C");
+          return "/static/19C-4T.jpg";
+        default:
+          return "";
+      }
+    },
 
     hasSelections() {
       return Object.keys(this.selectedModel).length > 0;
@@ -1279,10 +1622,6 @@ switch (this.selectedType.name?.trim()) {
       );
     },
 
-    
-  
-
-
     filteredSubProducts() {
       const subProducts = this.products.find(
         (product) => product.mainGroup === this.selectedMainGroup
@@ -1322,14 +1661,14 @@ switch (this.selectedType.name?.trim()) {
 
   data() {
     return {
-      selectedGegenuberOption:null,
-      updateGegenuberImage:null,
-      selectedRechtsOption:null,
+      selectedGegenuberOption: null,
+      updateGegenuberImage: null,
+      selectedRechtsOption: null,
       selectedType: null,
       selectedRalCode: null,
       selectedMainGroup: null,
       selectedGattung: null,
-      selectedModel: {}, 
+      selectedModel: {},
       showDetailsDialog: false,
       accumulatedDetails: [],
       selectedDetails: [],
@@ -1386,18 +1725,16 @@ switch (this.selectedType.name?.trim()) {
         point7: false,
       },
       detailImages: {
-      point1: '/assets/Bestuhlung/topcloser.bmp',
-      point1_1: '/assets/Bestuhlung/topcloser detail.bmp',
-      point2: '/assets/Bestuhlung/Rück.bmp',
-      point3: '/assets/Bestuhlung/sitz.bmp',
-      point4: '/assets/Bestuhlung/bugel or armlehne color.bmp',
-      point4_1: '/assets/Bestuhlung/armlehne color.bmp',
-      point5: '/assets/Bestuhlung/rückseite.bmp',
-      point6: '/assets/Bestuhlung/back.bmp',
-      point7: '/assets/Haltestangen/fittings.jpg',
-    },
-
-
+        point1: "/assets/Bestuhlung/topcloser.bmp",
+        point1_1: "/assets/Bestuhlung/topcloser detail.bmp",
+        point2: "/assets/Bestuhlung/Rück.bmp",
+        point3: "/assets/Bestuhlung/sitz.bmp",
+        point4: "/assets/Bestuhlung/bugel or armlehne color.bmp",
+        point4_1: "/assets/Bestuhlung/armlehne color.bmp",
+        point5: "/assets/Bestuhlung/rückseite.bmp",
+        point6: "/assets/Bestuhlung/back.bmp",
+        point7: "/assets/Haltestangen/fittings.jpg",
+      },
 
       ralColors: {
         "RAL 1023": "#F4A900",
@@ -1417,30 +1754,27 @@ switch (this.selectedType.name?.trim()) {
 
       showButtons: true,
       chairImage: "https://mandb.s3.eu-north-1.amazonaws.com/normal.png",
-chairBackImage: "/assets/Bestuhlung/normal back.bmp",
-hal_customimg: "/assets/Haltestangen/080CC.jpg",
-hal_3000img: "/assets/Haltestangen/3000.jpg",
-hal_1003img: "/assets/Haltestangen/1003.jpg",
+      chairBackImage: "/assets/Bestuhlung/normal back.bmp",
+      hal_customimg: "/assets/Haltestangen/080CC.jpg",
+      hal_3000img: "/assets/Haltestangen/3000.jpg",
+      hal_1003img: "/assets/Haltestangen/1003.jpg",
 
-gegenuber1img: "/assets/gegenüber/resim1.png",
-gegenuber2img: "/assets/gegenüber/resim2.png",
-gegenuber3img: "/assets/gegenüber/resim3.png",
-gegenuberImage: "",
-rechtImage: "",
-glasscheibeimg: "/assets/gegenüber/mit halter ohne schloss.png",
-klappbare_armlehneimg: "/assets/gegenüber/klappbare armlehne 2.png",
-mit_halter_ohne_schlossimg: "/assets/gegenüber/glasscibe.png",
+      gegenuber1img: "/assets/gegenüber/resim1.png",
+      gegenuber2img: "/assets/gegenüber/resim2.png",
+      gegenuber3img: "/assets/gegenüber/resim3.png",
+      gegenuberImage: "",
+      rechtImage: "",
+      glasscheibeimg: "/assets/gegenüber/mit halter ohne schloss.png",
+      klappbare_armlehneimg: "/assets/gegenüber/klappbare armlehne 2.png",
+      mit_halter_ohne_schlossimg: "/assets/gegenüber/glasscibe.png",
 
-
-teleskop_on: "/assets/Teleskop/teleskop_on.png",
-teleskop_off: "/assets/Teleskop/teleskop_off.png",
-teleskopImage: "/assets/Teleskop/teleskop_off.png",
-img12C: "https://mandb.s3.eu-north-1.amazonaws.com/static/12C-2T.jpg",
-img18C: "/static/18C-3T.jpg",
-img19C: "/static/19C-4T.jpg",
-RareImage: "/assets/RareDisplay/image004.png",
-
-
+      teleskop_on: "/assets/Teleskop/teleskop_on.png",
+      teleskop_off: "/assets/Teleskop/teleskop_off.png",
+      teleskopImage: "/assets/Teleskop/teleskop_off.png",
+      img12C: "https://mandb.s3.eu-north-1.amazonaws.com/static/12C-2T.jpg",
+      img18C: "/static/18C-3T.jpg",
+      img19C: "/static/19C-4T.jpg",
+      RareImage: "/assets/RareDisplay/image004.png",
 
       searchQuery: "",
       availableSubProducts: [],
@@ -1454,22 +1788,20 @@ RareImage: "/assets/RareDisplay/image004.png",
 
   // ... methods, etc.
   methods: {
-
     handleRalCodeChange() {
       console.log("RAL kodu değişti:", this.selectedRalCode);
       this.updateHalCustomImg();
     },
-
 
     goHome() {
       router.push("/");
     },
     onImageLoad() {
       console.log("Image loaded successfully.");
-   },
-   onImageError() {
+    },
+    onImageError() {
       console.log("Error loading image.");
-   },
+    },
     toggleCamera(cameraId) {
       this.cameraEnabled[cameraId] = !this.cameraEnabled[cameraId]; // Toggle camera enabled/disabled state
     },
@@ -1629,22 +1961,22 @@ RareImage: "/assets/RareDisplay/image004.png",
         );
       }
     },
-     onMainGroupChange(newVal) {
-    console.log("Main Group Changed:", newVal);
-    this.updateAvailableSubProducts();
+    onMainGroupChange(newVal) {
+      console.log("Main Group Changed:", newVal);
+      this.updateAvailableSubProducts();
 
-    // Görsel güncellemesi
-    if (newVal.name.includes('Haltestangen')) {
-      this.selectedImage = this.hal_customimg;  // Haltestangen için görsel
-    } else if (newVal.name.includes('Bestuhlung')) {
-      this.selectedImage = this.chairImage;  // Bestuhlung için görsel
-      console.log("Bestuhlung Image:", this.chairImage);
-    } else if (newVal.name.includes('Camera')) {
-      this.selectedImage = this.img12C;  // Camera için görsel
-    } else {
-      this.selectedImage = '';  // Default görsel ya da boş bırak
-    }
-  },
+      // Görsel güncellemesi
+      if (newVal.name.includes("Haltestangen")) {
+        this.selectedImage = this.hal_customimg; // Haltestangen için görsel
+      } else if (newVal.name.includes("Bestuhlung")) {
+        this.selectedImage = this.chairImage; // Bestuhlung için görsel
+        console.log("Bestuhlung Image:", this.chairImage);
+      } else if (newVal.name.includes("Camera")) {
+        this.selectedImage = this.img12C; // Camera için görsel
+      } else {
+        this.selectedImage = ""; // Default görsel ya da boş bırak
+      }
+    },
 
     getSubProducts() {
       if (this.selectedGattung) {
@@ -1731,7 +2063,6 @@ RareImage: "/assets/RareDisplay/image004.png",
     //koltuk seçimlerinde sınırlandırma
     isDisabled(productName) {
       if (
-        
         this.selectedGattung &&
         this.selectedGattung.name?.trim() === "704A - Bestuhlung"
       ) {
@@ -1751,7 +2082,9 @@ RareImage: "/assets/RareDisplay/image004.png",
     async fetchTypes() {
       try {
         console.log("Fetching types...");
-        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/types");
+        const response = await fetch(
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/types"
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -1765,7 +2098,9 @@ RareImage: "/assets/RareDisplay/image004.png",
     async fetchMainGroups() {
       try {
         console.log("Fetching main groups...");
-        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/maingroups");
+        const response = await fetch(
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/maingroups"
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -1779,7 +2114,9 @@ RareImage: "/assets/RareDisplay/image004.png",
     async fetchGattungs() {
       try {
         console.log("Fetching gattungs...");
-        const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/gattungs");
+        const response = await fetch(
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/gattungs"
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -1791,33 +2128,35 @@ RareImage: "/assets/RareDisplay/image004.png",
       }
     },
     async fetchProducts() {
-  try {
-    console.log("Fetching products...");
-    const response = await fetch("https://kswconfigurator-7fc475022be0.herokuapp.com/products");
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    let data = await response.json();
-    console.log("Fetched products data:", data);
-
-    // Options alanını parse et
-    data = data.map((product) => {
-      if (product.options) {
-        try {
-          product.options = JSON.parse(product.options.replace(/'/g, '"'));
-        } catch (e) {
-          console.error("Error parsing options:", e);
-          product.options = [];
+      try {
+        console.log("Fetching products...");
+        const response = await fetch(
+          "https://kswconfigurator-7fc475022be0.herokuapp.com/products"
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-      }
-      return product;
-    });
+        let data = await response.json();
+        console.log("Fetched products data:", data);
 
-    this.products = data;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-  }
-},
+        // Options alanını parse et
+        data = data.map((product) => {
+          if (product.options) {
+            try {
+              product.options = JSON.parse(product.options.replace(/'/g, '"'));
+            } catch (e) {
+              console.error("Error parsing options:", e);
+              product.options = [];
+            }
+          }
+          return product;
+        });
+
+        this.products = data;
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    },
 
     changeLanguage(language) {
       this.$i18n.locale = language;
@@ -1851,13 +2190,14 @@ RareImage: "/assets/RareDisplay/image004.png",
 
       if (
         this.selectedMainGroup &&
-        this.selectedMainGroup.name?.trim()=== "Bestuhlung"
+        this.selectedMainGroup.name?.trim() === "Bestuhlung"
       ) {
         if (
           this.selectedGattung &&
           (this.selectedGattung.name.trim() === "78RI - Sitzhaltegriffe" ||
             this.selectedGattung.name.trim() === "78RD - Sitzarmlehnen" ||
-            this.selectedGattung.name.trim() === "770A - Fahrgastsitz-Rückseite") &&
+            this.selectedGattung.name.trim() ===
+              "770A - Fahrgastsitz-Rückseite") &&
           validProducts.includes(productName)
         ) {
           return true;
@@ -1872,7 +2212,7 @@ RareImage: "/assets/RareDisplay/image004.png",
         this.hal_customimg = "/assets/Haltestangen/080CC.jpg";
       } else if (this.selectedRalCode === "RAL 1003") {
         this.hal_customimg = "/assets/Haltestangen/1003.jpg";
-      } else if (this.selectedRalCode=== "RAL 3000") {
+      } else if (this.selectedRalCode === "RAL 3000") {
         this.hal_customimg = "/assets/Haltestangen/3000.jpg";
       }
     },
@@ -2069,7 +2409,8 @@ RareImage: "/assets/RareDisplay/image004.png",
           this.addCameraIcons("4T");
         }
       } else if (
-        this.selectedMainGroup.name?.trim() === "Sondernutzungsfläche rechts vor Tür 2"
+        this.selectedMainGroup.name?.trim() ===
+        "Sondernutzungsfläche rechts vor Tür 2"
       ) {
         if (
           this.selectedModel[
