@@ -2298,193 +2298,206 @@ export default {
 
       // Reset accumulated details
       this.accumulatedDetails = [];
+
       if (this.selectedMainGroup.name.trim() === "Bestuhlung") {
-        // Add existing selected details
-        if (this.selectedModel["mit Schaum Sitzpolster"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["mit Schaum Sitzpolster"],
-            position: { top: "35%", left: "35%" },
-          });
+        if (this.selectedGattung.name.trim() === "704A - Bestuhlung") {
+          // Add existing selected details
+          if (this.selectedModel["mit Schaum Sitzpolster"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["mit Schaum Sitzpolster"],
+              position: { top: "35%", left: "35%" },
+            });
+          }
+          if (this.selectedModel["mit Schaum Rückenpolster"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["mit Schaum Rückenpolster"],
+              position: { top: "65%", left: "25%" },
+            });
+          }
+        } else if (
+          this.selectedGattung.name.trim() === "78RI - Sitzhaltegriffe"
+        ) {
+          // Add details for Gattung 78RI
+          if (this.selectedModel["Topcloser"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Topcloser"],
+              position: { top: "8%", left: "30%" },
+              color: this.getRalColor(this.selectedModel["Topcloser"]),
+            });
+          }
+        } else if (
+          this.selectedGattung.name.trim() === "78RD - Sitzarmlehnen"
+        ) {
+          if (this.selectedModel["Gangseitige klappbare armlehne"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Gangseitige klappbare armlehne"],
+              position: { top: "50%", left: "8%" },
+              color: this.getRalColor(
+                this.selectedModel["Gangseitige klappbare armlehne"]
+              ),
+            });
+          }
+        } else if (
+          this.selectedGattung.name.trim() === "770A - Fahrgastsitz-Rückseite"
+        ) {
+          // Add details for Kunststoff-Fahrgastsitzrückseite
+          if (this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Kunststoff-Fahrgastsitzrückseite"],
+              position: { top: "40%", left: "80%" },
+              color: this.getRalColor(
+                this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]
+              ),
+            });
+          }
         }
-        if (this.selectedModel["mit Schaum Rückenpolster"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["mit Schaum Rückenpolster"],
-            position: { top: "65%", left: "25%" },
-          });
-        }
-        // Add details for Gattung 78RI
-        if (this.selectedModel["Topcloser"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Topcloser"],
-            position: { top: "8%", left: "30%" },
-            color: this.getRalColor(this.selectedModel["Topcloser"]),
-          });
-        }
-        // Add details for Kunststoff-Fahrgastsitzrückseite
-        if (this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Kunststoff-Fahrgastsitzrückseite"],
-            position: { top: "40%", left: "80%" },
-            color: this.getRalColor(
-              this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]
-            ),
-          });
-        }
-        if (this.selectedModel["Gangseitige klappbare armlehne"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Gangseitige klappbare armlehne"],
-            position: { top: "50%", left: "8%" },
-            color: this.getRalColor(
-              this.selectedModel["Gangseitige klappbare armlehne"]
-            ),
-          });
-        }
-        this.imgSrc = "/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
+        this.imgSrc = "../src/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
       } else if (this.selectedMainGroup.name.trim() === "Haltestangen") {
-        // Add details for Haltestangen
-        if (this.selectedModel["Nur Knoten in"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Nur Knoten in"],
-            position: { top: "52%", left: "82%" },
-          });
+        if (
+          this.selectedGattung.name.trim() ===
+          "65A6 - Farbe der Haltestangen und Trennwände"
+        ) {
+          // Add details for Haltestangen
+          if (this.selectedModel["Nur Knoten in"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Nur Knoten in"],
+              position: { top: "52%", left: "82%" },
+            });
+          }
+          if (this.selectedModel["Nur Deckenhaltestangen in"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Nur Deckenhaltestangen in"],
+              position: { top: "20%", left: "50%" },
+            });
+            // Update imgSrc based on selected RAL code
+          }
+          this.imgSrc = "../src/assets/Haltestangen/080CC.jpg";
         }
-        if (this.selectedModel["Nur Deckenhaltestangen in"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Nur Deckenhaltestangen in"],
-            position: { top: "20%", left: "50%" },
-          });
-          // Update imgSrc based on selected RAL code
-        }
-        this.imgSrc = "/assets/Haltestangen/080CC.jpg";
       } else if (
-        this.selectedMainGroup.name.trim() === "Fahrtziealanzeige Heck"
+        this.selectedMainGroup.name.trim() === "Fahrtzielanzeige Heck"
       ) {
-        if (this.selectedModel["Model"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Model"],
-            position: { top: "50%", left: "45%" },
-          });
+        if (this.selectedGattung.name.trim() === "528M") {
+          if (this.selectedModel["Model"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Model"],
+              position: { top: "50%", left: "45%" },
+            });
+          }
+          if (this.selectedModel["Size"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Size"],
+              position: { top: "55%", left: "45%" },
+            });
+          }
+          if (this.selectedModel["Led Color"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Led Color"],
+              position: { top: "60%", left: "45%" },
+            });
+          }
+          if (this.selectedModel["Rearmost"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Rearmost"],
+              position: { top: "65%", left: "45%" },
+            });
+          }
         }
-        if (this.selectedModel["Size"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Size"],
-            position: { top: "55%", left: "45%" },
-          });
-        }
-        if (this.selectedModel["Led Color"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Led Color"],
-            position: { top: "60%", left: "45%" },
-          });
-        }
-        if (this.selectedModel["Rearmost"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Rearmost"],
-            position: { top: "65%", left: "45%" },
-          });
-        }
-        this.imgSrc = "/assets/RareDisplay/image004.png";
+        this.imgSrc = "../src/assets/RareDisplay/image004.png";
       } else if (this.selectedMainGroup.name.trim() === "Camera") {
-        // Add details for Camera
-        if (this.selectedModel["Type"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Type"],
-            position: { top: "20%", left: "50%" },
-          });
-        }
-        if (this.selectedModel["Recorder"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Recorder"],
-            position: { top: "30%", left: "50%" },
-          });
-        }
-        if (this.selectedModel["Length"]) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Length"],
-            position: { top: "40%", left: "50%" },
-          });
+        if (
+          this.selectedGattung.name.trim() ===
+          "359F - Überwachungsanlage Fahrgastraum"
+        ) {
+          if (this.selectedModel["Type"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Type"],
+              position: { top: "20%", left: "50%" },
+            });
+          }
+          if (this.selectedModel["Recorder"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Recorder"],
+              position: { top: "30%", left: "50%" },
+            });
+          }
+          if (this.selectedModel["Length"]) {
+            this.accumulatedDetails.push({
+              text: this.selectedModel["Length"],
+              position: { top: "40%", left: "50%" },
+            });
+          }
+          // Add details for Camera
+          if (this.selectedType?.name?.trim() === "L4C") {
+            this.imgSrc = "../src/static/12C-2T.jpg";
+            this.addCameraIcons("2T");
+          } else if (this.selectedType?.name?.trim() === "LE") {
+            this.imgSrc = "../src/static/18C-3T.jpg";
+            this.addCameraIcons("3T");
+          } else if (this.selectedType?.name?.trim() === "Intercity") {
+            this.imgSrc = "../src/static/19C-4T.jpg";
+            this.addCameraIcons("4T");
+          }
         }
         // Update imgSrc based on selected Type
-        if (this.selectedType?.name?.trim() === "L4C") {
-          this.imgSrc = "/static/12C-2T.jpg";
-          this.addCameraIcons("2T");
-        } else if (this.selectedType?.name?.trim() === "LE") {
-          this.imgSrc = "/static/18C-3T.jpg";
-          this.addCameraIcons("3T");
-        } else if (this.selectedType?.name?.trim() === "Intercity") {
-          this.imgSrc = "/static/19C-4T.jpg";
-          this.addCameraIcons("4T");
-        }
       } else if (
-        this.selectedMainGroup.name?.trim() ===
+        this.selectedMainGroup.name.trim() ===
         "Sondernutzungsfläche rechts vor Tür 2"
       ) {
         if (
-          this.selectedModel[
-            "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-          ] === "Armlehne mit halter ohne Schloss"
+          this.selectedGattung.name.trim() ===
+          "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
         ) {
-          this.accumulatedDetails.push({
-            text: this.selectedModel["Armlehne mit halter ohne Schloss"],
-            position: { top: "40%", left: "40%" },
-          });
+          // if (this.selectedModel["Anlehnplatte/Klappsitze vor SNF vor Tür 2"]) {
+          //   this.accumulatedDetails.push({
+          //     text: this.selectedModel[
+          //       "Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+          //     ],
+          //     position: { top: "40%", left: "40%" },
+          //   });
+          // }
+          // //this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
+          // this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
         }
-        this.imgSrc = "/assets/gegenüber/mit halter ohne schloss.png";
-        if (selectedOption === "Mit klappbarer Armlehne auf dem Bügel") {
-          this.accumulatedDetails.push({
-            text: "Mit klappbarer Armlehne auf dem Bügel",
-            position: { top: "40%", left: "40%" },
-          });
-          this.imgSrc = "/assets/gegenüber/klappbare armlehne 2.png";
-        }
-        if (selectedOption === "Ausführung Trennwand mit Glasscheibe") {
-          this.accumulatedDetails.push({
-            text: "Ausführung Trennwand mit Glasscheibe",
-            position: { top: "40%", left: "40%" },
-          });
-          this.imgSrc = "/assets/gegenüber/glasscibe.png";
+      } else if (
+        this.selectedMainGroup.name.trim() ===
+        "Sondernutzungsfläche gegenüber Tür 2"
+      ) {
+        if (this.selectedGattung.name.trim() === "680A - SNF gegenüber Tür 2") {
+          if (
+            this.selectedModel["680A - SNF gegenüber Tür 2"] ===
+            "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm."
+          ) {
+            this.accumulatedDetails.push({
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../src/assets/gegenüber/Resim1.png";
+          }
+          if (
+            this.selectedModel["680A - SNF gegenüber Tür 2"] ===
+            "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
+          ) {
+            this.accumulatedDetails.push({
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../src/assets/gegenüber/Resim2.png";
+          }
+          if (
+            this.selectedModel["680A - SNF gegenüber Tür 2"] ===
+            "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
+          ) {
+            this.accumulatedDetails.push({
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../src/assets/gegenüber/Resim3.png";
+          }
         }
       }
-      // } else if (
-      //   this.selectedMainGroup.Name === "Sondernutzungsfläche rechts vor Tür 2"
-      // ) {
-      //   if (
-      //     this.selectedGattung.Name ===
-      //     "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-      //   ) {
-      //     const selectedOption =
-      //       this.selectedModel[
-      //         "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-      //       ];
-      //     if (selectedOption === "Armlehne mit halter ohne Schloss") {
-      //       this.accumulatedDetails.push({
-      //         text: "Armlehne mit halter ohne Schloss",
-      //         position: { top: "40%", left: "40%" },
-      //       });
-      //       this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
-      //     } else if (
-      //       selectedOption === "Mit klappbarer Armlehne auf dem Bügel"
-      //     ) {
-      //       this.accumulatedDetails.push({
-      //         text: "Mit klappbarer Armlehne auf dem Bügel",
-      //         position: { top: "40%", left: "40%" },
-      //       });
-      //       this.imgSrc = "../src/assets/gegenüber/klappbare armlehne 2.png";
-      //     } else if (
-      //       selectedOption === "Ausführung Trennwand mit Glasscheibe"
-      //     ) {
-      //       this.accumulatedDetails.push({
-      //         text: "Ausführung Trennwand mit Glasscheibe",
-      //         position: { top: "40%", left: "40%" },
-      //       });
-      //       this.imgSrc = "../src/assets/gegenüber/glasscibe.png";
-      //     }
-      //   }
 
       this.selectedDetails = [...this.accumulatedDetails];
       this.showDetailsDialog = true;
       console.log("Dialog should now be open"); // Debug log
     },
+
     addCameraIcons(suffix) {
       for (let i = 1; i <= 6; i++) {
         const cameraKey = `cam${i}_${suffix}`;
