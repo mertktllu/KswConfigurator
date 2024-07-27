@@ -1434,6 +1434,11 @@
               <strong>Main Group:</strong> {{ selectedMainGroup?.name?.trim() }}
             </p>
             <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim() }}</p>
+            <template v-if="selectedMainGroup?.name?.trim() === 'Camera'">
+              <p><strong>Type:</strong> {{ selectedModel.Type }}</p>
+              <p><strong>Recorder:</strong> {{ selectedModel.Recorder }}</p>
+              <p><strong>Length:</strong> {{ selectedModel.Length }}</p>
+            </template>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
               <div
                 v-for="(detail, index) in selectedDetails"
