@@ -1197,7 +1197,6 @@
                     subProduct.name?.trim() === 'STER 8 MS'
                   "
                   :items="subProduct.options"
-                  D
                   v-model="selectedModel[subProduct.name?.trim()]"
                   :label="$t('selectOption')"
                   :disabled="isDisabled(subProduct.name?.trim())"
@@ -1938,7 +1937,7 @@ export default {
 
     onMainGroupChange() {
       console.log("Main Group Changed:", this.selectedMainGroup);
-      //this.selectedGattung = null; // Gattung seçimlerini sıfırla
+      this.selectedGattung = null; // Gattung seçimlerini sıfırla
       //this.selectedModel = {}; // Modelleri de sıfırla
       if (this.selectedGattung) {
         this.selectedGattung = {
