@@ -533,7 +533,9 @@
               </v-row>
               <v-row v-if="showButtons">
                 <v-row
-                  v-if="selectedGattung?.Name === '78RI - Sitzhaltegriffe'"
+                  v-if="
+                    selectedGattung?.name?.trim() === '78RI - Sitzhaltegriffe'
+                  "
                 >
                   <v-btn
                     icon
@@ -553,7 +555,9 @@
                 </v-row>
 
                 <v-row
-                  v-else-if="selectedGattung?.Name === '78RD - Sitzarmlehnen'"
+                  v-else-if="
+                    selectedGattung?.name?.trim() === '78RD - Sitzarmlehnen'
+                  "
                 >
                   <v-btn
                     icon
@@ -573,7 +577,9 @@
                 </v-row>
 
                 <v-row
-                  v-else-if="selectedGattung?.Name === '704A - Bestuhlung'"
+                  v-else-if="
+                    selectedGattung?.name?.trim() === '704A - Bestuhlung'
+                  "
                 >
                   <v-btn
                     icon
@@ -610,7 +616,8 @@
 
                 <v-row
                   v-else-if="
-                    selectedGattung?.Name === '770A - Fahrgastsitz-Rückseite'
+                    selectedGattung?.name?.trim() ===
+                    '770A - Fahrgastsitz-Rückseite'
                   "
                 >
                   <v-btn
