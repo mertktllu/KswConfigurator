@@ -1287,7 +1287,7 @@
                   v-if="shouldShowColorSquare(subProduct.name?.trim())"
                   :style="{
                     backgroundColor: getRalColor(
-                      selectedModel[subProduct.name?.trim]
+                      selectedModel[subProduct.name?.trim()]
                     ),
                   }"
                 ></div>
@@ -2370,7 +2370,15 @@ export default {
             });
             // Update imgSrc based on selected RAL code
           }
-          this.imgSrc = "../assets/Haltestangen/080CC.jpg";
+          if (this.selectedModel["Nur Deckenhaltestangen in"] === "RAL 1003") {
+            this.imgSrc = "../assets/Haltestangen/1003.jpg";
+          } else if (
+            this.selectedModel["Nur Deckenhaltestangen in"] === "RAL 3000"
+          ) {
+            this.imgSrc = "../assets/Haltestangen/3000.jpg";
+          } else {
+            this.imgSrc = "../assets/Haltestangen/080CC.jpg";
+          }
         }
       } else if (
         this.selectedMainGroup?.name?.trim() === "Fahrtziealanzeige Heck"
