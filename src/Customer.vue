@@ -39,6 +39,7 @@
     </v-row>
 
     <div>
+      <h1>aaaaaaaaaa</h1>
       <v-row v-if="!selectedType" class="vehicle-container">
         <v-col cols="12" class="text-center">
           <h1>{{ $t("title") }}</h1>
@@ -888,7 +889,7 @@
               >
                 <v-card>
                   <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
-                    Nur Knotenssss
+                    Nur Knoten
                   </v-card-title>
                   <v-container>
                     <v-row justify="center">
