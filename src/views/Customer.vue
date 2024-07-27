@@ -1438,6 +1438,9 @@
               <p><strong>Type:</strong> {{ selectedModel.Type }}</p>
               <p><strong>Recorder:</strong> {{ selectedModel.Recorder }}</p>
               <p><strong>Length:</strong> {{ selectedModel.Length }}</p>
+              <div v-for="(enabled, key) in cameraEnabled" :key="key">
+                <p>{{ key }}: {{ enabled ? "Enabled" : "Disabled" }}</p>
+              </div>
             </template>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
               <div
@@ -1545,6 +1548,12 @@ export default {
         default:
           return "";
       }
+    },
+    cameraDetails() {
+      return this.cameraEnabled.map((enabled, index) => ({
+        id: index + 1,
+        enabled,
+      }));
     },
 
     hasSelections() {
@@ -1813,8 +1822,8 @@ export default {
     onImageError() {
       console.log("Error loading image.");
     },
-    toggleCamera(cameraId) {
-      this.cameraEnabled[cameraId] = !this.cameraEnabled[cameraId]; // Toggle camera enabled/disabled state
+    toggleCamera(key) {
+      this.$set(this.cameraEnabled, key, !this.cameraEnabled[key]);
     },
     rotateCamera(cameraId) {
       if (this.cameraEnabled[cameraId]) {
