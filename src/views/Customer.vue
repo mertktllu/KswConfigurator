@@ -511,7 +511,7 @@
             <!-- Bestuhlung -->
             <v-img
               v-else-if="selectedMainGroup?.name?.trim() === 'Bestuhlung'"
-              src="https://mandb.s3.eu-north-1.amazonaws.com/normal.png"
+              :src="chairImage"
               style="width: 120%; height: auto; display: block; bottom: auto"
             >
               <v-row>
@@ -1760,7 +1760,7 @@ export default {
       },
 
       showButtons: true,
-      chairImage: "https://mandb.s3.eu-north-1.amazonaws.com/normal.png",
+      chairImage: "/assets/Bestuhlung/normal.bmp",
       chairBackImage: "/assets/Bestuhlung/normal back.bmp",
       hal_customimg: "/assets/Haltestangen/080CC.jpg",
       hal_3000img: "/assets/Haltestangen/3000.jpg",
