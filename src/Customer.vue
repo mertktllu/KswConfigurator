@@ -1974,8 +1974,8 @@ export default {
     toggleChair() {
       this.showButtons = !this.showButtons;
       this.chairImage = this.showButtons
-        ? "../src/assets/Bestuhlung/normal.bmp"
-        : "../src/assets/Bestuhlung/normal back.bmp";
+        ? "../public/assets/Bestuhlung/normal.bmp"
+        : "../public/assets/Bestuhlung/normal back.bmp";
     },
 
     openVehicleDialog(type) {
