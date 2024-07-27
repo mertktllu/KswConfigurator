@@ -2351,7 +2351,7 @@ export default {
             });
           }
         }
-        this.imgSrc = "../src/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
+        this.imgSrc = "../assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
       } else if (this.selectedMainGroup?.name?.trim() === "Haltestangen") {
         if (
           this.selectedGattung?.name?.trim() ===
@@ -2371,7 +2371,7 @@ export default {
             });
             // Update imgSrc based on selected RAL code
           }
-          this.imgSrc = "../src/assets/Haltestangen/080CC.jpg";
+          this.imgSrc = "../assets/Haltestangen/080CC.jpg";
         }
       } else if (
         this.selectedMainGroup?.name?.trim() === "Fahrtzielanzeige Heck"
@@ -2402,7 +2402,7 @@ export default {
             });
           }
         }
-        this.imgSrc = "../src/assets/RareDisplay/image004.png";
+        this.imgSrc = "../assets/RareDisplay/image004.png";
       } else if (this.selectedMainGroup?.name?.trim() === "Camera") {
         if (
           this.selectedGattung?.name?.trim() ===
@@ -2472,7 +2472,7 @@ export default {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-            this.imgSrc = "../src/assets/gegenüber/Resim1.png";
+            this.imgSrc = "../assets/gegenüber/Resim1.png";
           }
           if (
             this.selectedModel["680A - SNF gegenüber Tür 2"] ===
@@ -2481,7 +2481,7 @@ export default {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-            this.imgSrc = "../src/assets/gegenüber/Resim2.png";
+            this.imgSrc = "../assets/gegenüber/Resim2.png";
           }
           if (
             this.selectedModel["680A - SNF gegenüber Tür 2"] ===
@@ -2490,7 +2490,7 @@ export default {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-            this.imgSrc = "../src/assets/gegenüber/Resim3.png";
+            this.imgSrc = "../assets/gegenüber/Resim3.png";
           }
         }
       }
