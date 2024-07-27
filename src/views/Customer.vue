@@ -2403,9 +2403,9 @@ export default {
           }
         }
         this.imgSrc = "../src/assets/RareDisplay/image004.png";
-      } else if (this.selectedMainGroup.name.trim() === "Camera") {
+      } else if (this.selectedMainGroup?.name?.trim() === "Camera") {
         if (
-          this.selectedGattung.name.trim() ===
+          this.selectedGattung?.name?.trim() ===
           "359F - Überwachungsanlage Fahrgastraum"
         ) {
           if (this.selectedModel["Type"]) {
@@ -2428,13 +2428,13 @@ export default {
           }
           // Add details for Camera
           if (this.selectedType?.name?.trim() === "L4C") {
-            this.imgSrc = "../src/static/12C-2T.jpg";
+            this.imgSrc = "../static/12C-2T.jpg";
             this.addCameraIcons("2T");
           } else if (this.selectedType?.name?.trim() === "LE") {
-            this.imgSrc = "../src/static/18C-3T.jpg";
+            this.imgSrc = "../static/18C-3T.jpg";
             this.addCameraIcons("3T");
           } else if (this.selectedType?.name?.trim() === "Intercity") {
-            this.imgSrc = "../src/static/19C-4T.jpg";
+            this.imgSrc = "../static/19C-4T.jpg";
             this.addCameraIcons("4T");
           }
         }
