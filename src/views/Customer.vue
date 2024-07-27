@@ -494,7 +494,7 @@
             <!-- rare -->
             <v-img
               v-else-if="
-                selectedMainGroup?.name?.trim() === '528M (Fahrtzielanzeige Heck)'
+                selectedMainGroup?.name?.trim() === 'Fahrtziealanzeige Heck'
               "
               :src="RareImage"
               contain
@@ -1226,7 +1226,7 @@ switch (this.selectedType.name?.trim()) {
         alt: "",
       };
 
-      if (this.selectedMainGroup === "528M (Rear Target Display)") {
+      if (this.selectedMainGroup === "Fahrtziealanzeige Heck") {
         switch (this.selectedModel["Model"]) {
           case "BUSTEC":
             imageDetails.showImage = true;
@@ -2010,7 +2010,7 @@ RareImage: "/assets/RareDisplay/image004.png",
         }
         this.imgSrc = "/assets/Haltestangen/080CC.jpg";
       } else if (
-        this.selectedMainGroup.name.trim() === "528M (Fahrtzielanzeige Heck)"
+        this.selectedMainGroup.name.trim() === "Fahrtziealanzeige Heck"
       ) {
         if (this.selectedModel["Model"]) {
           this.accumulatedDetails.push({
