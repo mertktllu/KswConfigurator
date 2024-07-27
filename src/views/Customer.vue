@@ -1937,7 +1937,7 @@ export default {
 
     onMainGroupChange() {
       console.log("Main Group Changed:", this.selectedMainGroup);
-      this.selectedGattung = null; // Gattung seçimlerini sıfırla
+      //this.selectedGattung = null; // Gattung seçimlerini sıfırla
       //this.selectedModel = {}; // Modelleri de sıfırla
       if (this.selectedGattung) {
         this.selectedGattung = {
@@ -1970,7 +1970,7 @@ export default {
     onMainGroupChange(newVal) {
       console.log("Main Group Changed:", newVal);
       this.updateAvailableSubProducts();
-
+      this.selectedGattung = null;
       // Görsel güncellemesi
       if (newVal.name.includes("Haltestangen")) {
         this.selectedImage = this.hal_customimg; // Haltestangen için görsel
