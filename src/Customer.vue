@@ -888,7 +888,7 @@
               >
                 <v-card>
                   <v-card-title class="text-h5 grey lighten-2 py-3 text-center">
-                    Nur Knoten
+                    Nur Knotensdsss
                   </v-card-title>
                   <v-container>
                     <v-row justify="center">
