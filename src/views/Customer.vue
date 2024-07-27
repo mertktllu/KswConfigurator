@@ -2412,19 +2412,19 @@ export default {
         ) {
           if (this.selectedModel["Type"]) {
             this.accumulatedDetails.push({
-              text: this.selectedModel["Type"],
+              text: `Type: ${this.selectedModel["Type"]}`,
               position: { top: "20%", left: "50%" },
             });
           }
           if (this.selectedModel["Recorder"]) {
             this.accumulatedDetails.push({
-              text: this.selectedModel["Recorder"],
+              text: `Recorder: ${this.selectedModel["Recorder"]}`,
               position: { top: "30%", left: "50%" },
             });
           }
           if (this.selectedModel["Length"]) {
             this.accumulatedDetails.push({
-              text: this.selectedModel["Length"],
+              text: `Length: ${this.selectedModel["Length"]}`,
               position: { top: "40%", left: "50%" },
             });
           }
