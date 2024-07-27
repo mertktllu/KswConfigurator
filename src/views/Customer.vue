@@ -2299,8 +2299,8 @@ export default {
       // Reset accumulated details
       this.accumulatedDetails = [];
 
-      if (this.selectedMainGroup.name.trim() === "Bestuhlung") {
-        if (this.selectedGattung.name.trim() === "704A - Bestuhlung") {
+      if (this.selectedMainGroup?.name?.trim() === "Bestuhlung") {
+        if (this.selectedGattung?.name?.trim() === "704A - Bestuhlung") {
           // Add existing selected details
           if (this.selectedModel["mit Schaum Sitzpolster"]) {
             this.accumulatedDetails.push({
@@ -2315,7 +2315,7 @@ export default {
             });
           }
         } else if (
-          this.selectedGattung.name.trim() === "78RI - Sitzhaltegriffe"
+          this.selectedGattung?.name?.trim() === "78RI - Sitzhaltegriffe"
         ) {
           // Add details for Gattung 78RI
           if (this.selectedModel["Topcloser"]) {
@@ -2326,7 +2326,7 @@ export default {
             });
           }
         } else if (
-          this.selectedGattung.name.trim() === "78RD - Sitzarmlehnen"
+          this.selectedGattung?.name?.trim() === "78RD - Sitzarmlehnen"
         ) {
           if (this.selectedModel["Gangseitige klappbare armlehne"]) {
             this.accumulatedDetails.push({
@@ -2338,7 +2338,7 @@ export default {
             });
           }
         } else if (
-          this.selectedGattung.name.trim() === "770A - Fahrgastsitz-Rückseite"
+          this.selectedGattung?.name?.trim() === "770A - Fahrgastsitz-Rückseite"
         ) {
           // Add details for Kunststoff-Fahrgastsitzrückseite
           if (this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]) {
@@ -2352,9 +2352,9 @@ export default {
           }
         }
         this.imgSrc = "../src/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
-      } else if (this.selectedMainGroup.name.trim() === "Haltestangen") {
+      } else if (this.selectedMainGroup?.name?.trim() === "Haltestangen") {
         if (
-          this.selectedGattung.name.trim() ===
+          this.selectedGattung?.name?.trim() ===
           "65A6 - Farbe der Haltestangen und Trennwände"
         ) {
           // Add details for Haltestangen
@@ -2374,9 +2374,9 @@ export default {
           this.imgSrc = "../src/assets/Haltestangen/080CC.jpg";
         }
       } else if (
-        this.selectedMainGroup.name.trim() === "Fahrtzielanzeige Heck"
+        this.selectedMainGroup?.name?.trim() === "Fahrtzielanzeige Heck"
       ) {
-        if (this.selectedGattung.name.trim() === "528M") {
+        if (this.selectedGattung?.name?.trim() === "528M") {
           if (this.selectedModel["Model"]) {
             this.accumulatedDetails.push({
               text: this.selectedModel["Model"],
@@ -2440,7 +2440,7 @@ export default {
         }
         // Update imgSrc based on selected Type
       } else if (
-        this.selectedMainGroup.name.trim() ===
+        this.selectedMainGroup?.name?.trim() ===
         "Sondernutzungsfläche rechts vor Tür 2"
       ) {
         if (
@@ -2459,10 +2459,12 @@ export default {
           // this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
         }
       } else if (
-        this.selectedMainGroup.name.trim() ===
+        this.selectedMainGroup?.name?.trim() ===
         "Sondernutzungsfläche gegenüber Tür 2"
       ) {
-        if (this.selectedGattung.name.trim() === "680A - SNF gegenüber Tür 2") {
+        if (
+          this.selectedGattung?.name?.trim() === "680A - SNF gegenüber Tür 2"
+        ) {
           if (
             this.selectedModel["680A - SNF gegenüber Tür 2"] ===
             "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm."
