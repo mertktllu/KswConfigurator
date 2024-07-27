@@ -689,24 +689,23 @@ export default {
         alert("Error sending request to add product");
       }
     },
-    confirmAction(requestid, actionType) {
-      this.requestid = requestid;
+    confirmAction(requestID, actionType) {
+      this.requestId = requestID;
       this.actionType = actionType;
       this.dialog = true;
     },
     async executeAction() {
       this.dialog = false;
       if (this.actionType === "approve") {
-        await this.approveRequest(this.requestid);
+        await this.approveRequest(this.requestId);
       } else if (this.actionType === "deny") {
-        await this.denyRequest(this.requestid);
+        await this.denyRequest(this.requestId);
       } else if (this.actionType === "addOption") {
         await this.submitAddOption();
       }
     },
 
-    
-   
+ 
     async submitAddMainGroup() {
       try {
         const details = this.addMainGroup;
@@ -836,6 +835,7 @@ export default {
             RequestStatus: false,
             RequestDate: new Date(),
             ActionType: actionType, // İşlem tipi
+            
           }
         );
         if (response.status === 201) {
@@ -876,6 +876,7 @@ export default {
         }
       } catch (error) {
         console.error("Error sending request to edit gattung:", error);
+        console.log("123123");
         alert("Error sending request to edit gattung");
       }
     },
