@@ -2569,7 +2569,7 @@ export default {
             });
             this.imgSrc = "../assets/gegenüber/Resim3.png";
           }
-        } else if (
+        }  if (
           this.selectedGattung?.name?.trim() ==="680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
         ) {
           if (
@@ -2587,7 +2587,6 @@ export default {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-
             this.imgSrc ="../assets/gegenüber/klappbare armlehne 2.png";
           }
           if (
