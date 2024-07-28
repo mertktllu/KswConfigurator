@@ -2529,9 +2529,9 @@ export default {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-            
+            this.imgSrc = "../assets/gegenüber/glasscibe.png";
           }
-          this.imgSrc = "../assets/gegenüber/glasscibe.png";
+          
         }
       } else if (
         this.selectedMainGroup?.name?.trim() ===
