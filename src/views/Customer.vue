@@ -1445,6 +1445,15 @@
                 <strong>Length:</strong> {{ selectedModel.Length }}
               </p>
             </template>
+            <template v-if="selectedMainGroup?.name?.trim() === 'Bestuhlung'">
+              <p v-if="selectedModel['Alle Sitze ohne Logo/Branding.']">
+                <strong>Alle Sitze ohne Logo/Branding.:</strong>
+                {{ selectedModel["Alle Sitze ohne Logo/Branding."] }}
+              </p>
+              <p v-if="selectedModel['STER 8 MS']">
+                <strong>STER 8 MS:</strong> {{ selectedModel["STER 8 MS"] }}
+              </p>
+            </template>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
               <div
                 v-for="(detail, index) in selectedDetails"
