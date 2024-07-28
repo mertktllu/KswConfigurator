@@ -2513,7 +2513,8 @@ export default {
         "Sondernutzungsfläche gegenüber Tür 2"
       ) {
         if (
-          this.selectedGattung?.name?.trim() === "680A - SNF gegenüber Tür 2"
+          this.selectedGattung?.name?.trim() ===
+          "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
         ) {
           if (
             this.selectedModel["680A - SNF gegenüber Tür 2"] ===
@@ -2541,6 +2542,40 @@ export default {
               position: { top: "40%", left: "40%" },
             });
             this.imgSrc = "../assets/gegenüber/Resim3.png";
+          }
+        } else if (
+          this.selectedGattung?.name_.trim() ===
+          "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
+        ) {
+          if (
+            this.selectedModel[
+              "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
+            ] === "Armlehne mit halter ohne Schloss"
+          ) {
+            this.accumulatedDetails.push({
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
+          }
+          if (
+            this.selectedModel[
+              "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
+            ] === "Mit klappbarer Armlehne auf dem Bügel"
+          ) {
+            this.accumulatedDetails.push({
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
+          }
+          if (
+            this.selectedModel[
+              "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
+            ] === "Ausführung Trennwand mit Glasscheibe"
+          ) {
+            this.accumulatedDetails.push({
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../assets/gegenüber/glasscibe.png";
           }
         }
       }
