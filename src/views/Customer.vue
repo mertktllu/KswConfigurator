@@ -1446,21 +1446,33 @@
               </p>
             </template>
             <template v-if="selectedMainGroup?.name?.trim() === 'Bestuhlung'">
-              <p v-if="selectedModel['Alle Sitze ohne Logo/Branding.']">
-                <strong>Logo/Branding:</strong>
-                {{ selectedModel["Alle Sitze ohne Logo/Branding."] }}
-              </p>
-              <p v-if="selectedModel['STER 8 MS']">
-                <strong>STER 8 MS:</strong> {{ selectedModel["STER 8 MS"] }}
-              </p>
-              <p v-if="selectedModel['Topcloser für EM']">
-                <strong>Topcloser für EM:</strong>
-                {{ selectedModel["Topcloser für EM"] }}
-              </p>
-              <p v-if="selectedModel['Gangseitige fixiert bügel color']">
-                <strong>Gangseitige fixiert bügel color:</strong
-                >{{ selectedModel["Gangseitige fixiert bügel color"] }}
-              </p>
+              <div v-if="selectedGattung?.name?.trim() === '704A - Bestuhlung'">
+                <p v-if="selectedModel['Alle Sitze ohne Logo/Branding.']">
+                  <strong>Logo/Branding:</strong>
+                  {{ selectedModel["Alle Sitze ohne Logo/Branding."] }}
+                </p>
+                <p v-if="selectedModel['STER 8 MS']">
+                  <strong>STER 8 MS:</strong> {{ selectedModel["STER 8 MS"] }}
+                </p>
+              </div>
+              <div
+                v-if="
+                  selectedGattung?.name?.trim() === '78RI - Sitzhaltegriffe'
+                "
+              >
+                <p v-if="selectedModel['Topcloser für EM']">
+                  <strong>Topcloser für EM:</strong>
+                  {{ selectedModel["Topcloser für EM"] }}
+                </p>
+              </div>
+              <div
+                v-if="selectedGattung?.name?.trim() === '78RD - Sitzarmlehnen'"
+              >
+                <p v-if="selectedModel['Gangseitige fixiert bügel color']">
+                  <strong>Gangseitige fixiert bügel color:</strong
+                  >{{ selectedModel["Gangseitige fixiert bügel color"] }}
+                </p>
+              </div>
             </template>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
               <div
