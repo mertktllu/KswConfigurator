@@ -136,19 +136,97 @@
             >
               <g>
                 <svg
-                  v-for="(rotation, key) in cameraRotations"
-                  :key="key"
                   :style="{
-                    transform: `rotate(${rotation}deg)`,
-                    opacity: cameraEnabled[key] ? 1 : 0.3,
+                    transform: `rotate(${cameraRotations.cam1_2T}deg)`,
                   }"
-                  :class="key"
+                  class="cam1_2T"
                   width="48"
                   height="29"
                   viewBox="0 0 48 29"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  @click="rotateCamera(key)"
+                  @click="rotateCamera('cam1_2T')"
+                  :class="{ disabled: !cameraEnabled.cam1_2T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam2_2T}deg)`,
+                  }"
+                  class="cam2_2T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam2_2T')"
+                  :class="{ disabled: !cameraEnabled.cam2_2T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam3_2T}deg)`,
+                  }"
+                  class="cam3_2T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam3_2T')"
+                  :class="{ disabled: !cameraEnabled.cam3_2T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam4_2T}deg)`,
+                  }"
+                  class="cam4_2T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam4_2T')"
+                  :class="{ disabled: !cameraEnabled.cam4_2T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam5_2T}deg)`,
+                  }"
+                  class="cam5_2T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam5_2T')"
+                  :class="{ disabled: !cameraEnabled.cam5_2T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -169,19 +247,116 @@
             >
               <g>
                 <svg
-                  v-for="(rotation, key) in cameraRotations"
-                  :key="key"
                   :style="{
-                    transform: `rotate(${rotation}deg)`,
-                    opacity: cameraEnabled[key] ? 1 : 0.3,
+                    transform: `rotate(${cameraRotations.cam1_3T}deg)`,
                   }"
-                  :class="key"
+                  class="cam1_3T"
                   width="48"
                   height="29"
                   viewBox="0 0 48 29"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  @click="rotateCamera(key)"
+                  @click="rotateCamera('cam1_3T')"
+                  :class="{ disabled: !cameraEnabled.cam1_3T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam2_3T}deg)`,
+                  }"
+                  class="cam2_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam2_3T')"
+                  :class="{ disabled: !cameraEnabled.cam2_3T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam3_3T}deg)`,
+                  }"
+                  class="cam3_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam3_3T')"
+                  :class="{ disabled: !cameraEnabled.cam3_3T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam4_3T}deg)`,
+                  }"
+                  class="cam4_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam4_3T')"
+                  :class="{ disabled: !cameraEnabled.cam4_3T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam5_3T}deg)`,
+                  }"
+                  class="cam5_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam5_3T')"
+                  :class="{ disabled: !cameraEnabled.cam5_3T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam6_3T}deg)`,
+                  }"
+                  class="cam6_3T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam6_3T')"
+                  :class="{ disabled: !cameraEnabled.cam6_3T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -191,7 +366,6 @@
                 </svg>
               </g>
             </v-img>
-
             <v-img
               v-else-if="
                 selectedType?.name?.trim() === 'Intercity' &&
@@ -202,19 +376,116 @@
             >
               <g>
                 <svg
-                  v-for="(rotation, key) in cameraRotations"
-                  :key="key"
                   :style="{
-                    transform: `rotate(${rotation}deg)`,
-                    opacity: cameraEnabled[key] ? 1 : 0.3,
+                    transform: `rotate(${cameraRotations.cam1_4T}deg)`,
                   }"
-                  :class="key"
+                  class="cam1_4T"
                   width="48"
                   height="29"
                   viewBox="0 0 48 29"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  @click="rotateCamera(key)"
+                  @click="rotateCamera('cam1_4T')"
+                  :class="{ disabled: !cameraEnabled.cam1_4T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam2_4T}deg)`,
+                  }"
+                  class="cam2_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam2_4T')"
+                  :class="{ disabled: !cameraEnabled.cam2_4T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam3_4T}deg)`,
+                  }"
+                  class="cam3_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam3_4T')"
+                  :class="{ disabled: !cameraEnabled.cam3_4T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam4_4T}deg)`,
+                  }"
+                  class="cam4_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam4_4T')"
+                  :class="{ disabled: !cameraEnabled.cam4_4T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam5_4T}deg)`,
+                  }"
+                  class="cam5_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam5_4T')"
+                  :class="{ disabled: !cameraEnabled.cam5_4T }"
+                >
+                  <path
+                    d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
+                    fill="#6887F5"
+                  />
+                  <rect width="29" height="29" rx="3" fill="#6887F5" />
+                </svg>
+                <svg
+                  :style="{
+                    transform: `rotate(${cameraRotations.cam6_4T}deg)`,
+                  }"
+                  class="cam6_4T"
+                  width="48"
+                  height="29"
+                  viewBox="0 0 48 29"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  @click="rotateCamera('cam6_4T')"
+                  :class="{ disabled: !cameraEnabled.cam6_4T }"
                 >
                   <path
                     d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
@@ -2280,23 +2551,16 @@ export default {
     },
 
     addCameraIcons(suffix) {
-      const cameras = [
-        { id: `cam1_${suffix}`, position: { top: "20%", left: "20%" } },
-        { id: `cam2_${suffix}`, position: { top: "30%", left: "30%" } },
-        { id: `cam3_${suffix}`, position: { top: "40%", left: "40%" } },
-        { id: `cam4_${suffix}`, position: { top: "50%", left: "50%" } },
-        { id: `cam5_${suffix}`, position: { top: "60%", left: "60%" } },
-        { id: `cam6_${suffix}`, position: { top: "70%", left: "70%" } },
-      ];
-
-      cameras.forEach((camera) => {
-        this.accumulatedDetails.push({
-          text: camera.id,
-          icon: true,
-          enabled: this.cameraEnabled[camera.id],
-          position: camera.position,
-        });
-      });
+      for (let i = 1; i <= 6; i++) {
+        const cameraKey = `cam${i}_${suffix}`;
+        if (this.cameraRotations[cameraKey] !== undefined) {
+          this.accumulatedDetails.push({
+            icon: true,
+            position: this.getCameraPosition(cameraKey),
+            rotation: (this.cameraRotations[cameraKey] + 360) % 360,
+          });
+        }
+      }
     },
 
     getCameraPosition(cameraKey) {
