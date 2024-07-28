@@ -2507,8 +2507,9 @@ export default {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-            this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
+            
           }
+          this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
           if (
             this.selectedModel[
               "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
