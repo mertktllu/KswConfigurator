@@ -2432,25 +2432,25 @@ export default {
         if (this.selectedGattung?.name?.trim() === "528M") {
           if (this.selectedModel["Model"]) {
             this.accumulatedDetails.push({
-              text: this.selectedModel["Model"],
+              text: `Model: ${this.selectedModel["Model"]}`,
               position: { top: "50%", left: "45%" },
             });
           }
           if (this.selectedModel["Size"]) {
             this.accumulatedDetails.push({
-              text: this.selectedModel["Size"],
+              text: `Size: ${this.selectedModel["Size"]}`,
               position: { top: "55%", left: "45%" },
             });
           }
           if (this.selectedModel["Led Color"]) {
             this.accumulatedDetails.push({
-              text: this.selectedModel["Led Color"],
+              text: `Led Color: ${this.selectedModel["Led Color"]}`,
               position: { top: "60%", left: "45%" },
             });
           }
           if (this.selectedModel["Rearmost"]) {
             this.accumulatedDetails.push({
-              text: this.selectedModel["Rearmost"],
+              text: `Rearmost: ${this.selectedModel["Rearmost"]}`,
               position: { top: "65%", left: "45%" },
             });
           }
