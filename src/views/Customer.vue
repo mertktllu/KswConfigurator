@@ -2580,7 +2580,7 @@ export default {
             });
             this.imgSrc ="../assets/gegenüber/mit halter ohne schloss.png";
           }
-         else if (
+          if (
             this.selectedModel[
               "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2" ] === "Mit klappbarer Armlehne auf dem Bügel"
           ) {
@@ -2590,7 +2590,7 @@ export default {
 
             this.imgSrc ="../assets/gegenüber/klappbare armlehne 2.png";
           }
-         else if (
+          if (
             this.selectedModel["680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"] === "Ausführung Trennwand mit Glasscheibe"
           ) {
             this.accumulatedDetails.push({
