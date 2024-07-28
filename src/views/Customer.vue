@@ -1707,8 +1707,7 @@ export default {
 
   data() {
     return {
-    
-      updateRechtsImage:null,
+      selectedGegenuberOption: null,
       selectedRechtsOption: null,
       selectedType: null,
       selectedRalCode: null,
