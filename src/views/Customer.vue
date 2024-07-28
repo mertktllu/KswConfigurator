@@ -2502,42 +2502,41 @@ export default {
           if (
             this.selectedModel[
               "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-            ] === "Armlehne mit halter ohne Schloss"
+            ] ==="Armlehne mit halter ohne Schloss"
           )
           {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
               
             });
-            this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
+            this.imgSrc ="../assets/gegenüber/mit halter ohne schloss.png";
           }
          
           if (
             this.selectedModel[
               "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-            ] === "Mit klappbarer Armlehne auf dem Bügel"
+            ] ==="Mit klappbarer Armlehne auf dem Bügel"
           ) {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-            this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
+            this.imgSrc ="../assets/gegenüber/klappbare armlehne 2.png";
           }
           
           if (
             this.selectedModel[
               "681D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
-            ] === "Ausführung Trennwand mit Glasscheibe"
+            ] ==="Ausführung Trennwand mit Glasscheibe"
           ) {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-            this.imgSrc = "../assets/gegenüber/glasscibe.png";
+            this.imgSrc ="../assets/gegenüber/glasscibe.png";
           }
           
         }
       } else if (
-        this.selectedMainGroup?.name?.trim() ===
-        "Sondernutzungsfläche gegenüber Tür 2"
+        this.selectedMainGroup?.name?.trim() ==="Sondernutzungsfläche gegenüber Tür 2"
       ) {
         if (
           this.selectedGattung?.name?.trim() === "680A - SNF gegenüber Tür 2"
