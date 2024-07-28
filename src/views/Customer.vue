@@ -2046,6 +2046,8 @@ export default {
       console.log("Gattung Changed:", this.selectedGattung);
       //this.selectedModel = {}; // Modelleri de sıfırla
 
+      this.imgSrc = "";
+      this.accumulatedDetails = [];
       this.updateAvailableSubProducts();
     },
     formatRALCode(fieldName) {
