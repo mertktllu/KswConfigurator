@@ -1445,6 +1445,23 @@
                 <strong>Length:</strong> {{ selectedModel.Length }}
               </p>
             </template>
+            <template v-if="selectedMainGroup?.name?.trim() === 'Bestuhlung'">
+              <p v-if="selectedModel['Alle Sitze ohne Logo/Branding.']">
+                <strong>Logo/Branding:</strong>
+                {{ selectedModel["Alle Sitze ohne Logo/Branding."] }}
+              </p>
+              <p v-if="selectedModel['STER 8 MS']">
+                <strong>STER 8 MS:</strong> {{ selectedModel["STER 8 MS"] }}
+              </p>
+              <p v-if="selectedModel['Topcloser für EM']">
+                <strong>Topcloser für EM:</strong>
+                {{ selectedModel["Topcloser für EM"] }}
+              </p>
+              <p v-if="selectedModel['Gangseitige fixiert bügel color']">
+                <strong>Gangseitige fixiert bügel color:</strong
+                >{{ selectedModel["Gangseitige fixiert bügel color"] }}
+              </p>
+            </template>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
               <div
                 v-for="(detail, index) in selectedDetails"
@@ -2266,44 +2283,44 @@ export default {
       }
     },
     updateGegenuberImage(option) {
-    console.log("updateGegenuberImage çağrıldı, option:", option);
-    if (option) {
-      console.log("Option mevcut, işlem devam ediyor...");
-      this.selectedModel["680A - SNF gegenüber Tür 2"] = option;
-      console.log("selectedModel güncellendi:", this.selectedModel);
+      console.log("updateGegenuberImage çağrıldı, option:", option);
+      if (option) {
+        console.log("Option mevcut, işlem devam ediyor...");
+        this.selectedModel["680A - SNF gegenüber Tür 2"] = option;
+        console.log("selectedModel güncellendi:", this.selectedModel);
 
-      if (
-        option.trim() ===
-        "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm."
-      ) {
-        this.gegenuberImage = this.gegenuber1img;
-        console.log("gegenuberImage güncellendi: gegenuber1img");
-      } else if (
-        option ===
-        "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
-      ) {
-        this.gegenuberImage = this.gegenuber2img;
-        console.log("gegenuberImage güncellendi: gegenuber2img");
-      } else if (
-        option ===
-        "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
-      ) {
-        this.gegenuberImage = this.gegenuber3img;
-        console.log("gegenuberImage güncellendi: gegenuber3img");
-      } else if (option === "Armlehne mit halter ohne Schloss") {
-        this.gegenuberImage = this.glasscheibeimg;
-        console.log("gegenuberImage güncellendi: glasscheibeimg");
-      } else if (option === "Mit klappbarer Armlehne auf dem Bügel") {
-        this.gegenuberImage = this.klappbare_armlehneimg;
-        console.log("gegenuberImage güncellendi: klappbare_armlehneimg");
-      } else if (option === "Ausführung Trennwand mit Glasscheibe") {
-        this.gegenuberImage = this.mit_halter_ohne_schlossimg;
-        console.log("gegenuberImage güncellendi: mit_halter_ohne_schlossimg");
+        if (
+          option.trim() ===
+          "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm."
+        ) {
+          this.gegenuberImage = this.gegenuber1img;
+          console.log("gegenuberImage güncellendi: gegenuber1img");
+        } else if (
+          option ===
+          "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
+        ) {
+          this.gegenuberImage = this.gegenuber2img;
+          console.log("gegenuberImage güncellendi: gegenuber2img");
+        } else if (
+          option ===
+          "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
+        ) {
+          this.gegenuberImage = this.gegenuber3img;
+          console.log("gegenuberImage güncellendi: gegenuber3img");
+        } else if (option === "Armlehne mit halter ohne Schloss") {
+          this.gegenuberImage = this.glasscheibeimg;
+          console.log("gegenuberImage güncellendi: glasscheibeimg");
+        } else if (option === "Mit klappbarer Armlehne auf dem Bügel") {
+          this.gegenuberImage = this.klappbare_armlehneimg;
+          console.log("gegenuberImage güncellendi: klappbare_armlehneimg");
+        } else if (option === "Ausführung Trennwand mit Glasscheibe") {
+          this.gegenuberImage = this.mit_halter_ohne_schlossimg;
+          console.log("gegenuberImage güncellendi: mit_halter_ohne_schlossimg");
+        }
+      } else {
+        console.log("Option mevcut değil, işlem durduruldu.");
       }
-    } else {
-      console.log("Option mevcut değil, işlem durduruldu.");
-    }
-  },
+    },
     selectVehicle(type) {
       console.log("selectVehicle function called with type:", type);
       this.selectedType = type;
