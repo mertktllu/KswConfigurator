@@ -2268,7 +2268,8 @@ export default {
     },
     updateGegenuberImage(option) {
       if (option) {
-        this.selectedModel.trim()["680A - SNF gegenüber Tür 2"] = option; // Ensure the selected model is updated
+        this.selectedModel.trim()["680A - SNF gegenüber Tür 2"] = option;
+        console.log("try1"); // Ensure the selected model is updated
         if (
           option.trim() ===
           "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm."
