@@ -131,8 +131,6 @@
                 selectedType?.name?.trim() === 'L4C' &&
                 selectedMainGroup?.name?.trim() === 'Camera'
               "
-              class="detailsImage"
-              ref="detailsImage"
               width="500"
               :src="img12C"
             >
@@ -2508,9 +2506,8 @@ export default {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-            
+            this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
           }
-          this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
           if (
             this.selectedModel[
               "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
@@ -2658,8 +2655,7 @@ export default {
       canvas.height = img.height;
       context.drawImage(img, 0, 0);
 
-      // Draw details text
-      this.accumulatedDetails.forEach((detail) => {
+      this.selectedDetails.forEach((detail) => {
         context.fillStyle = detail.color || "red";
         context.font = "20px Arial";
         const top = (parseFloat(detail.position.top) / 100) * canvas.height;
@@ -2667,29 +2663,10 @@ export default {
         context.fillText(detail.text, left, top);
       });
 
-      // Draw camera icons
-      this.drawCameraIcons(context, canvas);
-
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");
-      link.download = `${this.selectedMainGroup.name?.trim()}.png`;
+      link.download = `${this.selectedMainGroup.name?.trim()}.png`; // Dosya adını main group name olarak ayarlayın
       link.click();
-    },
-
-    drawCameraIcons(context, canvas) {
-      const svgElements = this.$refs.detailsImage.querySelectorAll("svg");
-
-      svgElements.forEach((svg) => {
-        const svgData = new XMLSerializer().serializeToString(svg);
-        const imgSrc = "data:image/svg+xml;base64," + btoa(svgData);
-        const image = new Image();
-        image.src = imgSrc;
-        image.onload = () => {
-          const left = (parseFloat(svg.style.left) / 100) * canvas.width;
-          const top = (parseFloat(svg.style.top) / 100) * canvas.height;
-          context.drawImage(image, left, top);
-        };
-      });
     },
   },
 };
