@@ -2045,6 +2045,8 @@ export default {
     onGattungChange() {
       console.log("Gattung Changed:", this.selectedGattung);
       //this.selectedModel = {}; // Modelleri de sıfırla
+      this.imgSrc = "";
+      this.accumulatedDetails = [];
       this.updateAvailableSubProducts();
     },
     formatRALCode(fieldName) {
@@ -2519,7 +2521,7 @@ export default {
           }
           if (
             this.selectedModel[
-              "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+              "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
             ] === "Ausführung Trennwand mit Glasscheibe"
           ) {
             this.accumulatedDetails.push({
