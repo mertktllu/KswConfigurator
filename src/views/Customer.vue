@@ -2667,7 +2667,7 @@ export default {
 
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");
-      link.download = `${this.selectedMainGroup.name?.trim()}.png`; // Dosya adını main group name olarak ayarlayın
+      link.download = `${this.selectedMainGroup.name?.trim()}.png`;
       link.click();
     },
   },
