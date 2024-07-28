@@ -716,17 +716,17 @@ export default {
           {
             UserID: 1, // Admin ID
             TableName: "MainGroups",
-            RequestDetails: `Action: ${actionType}, Details: ${details}`,
-            RequestStatus: false,
-            RequestDate: new Date(),
-            ActionType: actionType, // İşlem tipi
+            requestdetails: `Action: ${actionType}, Details: ${details}`,
+            requeststatus: false,
+            requestdate: new Date(),
+            actionType: actionType, // İşlem tipi
           }
         );
         if (response.status === 201) {
           alert("Request sent successfully");
           this.addMainGroup = "";
           this.dialogMainGroup = false;
-        } else {
+        } else {this.submitAddMainGroup
           alert("Failed to send request");
         }
       } catch (error) {
