@@ -1709,7 +1709,7 @@ export default {
     return {
     
       updateRechtsImage:null,
-     
+      selectedRechtsOption: null,
       selectedType: null,
       selectedRalCode: null,
       selectedMainGroup: null,
