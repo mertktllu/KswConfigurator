@@ -2513,8 +2513,7 @@ export default {
         "Sondernutzungsfläche gegenüber Tür 2"
       ) {
         if (
-          this.selectedGattung?.name?.trim() ===
-          "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
+          this.selectedGattung?.name?.trim() === "680A - SNF gegenüber Tür 2"
         ) {
           if (
             this.selectedModel["680A - SNF gegenüber Tür 2"] ===
