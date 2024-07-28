@@ -2521,7 +2521,7 @@ export default {
           }
           if (
             this.selectedModel[
-              "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
+              "681D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
             ] === "Ausführung Trennwand mit Glasscheibe"
           ) {
             this.accumulatedDetails.push({
