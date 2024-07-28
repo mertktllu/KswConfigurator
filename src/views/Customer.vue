@@ -2045,6 +2045,7 @@ export default {
     onGattungChange() {
       console.log("Gattung Changed:", this.selectedGattung);
       //this.selectedModel = {}; // Modelleri de sıfırla
+      this.selectedModel.option = null;
       this.imgSrc = "";
       this.accumulatedDetails = [];
       this.updateAvailableSubProducts();
