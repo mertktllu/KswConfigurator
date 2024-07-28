@@ -131,6 +131,8 @@
                 selectedType?.name?.trim() === 'L4C' &&
                 selectedMainGroup?.name?.trim() === 'Camera'
               "
+              class="detailsImage"
+              ref="detailsImage"
               width="500"
               :src="img12C"
             >
@@ -2643,40 +2645,50 @@ export default {
 
       return positions[cameraKey] || { top: "0%", left: "0%" };
     },
-    methods: {
-      downloadDetailsImage() {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        const img = this.$refs.detailsImage;
-        const svgElements = img.querySelectorAll("svg");
+    async downloadDetailsImage() {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      const img = new Image();
 
-        canvas.width = img.width;
-        canvas.height = img.height;
+      img.src = this.imgSrc;
+      await img.decode();
 
-        const imgElement = new Image();
-        imgElement.src = img.src;
-        imgElement.onload = () => {
-          context.drawImage(imgElement, 0, 0);
-          svgElements.forEach((svg) => {
-            const svgData = new XMLSerializer().serializeToString(svg);
-            const imgSrc = "data:image/svg+xml;base64," + btoa(svgData);
-            const image = new Image();
-            image.src = imgSrc;
-            image.onload = () => {
-              context.drawImage(
-                image,
-                parseFloat(svg.style.left),
-                parseFloat(svg.style.top)
-              );
-            };
-          });
+      canvas.width = img.width;
+      canvas.height = img.height;
+      context.drawImage(img, 0, 0);
 
-          const link = document.createElement("a");
-          link.href = canvas.toDataURL();
-          link.download = "details.png";
-          link.click();
+      // Draw details text
+      this.accumulatedDetails.forEach((detail) => {
+        context.fillStyle = detail.color || "red";
+        context.font = "20px Arial";
+        const top = (parseFloat(detail.position.top) / 100) * canvas.height;
+        const left = (parseFloat(detail.position.left) / 100) * canvas.width;
+        context.fillText(detail.text, left, top);
+      });
+
+      // Draw camera icons
+      this.drawCameraIcons(context, canvas);
+
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = `${this.selectedMainGroup.name?.trim()}.png`;
+      link.click();
+    },
+
+    drawCameraIcons(context, canvas) {
+      const svgElements = this.$refs.detailsImage.querySelectorAll("svg");
+
+      svgElements.forEach((svg) => {
+        const svgData = new XMLSerializer().serializeToString(svg);
+        const imgSrc = "data:image/svg+xml;base64," + btoa(svgData);
+        const image = new Image();
+        image.src = imgSrc;
+        image.onload = () => {
+          const left = (parseFloat(svg.style.left) / 100) * canvas.width;
+          const top = (parseFloat(svg.style.top) / 100) * canvas.height;
+          context.drawImage(image, left, top);
         };
-      },
+      });
     },
   },
 };
