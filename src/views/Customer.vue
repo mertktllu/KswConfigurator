@@ -2502,12 +2502,14 @@ export default {
             this.selectedModel[
               "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
             ] === "Armlehne mit halter ohne Schloss"
-          ) {
+          )
+          {
+            this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
               
             });
-            this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
+           
           }
          
           if (
@@ -2538,7 +2540,7 @@ export default {
         "Sondernutzungsfläche gegenüber Tür 2"
       ) {
         if (
-          this.selectedGattung?.name === "680A - SNF gegenüber Tür 2"
+          this.selectedGattung?.name?.trim() === "680A - SNF gegenüber Tür 2"
         ) {
           if (
             this.selectedModel["680A - SNF gegenüber Tür 2"] ===
