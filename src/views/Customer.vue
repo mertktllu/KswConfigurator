@@ -2507,7 +2507,6 @@ export default {
           {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
-              
             });
             this.imgSrc ="../assets/gegenüber/mit halter ohne schloss.png";
           }
@@ -2516,11 +2515,15 @@ export default {
             this.selectedModel[
               "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
             ] ==="Mit klappbarer Armlehne auf dem Bügel"
-          ) {
+            
+          )
+           
+          this.imgSrc ="../assets/gegenüber/klappbare armlehne 2.png";
+          {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-            this.imgSrc ="../assets/gegenüber/klappbare armlehne 2.png";
+            
           }
           
           if (
