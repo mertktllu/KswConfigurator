@@ -2046,8 +2046,6 @@ export default {
       console.log("Gattung Changed:", this.selectedGattung);
       //this.selectedModel = {}; // Modelleri de sıfırla
 
-      this.imgSrc = "";
-      this.accumulatedDetails = [];
       this.updateAvailableSubProducts();
     },
     formatRALCode(fieldName) {
@@ -2508,8 +2506,9 @@ export default {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-            this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
+            
           }
+          this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
           if (
             this.selectedModel[
               "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
@@ -2529,9 +2528,9 @@ export default {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-           
+            this.imgSrc = "../assets/gegenüber/glasscibe.png";
           }
-          this.imgSrc = "../assets/gegenüber/glasscibe.png";
+           
         }
       } else if (
         this.selectedMainGroup?.name?.trim() ===
@@ -2647,30 +2646,40 @@ export default {
 
       return positions[cameraKey] || { top: "0%", left: "0%" };
     },
-    async downloadDetailsImage() {
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-      const img = new Image();
+    methods: {
+      downloadDetailsImage() {
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        const img = this.$refs.detailsImage;
+        const svgElements = img.querySelectorAll("svg");
 
-      img.src = this.imgSrc;
-      await img.decode();
+        canvas.width = img.width;
+        canvas.height = img.height;
 
-      canvas.width = img.width;
-      canvas.height = img.height;
-      context.drawImage(img, 0, 0);
+        const imgElement = new Image();
+        imgElement.src = img.src;
+        imgElement.onload = () => {
+          context.drawImage(imgElement, 0, 0);
+          svgElements.forEach((svg) => {
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const imgSrc = "data:image/svg+xml;base64," + btoa(svgData);
+            const image = new Image();
+            image.src = imgSrc;
+            image.onload = () => {
+              context.drawImage(
+                image,
+                parseFloat(svg.style.left),
+                parseFloat(svg.style.top)
+              );
+            };
+          });
 
-      this.selectedDetails.forEach((detail) => {
-        context.fillStyle = detail.color || "red";
-        context.font = "20px Arial";
-        const top = (parseFloat(detail.position.top) / 100) * canvas.height;
-        const left = (parseFloat(detail.position.left) / 100) * canvas.width;
-        context.fillText(detail.text, left, top);
-      });
-
-      const link = document.createElement("a");
-      link.href = canvas.toDataURL("image/png");
-      link.download = `${this.selectedMainGroup.name?.trim()}.png`; // Dosya adını main group name olarak ayarlayın
-      link.click();
+          const link = document.createElement("a");
+          link.href = canvas.toDataURL();
+          link.download = "details.png";
+          link.click();
+        };
+      },
     },
   },
 };
