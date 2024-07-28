@@ -2494,19 +2494,39 @@ export default {
         "Sondernutzungsfläche rechts vor Tür 2"
       ) {
         if (
-          this.selectedGattung.name.trim() ===
+          this.selectedGattung?.name?.trim() ===
           "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
         ) {
-          // if (this.selectedModel["Anlehnplatte/Klappsitze vor SNF vor Tür 2"]) {
-          //   this.accumulatedDetails.push({
-          //     text: this.selectedModel[
-          //       "Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-          //     ],
-          //     position: { top: "40%", left: "40%" },
-          //   });
-          // }
-          // //this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
-          // this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
+          if (
+            this.selectedModel[
+              "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+            ] === "Armlehne mit halter ohne Schloss"
+          ) {
+            this.accumulatedDetails.push({
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
+          }
+          if (
+            this.selectedModel[
+              "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+            ] === "Mit klappbarer Armlehne auf dem Bügel"
+          ) {
+            this.accumulatedDetails.push({
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
+          }
+          if (
+            this.selectedModel[
+              "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+            ] === "Ausführung Trennwand mit Glasscheibe"
+          ) {
+            this.accumulatedDetails.push({
+              position: { top: "40%", left: "40%" },
+            });
+            this.imgSrc = "../assets/gegenüber/glasscibe.png";
+          }
         }
       } else if (
         this.selectedMainGroup?.name?.trim() ===
