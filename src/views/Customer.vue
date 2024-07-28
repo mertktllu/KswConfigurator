@@ -2543,7 +2543,7 @@ export default {
             this.imgSrc = "../assets/gegenüber/Resim3.png";
           }
         } else if (
-          this.selectedGattung?.name_.trim() ===
+          this.selectedGattung?.name?.trim() ===
           "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
         ) {
           if (
