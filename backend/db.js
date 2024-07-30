@@ -8,7 +8,10 @@ const pool = new Pool({
   connectionString: connectionString,
   ssl: {
     rejectUnauthorized: false
-  }
+  },
+  max: 10, // Maksimum bağlantı sayısı
+  idleTimeoutMillis: 30000, // Bağlantının kullanılmadan önce kapanacağı süre
+  connectionTimeoutMillis: 2000, // Bağlantı kurmanın zaman aşımı süresi
 });
 
 pool.connect((err) => {
