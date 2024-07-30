@@ -55,7 +55,7 @@ app.post('/login', async (req, res) => {
 
   try {
     const result = await db.query(
-      'SELECT * FROM Users WHERE Email = $1 AND Password = $2',
+      'SELECT Email, Role FROM Users WHERE Email = $1 AND Password = $2', // Only select required fields
       [email, password]
     );
 
@@ -64,7 +64,7 @@ app.post('/login', async (req, res) => {
     if (result.rows.length > 0) {
       const user = result.rows[0];
       console.log('User found:', user);
-      res.json({ success: true, role: user.role.trim() }); // Boşlukları kaldırarak rol döndür
+      res.json({ success: true, role: user.role.trim() }); // Trim role to remove spaces
     } else {
       console.log('Incorrect username or password');
       res.json({ success: false, message: 'Incorrect username or password.' });

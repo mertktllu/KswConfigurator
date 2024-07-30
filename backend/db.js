@@ -1,11 +1,8 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-const isProduction = process.env.NODE_ENV === 'production';
-const connectionString = process.env.DATABASE_URL;
-
 const pool = new Pool({
-  connectionString: connectionString,
+  connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   },
@@ -14,12 +11,13 @@ const pool = new Pool({
   connectionTimeoutMillis: 2000, // Bağlantı kurmanın zaman aşımı süresi
 });
 
-pool.connect((err) => {
-  if (err) {
-    console.error('Database connection error', err.stack);
-  } else {
-    console.log('Database connected successfully');
-  }
+pool.on('connect', () => {
+  console.log('Database connected successfully');
+});
+
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle client', err);
+  process.exit(-1);
 });
 
 module.exports = {
