@@ -2491,109 +2491,35 @@ export default {
         }
         // Update imgSrc based on selected Type
       
-        if (
-      this.selectedMainGroup?.name?.trim() ===
-      "Sondernutzungsfläche gegenüber Tür 2"
-    ) {
-      if (
-        this.selectedGattung?.name?.trim() ===
-        "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-      ) {
-        if (
-          this.selectedModel[
-            "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-          ] === "Armlehne mit halter ohne Schloss"
-        ) {
+        if (this.selectedMainGroup?.name?.trim() === "Sondernutzungsfläche gegenüber Tür 2") {
+      if (this.selectedGattung?.name?.trim() === "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2") {
+        const selectedOption = this.selectedModel["681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"];
+        console.log("Selected Option:", selectedOption);
+
+        if (selectedOption === "Armlehne mit halter ohne Schloss") {
           this.accumulatedDetails.push({
+            text: selectedOption,
             position: { top: "40%", left: "40%" },
           });
           this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
-        } else if (
-          this.selectedModel[
-            "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-          ] === "Mit klappbarer Armlehne auf dem Bügel"
-        ) {
+        } else if (selectedOption === "Mit klappbarer Armlehne auf dem Bügel") {
           this.accumulatedDetails.push({
+            text: selectedOption,
             position: { top: "40%", left: "40%" },
           });
           this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
-        } else if (
-          this.selectedModel[
-            "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-          ] === "Ausführung Trennwand mit Glasscheibe"
-        ) {
+        } else if (selectedOption === "Ausführung Trennwand mit Glasscheibe") {
           this.accumulatedDetails.push({
+            text: selectedOption,
             position: { top: "40%", left: "40%" },
           });
           this.imgSrc = "../assets/gegenüber/glasscibe.png";
+        } else {
+          console.log("No matching option found for 681D");
         }
       }
-    
-        }
-      } else if (
-        this.selectedMainGroup?.name?.trim() ==="Sondernutzungsfläche gegenüber Tür 2"
-      ) {
-        if (
-          this.selectedGattung?.name?.trim() === "680A - SNF gegenüber Tür 2"
-        ) {
-          if (
-            this.selectedModel["680A - SNF gegenüber Tür 2"] ===
-            "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm."
-          ) {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/Resim1.png";
-          }
-          if (
-            this.selectedModel["680A - SNF gegenüber Tür 2"] ===
-            "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
-          ) {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/Resim2.png";
-          }
-          if (
-            this.selectedModel["680A - SNF gegenüber Tür 2"] ===
-            "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
-          ) {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/Resim3.png";
-          }
-        }  if (
-          this.selectedGattung?.name?.trim() ==="680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
-        ) {
-          if (
-            this.selectedModel["680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"] === "Armlehne mit halter ohne Schloss"
-          ) {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc ="../assets/gegenüber/mit halter ohne schloss.png";
-          }
-          if (
-            this.selectedModel[
-              "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2" ] === "Mit klappbarer Armlehne auf dem Bügel"
-          ) {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc ="../assets/gegenüber/klappbare armlehne 2.png";
-          }
-          if (
-            this.selectedModel["680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"] === "Ausführung Trennwand mit Glasscheibe"
-          ) {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc ="../assets/gegenüber/glasscibe.png";
-          }
-        }
-      }
-
+    }
+  }
       this.selectedDetails = [...this.accumulatedDetails];
       this.showDetailsDialog = true;
       console.log("Dialog should now be open"); // Debug log
