@@ -2282,17 +2282,27 @@ export default {
       }
     },
     updateRechtsImage(option) {
-      if (option) {
-        this.selectedModel["681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-        ] = option; // Ensure the selected model is updated
-        if (option === "Armlehne mit halter ohne Schloss") {
-          this.rechtImage = this.glasscheibeimg;
-        } else if (option === "Mit klappbarer Armlehne auf dem Bügel") {
-          this.rechtImage = this.klappbare_armlehneimg;
-        } else if (option === "Ausführung Trennwand mit Glasscheibe") {
-          this.rechtImage = this.mit_halter_ohne_schlossimg;
+        console.log("Selected Option for Rechts:", option);
+        if (option) {
+            // Ensure selectedModel is an object and initialize if not
+            if (typeof this.selectedModel !== 'object') {
+                this.selectedModel = {};
+            }
+            
+            // Update the selected model with the new option
+            this.selectedModel["681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"] = option; 
+
+            // Check the option and update the image accordingly
+            if (option === "Armlehne mit halter ohne Schloss") {
+                this.rechtImage = this.glasscheibeimg;
+            } else if (option === "Mit klappbarer Armlehne auf dem Bügel") {
+                this.rechtImage = this.klappbare_armlehneimg;
+            } else if (option === "Ausführung Trennwand mit Glasscheibe") {
+                this.rechtImage = this.mit_halter_ohne_schlossimg;
+            }
+
+            console.log("Image Source:", this.rechtImage);
         }
-      }
     },
     updateGegenuberImage(option) {
       console.log("updateGegenuberImage çağrıldı, option:", option);
