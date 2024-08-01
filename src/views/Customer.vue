@@ -2608,6 +2608,7 @@ export default {
 
       this.selectedDetails = [...this.accumulatedDetails];
       this.showDetailsDialog = true;
+      console.log("Image Source:", this.imgSrc); 
       console.log("Dialog should now be open"); // Debug log
     },
 
