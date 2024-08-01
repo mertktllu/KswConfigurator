@@ -2574,6 +2574,7 @@ export default {
         }  if (this.selectedGattung?.name?.trim() === "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2") {
     const selectedOption = this.selectedModel["680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"];
     console.log("Selected Option:", selectedOption); // Seçilen seçeneği konsola yazdırın
+    console.log("this.selectedModel:", this.selectedModel); // this.selectedModel nesnesini konsola yazdırın
     if (selectedOption === "Armlehne mit halter ohne Schloss") {
         this.accumulatedDetails.push({
             position: { top: "40%", left: "40%" },
@@ -2594,6 +2595,7 @@ export default {
     }
     console.log("Image Source:", this.imgSrc); // Resim kaynağını konsola yazdırın
 }
+
 
       }
 
