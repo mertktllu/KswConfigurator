@@ -2499,15 +2499,12 @@ export default {
         this.selectedMainGroup?.name?.trim() ===
         "Sondernutzungsfläche rechts vor Tür 2"
       ) {
-        if (
-          this.selectedGattung?.name?.trim() ===
-          "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-        ) {
-          if (
-            this.selectedModel[
-              "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-            ] ==="Armlehne mit halter ohne Schloss"
-          )
+        if (this.selectedGattung?.name?.trim() ==="681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"  ) 
+        console.log("Gattung condition met"); 
+
+        {
+          if (this.selectedModel ==="Armlehne mit halter ohne Schloss" )
+          console.log("option armlehne");
           {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
