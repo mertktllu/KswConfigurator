@@ -2576,7 +2576,7 @@ export default {
     console.log("Selected Option:", selectedOption); // Seçilen seçeneği konsola yazdırın
     console.log("this.selectedModel:", this.selectedModel); // this.selectedModel nesnesini konsola yazdırın
 
-    if (selectedOption.trim() === "Armlehne mit halter ohne Schloss") {
+    if (selectedOption === "Armlehne mit halter ohne Schloss") {
         this.accumulatedDetails.push({
             position: { top: "40%", left: "40%" },
         });
