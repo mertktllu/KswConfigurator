@@ -2350,6 +2350,10 @@ export default {
       console.log("Show Details button clicked"); // Debug log
       // Export data üzerinden dönerek product'ları kontrol edelim
 
+ console.log("Show Details button clicked"); // Debug log
+      // Export data üzerinden dönerek product'ları kontrol edelim
+      console.log("Selected Main Group:", this.selectedMainGroup?.name?.trim());
+      console.log("Selected Gattung:", this.selectedGattung?.name?.trim());
       // Reset accumulated details
       this.accumulatedDetails = [];
 
