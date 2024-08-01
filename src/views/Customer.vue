@@ -2283,8 +2283,7 @@ export default {
     },
     updateRechtsImage(option) {
       if (option) {
-        this.selectedModel[
-          "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
+        this.selectedModel["681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
         ] = option; // Ensure the selected model is updated
         if (option === "Armlehne mit halter ohne Schloss") {
           this.rechtImage = this.glasscheibeimg;
@@ -2499,7 +2498,7 @@ export default {
         this.selectedMainGroup?.name?.trim() ===
         "Sondernutzungsfläche rechts vor Tür 2"
       ) {
-        if (this.selectedGattung?.name?.trim() ==="681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"  ) 
+        if (this.selectedGattung?.name?.trim() ==="681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2" ) 
         console.log("Gattung condition met"); 
 
         {
@@ -2521,8 +2520,7 @@ export default {
             
           }
           
-          if (
-            this.selectedModel ==="Ausführung Trennwand mit Glasscheibe") {
+          if (this.selectedModel ==="Ausführung Trennwand mit Glasscheibe") {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
