@@ -710,16 +710,16 @@ export default {
       try {
         const details = this.addMainGroup;
         const mainGroupName = this.addMainGroup; // Admin tarafından girilen yeni ana grup adı
-        const actionType = "Add MainGroup"; // İşlem tipi
+        const actiontype = "Add MainGroup"; // İşlem tipi
         const response = await axios.post(
           "https://kswconfigurator-7fc475022be0.herokuapp.com/datauploadrequests",
           {
-            UserID: 1, // Admin ID
-            TableName: "MainGroups",
-            requestdetails: `Action: ${actionType}, Details: ${details}`,
+            userid: 1, // Admin ID
+            tablename: "MainGroups",
+            requestdetails: `Action: ${actiontype}, Details: ${details}`,
             requeststatus: false,
             requestdate: new Date(),
-            actionType: actionType, // İşlem tipi
+            actiontype: actiontype, // İşlem tipi
           }
         );
         if (response.status === 201) {
