@@ -2576,17 +2576,17 @@ export default {
     console.log("Selected Option:", selectedOption); // Seçilen seçeneği konsola yazdırın
     console.log("this.selectedModel:", this.selectedModel); // this.selectedModel nesnesini konsola yazdırın
 
-    if (selectedOption === "Armlehne mit halter ohne Schloss") {
+    if (selectedOption.trim() === "Armlehne mit halter ohne Schloss") {
         this.accumulatedDetails.push({
             position: { top: "40%", left: "40%" },
         });
         this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
-    } else if (selectedOption === "Mit klappbarer Armlehne auf dem Bügel") {
+    } else if (selectedOption.trim()  === "Mit klappbarer Armlehne auf dem Bügel") {
         this.accumulatedDetails.push({
             position: { top: "40%", left: "40%" },
         });
         this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
-    } else if (selectedOption === "Ausführung Trennwand mit Glasscheibe") {
+    } else if (selectedOption.trim()  === "Ausführung Trennwand mit Glasscheibe") {
         this.accumulatedDetails.push({
             position: { top: "40%", left: "40%" },
         });
