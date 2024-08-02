@@ -1809,7 +1809,7 @@ export default {
       rechtImage: "",
       glasscheibeimg: "/assets/gegenüber/mit halter ohne schloss.png",
       klappbare_armlehneimg: "/assets/gegenüber/klappbare armlehne 2.png",
-      mit_halter_ohne_schlossimg: "/assets/gegenüber/glasscibe.png",
+      mit_halter_ohne_schlossimg:"/assets/gegenüber/glasscibe.png",
 
       teleskop_on: "/assets/Teleskop/teleskop_on.png",
       teleskop_off: "/assets/Teleskop/teleskop_off.png",
@@ -2317,16 +2317,15 @@ export default {
           "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
         ) {
           this.gegenuberImage = this.gegenuber3img;
-          console.log("gegenuberImage güncellendi: gegenuber3img");
-        } else if (option === "Armlehne mit halter ohne Schloss") {
+          
+        } else if (option.trim() === "Armlehne mit halter ohne Schloss") {
           this.gegenuberImage = this.glasscheibeimg;
-          console.log("gegenuberImage güncellendi: glasscheibeimg");
-        } else if (option === "Mit klappbarer Armlehne auf dem Bügel") {
+          
+        } else if (option.trim() === "Mit klappbarer Armlehne auf dem Bügel") {
           this.gegenuberImage = this.klappbare_armlehneimg;
-          console.log("gegenuberImage güncellendi: klappbare_armlehneimg");
-        } else if (option === "Ausführung Trennwand mit Glasscheibe") {
+         
+        } else if (option.trim() === "Ausführung Trennwand mit Glasscheibe") {
           this.gegenuberImage = this.mit_halter_ohne_schlossimg;
-          console.log("gegenuberImage güncellendi: mit_halter_ohne_schlossimg");
         }
       } else {
         console.log("Option mevcut değil, işlem durduruldu.");
