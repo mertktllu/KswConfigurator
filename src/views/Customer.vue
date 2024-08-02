@@ -1253,9 +1253,7 @@
 
                 <v-select
                   v-else-if="
-                    subProduct.name?.trim() ===
-                    '681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2'
-                  "
+                    subProduct.name?.trim() ==='681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2'"
                   :items="subProduct.options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
@@ -2286,11 +2284,11 @@ export default {
         this.selectedModel[
           "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
         ] = option; // Ensure the selected model is updated
-        if (option === "Armlehne mit halter ohne Schloss") {
+        if (option.trim() === "Armlehne mit halter ohne Schloss") {
           this.rechtImage = this.glasscheibeimg;
-        } else if (option === "Mit klappbarer Armlehne auf dem Bügel") {
+        } else if (option.trim()  === "Mit klappbarer Armlehne auf dem Bügel") {
           this.rechtImage = this.klappbare_armlehneimg;
-        } else if (option === "Ausführung Trennwand mit Glasscheibe") {
+        } else if (option.trim()  === "Ausführung Trennwand mit Glasscheibe") {
           this.rechtImage = this.mit_halter_ohne_schlossimg;
         }
       }
