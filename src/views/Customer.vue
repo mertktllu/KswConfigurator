@@ -2491,8 +2491,7 @@ export default {
         }
         // Update imgSrc based on selected Type
       
-      } else if ( this.selectedMainGroup?.name?.trim() ==="Sondernutzungsfläche rechts vor Tür 2"
-      )
+      } else if (this.selectedMainGroup?.name?.trim() ==="Sondernutzungsfläche rechts vor Tür 2")
        {
         if (this.selectedGattung?.name?.trim() ==="681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2") 
         {
@@ -2503,14 +2502,14 @@ export default {
             });
             this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
           }
-          if (this.selectedModel[ "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"] ==="Mit klappbarer Armlehne auf dem Bügel")
+          if (this.selectedModel["681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"] ==="Mit klappbarer Armlehne auf dem Bügel")
           {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
                this.imgSrc ="../assets/gegenüber/klappbare armlehne 2.png";
           }
-          if (this.selectedModel[ "681D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2" ] ==="Ausführung Trennwand mit Glasscheibe") 
+          if (this.selectedModel["681D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2" ] ==="Ausführung Trennwand mit Glasscheibe") 
           {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
@@ -2518,7 +2517,9 @@ export default {
             this.imgSrc ="../assets/gegenüber/glasscibe.png";
           }
         }
-      } else if (
+      } 
+      
+      else if (
         this.selectedMainGroup?.name?.trim() ==="Sondernutzungsfläche gegenüber Tür 2"
       ) {
         if (
