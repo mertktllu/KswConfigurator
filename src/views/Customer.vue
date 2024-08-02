@@ -2504,14 +2504,14 @@ export default {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-               this.imgSrc ="../assets/gegenüber/klappbare armlehne 2.png";
+               this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
           }
           if (this.selectedModel["681D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"] ==="Ausführung Trennwand mit Glasscheibe") 
           {
             this.accumulatedDetails.push({
               position: { top: "40%", left: "40%" },
             });
-            this.imgSrc ="../assets/gegenüber/glasscibe.png";
+            this.imgSrc = "../assets/gegenüber/glasscibe.png";
           }
         }
       } 
