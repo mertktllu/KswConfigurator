@@ -1809,7 +1809,7 @@ export default {
       rechtImage: "",
       glasscheibeimg: "/assets/gegenüber/mit halter ohne schloss.png",
       klappbare_armlehneimg: "/assets/gegenüber/klappbare armlehne 2.png",
-      mit_halter_ohne_schlossimg:"/assets/gegenüber/glasscibe.png",
+      mit_halter_ohne_schlossimg: "/assets/gegenüber/glasscibe.png",
 
       teleskop_on: "/assets/Teleskop/teleskop_on.png",
       teleskop_off: "/assets/Teleskop/teleskop_off.png",
