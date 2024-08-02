@@ -2282,7 +2282,7 @@ export default {
     updateRechtsImage(option) {
       if (option) {
         this.selectedModel[
-          "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
+          "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
         ] = option; // Ensure the selected model is updated
         if (option.trim() === "Armlehne mit halter ohne Schloss") {
           this.rechtImage = this.glasscheibeimg;
