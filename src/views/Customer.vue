@@ -2549,11 +2549,9 @@ export default {
             this.imgSrc = "../assets/gegenüber/Resim3.png";
           }
         } 
-        if (this.selectedMainGroup?.name?.trim() === "Sondernutzungsfläche rechts vor Tür 2") {
+     else  if (this.selectedMainGroup?.name?.trim() === "Sondernutzungsfläche rechts vor Tür 2") {
   if (this.selectedGattung?.name?.trim() === "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2") {
-    console.log("Selected Model Object: ", this.selectedModel);
-
-    const selectedModelValue = this.selectedModel["680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"];
+    const selectedModelValue = this.selectedModel["680D - SNF gegenüber Tür 2"];
     console.log("Selected Model Value: ", selectedModelValue);
 
     if (selectedModelValue === "Armlehne mit halter ohne Schloss") {
@@ -2576,9 +2574,6 @@ export default {
     }
   }
 }
-
-
-
       }
 
       this.selectedDetails = [...this.accumulatedDetails];
