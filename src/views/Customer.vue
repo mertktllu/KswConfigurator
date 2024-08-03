@@ -2406,7 +2406,7 @@ export default {
             });
           }
         }
-        this.imgSrc = "../assets/Showdetails/RAL3001.png"; // Set to the correct image path for Bestuhlung
+        this.imgSrc = "../assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
       } else if (this.selectedMainGroup?.name?.trim() === "Haltestangen") {
         if (
           this.selectedGattung?.name?.trim() ===
