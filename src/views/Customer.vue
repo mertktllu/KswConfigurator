@@ -2552,7 +2552,7 @@ export default {
           }
         }
  if (this.selectedGattung?.name?.trim() === "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2") {
-    const selectedModelValue = this.selectedModel["680D - SNF gegenüber Tür 2"];
+    const selectedModelValue = this.selectedModel["680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"];
     console.log("Selected Model Value: ", selectedModelValue);
 
     if (selectedModelValue === "Armlehne mit halter ohne Schloss") {
