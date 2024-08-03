@@ -2550,22 +2550,23 @@ export default {
           }
         } 
         if (this.selectedGattung?.name?.trim() === "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2") {
-    const selectedModelValue2 = this.selectedModel["680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"];
-    console.log("Selected Model Value: ", selectedModelValue2);
+    
+    const selectedModelValue = this.selectedModel["680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"];
+    console.log("Selected Model Value: ", selectedModelValue);
 
-    if (selectedModelValue2 === "Armlehne mit halter ohne Schloss") {
+    if (selectedModelValue === "Armlehne mit halter ohne Schloss") {
       this.accumulatedDetails.push({
         position: { top: "40%", left: "40%" },
       });
       this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
     }
-    if (selectedModelValue2 === "Mit klappbarer Armlehne auf dem Bügel") {
+    if (selectedModelValue === "Mit klappbarer Armlehne auf dem Bügel") {
       this.accumulatedDetails.push({
         position: { top: "40%", left: "40%" },
       });
       this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
     }
-    if (selectedModelValue2 === "Ausführung Trennwand mit Glasscheibe") {
+    if (selectedModelValue === "Ausführung Trennwand mit Glasscheibe") {
       this.accumulatedDetails.push({
         position: { top: "40%", left: "40%" },
       });
