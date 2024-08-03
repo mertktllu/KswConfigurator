@@ -2549,31 +2549,29 @@ export default {
             this.imgSrc = "../assets/gegenüber/Resim3.png";
           }
         } 
-        else if (this.selectedGattung?.name?.trim() === "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2") {
-    const selectedOption = this.selectedModel["680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"];
-    console.log("Selected Option:", selectedOption); // Seçilen seçeneği konsola yazdırın
-    console.log("this.selectedModel:", this.selectedModel); // this.selectedModel nesnesini konsola yazdırın
+        if (this.selectedGattung?.name?.trim() === "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2") {
+    const selectedModelValue = this.selectedModel["680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"];
+    console.log("Selected Model Value: ", selectedModelValue);
 
-    if (selectedOption === "Armlehne mit halter ohne Schloss") {
-        this.accumulatedDetails.push({
-            position: { top: "40%", left: "40%" },
-        });
-        this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
-    }  if (selectedOption === "Mit klappbarer Armlehne auf dem Bügel") {
-        this.accumulatedDetails.push({
-            position: { top: "40%", left: "40%" },
-        });
-        this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
-    } if (selectedOption  === "Ausführung Trennwand mit Glasscheibe") {
-        this.accumulatedDetails.push({
-            position: { top: "40%", left: "40%" },
-        });
-        this.imgSrc = "../assets/gegenüber/glasscibe.png";
-    } else {
-        console.log("Unknown option selected"); // Bilinmeyen bir seçenek seçildiyse konsola yazdırın
+    if (selectedModelValue === "Armlehne mit halter ohne Schloss") {
+      this.accumulatedDetails.push({
+        position: { top: "40%", left: "40%" },
+      });
+      this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
     }
-    console.log("Image Source:", this.imgSrc); // Resim kaynağını konsola yazdırın
-}
+    if (selectedModelValue === "Mit klappbarer Armlehne auf dem Bügel") {
+      this.accumulatedDetails.push({
+        position: { top: "40%", left: "40%" },
+      });
+      this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
+    }
+    if (selectedModelValue === "Ausführung Trennwand mit Glasscheibe") {
+      this.accumulatedDetails.push({
+        position: { top: "40%", left: "40%" },
+      });
+      this.imgSrc = "../assets/gegenüber/glasscibe.png";
+    }
+  }
 
 
 
