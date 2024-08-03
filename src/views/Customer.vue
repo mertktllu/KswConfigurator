@@ -2377,7 +2377,8 @@ export default {
               position: { top: "8%", left: "30%" },
               color: this.getRalColor(this.selectedModel["Topcloser"]),
             });
-            imgSrc= "../assets/Showdetails/RAL3001.png";
+            
+          
           }
         } else if (
           this.selectedGattung?.name?.trim() === "78RD - Sitzarmlehnen"
@@ -2405,7 +2406,7 @@ export default {
             });
           }
         }
-        this.imgSrc = "../assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
+        this.imgSrc = "../assets/Showdetails/RAL3001.png"; // Set to the correct image path for Bestuhlung
       } else if (this.selectedMainGroup?.name?.trim() === "Haltestangen") {
         if (
           this.selectedGattung?.name?.trim() ===
