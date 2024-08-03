@@ -2505,7 +2505,7 @@ export default {
       });
       this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
     }
-    if (selectedModelValue === "Armlehne mit halter ohne Schloss") {
+    if (selectedModelValue === "Ausführung Trennwand mit Glasscheibe") {
       this.accumulatedDetails.push({
         position: { top: "40%", left: "40%" },
       });
