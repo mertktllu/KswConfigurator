@@ -2549,6 +2549,7 @@ export default {
             this.imgSrc = "../assets/gegenüber/Resim3.png";
           }
         } 
+      }
      else  if (this.selectedMainGroup?.name?.trim() === "Sondernutzungsfläche rechts vor Tür 2") {
   if (this.selectedGattung?.name?.trim() === "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2") {
     const selectedModelValue = this.selectedModel["680D - SNF gegenüber Tür 2"];
@@ -2574,7 +2575,7 @@ export default {
     }
   }
 }
-      }
+      
 
       this.selectedDetails = [...this.accumulatedDetails];
       this.showDetailsDialog = true;
