@@ -2550,8 +2550,8 @@ export default {
             });
             this.imgSrc = "../assets/gegenüber/Resim3.png";
           }
-        } 
- else if (this.selectedGattung?.name?.trim() === "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2") {
+        }
+ if (this.selectedGattung?.name?.trim() === "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2") {
     const selectedModelValue = this.selectedModel["680D - SNF gegenüber Tür 2"];
     console.log("Selected Model Value: ", selectedModelValue);
 
@@ -2574,7 +2574,7 @@ export default {
       this.imgSrc = "../assets/gegenüber/glasscibe.png";
     }
   }
-}
+} 
 
       this.selectedDetails = [...this.accumulatedDetails];
       this.showDetailsDialog = true;
