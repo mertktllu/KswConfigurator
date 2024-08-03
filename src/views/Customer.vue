@@ -2294,11 +2294,13 @@ export default {
       }
     },
     updateGegenuberImage(option) {
-      console.log("updateGegenuberImage çağrıldı, option:", option);
-      if (option) {
-        console.log("Option mevcut, işlem devam ediyor...");
+
+         if(this.selectedGattung?.name.trim()==="680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2")
+         this.selectedModel["680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"] = option;
+        else
         this.selectedModel["680A - SNF gegenüber Tür 2"] = option;
-        console.log("selectedModel güncellendi:", this.selectedModel);
+      if (option) {
+        console.log(option);
 
         if (
           option.trim() ===
