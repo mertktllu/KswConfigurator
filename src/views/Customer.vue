@@ -1788,7 +1788,7 @@ export default {
     const xEnd = this.calculateX2(detail);
     const yEnd = this.calculateY2(detail);
     const arrowLength = 10; // Ok uzunluğu
-    const arrowWidth = 5; // Ok genişliği
+    const arrowWidth = 10; // Ok genişliği
     return `${xEnd},${yEnd} ${xEnd - arrowWidth},${yEnd - arrowLength} ${xEnd + arrowWidth},${yEnd - arrowLength}`;
   },
     goHome() {
