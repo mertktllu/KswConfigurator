@@ -2312,11 +2312,11 @@ export default {
           if (this.selectedModel["Topcloser"]) {
             this.accumulatedDetails.push({
               text: this.selectedModel["Topcloser"],
-              position: { top: "10%", left: "30%" },
+              position: { top: "5%", left: "30%" },
               color: this.getRalColor(this.selectedModel["Topcloser"]),
               showArrow: true,
-              lineStart: { top: "15%", left: "30%" },  // Çizginin başladığı nokta
-              lineEnd: { top: "11%", left: "30%" }   
+              lineStart: { top: "8%", left: "30%" },  // Çizginin başladığı nokta
+              lineEnd: { top: "4%", left: "30%" }   
             });
             
           
