@@ -1438,7 +1438,7 @@
           <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
             <div v-for="(detail, index) in selectedDetails" :key="index">
               <span :style="{ position: 'absolute', top: detail.position.top, left: detail.position.left, color: detail.color || 'red', fontSize: '20px' }">{{ detail.text }}</span>
-              <svg :style="{ position: 'absolute', top: detail.lineStart.top, left: detail.lineStart.left }" width="100" height="100">
+              <svg v-if="detail.showArrow" :style="{ position: 'absolute', top: detail.lineStart.top, left: detail.lineStart.left }" width="100" height="100">
                 <line x1="0" y1="0" :x2="parseInt(detail.lineEnd.left) - parseInt(detail.lineStart.left)" :y2="parseInt(detail.lineEnd.top) - parseInt(detail.lineStart.top)" style="stroke:rgb(255,0,0);stroke-width:2" />
                 <polygon points="0,0 10,5 0,10" style="fill:red;" />
               </svg>
