@@ -1784,7 +1784,7 @@ export default {
       const xEnd = this.calculateX2(detail);
       const yEnd = this.calculateY2(detail);
       return `${xEnd},${yEnd} ${xEnd - 5},${yEnd - 5} ${xEnd + 5},${yEnd - 5}`;
-    }
+    },
 
     goHome() {
       router.push("/");
