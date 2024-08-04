@@ -1438,8 +1438,8 @@
       <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
         <div v-for="(detail, index) in selectedDetails" :key="index">
           <span :style="{ position: 'absolute', top: detail.position.top, left: detail.position.left, color: detail.color || 'red', fontSize: '20px' }">{{ detail.text }}</span>
-          <svg v-if="detail.showArrow" :style="{ position: 'absolute', top: detail.lineStart.top, left: detail.lineStart.left }" width="100" height="100">
-            <line x1="0" y1="0" :x2="parseInt(detail.lineEnd.left) - parseInt(detail.lineStart.left)" :y2="parseInt(detail.lineEnd.top) - parseInt(detail.lineStart.top)" style="stroke:rgb(255,0,0);stroke-width:2" />
+          <svg v-if="detail.showArrow" :style="{ position: 'absolute', top: detail.lineStart.top, left: detail.lineStart.left }" width="50" height="50">
+            <line x1="0" y1="0" :x2="calculateX2(detail)" :y2="calculateY2(detail)" style="stroke:rgb(255,0,0);stroke-width:2" />
             <polygon :points="getPolygonPoints(detail)" style="fill:red;" />
           </svg>
         </div>
@@ -1788,7 +1788,7 @@ export default {
     const xEnd = this.calculateX2(detail);
     const yEnd = this.calculateY2(detail);
     const arrowLength = 10; // Ok uzunluğu
-    const arrowWidth = 10; // Ok genişliği
+    const arrowWidth = 5; // Ok genişliği
     return `${xEnd},${yEnd} ${xEnd - arrowWidth},${yEnd - arrowLength} ${xEnd + arrowWidth},${yEnd - arrowLength}`;
   },
     goHome() {
