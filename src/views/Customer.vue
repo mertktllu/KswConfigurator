@@ -2376,6 +2376,8 @@ export default {
               text: this.selectedModel["Topcloser"],
               position: { top: "8%", left: "30%" },
               color: this.getRalColor(this.selectedModel["Topcloser"]),
+              lineStart: { top: "8%", left: "30%" },  // Çizginin başladığı nokta
+              lineEnd: { top: "50%", left: "50%" }   
             });
             
           
