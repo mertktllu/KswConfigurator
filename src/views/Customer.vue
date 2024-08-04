@@ -1440,6 +1440,7 @@
           <span :style="{ position: 'absolute', top: detail.position.top, left: detail.position.left, color: detail.color || 'red', fontSize: '20px' }">{{ detail.text }}</span>
           <svg v-if="detail.showArrow" :style="{ position: 'absolute', top: detail.lineStart.top, left: detail.lineStart.left }" width="100" height="100">
             <line x1="0" y1="0" :x2="parseInt(detail.lineEnd.left) - parseInt(detail.lineStart.left)" :y2="parseInt(detail.lineEnd.top) - parseInt(detail.lineStart.top)" style="stroke:rgb(255,0,0);stroke-width:2" />
+            <polygon :points="getPolygonPoints(detail)" style="fill:red;" />
           </svg>
         </div>
       </v-img>
@@ -1678,6 +1679,8 @@ export default {
         cam4_2T: 0,
         cam5_2T: 0,
       },
+     
+    
       cameraEnabled: {
         cam1_4T: true,
         cam2_4T: true,
@@ -1774,18 +1777,20 @@ export default {
       console.log("RAL kodu değişti:", this.selectedRalCode);
       this.updateHalCustomImg();
     },
-    calculateX2(detail) {
-      return parseInt(detail.lineEnd.left) - parseInt(detail.lineStart.left);
-    },
-    calculateY2(detail) {
-      return parseInt(detail.lineEnd.top) - parseInt(detail.lineStart.top);
-    },
-    getPolygonPoints(detail) {
-      const xEnd = this.calculateX2(detail);
-      const yEnd = this.calculateY2(detail);
-      return `${xEnd},${yEnd} ${xEnd - 5},${yEnd - 5} ${xEnd + 5},${yEnd - 5}`;
-    },
 
+     calculateX2(detail) {
+    return parseInt(detail.lineEnd.left) - parseInt(detail.lineStart.left);
+  },
+  calculateY2(detail) {
+    return parseInt(detail.lineEnd.top) - parseInt(detail.lineStart.top);
+  },
+  getPolygonPoints(detail) {
+    const xEnd = this.calculateX2(detail);
+    const yEnd = this.calculateY2(detail);
+    const arrowLength = 10; // Ok uzunluğu
+    const arrowWidth = 5; // Ok genişliği
+    return `${xEnd},${yEnd} ${xEnd - arrowWidth},${yEnd - arrowLength} ${xEnd + arrowWidth},${yEnd - arrowLength}`;
+  },
     goHome() {
       router.push("/");
     },
