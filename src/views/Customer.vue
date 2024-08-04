@@ -1423,7 +1423,6 @@
         </div>
       </div>
 
-      <!-- Show Details Dialog -->
       <v-dialog v-model="showDetailsDialog" max-width="800px">
   <v-card>
     <v-card-title>Details</v-card-title>
@@ -1438,16 +1437,10 @@
       <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
         <div v-for="(detail, index) in selectedDetails" :key="index">
           <span :style="{ position: 'absolute', top: detail.position.top, left: detail.position.left, color: detail.color || 'red', fontSize: '20px' }">{{ detail.text }}</span>
-          <svg v-if="detail.showArrow" :style="{ position: 'absolute', top: detail.lineStart.top, left: detail.lineStart.left }" width="50" height="50">
-            <line x1="0" y1="0" :x2="calculateX2(detail)" :y2="calculateY2(detail)" style="stroke:rgb(255,0,0);stroke-width:2" />
-            <polygon :points="getPolygonPoints(detail)" style="fill:red;" />
-          </svg>
         </div>
       </v-img>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="blue" @click="downloadDetailsImage">Download</v-btn>
-      <v-spacer></v-spacer>
       <v-btn color="red" @click="showDetailsDialog = false">Close</v-btn>
     </v-card-actions>
   </v-card>
@@ -1787,8 +1780,8 @@ export default {
   getPolygonPoints(detail) {
     const xEnd = this.calculateX2(detail);
     const yEnd = this.calculateY2(detail);
-    const arrowLength = 10; // Ok uzunluğu
-    const arrowWidth = 5; // Ok genişliği
+    const arrowLength = 15; // Ok uzunluğu
+    const arrowWidth = 10; // Ok genişliği
     return `${xEnd},${yEnd} ${xEnd - arrowWidth},${yEnd - arrowLength} ${xEnd + arrowWidth},${yEnd - arrowLength}`;
   },
     goHome() {
@@ -2322,23 +2315,34 @@ export default {
               position: { top: "65%", left: "25%" },
             });
           }
-        } else if (
-          this.selectedGattung?.name?.trim() === "78RI - Sitzhaltegriffe"
-        ) {
-          // Add details for Gattung 78RI
-          if (this.selectedModel["Topcloser"]) {
-            this.accumulatedDetails.push({
-              text: this.selectedModel["Topcloser"],
-              position: { top: "-20", left: "30%" },
-              color: this.getRalColor(this.selectedModel["Topcloser"]),
-              showArrow: true,
-              lineStart: { top: "0%", left: "30%" },  // Çizginin başladığı nokta
-              lineEnd: { top: "40%", left: "30%" } 
-            });
-            
-          
-          }
-        } else if (
+        } else if (this.selectedGattung?.name?.trim() === "78RI - Sitzhaltegriffe") {
+  // Add details for Gattung 78RI );
+  
+  
+  if(this.selectedModel["Topcloser"]==="RAL 3001")
+       {
+        this.imgSrc = "../assets/Showdetails/topcloser/RAL3001.png";   
+       }
+
+       if(this.selectedModel["Topcloser"]==="RAL 1023")
+       {
+        this.imgSrc = "../assets/Showdetails/topcloser/RAL1023.png";   
+       }
+       if(this.selectedModel["Topcloser"]==="RAL 7016")
+       {
+        this.imgSrc = "../assets/Showdetails/topcloser/RAL7016.png";   
+       }
+       if(this.selectedModel["Topcloser"]==="RAL 7037")
+       {
+        this.imgSrc = "../assets/Showdetails/topcloser/RAL7037.png";   
+       }
+       if(this.selectedModel["Topcloser"]==="RAL 9004")
+       {
+        this.imgSrc = "../assets/Showdetails/topcloser/RAL9004.png";   
+       }
+  }
+
+ else if (
           this.selectedGattung?.name?.trim() === "78RD - Sitzarmlehnen"
         ) {
           if (this.selectedModel["Gangseitige klappbare armlehne"]) {
@@ -2350,6 +2354,7 @@ export default {
               ),
             });
           }
+          this.imgSrc = "../assets/Bestuhlung/bestuhlung_default.jpeg";
         } else if (
           this.selectedGattung?.name?.trim() === "770A - Fahrgastsitz-Rückseite"
         ) {
@@ -2363,8 +2368,11 @@ export default {
               ),
             });
           }
+          this.imgSrc = "../assets/Bestuhlung/bestuhlung_default.jpeg";
         }
-        this.imgSrc = "../assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
+        
+       
+      // Set to the correct image path for Bestuhlung
       } else if (this.selectedMainGroup?.name?.trim() === "Haltestangen") {
         if (
           this.selectedGattung?.name?.trim() ===
@@ -2382,6 +2390,8 @@ export default {
               text: this.selectedModel["Nur Deckenhaltestangen in"],
               position: { top: "20%", left: "50%" },
             });
+              
+
             // Update imgSrc based on selected RAL code
           }
           this.imgSrc = "../assets/Haltestangen/080CC.jpg";
