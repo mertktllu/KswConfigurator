@@ -1425,95 +1425,33 @@
 
       <!-- Show Details Dialog -->
       <v-dialog v-model="showDetailsDialog" max-width="800px">
-        <v-card>
-          <v-card-title>Details</v-card-title>
-          <v-card-text>
-            <p>
-              <strong>Main Group:</strong> {{ selectedMainGroup?.name?.trim() }}
-            </p>
-            <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim() }}</p>
-            <template v-if="selectedMainGroup?.name?.trim() === 'Camera'">
-              <p v-if="selectedModel.Type">
-                <strong>Type:</strong> {{ selectedModel.Type }}
-              </p>
-              <p v-if="selectedModel.Recorder">
-                <strong>Recorder:</strong> {{ selectedModel.Recorder }}
-              </p>
-              <p v-if="selectedModel.Length">
-                <strong>Length:</strong> {{ selectedModel.Length }}
-              </p>
-            </template>
-            <template v-if="selectedMainGroup?.name?.trim() === 'Bestuhlung'">
-              <div v-if="selectedGattung?.name?.trim() === '704A - Bestuhlung'">
-                <p v-if="selectedModel['Alle Sitze ohne Logo/Branding.']">
-                  <strong>Logo/Branding:</strong>
-                  {{ selectedModel["Alle Sitze ohne Logo/Branding."] }}
-                </p>
-                <p v-if="selectedModel['STER 8 MS']">
-                  <strong>STER 8 MS:</strong> {{ selectedModel["STER 8 MS"] }}
-                </p>
-              </div>
-              <div
-                v-if="
-                  selectedGattung?.name?.trim() === '78RI - Sitzhaltegriffe'
-                "
-              >
-                <p v-if="selectedModel['Topcloser für EM']">
-                  <strong>Topcloser für EM:</strong>
-                  {{ selectedModel["Topcloser für EM"] }}
-                </p>
-              </div>
-              <div
-                v-if="selectedGattung?.name?.trim() === '78RD - Sitzarmlehnen'"
-              >
-                <p v-if="selectedModel['Gangseitige fixiert bügel color']">
-                  <strong>Gangseitige fixiert bügel color:</strong
-                  >{{ selectedModel["Gangseitige fixiert bügel color"] }}
-                </p>
-              </div>
-            </template>
-            <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
-              <div
-                v-for="(detail, index) in selectedDetails"
-                :key="index"
-                :style="{
-                  position: 'absolute',
-                  top: detail.position.top,
-                  left: detail.position.left,
-                }"
-              >
-                <template v-if="detail.icon">
-                  <svg
-                    :style="{ transform: `rotate(${detail.rotation}deg)` }"
-                    width="30"
-                    height="20"
-                    viewBox="0 0 48 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M19 14.5L40.75 1.94263V27.0574L19 14.5Z"
-                      fill="#6887F5"
-                    />
-                    <rect width="29" height="29" rx="3" fill="#6887F5" />
-                  </svg>
-                </template>
-                <template v-else>
-                  <span
-                    :style="{ color: detail.color || 'red', fontSize: '20px' }"
-                    >{{ detail.text }}</span
-                  >
-                </template>
-              </div>
-            </v-img>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="blue" @click="downloadDetailsImage">Download</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="red" @click="showDetailsDialog = false">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <v-card>
+        <v-card-title>Details</v-card-title>
+        <v-card-text>
+          <p>
+            <strong>Main Group:</strong> {{ selectedMainGroup?.name?.trim() }}
+          </p>
+          <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim() }}</p>
+          <div v-for="(detail, index) in selectedDetails" :key="index">
+            <span :style="{ color: detail.color || 'black' }">{{ detail.text }}</span>
+          </div>
+          <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
+            <div v-for="(detail, index) in selectedDetails" :key="index">
+              <span :style="{ position: 'absolute', top: detail.position.top, left: detail.position.left, color: detail.color || 'red', fontSize: '20px' }">{{ detail.text }}</span>
+              <svg :style="{ position: 'absolute', top: detail.lineStart.top, left: detail.lineStart.left }" width="100" height="100">
+                <line x1="0" y1="0" :x2="parseInt(detail.lineEnd.left) - parseInt(detail.lineStart.left)" :y2="parseInt(detail.lineEnd.top) - parseInt(detail.lineStart.top)" style="stroke:rgb(255,0,0);stroke-width:2" />
+                <polygon points="0,0 10,5 0,10" style="fill:red;" />
+              </svg>
+            </div>
+          </v-img>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="blue" @click="downloadDetailsImage">Download</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="red" @click="showDetailsDialog = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     </div>
   </v-container>
 </template>
