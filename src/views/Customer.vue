@@ -1425,34 +1425,33 @@
 
       <!-- Show Details Dialog -->
       <v-dialog v-model="showDetailsDialog" max-width="800px">
-  <v-card>
-    <v-card-title>Details</v-card-title>
-    <v-card-text>
-      <p>
-        <strong>Main Group:</strong> {{ selectedMainGroup?.name?.trim() }}
-      </p>
-      <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim() }}</p>
-      <div v-for="(detail, index) in selectedDetails" :key="index">
-        <span :style="{ color: detail.color || 'black' }">{{ detail.text }}</span>
-      </div>
-      <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
-        <div v-for="(detail, index) in selectedDetails" :key="index">
-          <span :style="{ position: 'absolute', top: detail.position.top, left: detail.position.left, color: detail.color || 'red', fontSize: '20px' }">{{ detail.text }}</span>
-          <svg :style="{ position: 'absolute', top: detail.lineStart.top, left: detail.lineStart.left }" width="100" height="100">
-            <line x1="0" y1="0" :x2="calculateXEnd(detail)" :y2="calculateYEnd(detail)" style="stroke:rgb(255,0,0);stroke-width:2" />
-            <polygon :points="getPolygonPoints(detail)" style="fill:red;" />
-          </svg>
-        </div>
-      </v-img>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn color="blue" @click="downloadDetailsImage">Download</v-btn>
-      <v-spacer></v-spacer>
-      <v-btn color="red" @click="showDetailsDialog = false">Close</v-btn>
-    </v-card-actions>
-  </v-card>
-</v-dialog>
-
+      <v-card>
+        <v-card-title>Details</v-card-title>
+        <v-card-text>
+          <p>
+            <strong>Main Group:</strong> {{ selectedMainGroup?.name?.trim() }}
+          </p>
+          <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim() }}</p>
+          <div v-for="(detail, index) in selectedDetails" :key="index">
+            <span :style="{ color: detail.color || 'black' }">{{ detail.text }}</span>
+          </div>
+          <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
+            <div v-for="(detail, index) in selectedDetails" :key="index">
+              <span :style="{ position: 'absolute', top: detail.position.top, left: detail.position.left, color: detail.color || 'red', fontSize: '20px' }">{{ detail.text }}</span>
+              <svg v-if="detail.showArrow" :style="{ position: 'absolute', top: detail.lineStart.top, left: detail.lineStart.left }" width="100" height="100">
+                <line x1="0" y1="0" :x2="parseInt(detail.lineEnd.left) - parseInt(detail.lineStart.left)" :y2="parseInt(detail.lineEnd.top) - parseInt(detail.lineStart.top)" style="stroke:rgb(255,0,0);stroke-width:2" />
+                <polygon points="0,0 10,5 0,10" style="fill:red;" />
+              </svg>
+            </div>
+          </v-img>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="blue" @click="downloadDetailsImage">Download</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="red" @click="showDetailsDialog = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     </div>
   </v-container>
 </template>
@@ -2313,11 +2312,11 @@ export default {
           if (this.selectedModel["Topcloser"]) {
             this.accumulatedDetails.push({
               text: this.selectedModel["Topcloser"],
+              position: { top: "8%", left: "30%" },
               color: this.getRalColor(this.selectedModel["Topcloser"]),
               showArrow: true,
-              position: { top: '30%', left: '10%' },
-              lineStart: { top: '20%', left: '15%' },
-              lineEnd: { top: '30%', left: '10%' },
+              lineStart: { top: "8%", left: "30%" },  // Çizginin başladığı nokta
+              lineEnd: { top: "50%", left: "50%" }   
             });
             
           
@@ -2597,17 +2596,6 @@ export default {
           link.click();
         };
       },
-      calculateXEnd(detail) {
-      return parseInt(detail.lineEnd.left) - parseInt(detail.lineStart.left);
-    },
-    calculateYEnd(detail) {
-      return parseInt(detail.lineEnd.top) - parseInt(detail.lineStart.top);
-    },
-    getPolygonPoints(detail) {
-      const xEnd = this.calculateXEnd(detail);
-      const yEnd = this.calculateYEnd(detail);
-      return `${xEnd},${yEnd} ${xEnd - 5},${yEnd - 5} ${xEnd + 5},${yEnd - 5}`;
-    },
     },
   },
 };
