@@ -2315,10 +2315,9 @@ export default {
               position: { top: "65%", left: "25%" },
             });
           }
-        } else if (this.selectedGattung?.name?.trim() === "78RI - Sitzhaltegriffe") {
+        } 
+        else if (this.selectedGattung?.name?.trim() === "78RI - Sitzhaltegriffe") {
   // Add details for Gattung 78RI );
-  
-  
   if(this.selectedModel["Topcloser"]==="RAL 3001")
        {
         this.imgSrc = "../assets/Showdetails/topcloser/RAL3001.png";   
@@ -2341,35 +2340,57 @@ export default {
         this.imgSrc = "../assets/Showdetails/topcloser/RAL9004.png";   
        }
   }
-
  else if (
           this.selectedGattung?.name?.trim() === "78RD - Sitzarmlehnen"
         ) {
-          if (this.selectedModel["Gangseitige klappbare armlehne"]) {
-            this.accumulatedDetails.push({
-              text: this.selectedModel["Gangseitige klappbare armlehne"],
-              position: { top: "50%", left: "8%" },
-              color: this.getRalColor(
-                this.selectedModel["Gangseitige klappbare armlehne"]
-              ),
-            });
+          if (this.selectedModel["Gangseitige klappbare armlehne"]==="RAL 9004") {
+            this.imgSrc= "../assets/Showdetails/armlehne/RAL9004.png"
+          
           }
-          this.imgSrc = "../assets/Bestuhlung/bestuhlung_default.jpeg";
+          if (this.selectedModel["Gangseitige klappbare armlehne"]==="dunkelgrau NCS S8000N (serie)") {
+            this.imgSrc="../assets/Showdetails/armlehne/NCSS8000-N.png"
+          
+          }
+        
         } else if (
           this.selectedGattung?.name?.trim() === "770A - Fahrgastsitz-Rückseite"
         ) {
-          // Add details for Kunststoff-Fahrgastsitzrückseite
-          if (this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]) {
-            this.accumulatedDetails.push({
-              text: this.selectedModel["Kunststoff-Fahrgastsitzrückseite"],
-              position: { top: "40%", left: "80%" },
-              color: this.getRalColor(
-                this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]
-              ),
-            });
+          
+          if(this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]==="RAL 1003")
+       {
+        this.imgSrc = "../assets/Showdetails/Kunststoff/RAL1003.png";   
+       }
+
+       if(this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]==="RAL 3003")
+       {
+        this.imgSrc = "../assets/Showdetails/Kunststoff/RAL3003.png";   
+       }
+       if(this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]==="RAL 3020")
+       {
+        this.imgSrc = "../assets/Showdetails/Kunststoff/RAL3020.png";   
+       }
+       if(this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]==="RAL 5007")
+       {
+        this.imgSrc = "../assets/Showdetails/Kunststoff/RAL5007.png";   
+       }
+       if(this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]==="RAL 7016")
+       {
+        this.imgSrc = "../assets/Showdetails/Kunststoff/RAL7016.png";   
+       }
+       if(this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]==="RAL 7037")
+       {
+        this.imgSrc = "../assets/Showdetails/Kunststoff/RAL7037.png";   
+       }
+       if(this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]==="RAL 1015")
+       {
+        this.imgSrc = "../assets/Showdetails/Kunststoff/RAL1015.png";   
+       }
+     
+
           }
-          this.imgSrc = "../assets/Bestuhlung/bestuhlung_default.jpeg";
-        }
+        
+      
+        
         
        
       // Set to the correct image path for Bestuhlung
