@@ -1216,6 +1216,10 @@
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   :label="$t('selectOption')"
+                  dense
+                  solo
+                  outlined
+                  hide-details
                   @change="handleRalCodeChange"
                 ></v-select>
                 
@@ -1523,9 +1527,12 @@ export default {
       this.onGattungChange(newVal);
     },
     selectedRalCode(newVal, oldVal) {
+      console.log("selectedralcode");
+      this.selectedModel['Nur Deckenhaltestangen in'] = newVal;
       this.updateHalCustomImg();
     },
     selectedRalCodeB(newVal, oldVal) {
+      console.log("selectedralcodeB");
       this.selectedModel['Topcloser'] = newVal;
       
       this.updateBestCustomImg();
@@ -1533,15 +1540,18 @@ export default {
 
     selectedRalCodeGang(newVal,oldVal)
     {
+      console.log("selectedralcodeGang");
       this.selectedModel['Gangseitige klappbare armlehne'] = newVal;
-      this.updateBestCustomImg();
+      this.updateArmlehne();
       
     },
     selectedRalCodeKuns(newVal,oldVal){
+      console.log("Kunststoff");
       this.selectedModel['Kunststoff-Fahrgastsitzrückseite'] = newVal;
-      this.updateBestCustomImg();
+      this.updateKunstoff();
 
     },
+
     
     selectedGegenuberOption(newOption) {
       this.updateGegenuberImage(newOption);
@@ -1838,6 +1848,7 @@ export default {
   methods: {
     handleRalCodeChange() {
       console.log("RAL kodu değişti:", this.selectedRalCode);
+      this.updateSelection('Topcloser', this.selectedRalCode);
       this.updateHalCustomImg();
     },
     handleTopcloserImageChange() {
@@ -1850,7 +1861,7 @@ export default {
 },
 handleGangImageChange() {
      
-     this.updateBestCustomImg();
+     this.updateArmlehne();
      // İkinci log
      this.updateSelection('Gangseitige klappbare armlehne', this.selectedRalCodeGang
      ); // Bu satır zaten ekliydi
@@ -1858,7 +1869,7 @@ handleGangImageChange() {
    },
    handleKusImageChange() {
      
-     this.updateBestCustomImg();
+     this.updateKunstoff();
      // İkinci log
      this.updateSelection('Kunststoff-Fahrgastsitzrückseite', this.selectedRalCodeKuns
      ); // Bu satır zaten ekliydi
@@ -2307,12 +2318,7 @@ handleGangImageChange() {
       }
     },
     updateBestCustomImg() {
-      
-  console.log("updateBestCustomImg function triggered with RAL Code:", this.selectedRalCodeB);
-  console.log("Current selectedModel['Topcloser']:", this.selectedModel['Topcloser']);
-
-  if(this.selectedModel['Topcloser']){
-    console.log("Topcloser");
+ 
   
   if(this.selectedRalCodeB === "RAL 3001") {
     console.log("Setting best_customimg to RAL3001");
@@ -2338,10 +2344,12 @@ handleGangImageChange() {
     console.log("Setting best_customimg to RAL9004");
     this.best_customimg = "../assets/Showdetails/topcloser/RAL9004.png";   
   }
+},
 
-  }
+  updateArmlehne()
+  {
 
- if(this.selectedModel['Gangseitige klappbare armlehne']){
+    if(this.selectedModel['Gangseitige klappbare armlehne']){
   console.log("armlehne");
   
   if(this.selectedRalCodeGang === "RAL 9004") {
@@ -2354,7 +2362,15 @@ this.best_customimg = "../assets/Showdetails/armlehne/NCSS8000-N.png";
 }
 
 }
-if(this.selectedModel['Kunststoff-Fahrgastsitzrückseite']){
+  
+
+  },
+
+  updateKunstoff()
+
+  {
+
+    if(this.selectedModel['Kunststoff-Fahrgastsitzrückseite']){
   
   
   if(this.selectedRalCodeKuns === "RAL 1003") {
@@ -2371,11 +2387,15 @@ this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL3020.png";
 }
 if(this.selectedRalCodeKuns === "RAL 5007") {
 
-this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL7016.png";   
+this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL5007.png";   
 }
 if(this.selectedRalCodeKuns === "RAL 7037") {
 
 this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL7037.png";   
+}
+if(this.selectedRalCodeKuns === "RAL 7016") {
+
+this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL7016.png";   
 }
 if(this.selectedRalCodeKuns === "RAL 1015") {
 
@@ -2383,17 +2403,20 @@ this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL1015.png";
 }
 
 }
-
-
-    },
-  
-
-
+  },
 
     checkAndUpdateHalCustomImg(product) {
       if (product.name?.trim() === "Nur Deckenhaltestangen in") {
-        console.log("checkandupdate");
+        
         this.updateHalCustomImg(product.ralCode);
+      }
+     else if (product.name?.trim() === "Kunststoff-Fahrgastsitzrückseite") {
+        
+        this.updateKunstoff(product.ralCode);
+      }
+     else if (product.name?.trim() === "Topcloser") {
+       
+        this.updateBestCustomImg(product.ralCode);
       }
     },
 
@@ -2588,16 +2611,21 @@ this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL1015.png";
               position: { top: "52%", left: "82%" },
             });
           }
-          if (this.selectedModel["Nur Deckenhaltestangen in"]) {
-            this.accumulatedDetails.push({
-              text: this.selectedModel["Nur Deckenhaltestangen in"],
-              position: { top: "20%", left: "50%" },
-            });
-              
+          if (this.selectedModel["Nur Deckenhaltestangen in"] === "RAL 3000") {
 
+            this.imgSrc = "../assets/Haltestangen/3000.jpg";
             // Update imgSrc based on selected RAL code
           }
-          this.imgSrc = "../assets/Haltestangen/080CC.jpg";
+          if (this.selectedModel["Nur Deckenhaltestangen in"] === "RAL 080C") {
+            this.imgSrc = "../assets/Haltestangen/080CC.jpg";
+// Update imgSrc based on selected RAL code
+}
+if (this.selectedModel["Nur Deckenhaltestangen in"] === "RAL 1003") {
+
+this.imgSrc = "../assets/Haltestangen/1003.jpg";
+// Update imgSrc based on selected RAL code
+}
+         
         }
       } else if (
         this.selectedMainGroup?.name?.trim() === "Fahrtziealanzeige Heck"
