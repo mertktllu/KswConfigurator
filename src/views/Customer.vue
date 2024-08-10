@@ -511,7 +511,7 @@
             <!-- Bestuhlung -->
             <v-img
               v-else-if="selectedMainGroup?.name?.trim() === 'Bestuhlung'"
-              :src="chairImage"
+              :src="best_customimg"
               style="width: 120%; height: auto; display: block; bottom: auto"
             >
               <v-row>
@@ -1218,6 +1218,51 @@
                   :label="$t('selectOption')"
                   @change="handleRalCodeChange"
                 ></v-select>
+                
+                <v-select
+  v-else-if="subProduct.name?.trim() === 'Topcloser'"
+  :items="subProduct.options"
+  :item-text="(item) => item"
+  :item-value="(item) => item"
+  v-model="selectedRalCodeB" 
+  :label="$t('selectOption')"
+  dense
+  solo
+  outlined
+  hide-details
+  @change="handleTopcloserImageChange" 
+></v-select>
+
+<v-select
+  v-else-if="subProduct.name?.trim() === 'Gangseitige klappbare armlehne'"
+  :items="subProduct.options"
+  :item-text="(item) => item"
+  :item-value="(item) => item"
+  v-model="selectedRalCodeGang" 
+  :label="$t('selectOption')"
+  dense
+  solo
+  outlined
+  hide-details
+  @change="handleGangImageChange" 
+></v-select>
+
+<v-select
+  v-else-if="subProduct.name?.trim() === 'Kunststoff-Fahrgastsitzrückseite'"
+  :items="subProduct.options"
+  :item-text="(item) => item"
+  :item-value="(item) => item"
+  v-model="selectedRalCodeKuns" 
+  :label="$t('selectOption')"
+  dense
+  solo
+  outlined
+  hide-details
+  @change="handleKusImageChange" 
+></v-select>
+
+
+                
 
                 <v-select
                   v-else-if="
@@ -1480,6 +1525,24 @@ export default {
     selectedRalCode(newVal, oldVal) {
       this.updateHalCustomImg();
     },
+    selectedRalCodeB(newVal, oldVal) {
+      this.selectedModel['Topcloser'] = newVal;
+      
+      this.updateBestCustomImg();
+    },
+
+    selectedRalCodeGang(newVal,oldVal)
+    {
+      this.selectedModel['Gangseitige klappbare armlehne'] = newVal;
+      this.updateBestCustomImg();
+      
+    },
+    selectedRalCodeKuns(newVal,oldVal){
+      this.selectedModel['Kunststoff-Fahrgastsitzrückseite'] = newVal;
+      this.updateBestCustomImg();
+
+    },
+    
     selectedGegenuberOption(newOption) {
       this.updateGegenuberImage(newOption);
     },
@@ -1514,8 +1577,11 @@ export default {
     },
 
     hasSelections() {
-      return Object.keys(this.selectedModel).length > 0;
-    },
+    // selectedModel içinde herhangi bir değer varsa true döndür
+    return Object.keys(this.selectedModel).some(
+      (key) => this.selectedModel[key]
+    );
+  },
     comModels() {
       const found = this.products.find(
         (p) => p.name?.trim() === this.selectedMainGroup
@@ -1642,6 +1708,9 @@ export default {
       selectedRechtsOption: null,
       selectedType: null,
       selectedRalCode: null,
+      selectedRalCodeB:null,
+      selectedRalCodeGang:null,
+      selectedRalCodeKuns:null,
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
@@ -1736,6 +1805,7 @@ export default {
       hal_customimg: "/assets/Haltestangen/080CC.jpg",
       hal_3000img: "/assets/Haltestangen/3000.jpg",
       hal_1003img: "/assets/Haltestangen/1003.jpg",
+      best_customimg:"https://mandb.s3.eu-north-1.amazonaws.com/normal.png",
 
       gegenuber1img: "/assets/gegenüber/Resim1.png",
       gegenuber2img: "/assets/gegenüber/Resim2.png",
@@ -1770,6 +1840,31 @@ export default {
       console.log("RAL kodu değişti:", this.selectedRalCode);
       this.updateHalCustomImg();
     },
+    handleTopcloserImageChange() {
+     
+  this.updateBestCustomImg();
+ 
+  console.log("updateBestCustomImg çağrıldıktan sonra Topcloser:", this.selectedRalCodeB); // İkinci log
+  this.updateSelection('Topcloser', this.selectedRalCodeB); // Bu satır zaten ekliydi
+  console.log('Güncellenen selectedModel:', this.selectedModel); // selectedModel'in durumunu kontrol edelim
+},
+handleGangImageChange() {
+     
+     this.updateBestCustomImg();
+     // İkinci log
+     this.updateSelection('Gangseitige klappbare armlehne', this.selectedRalCodeGang
+     ); // Bu satır zaten ekliydi
+     console.log('Güncellenen selectedModel:', this.selectedModel); // selectedModel'in durumunu kontrol edelim
+   },
+   handleKusImageChange() {
+     
+     this.updateBestCustomImg();
+     // İkinci log
+     this.updateSelection('Kunststoff-Fahrgastsitzrückseite', this.selectedRalCodeKuns
+     ); // Bu satır zaten ekliydi
+     console.log('Güncellenen selectedModel:', this.selectedModel); // selectedModel'in durumunu kontrol edelim
+   },
+
 
      calculateX2(detail) {
     return parseInt(detail.lineEnd.left) - parseInt(detail.lineStart.left);
@@ -2211,6 +2306,90 @@ export default {
         this.hal_customimg = "/assets/Haltestangen/3000.jpg";
       }
     },
+    updateBestCustomImg() {
+      
+  console.log("updateBestCustomImg function triggered with RAL Code:", this.selectedRalCodeB);
+  console.log("Current selectedModel['Topcloser']:", this.selectedModel['Topcloser']);
+
+  if(this.selectedModel['Topcloser']){
+    console.log("Topcloser");
+  
+  if(this.selectedRalCodeB === "RAL 3001") {
+    console.log("Setting best_customimg to RAL3001");
+    this.best_customimg = "../assets/Showdetails/topcloser/RAL3001.png";   
+  }
+
+  if(this.selectedRalCodeB === "RAL 1023") {
+    console.log("Setting best_customimg to RAL1023");
+    this.best_customimg = "../assets/Showdetails/topcloser/RAL1023.png";   
+  }
+
+  if(this.selectedRalCodeB === "RAL 7016") {
+    console.log("Setting best_customimg to RAL7016");
+    this.best_customimg = "../assets/Showdetails/topcloser/RAL7016.png";   
+  }
+
+  if(this.selectedRalCodeB === "RAL 7037") {
+    console.log("Setting best_customimg to RAL7037");
+    this.best_customimg = "../assets/Showdetails/topcloser/RAL7037.png";   
+  }
+
+  if(this.selectedRalCodeB === "RAL 9004") {
+    console.log("Setting best_customimg to RAL9004");
+    this.best_customimg = "../assets/Showdetails/topcloser/RAL9004.png";   
+  }
+
+  }
+
+ if(this.selectedModel['Gangseitige klappbare armlehne']){
+  console.log("armlehne");
+  
+  if(this.selectedRalCodeGang === "RAL 9004") {
+
+    this.best_customimg = "../assets/Showdetails/armlehne/RAL9004.png";   
+}
+if(this.selectedRalCodeGang === "dunkelgrau NCS S8000N (serie)") {
+
+this.best_customimg = "../assets/Showdetails/armlehne/NCSS8000-N.png";   
+}
+
+}
+if(this.selectedModel['Kunststoff-Fahrgastsitzrückseite']){
+  
+  
+  if(this.selectedRalCodeKuns === "RAL 1003") {
+
+    this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL1003.png";   
+}
+if(this.selectedRalCodeKuns === "RAL 3003") {
+
+this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL3003.png";   
+}
+if(this.selectedRalCodeKuns === "RAL 3020") {
+
+this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL3020.png";   
+}
+if(this.selectedRalCodeKuns === "RAL 5007") {
+
+this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL7016.png";   
+}
+if(this.selectedRalCodeKuns === "RAL 7037") {
+
+this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL7037.png";   
+}
+if(this.selectedRalCodeKuns === "RAL 1015") {
+
+this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL1015.png";   
+}
+
+}
+
+
+    },
+  
+
+
+
     checkAndUpdateHalCustomImg(product) {
       if (product.name?.trim() === "Nur Deckenhaltestangen in") {
         console.log("checkandupdate");
@@ -2296,6 +2475,7 @@ export default {
     showDetails() {
       console.log("Show Details button clicked"); // Debug log
       // Export data üzerinden dönerek product'ları kontrol edelim
+      console.log("Selected model:",this.selectedModel);
 
       // Reset accumulated details
       this.accumulatedDetails = [];
@@ -2316,30 +2496,35 @@ export default {
             });
           }
         } 
-        else if (this.selectedGattung?.name?.trim() === "78RI - Sitzhaltegriffe") {
-  // Add details for Gattung 78RI );
-  if(this.selectedModel["Topcloser"]==="RAL 3001")
-       {
+       else if (this.selectedGattung?.name?.trim() === "78RI - Sitzhaltegriffe") {
+      console.log("Inside 78RI - Sitzhaltegriffe");
+      
+      // Topcloser seçimi ve resim güncellemesi
+      if (this.selectedModel["Topcloser"] === "RAL 3001") {
+        console.log("Topcloser Selected RAL 3001");
         this.imgSrc = "../assets/Showdetails/topcloser/RAL3001.png";   
-       }
-
-       if(this.selectedModel["Topcloser"]==="RAL 1023")
-       {
+      }
+      if (this.selectedModel["Topcloser"] === "RAL 1023") {
+        console.log("Topcloser Selected RAL 1023");
         this.imgSrc = "../assets/Showdetails/topcloser/RAL1023.png";   
-       }
-       if(this.selectedModel["Topcloser"]==="RAL 7016")
-       {
+      }
+      if (this.selectedModel["Topcloser"] === "RAL 7016") {
+        console.log("Topcloser Selected RAL 7016");
         this.imgSrc = "../assets/Showdetails/topcloser/RAL7016.png";   
-       }
-       if(this.selectedModel["Topcloser"]==="RAL 7037")
-       {
+      }
+      if (this.selectedModel["Topcloser"] === "RAL 7037") {
+        console.log("Topcloser Selected RAL 7037");
         this.imgSrc = "../assets/Showdetails/topcloser/RAL7037.png";   
-       }
-       if(this.selectedModel["Topcloser"]==="RAL 9004")
-       {
+      }
+      if (this.selectedModel["Topcloser"] === "RAL 9004") {
+        console.log("Topcloser Selected RAL 9004");
         this.imgSrc = "../assets/Showdetails/topcloser/RAL9004.png";   
-       }
-  }
+      }
+      console.log("Image source set to:", this.imgSrc);
+    }
+
+    
+  
  else if (
           this.selectedGattung?.name?.trim() === "78RD - Sitzarmlehnen"
         ) {
@@ -2386,11 +2571,8 @@ export default {
         this.imgSrc = "../assets/Showdetails/Kunststoff/RAL1015.png";   
        }
      
-
-          }
-        
-      
-        
+      }
+            
         
        
       // Set to the correct image path for Bestuhlung
