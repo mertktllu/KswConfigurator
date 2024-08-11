@@ -1545,6 +1545,7 @@
 <script>
 import router from "@/router";
 import axios from "axios";
+import html2canvas from "html2canvas";
 import { mapActions } from "vuex";
 export default {
   mounted() {
@@ -2882,51 +2883,19 @@ export default {
       return positions[cameraKey] || { top: "0%", left: "0%" };
     },
     downloadDetailsImage() {
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-      const imgElement = this.$refs.detailsImage;
+      const element = this.$refs.detailsDialog; // Reference to the dialog element
 
-      // Set canvas dimensions to match the image element
-      canvas.width = imgElement.clientWidth;
-      canvas.height = imgElement.clientHeight;
-
-      // Draw the image onto the canvas
-      const img = new Image();
-      img.crossOrigin = "anonymous"; // Enable cross-origin for downloading the image
-      img.src = imgElement.src;
-
-      img.onload = () => {
-        context.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-        // Check if there are any SVG elements for the cameras and draw them onto the canvas
-        const svgElements = imgElement.querySelectorAll("svg");
-        svgElements.forEach((svg) => {
-          const svgData = new XMLSerializer().serializeToString(svg);
-          const svgBlob = new Blob([svgData], {
-            type: "image/svg+xml;charset=utf-8",
-          });
-          const svgUrl = URL.createObjectURL(svgBlob);
-
-          const imgSvg = new Image();
-          imgSvg.src = svgUrl;
-
-          imgSvg.onload = () => {
-            context.drawImage(
-              imgSvg,
-              parseFloat(svg.style.left),
-              parseFloat(svg.style.top),
-              svg.clientWidth,
-              svg.clientHeight
-            );
-          };
+      html2canvas(element, { scale: 2 })
+        .then((canvas) => {
+          // Convert the canvas to an image and trigger download
+          const link = document.createElement("a");
+          link.href = canvas.toDataURL("image/png");
+          link.download = "details.png";
+          link.click();
+        })
+        .catch((error) => {
+          console.error("Error capturing the image: ", error);
         });
-
-        // Trigger download
-        const link = document.createElement("a");
-        link.href = canvas.toDataURL("image/png");
-        link.download = "details.png";
-        link.click();
-      };
     },
   },
 };
