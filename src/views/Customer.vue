@@ -2344,6 +2344,18 @@ handleGangImageChange() {
     console.log("Setting best_customimg to RAL9004");
     this.best_customimg = "../assets/Showdetails/topcloser/RAL9004.png";   
   }
+  if (this.selectedRalCodeB === "NCS S2500N") {
+        
+        this.best_customimg = "../assets/Showdetails/topcloser/NCSS2500N.png";   
+      }
+      if (this.selectedRalCodeB === "dunkelgrau NCS S8000N (serie)") {
+       
+        this.best_customimg = "../assets/Showdetails/topcloser/dunkelgrauncss8000-n.png";   
+      }
+
+
+
+
 },
 
   updateArmlehne()
@@ -2401,6 +2413,10 @@ if(this.selectedRalCodeKuns === "RAL 1015") {
 
 this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL1015.png";   
 }
+if(this.selectedRalCodeKuns==="grau NCS S 6000 N (serie)")
+{
+        this.best_customimg = "../assets/Showdetails/Kunststoff/dunkelgrauncss8000-n.png";
+       }
 
 }
   },
@@ -2509,41 +2525,57 @@ this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL1015.png";
           if (this.selectedModel["mit Schaum Sitzpolster"]) {
             this.accumulatedDetails.push({
               text: this.selectedModel["mit Schaum Sitzpolster"],
-              position: { top: "35%", left: "35%" },
+              position: { top: "60%", left: "32%" },
             });
+            this.imgSrc="public/assets/Bestuhlung/sitz.bmp"
           }
           if (this.selectedModel["mit Schaum Rückenpolster"]) {
             this.accumulatedDetails.push({
               text: this.selectedModel["mit Schaum Rückenpolster"],
-              position: { top: "65%", left: "25%" },
+              position: { top: "35%", left: "35%" },
             });
+            this.imgSrc="public/assets/Bestuhlung/Rück.bmp"
           }
+          if (this.selectedModel["mit Schaum Rückenpolster"]&&this.selectedModel["mit Schaum Sitzpolster"])
+          {
+              this.imgSrc="public/assets/Bestuhlung/RückSitz.png"
+          }
+          
+          
         } 
        else if (this.selectedGattung?.name?.trim() === "78RI - Sitzhaltegriffe") {
       console.log("Inside 78RI - Sitzhaltegriffe");
       
       // Topcloser seçimi ve resim güncellemesi
       if (this.selectedModel["Topcloser"] === "RAL 3001") {
-        console.log("Topcloser Selected RAL 3001");
+     
         this.imgSrc = "../assets/Showdetails/topcloser/RAL3001.png";   
       }
       if (this.selectedModel["Topcloser"] === "RAL 1023") {
-        console.log("Topcloser Selected RAL 1023");
+       
         this.imgSrc = "../assets/Showdetails/topcloser/RAL1023.png";   
       }
       if (this.selectedModel["Topcloser"] === "RAL 7016") {
-        console.log("Topcloser Selected RAL 7016");
+     
         this.imgSrc = "../assets/Showdetails/topcloser/RAL7016.png";   
       }
       if (this.selectedModel["Topcloser"] === "RAL 7037") {
-        console.log("Topcloser Selected RAL 7037");
+       
         this.imgSrc = "../assets/Showdetails/topcloser/RAL7037.png";   
       }
       if (this.selectedModel["Topcloser"] === "RAL 9004") {
-        console.log("Topcloser Selected RAL 9004");
+        
         this.imgSrc = "../assets/Showdetails/topcloser/RAL9004.png";   
       }
-      console.log("Image source set to:", this.imgSrc);
+      if (this.selectedModel["Topcloser"] === "NCS S2500N") {
+        
+        this.imgSrc = "../assets/Showdetails/topcloser/NCSS2500N.png";   
+      }
+      if (this.selectedModel["Topcloser"] === "dunkelgrau NCS S8000N (serie)") {
+       
+        this.imgSrc = "../assets/Showdetails/topcloser/dunkelgrauncss8000-n.png";   
+      }
+    
     }
 
     
@@ -2593,6 +2625,12 @@ this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL1015.png";
        {
         this.imgSrc = "../assets/Showdetails/Kunststoff/RAL1015.png";   
        }
+       if(this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]==="grau NCS S 6000 N (serie)")
+       {
+        this.imgSrc = "../assets/Showdetails/Kunststoff/dunkelgrauncss8000-n.png";   
+       }
+
+
      
       }
             
