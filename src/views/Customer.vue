@@ -2881,40 +2881,52 @@ export default {
 
       return positions[cameraKey] || { top: "0%", left: "0%" };
     },
-    methods: {
-      downloadDetailsImage() {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        const img = this.$refs.detailsImage;
-        const svgElements = img.querySelectorAll("svg");
+    downloadDetailsImage() {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      const imgElement = this.$refs.detailsImage;
 
-        canvas.width = img.width;
-        canvas.height = img.height;
+      // Set canvas dimensions to match the image element
+      canvas.width = imgElement.clientWidth;
+      canvas.height = imgElement.clientHeight;
 
-        const imgElement = new Image();
-        imgElement.src = img.src;
-        imgElement.onload = () => {
-          context.drawImage(imgElement, 0, 0);
-          svgElements.forEach((svg) => {
-            const svgData = new XMLSerializer().serializeToString(svg);
-            const imgSrc = "data:image/svg+xml;base64," + btoa(svgData);
-            const image = new Image();
-            image.src = imgSrc;
-            image.onload = () => {
-              context.drawImage(
-                image,
-                parseFloat(svg.style.left),
-                parseFloat(svg.style.top)
-              );
-            };
+      // Draw the image onto the canvas
+      const img = new Image();
+      img.crossOrigin = "anonymous"; // Enable cross-origin for downloading the image
+      img.src = imgElement.src;
+
+      img.onload = () => {
+        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // Check if there are any SVG elements for the cameras and draw them onto the canvas
+        const svgElements = imgElement.querySelectorAll("svg");
+        svgElements.forEach((svg) => {
+          const svgData = new XMLSerializer().serializeToString(svg);
+          const svgBlob = new Blob([svgData], {
+            type: "image/svg+xml;charset=utf-8",
           });
+          const svgUrl = URL.createObjectURL(svgBlob);
 
-          const link = document.createElement("a");
-          link.href = canvas.toDataURL();
-          link.download = "details.png";
-          link.click();
-        };
-      },
+          const imgSvg = new Image();
+          imgSvg.src = svgUrl;
+
+          imgSvg.onload = () => {
+            context.drawImage(
+              imgSvg,
+              parseFloat(svg.style.left),
+              parseFloat(svg.style.top),
+              svg.clientWidth,
+              svg.clientHeight
+            );
+          };
+        });
+
+        // Trigger download
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/png");
+        link.download = "details.png";
+        link.click();
+      };
     },
   },
 };
