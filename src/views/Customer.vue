@@ -2885,13 +2885,24 @@ export default {
     downloadDetailsImage() {
       const element = this.$refs.detailsDialog; // Reference to the dialog element
 
+      if (!element) {
+        console.error("Element not found!");
+        return;
+      }
+
+      console.log("Starting image capture...");
+
       html2canvas(element, { scale: 2 })
         .then((canvas) => {
+          console.log("Image capture complete.");
+
           // Convert the canvas to an image and trigger download
           const link = document.createElement("a");
           link.href = canvas.toDataURL("image/png");
           link.download = "details.png";
           link.click();
+
+          console.log("Download triggered.");
         })
         .catch((error) => {
           console.error("Error capturing the image: ", error);
