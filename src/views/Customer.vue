@@ -1532,7 +1532,9 @@
             </v-img>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="blue" @click="downloadDetailsImage">Download</v-btn>
+            <v-btn :href="imgSrc" download="details.png" color="blue">
+              Download
+            </v-btn>
             <v-spacer></v-spacer>
             <v-btn color="red" @click="showDetailsDialog = false">Close</v-btn>
           </v-card-actions>
@@ -1546,6 +1548,7 @@
 import router from "@/router";
 import axios from "axios";
 import html2canvas from "html2canvas";
+import { saveAs } from "file-saver";
 import { mapActions } from "vuex";
 export default {
   mounted() {
@@ -2882,32 +2885,56 @@ export default {
 
       return positions[cameraKey] || { top: "0%", left: "0%" };
     },
-    downloadDetailsImage() {
-      const element = this.$refs.detailsDialog; // Reference to the dialog element
+    async downloadDetailsImage() {
+      try {
+        const element = this.$refs.detailsDialog; // Dialog elementine referans
+
+        if (!element) {
+          console.error("Element bulunamadı!");
+          return;
+        }
+
+        console.log("Resim yakalanıyor...");
+
+        const canvas = await html2canvas(element, { scale: 2 });
+
+        console.log("Resim yakalama tamamlandı.");
+
+        // Kanvası bir Blob'a çevirip kaydet
+        canvas.toBlob(function (blob) {
+          saveAs(blob, "details.png");
+        });
+
+        console.log("İndirme tetiklendi.");
+      } catch (error) {
+        console.error("Resim yakalanırken hata oluştu: ", error);
+      }
+    },
+  },
+  async downloadDetailsImage() {
+    try {
+      const element = this.$refs.detailsDialog; // Dialog elementine referans
 
       if (!element) {
-        console.error("Element not found!");
+        console.error("Element bulunamadı!");
         return;
       }
 
-      console.log("Starting image capture...");
+      console.log("Resim yakalanıyor...");
 
-      html2canvas(element, { scale: 2 })
-        .then((canvas) => {
-          console.log("Image capture complete.");
+      const canvas = await html2canvas(element, { scale: 2 });
 
-          // Convert the canvas to an image and trigger download
-          const link = document.createElement("a");
-          link.href = canvas.toDataURL("image/png");
-          link.download = "details.png";
-          link.click();
+      console.log("Resim yakalama tamamlandı.");
 
-          console.log("Download triggered.");
-        })
-        .catch((error) => {
-          console.error("Error capturing the image: ", error);
-        });
-    },
+      // Kanvası bir Blob'a çevirip kaydet
+      canvas.toBlob(function (blob) {
+        saveAs(blob, "details.png");
+      });
+
+      console.log("İndirme tetiklendi.");
+    } catch (error) {
+      console.error("Resim yakalanırken hata oluştu: ", error);
+    }
   },
 };
 </script>
