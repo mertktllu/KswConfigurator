@@ -1419,15 +1419,24 @@
         <v-card>
           <v-card-title>Details</v-card-title>
           <v-card-text>
-            <!-- Display Main Group and Gattung -->
-            <p><strong>Main Group:</strong> {{ selectedMainGroup?.Name }}</p>
-            <p><strong>Gattung:</strong> {{ selectedGattung?.Name }}</p>
-
-            <!-- Display the bus image -->
+            <p>
+              <strong>Main Group:</strong> {{ selectedMainGroup?.name?.trim() }}
+            </p>
+            <p><strong>Gattung:</strong> {{ selectedGattung?.name?.trim() }}</p>
+            <template v-if="selectedMainGroup?.name?.trim() === 'Camera'">
+              <p v-if="selectedModel.Type">
+                <strong>Type:</strong> {{ selectedModel.Type }}
+              </p>
+              <p v-if="selectedModel.Recorder">
+                <strong>Recorder:</strong> {{ selectedModel.Recorder }}
+              </p>
+              <p v-if="selectedModel.Length">
+                <strong>Length:</strong> {{ selectedModel.Length }}
+              </p>
+            </template>
             <v-img :src="imgSrc" class="bus-image" ref="detailsImage">
-              <!-- Loop through the selectedDetails array -->
               <div
-                v-for="(detail, index) in selectedDetails"
+                v-for="(detail, index) in accumulatedDetails"
                 :key="index"
                 :style="{
                   position: 'absolute',
@@ -1436,7 +1445,6 @@
                 }"
               >
                 <template v-if="detail.icon">
-                  <!-- Display camera icons -->
                   <svg
                     :style="{ transform: `rotate(${detail.rotation}deg)` }"
                     width="30"
@@ -1453,7 +1461,6 @@
                   </svg>
                 </template>
                 <template v-else>
-                  <!-- Display text details -->
                   <span
                     :style="{ color: detail.color || 'red', fontSize: '20px' }"
                   >
@@ -1463,12 +1470,9 @@
               </div>
             </v-img>
           </v-card-text>
-
           <v-card-actions>
-            <!-- Download button for the details image -->
             <v-btn color="blue" @click="downloadDetailsImage">Download</v-btn>
             <v-spacer></v-spacer>
-            <!-- Close button -->
             <v-btn color="red" @click="showDetailsDialog = false">Close</v-btn>
           </v-card-actions>
         </v-card>
