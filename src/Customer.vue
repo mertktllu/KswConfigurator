@@ -54,8 +54,8 @@
             class="vehicle-col"
           >
             <v-card @click="selectVehicle(type)" hoverable class="vehicle-card">
-              <v-img :src="type.image" class="vehicle-image"></v-img>
-              <v-card-title class="vehicle-title">{{ type.name }}</v-card-title>
+              <v-img :src="type.Image" class="vehicle-image"></v-img>
+              <v-card-title class="vehicle-title">{{ type.Name }}</v-card-title>
               <v-card-subtitle> </v-card-subtitle>
             </v-card>
           </v-col>
@@ -71,12 +71,7 @@
         <v-card>
           <v-card-title> {{ $t("title") }} </v-card-title>
           <v-card-text class="text-center">
-            <v-img
-              :src="selectedVehicleImage"
-              max-height="300px"
-              @load="onImageLoad"
-              @error="onImageError"
-            ></v-img>
+            <v-img :src="selectedVehicleImage" max-height="300px"></v-img>
           </v-card-text>
           <v-card-actions class="justify-end">
             <v-btn color="primary" @click="chooseVehicle">{{
@@ -96,7 +91,7 @@
           <v-row>
             <v-col>
               <v-text-field
-                v-model="selectedType.name"
+                v-model="selectedType.Name"
                 :label="$t('type')"
                 dense
                 solo
@@ -118,8 +113,8 @@
                 solo
                 outlined
                 hide-details
-                item-text="name"
-                item-value="maingroupid"
+                item-text="Name"
+                item-value="MainGroupID"
                 @change="onMainGroupChange"
               ></v-select>
             </v-col>
@@ -128,8 +123,8 @@
           <v-row class="">
             <v-img
               v-if="
-                selectedType?.name?.trim() === 'L4C' &&
-                selectedMainGroup?.name?.trim() === 'Camera'
+                selectedType?.Name === 'L4C' &&
+                selectedMainGroup?.Name === 'Camera'
               "
               width="500"
               :src="img12C"
@@ -239,8 +234,8 @@
 
             <v-img
               v-else-if="
-                selectedType?.name?.trim() === 'LE' &&
-                selectedMainGroup?.name?.trim() === 'Camera'
+                selectedType?.Name === 'LE' &&
+                selectedMainGroup?.Name === 'Camera'
               "
               width="500"
               :src="img18C"
@@ -368,8 +363,8 @@
             </v-img>
             <v-img
               v-else-if="
-                selectedType?.name?.trim() === 'Intercity' &&
-                selectedMainGroup?.name?.trim() === 'Camera'
+                selectedType?.Name === 'Intercity' &&
+                selectedMainGroup?.Name === 'Camera'
               "
               width="500"
               :src="img19C"
@@ -499,7 +494,7 @@
             <!-- rare -->
             <v-img
               v-else-if="
-                selectedMainGroup?.name?.trim() === 'Fahrtziealanzeige Heck'
+                selectedMainGroup?.Name === '528M (Fahrtzielanzeige Heck)'
               "
               :src="RareImage"
               contain
@@ -510,8 +505,8 @@
 
             <!-- Bestuhlung -->
             <v-img
-              v-else-if="selectedMainGroup?.name?.trim() === 'Bestuhlung'"
-              :src="best_customimg"
+              v-else-if="selectedMainGroup?.Name === 'Bestuhlung'"
+              :src="chairImage"
               style="width: 120%; height: auto; display: block; bottom: auto"
             >
               <v-row>
@@ -531,11 +526,10 @@
                   Übersetzen
                 </v-btn>
               </v-row>
+
               <v-row v-if="showButtons">
                 <v-row
-                  v-if="
-                    selectedGattung?.name?.trim() === '78RI - Sitzhaltegriffe'
-                  "
+                  v-if="selectedGattung?.Name === '78RI - Sitzhaltegriffe'"
                 >
                   <v-btn
                     icon
@@ -555,9 +549,7 @@
                 </v-row>
 
                 <v-row
-                  v-else-if="
-                    selectedGattung?.name?.trim() === '78RD - Sitzarmlehnen'
-                  "
+                  v-else-if="selectedGattung?.Name === '78RD - Sitzarmlehnen'"
                 >
                   <v-btn
                     icon
@@ -577,9 +569,7 @@
                 </v-row>
 
                 <v-row
-                  v-else-if="
-                    selectedGattung?.name?.trim() === '704A - Bestuhlung'
-                  "
+                  v-else-if="selectedGattung?.Name === '704A - Bestuhlung'"
                 >
                   <v-btn
                     icon
@@ -616,8 +606,7 @@
 
                 <v-row
                   v-else-if="
-                    selectedGattung?.name?.trim() ===
-                    '770A - Fahrgastsitz-Rückseite'
+                    selectedGattung?.Name === '770A - Fahrgastsitz-Rückseite'
                   "
                 >
                   <v-btn
@@ -637,6 +626,7 @@
                   </v-btn>
                 </v-row>
               </v-row>
+
               <!-- arkadaki buton -->
               <v-row v-else>
                 <v-btn
@@ -655,6 +645,7 @@
                   <v-icon>mdi-circle</v-icon>
                 </v-btn>
               </v-row>
+
               <v-dialog
                 v-model="dialogVisible.point1"
                 persistent
@@ -861,9 +852,11 @@
                 </v-card>
               </v-dialog>
             </v-img>
+
             <!-- Haltestangen -->
+
             <v-img
-              v-else-if="selectedMainGroup?.name?.trim() === 'Haltestangen'"
+              v-else-if="selectedMainGroup?.Name === 'Haltestangen'"
               :src="hal_customimg"
               contain
               max-height="700"
@@ -919,10 +912,11 @@
                 </v-card>
               </v-dialog>
             </v-img>
+
             <!-- Teleskop -->
             <v-img
               v-else-if="
-                selectedMainGroup?.name?.trim() ===
+                selectedMainGroup?.Name ===
                 'Abschrankung/Haarnadelstange an Tür 1'
               "
               :src="teleskopImage"
@@ -935,10 +929,12 @@
                 teleskopButtonText
               }}</v-btn>
             </v-img>
+
             <!-- gegenüber  -->
+
             <v-img
               v-else-if="
-                selectedMainGroup?.name?.trim() ===
+                selectedMainGroup?.Name ===
                 'Sondernutzungsfläche gegenüber Tür 2'
               "
               :src="gegenuberImage"
@@ -949,9 +945,10 @@
             >
             </v-img>
             <!-- rechts  -->
+
             <v-img
               v-else-if="
-                selectedMainGroup?.name?.trim() ===
+                selectedMainGroup?.Name ===
                 'Sondernutzungsfläche rechts vor Tür 2'
               "
               :src="rechtImage"
@@ -963,14 +960,14 @@
             </v-img>
           </v-row>
           <v-row
-            v-if="selectedType && selectedMainGroup?.name?.trim() === 'Camera'"
+            v-if="selectedType && selectedMainGroup?.Name === 'Camera'"
             class="d-flex justify-center mt-4"
           >
             <v-col class="d-flex justify-center">
               <v-row
                 v-if="
-                  selectedType?.name?.trim() === 'L4C' &&
-                  selectedMainGroup?.name?.trim() === 'Camera'
+                  selectedType?.Name === 'L4C' &&
+                  selectedMainGroup?.Name === 'Camera'
                 "
               >
                 <v-checkbox
@@ -996,8 +993,8 @@
               </v-row>
               <v-col
                 v-else-if="
-                  selectedType?.name?.trim() === 'LE' &&
-                  selectedMainGroup?.name?.trim() === 'Camera'
+                  selectedType?.Name === 'LE' &&
+                  selectedMainGroup?.Name === 'Camera'
                 "
               >
                 <v-row>
@@ -1029,8 +1026,8 @@
               </v-col>
               <v-row
                 v-else-if="
-                  selectedType?.name?.trim() === 'Intercity' &&
-                  selectedMainGroup?.name?.trim() === 'Camera'
+                  selectedType?.Name === 'Intercity' &&
+                  selectedMainGroup?.Name === 'Camera'
                 "
               >
                 <v-checkbox
@@ -1159,7 +1156,7 @@
             solo
             outlined
             hide-details
-            item-text="name"
+            item-text="Name"
             item-value="gattung => gattung"
             @change="onGattungChange"
           ></v-select>
@@ -1168,113 +1165,57 @@
           <v-col v-if="availableSubProducts.length">
             <v-card
               v-for="subProduct in availableSubProducts"
-              :key="subProduct.name?.trim()"
+              :key="subProduct.Name"
             >
-              <v-card-title>{{ subProduct.name?.trim() }}</v-card-title>
+              <v-card-title>{{ subProduct.Name }}</v-card-title>
               <v-card-text>
                 <!-- Normal select dropdown -->
                 <v-select
                   v-if="
-                    subProduct.gattungid === 4 &&
-                    subProduct.name?.trim() !== 'STER 8 MS'
+                    subProduct.GattungID === 4 &&
+                    subProduct.Name !== 'STER 8 MS'
                   "
-                  :items="subProduct.options"
+                  :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.name?.trim()]"
+                  v-model="selectedModel[subProduct.Name]"
                   :label="$t('selectOption')"
-                  :disabled="isDisabled(subProduct.name?.trim())"
+                  :disabled="isDisabled(subProduct.Name)"
                   dense
                   solo
                   outlined
                   hide-details
-                  @change="onOptionChange(subProduct.name?.trim(), $event)"
+                  @change="onOptionChange(subProduct.Name, $event)"
                 ></v-select>
                 <!-- Text input for STER 8 MS -->
                 <v-select
                   v-else-if="
-                    subProduct.gattungid === 4 &&
-                    subProduct.name?.trim() === 'STER 8 MS'
+                    subProduct.GattungID === 4 &&
+                    subProduct.Name === 'STER 8 MS'
                   "
-                  :items="subProduct.options"
-                  v-model="selectedModel[subProduct.name?.trim()]"
+                  :items="subProduct.Options"
+                  :item-text="(item) => item"
+                  :item-value="(item) => item"
+                  v-model="selectedModel[subProduct.Name]"
                   :label="$t('selectOption')"
-                  :disabled="isDisabled(subProduct.name?.trim())"
+                  :disabled="isDisabled(subProduct.Name)"
                   dense
                   solo
                   outlined
                   hide-details
-                  @change="onOptionChange(subProduct.name?.trim(), $event)"
+                  @change="onOptionChange(subProduct.Name, $event)"
                 ></v-select>
                 <!-- Text input for 65A6 - Farbe der Haltestangen und Trennwände -->
                 <v-select
-                  v-else-if="
-                    subProduct.name?.trim() === 'Nur Deckenhaltestangen in'
-                  "
+                  v-else-if="subProduct.Name === 'Nur Deckenhaltestangen in'"
                   v-model="selectedRalCode"
-                  :items="subProduct.options"
-                  :item-text="(item) => item"
-                  :item-value="(item) => item"
+                  :items="subProduct.Options"
                   :label="$t('selectOption')"
-                  dense
-                  solo
-                  outlined
-                  hide-details
-                  @change="handleRalCodeChange"
+                  @change="updateHalCustomImg"
                 ></v-select>
-
                 <v-select
-                  v-else-if="subProduct.name?.trim() === 'Topcloser'"
-                  :items="subProduct.options"
-                  :item-text="(item) => item"
-                  :item-value="(item) => item"
-                  v-model="selectedRalCodeB"
-                  :label="$t('selectOption')"
-                  dense
-                  solo
-                  outlined
-                  hide-details
-                  @change="handleTopcloserImageChange"
-                ></v-select>
-
-                <v-select
-                  v-else-if="
-                    subProduct.name?.trim() === 'Gangseitige klappbare armlehne'
-                  "
-                  :items="subProduct.options"
-                  :item-text="(item) => item"
-                  :item-value="(item) => item"
-                  v-model="selectedRalCodeGang"
-                  :label="$t('selectOption')"
-                  dense
-                  solo
-                  outlined
-                  hide-details
-                  @change="handleGangImageChange"
-                ></v-select>
-
-                <v-select
-                  v-else-if="
-                    subProduct.name?.trim() ===
-                    'Kunststoff-Fahrgastsitzrückseite'
-                  "
-                  :items="subProduct.options"
-                  :item-text="(item) => item"
-                  :item-value="(item) => item"
-                  v-model="selectedRalCodeKuns"
-                  :label="$t('selectOption')"
-                  dense
-                  solo
-                  outlined
-                  hide-details
-                  @change="handleKusImageChange"
-                ></v-select>
-
-                <v-select
-                  v-else-if="
-                    subProduct.name?.trim() === '680A - SNF gegenüber Tür 2'
-                  "
-                  :items="subProduct.options"
+                  v-else-if="subProduct.Name === '680A - SNF gegenüber Tür 2'"
+                  :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedGegenuberOption"
@@ -1287,10 +1228,10 @@
                 ></v-select>
                 <v-select
                   v-else-if="
-                    subProduct.name?.trim() ===
+                    subProduct.Name ===
                     '680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2'
                   "
-                  :items="subProduct.options"
+                  :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedGegenuberOption"
@@ -1304,10 +1245,10 @@
 
                 <v-select
                   v-else-if="
-                    subProduct.name?.trim() ===
+                    subProduct.Name ===
                     '681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2'
                   "
-                  :items="subProduct.options"
+                  :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
                   v-model="selectedRechtsOption"
@@ -1322,10 +1263,10 @@
                 <!-- Other sub-products -->
                 <v-select
                   v-else
-                  :items="subProduct.options"
+                  :items="subProduct.Options"
                   :item-text="(item) => item"
                   :item-value="(item) => item"
-                  v-model="selectedModel[subProduct.name?.trim()]"
+                  v-model="selectedModel[subProduct.Name]"
                   :label="$t('selectOption')"
                   dense
                   solo
@@ -1335,10 +1276,10 @@
                 <!-- Color square -->
                 <div
                   class="color-square"
-                  v-if="shouldShowColorSquare(subProduct.name?.trim())"
+                  v-if="shouldShowColorSquare(subProduct.Name)"
                   :style="{
                     backgroundColor: getRalColor(
-                      selectedModel[subProduct.name?.trim()]
+                      selectedModel[subProduct.Name]
                     ),
                   }"
                 ></div>
@@ -1380,7 +1321,7 @@
         <v-dialog v-model="dialog" opacity="0.7" persistent max-width="600px">
           <v-card>
             <v-card-title>
-              Bus Type: {{ selectedType?.name?.trim() }}
+              Bus Type: {{ selectedType?.Name }}
               <v-spacer></v-spacer>
               <v-btn icon @click="dialog = false">
                 <v-icon>mdi-close</v-icon>
@@ -1398,11 +1339,8 @@
                     </div>
                     <div><strong>Products:</strong></div>
                     <ul style="margin-left: 20px">
-                      <li
-                        v-for="product in group.products"
-                        :key="product.name?.trim()"
-                      >
-                        {{ product.name?.trim() }}: {{ product.value }}
+                      <li v-for="product in group.products" :key="product.name">
+                        {{ product.name }}: {{ product.value }}
                       </li>
                     </ul>
                   </v-list-item-content>
@@ -1476,6 +1414,7 @@
         </div>
       </div>
 
+      <!-- Show Details Dialog -->
       <v-dialog v-model="showDetailsDialog" max-width="800px">
         <v-card>
           <v-card-title>Details</v-card-title>
@@ -1532,9 +1471,7 @@
             </v-img>
           </v-card-text>
           <v-card-actions>
-            <v-btn :href="imgSrc" download="details.png" color="blue">
-              Download
-            </v-btn>
+            <v-btn color="blue" @click="downloadDetailsImage">Download</v-btn>
             <v-spacer></v-spacer>
             <v-btn color="red" @click="showDetailsDialog = false">Close</v-btn>
           </v-card-actions>
@@ -1547,8 +1484,6 @@
 <script>
 import router from "@/router";
 import axios from "axios";
-import html2canvas from "html2canvas";
-import { saveAs } from "file-saver";
 import { mapActions } from "vuex";
 export default {
   mounted() {
@@ -1561,9 +1496,7 @@ export default {
     this.products.forEach((product) => {
       this.checkAndUpdateHalCustomImg(product);
     });
-    console.log("Component mounted! Chair Image:", this.chairImage);
   },
-
   watch: {
     selectedMainGroup(newVal) {
       this.onMainGroupChange(newVal);
@@ -1573,28 +1506,8 @@ export default {
       this.onGattungChange(newVal);
     },
     selectedRalCode(newVal, oldVal) {
-      console.log("selectedralcode");
-      this.selectedModel["Nur Deckenhaltestangen in"] = newVal;
       this.updateHalCustomImg();
     },
-    selectedRalCodeB(newVal, oldVal) {
-      console.log("selectedralcodeB");
-      this.selectedModel["Topcloser"] = newVal;
-
-      this.updateBestCustomImg();
-    },
-
-    selectedRalCodeGang(newVal, oldVal) {
-      console.log("selectedralcodeGang");
-      this.selectedModel["Gangseitige klappbare armlehne"] = newVal;
-      this.updateArmlehne();
-    },
-    selectedRalCodeKuns(newVal, oldVal) {
-      console.log("Kunststoff");
-      this.selectedModel["Kunststoff-Fahrgastsitzrückseite"] = newVal;
-      this.updateKunstoff();
-    },
-
     selectedGegenuberOption(newOption) {
       this.updateGegenuberImage(newOption);
     },
@@ -1604,45 +1517,18 @@ export default {
   },
 
   computed: {
-    selectedVehicleImage() {
-      console.log("selectedType called");
-      if (!this.selectedType) {
-        console.log("selectedType is null or undefined");
-        return "";
-      }
-      console.log("selectedType:", this.selectedType);
-
-      switch (this.selectedType.name?.trim()) {
-        case "L4C":
-          console.log("L4C");
-          return "/static/12C-2T.jpg";
-
-        case "LE":
-          console.log("L4C");
-          return "/static/18C-3T.jpg";
-        case "Intercity":
-          console.log("L4C");
-          return "/static/19C-4T.jpg";
-        default:
-          return "";
-      }
-    },
-
     hasSelections() {
-      // selectedModel içinde herhangi bir değer varsa true döndür
-      return Object.keys(this.selectedModel).some(
-        (key) => this.selectedModel[key]
-      );
+      return Object.keys(this.selectedModel).length > 0;
     },
     comModels() {
       const found = this.products.find(
-        (p) => p.name?.trim() === this.selectedMainGroup
+        (p) => p.name === this.selectedMainGroup
       );
       return found ? found.subProducts : [];
     },
     comModelsGat() {
       const foundGattung = this.gattungProducts.find(
-        (g) => g.name?.trim() === this.selectedGattung
+        (g) => g.name === this.selectedGattung
       );
       if (foundGattung) {
         return foundGattung.subProducts;
@@ -1653,10 +1539,7 @@ export default {
         return [];
       }
     },
-    testComputed() {
-      console.log("testComputed function called");
-      return "Computed property is working!";
-    },
+
     modelImageDetails() {
       let imageDetails = {
         showImage: false,
@@ -1664,11 +1547,11 @@ export default {
         alt: "",
       };
 
-      if (this.selectedMainGroup === "Fahrtziealanzeige Heck") {
+      if (this.selectedMainGroup === "528M (Rear Target Display)") {
         switch (this.selectedModel["Model"]) {
           case "BUSTEC":
             imageDetails.showImage = true;
-            imageDetails.src = "/assets/RareDisplay/Bustec.jpg"; // Replace with the actual path to the BUSTEC image
+            imageDetails.src = "../src/assets/RareDisplay/Bustec.jpg"; // Replace with the actual path to the BUSTEC image
             imageDetails.alt = "BUSTEC Image";
             break;
           case "MODEL X":
@@ -1692,19 +1575,19 @@ export default {
 
       // Main Group'a ait productları al
       const currentGroupProducts = this.products.filter(
-        (product) => product.maingroupid === this.selectedMainGroup.maingroupid
+        (product) => product.MainGroupID === this.selectedMainGroup.MainGroupID
       );
 
       // Eğer Gattung seçilmemişse ve currentGroupProducts içinde GattungID null olanlar varsa onları döndür
       if (!this.selectedGattung) {
         return currentGroupProducts.filter(
-          (product) => product.gattungid === null
+          (product) => product.GattungID === null
         );
       }
 
       // Eğer Gattung seçilmişse, seçilen GattungID'ye ait productları döndür
       return currentGroupProducts.filter(
-        (product) => product.gattungid === this.selectedGattung.gattungid
+        (product) => product.GattungID === this.selectedGattung.GattungID
       );
     },
     filteredGattungs() {
@@ -1713,8 +1596,21 @@ export default {
       }
 
       return this.gattungs.filter(
-        (gattung) => gattung.maingroupid === this.selectedMainGroup.maingroupid
+        (gattung) => gattung.MainGroupID === this.selectedMainGroup.MainGroupID
       );
+    },
+
+    selectedVehicleImage() {
+      switch (this.selectedVehicle?.Name) {
+        case "L4C":
+          return "../src/static/12C-2T.jpg";
+        case "LE":
+          return "../src/static/18C-3T.jpg";
+        case "Intercity":
+          return "../src/static/19C-4T.jpg";
+        default:
+          return "";
+      }
     },
 
     filteredSubProducts() {
@@ -1723,7 +1619,7 @@ export default {
       )?.subProducts;
       return (
         subProducts?.filter(
-          (subProduct) => this.selectedModel[subProduct.name?.trim]
+          (subProduct) => this.selectedModel[subProduct.name]
         ) || []
       );
     },
@@ -1741,28 +1637,21 @@ export default {
     },
 
     filteredTypes() {
-      console.log("Filtred Types");
       const query = this.searchQuery.toLowerCase();
       return this.types.filter(
         (type) =>
-          type.name?.trim().toLowerCase().includes(query) ||
-          type.fuel.toLowerCase().includes(query) ||
-          type.length.toLowerCase().includes(query) ||
-          type.seats.toLowerCase().includes(query) ||
-          type.features.toLowerCase().includes(query)
+          type.Name.toLowerCase().includes(query) ||
+          type.Fuel.toLowerCase().includes(query) ||
+          type.Length.toLowerCase().includes(query) ||
+          type.Seats.toLowerCase().includes(query) ||
+          type.Features.toLowerCase().includes(query)
       );
     },
   },
 
   data() {
     return {
-      selectedGegenuberOption: null,
-      selectedRechtsOption: null,
       selectedType: null,
-      selectedRalCode: null,
-      selectedRalCodeB: null,
-      selectedRalCodeGang: null,
-      selectedRalCodeKuns: null,
       selectedMainGroup: null,
       selectedGattung: null,
       selectedModel: {},
@@ -1793,7 +1682,6 @@ export default {
         cam4_2T: 0,
         cam5_2T: 0,
       },
-
       cameraEnabled: {
         cam1_4T: true,
         cam2_4T: true,
@@ -1823,15 +1711,16 @@ export default {
         point7: false,
       },
       detailImages: {
-        point1: "/assets/Bestuhlung/topcloser.bmp",
-        point1_1: "/assets/Bestuhlung/topcloser detail.bmp",
-        point2: "/assets/Bestuhlung/Rück.bmp",
-        point3: "/assets/Bestuhlung/sitz.bmp",
-        point4: "/assets/Bestuhlung/bugel or armlehne color.bmp",
-        point4_1: "/assets/Bestuhlung/armlehne color.bmp",
-        point5: "/assets/Bestuhlung/rückseite.bmp",
-        point6: "/assets/Bestuhlung/back.bmp",
-        point7: "/assets/Haltestangen/fittings.jpg",
+        point1: "../src/assets/Bestuhlung/topcloser.bmp", // Buraya detaylı resimlerin yollarını yazın
+        point1_1: "../src/assets/Bestuhlung/topcloser detail.bmp",
+        point2: "../src/assets/Bestuhlung/Rück.bmp",
+        point3: "../src/assets/Bestuhlung/sitz.bmp",
+        point4: "../src/assets/Bestuhlung/bugel or armlehne color.bmp",
+        point4_1: "../src/assets/Bestuhlung/armlehne color.bmp",
+        point4_2: "../src/assets/Bestuhlung/armlehne or bugel color.bmp",
+        point5: "../src/assets/Bestuhlung/rückseite.bmp",
+        point6: "../src/assets/Bestuhlung/back.bmp",
+        point7: "../src/assets/Haltestangen/fittings.jpg",
       },
 
       ralColors: {
@@ -1851,29 +1740,35 @@ export default {
       },
 
       showButtons: true,
-      chairImage: "https://mandb.s3.eu-north-1.amazonaws.com/normal.png",
-      chairBackImage: "/assets/Bestuhlung/normal back.bmp",
-      hal_customimg: "/assets/Haltestangen/080CC.jpg",
-      hal_3000img: "/assets/Haltestangen/3000.jpg",
-      hal_1003img: "/assets/Haltestangen/1003.jpg",
-      best_customimg: "https://mandb.s3.eu-north-1.amazonaws.com/normal.png",
-
-      gegenuber1img: "/assets/gegenüber/Resim1.png",
-      gegenuber2img: "/assets/gegenüber/Resim2.png",
-      gegenuber3img: "/assets/gegenüber/Resim3.png",
+      chairImage: "../src/assets/Bestuhlung/normal.bmp", // Ön yüz görüntüsü
+      chairBackImage: "../src/assets/Bestuhlung/normal back.bmp", // Arka yüz görüntüsü
+      hal_customimg: "../src/assets/Haltestangen/080CC.jpg",
+      hal_3000img: "../src/assets/Haltestangen/3000.jpg",
+      hal_1003img: "../src/assets/Haltestangen/1003.jpg",
+      selectedRalCode: "RAL 080C", // Default RAL Code
+      selectedGegenuberOption: null,
+      selectedRechtsOption: null,
+      gegenuber1img: "../src/assets/gegenüber/resim1.png",
+      gegenuber2img: "../src/assets/gegenüber/resim2.png",
+      gegenuber3img: "../src/assets/gegenüber/resim3.png",
       gegenuberImage: "",
       rechtImage: "",
-      glasscheibeimg: "/assets/gegenüber/mit halter ohne schloss.png",
-      klappbare_armlehneimg: "/assets/gegenüber/klappbare armlehne 2.png",
-      mit_halter_ohne_schlossimg: "/assets/gegenüber/glasscibe.png",
+      glasscheibeimg: "../src/assets/gegenüber/mit halter ohne schloss.png",
+      klappbare_armlehneimg: "../src/assets/gegenüber/klappbare armlehne 2.png",
+      mit_halter_ohne_schlossimg: "../src/assets/gegenüber/glasscibe.png",
 
-      teleskop_on: "/assets/Teleskop/teleskop_on.png",
-      teleskop_off: "/assets/Teleskop/teleskop_off.png",
-      teleskopImage: "/assets/Teleskop/teleskop_off.png",
-      img12C: "https://mandb.s3.eu-north-1.amazonaws.com/static/12C-2T.jpg",
-      img18C: "/static/18C-3T.jpg",
-      img19C: "/static/19C-4T.jpg",
-      RareImage: "/assets/RareDisplay/image004.png",
+      teleskop_on: "../src/assets/Teleskop/teleskop_on.png",
+      teleskop_off: "../src/assets/Teleskop/teleskop_off.png",
+      teleskopImage: "../src/assets/Teleskop/teleskop_off.png",
+      teleskopButtonText: "SHOW",
+
+      vehicleDialog: false,
+      selectedVehicle: null,
+
+      RareImage: "../src/assets/RareDisplay/image004.png",
+      img12C: "../src/static/12C-2T.jpg",
+      img18C: "../src/static/18C-3T.jpg",
+      img19C: "../src/static/19C-4T.jpg",
 
       searchQuery: "",
       availableSubProducts: [],
@@ -1887,63 +1782,8 @@ export default {
 
   // ... methods, etc.
   methods: {
-    handleRalCodeChange() {
-      console.log("RAL kodu değişti:", this.selectedRalCode);
-      this.updateSelection("Topcloser", this.selectedRalCode);
-      this.updateHalCustomImg();
-    },
-    handleTopcloserImageChange() {
-      this.updateBestCustomImg();
-
-      console.log(
-        "updateBestCustomImg çağrıldıktan sonra Topcloser:",
-        this.selectedRalCodeB
-      ); // İkinci log
-      this.updateSelection("Topcloser", this.selectedRalCodeB); // Bu satır zaten ekliydi
-      console.log("Güncellenen selectedModel:", this.selectedModel); // selectedModel'in durumunu kontrol edelim
-    },
-    handleGangImageChange() {
-      this.updateArmlehne();
-      // İkinci log
-      this.updateSelection(
-        "Gangseitige klappbare armlehne",
-        this.selectedRalCodeGang
-      ); // Bu satır zaten ekliydi
-      console.log("Güncellenen selectedModel:", this.selectedModel); // selectedModel'in durumunu kontrol edelim
-    },
-    handleKusImageChange() {
-      this.updateKunstoff();
-      // İkinci log
-      this.updateSelection(
-        "Kunststoff-Fahrgastsitzrückseite",
-        this.selectedRalCodeKuns
-      ); // Bu satır zaten ekliydi
-      console.log("Güncellenen selectedModel:", this.selectedModel); // selectedModel'in durumunu kontrol edelim
-    },
-
-    calculateX2(detail) {
-      return parseInt(detail.lineEnd.left) - parseInt(detail.lineStart.left);
-    },
-    calculateY2(detail) {
-      return parseInt(detail.lineEnd.top) - parseInt(detail.lineStart.top);
-    },
-    getPolygonPoints(detail) {
-      const xEnd = this.calculateX2(detail);
-      const yEnd = this.calculateY2(detail);
-      const arrowLength = 15; // Ok uzunluğu
-      const arrowWidth = 10; // Ok genişliği
-      return `${xEnd},${yEnd} ${xEnd - arrowWidth},${yEnd - arrowLength} ${
-        xEnd + arrowWidth
-      },${yEnd - arrowLength}`;
-    },
     goHome() {
       router.push("/");
-    },
-    onImageLoad() {
-      console.log("Image loaded successfully.");
-    },
-    onImageError() {
-      console.log("Error loading image.");
     },
     toggleCamera(cameraId) {
       this.cameraEnabled[cameraId] = !this.cameraEnabled[cameraId]; // Toggle camera enabled/disabled state
@@ -1955,17 +1795,17 @@ export default {
     },
     itemProps(item) {
       return {
-        title: item?.name,
+        title: item?.Name,
         value: item,
         // MainGroupID: item?.MainGroupID, // MainGroupID'yi ekledik
       };
     },
     itemPropsGattung(item) {
       return {
-        title: item?.name,
+        title: item?.Name,
         value: item,
-        maingroupid: item?.maingroupid,
-        gattungid: item?.gattungid,
+        MainGroupID: item?.MainGroupID,
+        GattungID: item?.GattungID,
       };
     },
 
@@ -1978,14 +1818,14 @@ export default {
       const mainGroups = this.mainGroups.filter((mainGroup) =>
         this.products.some(
           (product) =>
-            product.maingroupid === mainGroup.maingroupid &&
-            this.selectedModel[product.name?.trim()]
+            product.MainGroupID === mainGroup.MainGroupID &&
+            this.selectedModel[product.Name]
         )
       );
 
       mainGroups.forEach((mainGroup) => {
         const gattungs = this.gattungs.filter(
-          (gattung) => gattung.maingroupid === mainGroup.maingroupid
+          (gattung) => gattung.MainGroupID === mainGroup.MainGroupID
         );
 
         if (gattungs.length > 0) {
@@ -1993,20 +1833,20 @@ export default {
             const products = this.products
               .filter(
                 (product) =>
-                  product.gattungid === gattung.gattungid &&
-                  this.selectedModel[product.name?.trim()]
+                  product.GattungID === gattung.GattungID &&
+                  this.selectedModel[product.Name]
               )
               .map((product) => {
                 return {
-                  name: product.name,
-                  value: this.selectedModel[product.name?.trim()],
+                  name: product.Name,
+                  value: this.selectedModel[product.Name],
                 };
               });
 
             if (products.length > 0) {
               this.exportData.push({
-                mainGroup: mainGroup.name?.trim(),
-                gattung: gattung.name?.trim(),
+                mainGroup: mainGroup.Name,
+                gattung: gattung.Name,
                 products,
               });
             }
@@ -2015,20 +1855,20 @@ export default {
           const products = this.products
             .filter(
               (product) =>
-                product.maingroupid === mainGroup.maingroupid &&
-                !product.gattungid &&
-                this.selectedModel[product.name?.trim()]
+                product.MainGroupID === mainGroup.MainGroupID &&
+                !product.GattungID &&
+                this.selectedModel[product.Name]
             )
             .map((product) => {
               return {
-                name: product.name?.trim(),
-                value: this.selectedModel[product.name?.trim()],
+                name: product.Name,
+                value: this.selectedModel[product.Name],
               };
             });
 
           if (products.length > 0) {
             this.exportData.push({
-              mainGroup: mainGroup.name?.trim(),
+              mainGroup: mainGroup.Name,
               gattung: null,
               products,
             });
@@ -2037,7 +1877,7 @@ export default {
       });
 
       // Include camera rotations for the selected type
-      const selectedTypPart = this.selectedType.name.split("-")[1];
+      const selectedTypPart = this.selectedType.Name.split("-")[1];
       const cameraRotationsForTyp = Object.keys(this.cameraRotations)
         .filter((key) => key.includes(selectedTypPart))
         .reduce((obj, key) => {
@@ -2079,8 +1919,8 @@ export default {
       if (this.selectedGattung) {
         this.selectedGattung = {
           ...this.selectedGattung,
-          name: "",
-          gattungid: null,
+          Name: "",
+          GattungID: null,
         };
       }
       this.updateAvailableSubProducts();
@@ -2093,34 +1933,15 @@ export default {
     },
     getSubProductsForMainGroupAndGattung(mainGroup, gattung) {
       const filteredProducts = this.products.filter(
-        (product) => product.maingroupid === mainGroup.maingroupid
+        (product) => product.MainGroupID === mainGroup.MainGroupID
       );
 
       if (!gattung) {
-        return filteredProducts.filter((product) => product.gattungid === null);
+        return filteredProducts.filter((product) => product.GattungID === null);
       } else {
         return filteredProducts.filter(
-          (product) => product.gattungid === gattung.gattungid
+          (product) => product.GattungID === gattung.GattungID
         );
-      }
-    },
-    onMainGroupChange(newVal) {
-      console.log("Main Group Changed:", newVal);
-      this.updateAvailableSubProducts();
-      this.selectedGattung = null;
-      this.imgSrc = "";
-      this.accumulatedDetails = [];
-
-      // Görsel güncellemesi
-      if (newVal.name.includes("Haltestangen")) {
-        this.selectedImage = this.hal_customimg; // Haltestangen için görsel
-      } else if (newVal.name.includes("Bestuhlung")) {
-        this.selectedImage = this.chairImage; // Bestuhlung için görsel
-        console.log("Bestuhlung Image:", this.chairImage);
-      } else if (newVal.name.includes("Camera")) {
-        this.selectedImage = this.img12C; // Camera için görsel
-      } else {
-        this.selectedImage = ""; // Default görsel ya da boş bırak
       }
     },
 
@@ -2140,13 +1961,9 @@ export default {
       );
     },
 
-    
-
-    onGattungChange(newVal) {
-      
+    onGattungChange() {
       console.log("Gattung Changed:", this.selectedGattung);
       //this.selectedModel = {}; // Modelleri de sıfırla
-
       this.updateAvailableSubProducts();
     },
     formatRALCode(fieldName) {
@@ -2171,8 +1988,8 @@ export default {
     toggleChair() {
       this.showButtons = !this.showButtons;
       this.chairImage = this.showButtons
-        ? "https://mandb.s3.eu-north-1.amazonaws.com/normal.png"
-        : "/assets/Bestuhlung/normal back.bmp";
+        ? "../src/assets/Bestuhlung/normal.bmp"
+        : "../src/assets/Bestuhlung/normal back.bmp";
     },
 
     openVehicleDialog(type) {
@@ -2214,7 +2031,7 @@ export default {
     isDisabled(productName) {
       if (
         this.selectedGattung &&
-        this.selectedGattung.name?.trim() === "704A - Bestuhlung"
+        this.selectedGattung.Name === "704A - Bestuhlung"
       ) {
         if (productName === "STER 8 MS") {
           return (
@@ -2232,9 +2049,7 @@ export default {
     async fetchTypes() {
       try {
         console.log("Fetching types...");
-        const response = await fetch(
-          "https://kswconfigurator-7fc475022be0.herokuapp.com/types"
-        );
+        const response = await fetch("http://localhost:3000/types");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -2248,9 +2063,7 @@ export default {
     async fetchMainGroups() {
       try {
         console.log("Fetching main groups...");
-        const response = await fetch(
-          "https://kswconfigurator-7fc475022be0.herokuapp.com/maingroups"
-        );
+        const response = await fetch("http://localhost:3000/maingroups");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -2264,9 +2077,7 @@ export default {
     async fetchGattungs() {
       try {
         console.log("Fetching gattungs...");
-        const response = await fetch(
-          "https://kswconfigurator-7fc475022be0.herokuapp.com/gattungs"
-        );
+        const response = await fetch("http://localhost:3000/gattungs");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -2280,9 +2091,7 @@ export default {
     async fetchProducts() {
       try {
         console.log("Fetching products...");
-        const response = await fetch(
-          "https://kswconfigurator-7fc475022be0.herokuapp.com/products"
-        );
+        const response = await fetch("http://localhost:3000/products");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -2291,12 +2100,12 @@ export default {
 
         // Options alanını parse et
         data = data.map((product) => {
-          if (product.options) {
+          if (product.Options) {
             try {
-              product.options = JSON.parse(product.options.replace(/'/g, '"'));
+              product.Options = JSON.parse(product.Options.replace(/'/g, '"'));
             } catch (e) {
               console.error("Error parsing options:", e);
-              product.options = [];
+              product.Options = [];
             }
           }
           return product;
@@ -2307,7 +2116,6 @@ export default {
         console.error("Error fetching products:", error);
       }
     },
-
     changeLanguage(language) {
       this.$i18n.locale = language;
     },
@@ -2340,14 +2148,13 @@ export default {
 
       if (
         this.selectedMainGroup &&
-        this.selectedMainGroup.name?.trim() === "Bestuhlung"
+        this.selectedMainGroup.Name === "Bestuhlung"
       ) {
         if (
           this.selectedGattung &&
-          (this.selectedGattung.name.trim() === "78RI - Sitzhaltegriffe" ||
-            this.selectedGattung.name.trim() === "78RD - Sitzarmlehnen" ||
-            this.selectedGattung.name.trim() ===
-              "770A - Fahrgastsitz-Rückseite") &&
+          (this.selectedGattung.Name === "78RI - Sitzhaltegriffe" ||
+            this.selectedGattung.Name === "78RD - Sitzarmlehnen" ||
+            this.selectedGattung.Name === "770A - Fahrgastsitz-Rückseite") &&
           validProducts.includes(productName)
         ) {
           return true;
@@ -2357,166 +2164,17 @@ export default {
     },
 
     updateHalCustomImg() {
-      console.log("checkandupdatexx");
       if (this.selectedRalCode === "RAL 080C") {
-        this.hal_customimg = "/assets/Haltestangen/080CC.jpg";
+        this.hal_customimg = "../src/assets/Haltestangen/080CC.jpg";
       } else if (this.selectedRalCode === "RAL 1003") {
-        this.hal_customimg = "/assets/Haltestangen/1003.jpg";
+        this.hal_customimg = "../src/assets/Haltestangen/1003.jpg";
       } else if (this.selectedRalCode === "RAL 3000") {
-        this.hal_customimg = "/assets/Haltestangen/3000.jpg";
+        this.hal_customimg = "../src/assets/Haltestangen/3000.jpg";
       }
     },
-    updateBestCustomImg() {
-      if (this.selectedRalCodeB === "RAL 3001") {
-        console.log("Setting best_customimg to RAL3001");
-        this.best_customimg = "../assets/Showdetails/topcloser/RAL3001.png";
-      }
-
-      if (this.selectedRalCodeB === "RAL 1023") {
-        console.log("Setting best_customimg to RAL1023");
-        this.best_customimg = "../assets/Showdetails/topcloser/RAL1023.png";
-      }
-
-      if (this.selectedRalCodeB === "RAL 7016") {
-        console.log("Setting best_customimg to RAL7016");
-        this.best_customimg = "../assets/Showdetails/topcloser/RAL7016.png";
-      }
-
-      if (this.selectedRalCodeB === "RAL 7037") {
-        console.log("Setting best_customimg to RAL7037");
-        this.best_customimg = "../assets/Showdetails/topcloser/RAL7037.png";
-      }
-
-      if (this.selectedRalCodeB === "RAL 9004") {
-        console.log("Setting best_customimg to RAL9004");
-        this.best_customimg = "../assets/Showdetails/topcloser/RAL9004.png";
-      }
-      if (this.selectedRalCodeB === "NCS S2500N") {
-        this.best_customimg = "../assets/Showdetails/topcloser/NCSS2500N.png";
-      }
-      if (this.selectedRalCodeB === "dunkelgrau NCS S8000N (serie)") {
-        this.best_customimg =
-          "../assets/Showdetails/topcloser/dunkelgrauncss8000-n.png";
-      }
-    },
-
-    updateArmlehne() {
-      if (this.selectedModel["Gangseitige klappbare armlehne"]) {
-        console.log("armlehne");
-
-<<<<<<< HEAD
-},
-
-  updateArmlehne()
-  {
-
-    if(this.selectedModel['Gangseitige klappbare armlehne']){
-  console.log("armlehne");
-  
-  if(this.selectedRalCodeGang === "RAL 9004") {
-
-    this.best_customimg = "../assets/Showdetails/armlehne/RAL9004.png";   
-}
-if(this.selectedRalCodeGang === "dunkelgrau NCS S8000N (serie)") {
-
-this.best_customimg = "../assets/Showdetails/armlehne/NCSS8000-N.png";   
-}
-
-}
-  
-
-  },
-
-  updateKunstoff()
-
-  {
-
-    if(this.selectedModel['Kunststoff-Fahrgastsitzrückseite']){
-  
-  
-  if(this.selectedRalCodeKuns === "RAL 1003") {
-
-    this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL1003.png";   
-}
-if(this.selectedRalCodeKuns === "RAL 3003") {
-
-this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL3003.png";   
-}
-if(this.selectedRalCodeKuns === "RAL 3020") {
-
-this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL3020.png";   
-}
-if(this.selectedRalCodeKuns === "RAL 5007") {
-
-this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL5007.png";   
-}
-if(this.selectedRalCodeKuns === "RAL 7037") {
-
-this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL7037.png";   
-}
-if(this.selectedRalCodeKuns === "RAL 7016") {
-
-this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL7016.png";   
-}
-if(this.selectedRalCodeKuns === "RAL 1015") {
-
-this.best_customimg =  "../assets/Showdetails/Kunststoff/RAL1015.png";   
-}
-if(this.selectedRalCodeKuns==="grau NCS S 6000 N (serie)")
-{
-        this.best_customimg = "../assets/Showdetails/Kunststoff/dunkelgrauncss8000-n.png";
-       }
-
-}
-  },
-=======
-        if (this.selectedRalCodeGang === "RAL 9004") {
-          this.best_customimg = "../assets/Showdetails/armlehne/RAL9004.png";
-        }
-        if (this.selectedRalCodeGang === "dunkelgrau NCS S8000N (serie)") {
-          this.best_customimg = "../assets/Showdetails/armlehne/NCSS8000-N.png";
-        }
-      }
-    },
-
-    updateKunstoff() {
-      if (this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]) {
-        if (this.selectedRalCodeKuns === "RAL 1003") {
-          this.best_customimg = "../assets/Showdetails/Kunststoff/RAL1003.png";
-        }
-        if (this.selectedRalCodeKuns === "RAL 3003") {
-          this.best_customimg = "../assets/Showdetails/Kunststoff/RAL3003.png";
-        }
-        if (this.selectedRalCodeKuns === "RAL 3020") {
-          this.best_customimg = "../assets/Showdetails/Kunststoff/RAL3020.png";
-        }
-        if (this.selectedRalCodeKuns === "RAL 5007") {
-          this.best_customimg = "../assets/Showdetails/Kunststoff/RAL5007.png";
-        }
-        if (this.selectedRalCodeKuns === "RAL 7037") {
-          this.best_customimg = "../assets/Showdetails/Kunststoff/RAL7037.png";
-        }
-        if (this.selectedRalCodeKuns === "RAL 7016") {
-          this.best_customimg = "../assets/Showdetails/Kunststoff/RAL7016.png";
-        }
-        if (this.selectedRalCodeKuns === "RAL 1015") {
-          this.best_customimg = "../assets/Showdetails/Kunststoff/RAL1015.png";
-        }
-        if (this.selectedRalCodeKuns === "grau NCS S 6000 N (serie)") {
-          this.best_customimg =
-            "../assets/Showdetails/Kunststoff/dunkelgrauncss8000-n.png";
-        }
-      }
-    },
->>>>>>> f693cc082e561517f3875c93237beaadbbb317eb
-
     checkAndUpdateHalCustomImg(product) {
-      if (product.name?.trim() === "Nur Deckenhaltestangen in") {
+      if (product.name === "Nur Deckenhaltestangen in") {
         this.updateHalCustomImg(product.ralCode);
-      } else if (product.name?.trim() === "Kunststoff-Fahrgastsitzrückseite") {
-        this.updateKunstoff(product.ralCode);
-      } else if (product.name?.trim() === "Topcloser") {
-        this.updateBestCustomImg(product.ralCode);
       }
     },
 
@@ -2531,59 +2189,46 @@ if(this.selectedRalCodeKuns==="grau NCS S 6000 N (serie)")
     },
     updateRechtsImage(option) {
       if (option) {
-        this.selectedModel["681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"] =
-          option; // Ensure the selected model is updated
-        if (option.trim() === "Armlehne mit halter ohne Schloss") {
+        this.selectedModel[
+          "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
+        ] = option; // Ensure the selected model is updated
+        if (option === "Armlehne mit halter ohne Schloss") {
           this.rechtImage = this.glasscheibeimg;
-        } else if (option.trim() === "Mit klappbarer Armlehne auf dem Bügel") {
+        } else if (option === "Mit klappbarer Armlehne auf dem Bügel") {
           this.rechtImage = this.klappbare_armlehneimg;
-        } else if (option.trim() === "Ausführung Trennwand mit Glasscheibe") {
+        } else if (option === "Ausführung Trennwand mit Glasscheibe") {
           this.rechtImage = this.mit_halter_ohne_schlossimg;
         }
       }
     },
     updateGegenuberImage(option) {
-      if (
-        this.selectedGattung?.name.trim() ===
-        "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
-      )
-        this.selectedModel[
-          "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
-        ] = option;
-      else this.selectedModel["680A - SNF gegenüber Tür 2"] = option;
       if (option) {
-        console.log(option);
-
+        this.selectedModel["680A - SNF gegenüber Tür 2"] = option; // Ensure the selected model is updated
         if (
-          option.trim() ===
+          option ===
           "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm."
         ) {
           this.gegenuberImage = this.gegenuber1img;
-          console.log("gegenuberImage güncellendi: gegenuber1img");
         } else if (
           option ===
           "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
         ) {
           this.gegenuberImage = this.gegenuber2img;
-          console.log("gegenuberImage güncellendi: gegenuber2img");
         } else if (
           option ===
           "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
         ) {
           this.gegenuberImage = this.gegenuber3img;
-        } else if (option.trim() === "Armlehne mit halter ohne Schloss") {
+        } else if (option === "Armlehne mit halter ohne Schloss") {
           this.gegenuberImage = this.glasscheibeimg;
-        } else if (option.trim() === "Mit klappbarer Armlehne auf dem Bügel") {
+        } else if (option === "Mit klappbarer Armlehne auf dem Bügel") {
           this.gegenuberImage = this.klappbare_armlehneimg;
-        } else if (option.trim() === "Ausführung Trennwand mit Glasscheibe") {
+        } else if (option === "Ausführung Trennwand mit Glasscheibe") {
           this.gegenuberImage = this.mit_halter_ohne_schlossimg;
         }
-      } else {
-        console.log("Option mevcut değil, işlem durduruldu.");
       }
     },
     selectVehicle(type) {
-      console.log("selectVehicle function called with type:", type);
       this.selectedType = type;
       this.selectionStarted = true; // Set to true when a vehicle is selected
     },
@@ -2597,338 +2242,195 @@ if(this.selectedRalCodeKuns==="grau NCS S 6000 N (serie)")
     showDetails() {
       console.log("Show Details button clicked"); // Debug log
       // Export data üzerinden dönerek product'ları kontrol edelim
-      console.log("Selected model:", this.selectedModel);
 
       // Reset accumulated details
       this.accumulatedDetails = [];
-
-      if (this.selectedMainGroup?.name?.trim() === "Bestuhlung") {
-        if (this.selectedGattung?.name?.trim() === "704A - Bestuhlung") {
-          // Add existing selected details
-          if (this.selectedModel["mit Schaum Sitzpolster"]) {
-            this.accumulatedDetails.push({
-              text: this.selectedModel["mit Schaum Sitzpolster"],
-              position: { top: "60%", left: "32%" },
-            });
-<<<<<<< HEAD
-            this.imgSrc="../assets/Bestuhlung/sitz.bmp"
-=======
-            this.imgSrc = "public/assets/Bestuhlung/sitz.bmp";
->>>>>>> f693cc082e561517f3875c93237beaadbbb317eb
-          }
-          if (this.selectedModel["mit Schaum Rückenpolster"]) {
-            this.accumulatedDetails.push({
-              text: this.selectedModel["mit Schaum Rückenpolster"],
-              position: { top: "35%", left: "35%" },
-            });
-<<<<<<< HEAD
-            this.imgSrc="../assets/Bestuhlung/Rück.bmp"
-          }
-          if (this.selectedModel["mit Schaum Rückenpolster"]&&this.selectedModel["mit Schaum Sitzpolster"])
-          {
-              this.imgSrc="../assets/Bestuhlung/RückSitz.png"
-=======
-            this.imgSrc = "public/assets/Bestuhlung/Rück.bmp";
-          }
-          if (
-            this.selectedModel["mit Schaum Rückenpolster"] &&
-            this.selectedModel["mit Schaum Sitzpolster"]
-          ) {
-            this.imgSrc = "public/assets/Bestuhlung/RückSitz.png";
->>>>>>> f693cc082e561517f3875c93237beaadbbb317eb
-          }
-        } else if (
-          this.selectedGattung?.name?.trim() === "78RI - Sitzhaltegriffe"
-        ) {
-          console.log("Inside 78RI - Sitzhaltegriffe");
-
-          // Topcloser seçimi ve resim güncellemesi
-          if (this.selectedModel["Topcloser"] === "RAL 3001") {
-            this.imgSrc = "../assets/Showdetails/topcloser/RAL3001.png";
-          }
-          if (this.selectedModel["Topcloser"] === "RAL 1023") {
-            this.imgSrc = "../assets/Showdetails/topcloser/RAL1023.png";
-          }
-          if (this.selectedModel["Topcloser"] === "RAL 7016") {
-            this.imgSrc = "../assets/Showdetails/topcloser/RAL7016.png";
-          }
-          if (this.selectedModel["Topcloser"] === "RAL 7037") {
-            this.imgSrc = "../assets/Showdetails/topcloser/RAL7037.png";
-          }
-          if (this.selectedModel["Topcloser"] === "RAL 9004") {
-            this.imgSrc = "../assets/Showdetails/topcloser/RAL9004.png";
-          }
-          if (this.selectedModel["Topcloser"] === "NCS S2500N") {
-            this.imgSrc = "../assets/Showdetails/topcloser/NCSS2500N.png";
-          }
-          if (
-            this.selectedModel["Topcloser"] === "dunkelgrau NCS S8000N (serie)"
-          ) {
-            this.imgSrc =
-              "../assets/Showdetails/topcloser/dunkelgrauncss8000-n.png";
-          }
-        } else if (
-          this.selectedGattung?.name?.trim() === "78RD - Sitzarmlehnen"
-        ) {
-          if (
-            this.selectedModel["Gangseitige klappbare armlehne"] === "RAL 9004"
-          ) {
-            this.imgSrc = "../assets/Showdetails/armlehne/RAL9004.png";
-          }
-          if (
-            this.selectedModel["Gangseitige klappbare armlehne"] ===
-            "dunkelgrau NCS S8000N (serie)"
-          ) {
-            this.imgSrc = "../assets/Showdetails/armlehne/NCSS8000-N.png";
-          }
-        } else if (
-          this.selectedGattung?.name?.trim() === "770A - Fahrgastsitz-Rückseite"
-        ) {
-          if (
-            this.selectedModel["Kunststoff-Fahrgastsitzrückseite"] ===
-            "RAL 1003"
-          ) {
-            this.imgSrc = "../assets/Showdetails/Kunststoff/RAL1003.png";
-          }
-
-          if (
-            this.selectedModel["Kunststoff-Fahrgastsitzrückseite"] ===
-            "RAL 3003"
-          ) {
-            this.imgSrc = "../assets/Showdetails/Kunststoff/RAL3003.png";
-          }
-          if (
-            this.selectedModel["Kunststoff-Fahrgastsitzrückseite"] ===
-            "RAL 3020"
-          ) {
-            this.imgSrc = "../assets/Showdetails/Kunststoff/RAL3020.png";
-          }
-          if (
-            this.selectedModel["Kunststoff-Fahrgastsitzrückseite"] ===
-            "RAL 5007"
-          ) {
-            this.imgSrc = "../assets/Showdetails/Kunststoff/RAL5007.png";
-          }
-          if (
-            this.selectedModel["Kunststoff-Fahrgastsitzrückseite"] ===
-            "RAL 7016"
-          ) {
-            this.imgSrc = "../assets/Showdetails/Kunststoff/RAL7016.png";
-          }
-          if (
-            this.selectedModel["Kunststoff-Fahrgastsitzrückseite"] ===
-            "RAL 7037"
-          ) {
-            this.imgSrc = "../assets/Showdetails/Kunststoff/RAL7037.png";
-          }
-          if (
-            this.selectedModel["Kunststoff-Fahrgastsitzrückseite"] ===
-            "RAL 1015"
-          ) {
-            this.imgSrc = "../assets/Showdetails/Kunststoff/RAL1015.png";
-          }
-          if (
-            this.selectedModel["Kunststoff-Fahrgastsitzrückseite"] ===
-            "grau NCS S 6000 N (serie)"
-          ) {
-            this.imgSrc =
-              "../assets/Showdetails/Kunststoff/dunkelgrauncss8000-n.png";
-          }
+      if (this.selectedMainGroup.Name === "Bestuhlung") {
+        // Add existing selected details
+        if (this.selectedModel["mit Schaum Sitzpolster"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["mit Schaum Sitzpolster"],
+            position: { top: "35%", left: "35%" },
+          });
         }
-
-        // Set to the correct image path for Bestuhlung
-      } else if (this.selectedMainGroup?.name?.trim() === "Haltestangen") {
-        if (
-          this.selectedGattung?.name?.trim() ===
-          "65A6 - Farbe der Haltestangen und Trennwände"
-        ) {
-          // Add details for Haltestangen
-          if (this.selectedModel["Nur Knoten in"]) {
-            this.accumulatedDetails.push({
-              text: this.selectedModel["Nur Knoten in"],
-              position: { top: "52%", left: "82%" },
-            });
-          }
-          if (this.selectedModel["Nur Deckenhaltestangen in"] === "RAL 3000") {
-            this.imgSrc = "../assets/Haltestangen/3000.jpg";
-            // Update imgSrc based on selected RAL code
-          }
-          if (this.selectedModel["Nur Deckenhaltestangen in"] === "RAL 080C") {
-            this.imgSrc = "../assets/Haltestangen/080CC.jpg";
-            // Update imgSrc based on selected RAL code
-          }
-          if (this.selectedModel["Nur Deckenhaltestangen in"] === "RAL 1003") {
-            this.imgSrc = "../assets/Haltestangen/1003.jpg";
-            // Update imgSrc based on selected RAL code
-          }
+        if (this.selectedModel["mit Schaum Rückenpolster"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["mit Schaum Rückenpolster"],
+            position: { top: "65%", left: "25%" },
+          });
         }
+        // Add details for Gattung 78RI
+        if (this.selectedModel["Topcloser"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Topcloser"],
+            position: { top: "8%", left: "30%" },
+            color: this.getRalColor(this.selectedModel["Topcloser"]),
+          });
+        }
+        // Add details for Kunststoff-Fahrgastsitzrückseite
+        if (this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Kunststoff-Fahrgastsitzrückseite"],
+            position: { top: "40%", left: "80%" },
+            color: this.getRalColor(
+              this.selectedModel["Kunststoff-Fahrgastsitzrückseite"]
+            ),
+          });
+        }
+        if (this.selectedModel["Gangseitige klappbare armlehne"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Gangseitige klappbare armlehne"],
+            position: { top: "50%", left: "8%" },
+            color: this.getRalColor(
+              this.selectedModel["Gangseitige klappbare armlehne"]
+            ),
+          });
+        }
+        this.imgSrc = "../src/assets/Bestuhlung/bestuhlung_default.jpeg"; // Set to the correct image path for Bestuhlung
+      } else if (this.selectedMainGroup.Name === "Haltestangen") {
+        // Add details for Haltestangen
+        if (this.selectedModel["Nur Knoten in"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Nur Knoten in"],
+            position: { top: "52%", left: "82%" },
+          });
+        }
+        if (this.selectedModel["Nur Deckenhaltestangen in"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Nur Deckenhaltestangen in"],
+            position: { top: "20%", left: "50%" },
+          });
+          // Update imgSrc based on selected RAL code
+        }
+        this.imgSrc = "../src/assets/Haltestangen/080CC.jpg";
       } else if (
-        this.selectedMainGroup?.name?.trim() === "Fahrtziealanzeige Heck"
+        this.selectedMainGroup.Name === "528M (Fahrtzielanzeige Heck)"
       ) {
-        if (this.selectedGattung?.name?.trim() === "528M") {
-          if (this.selectedModel["Model"]) {
-            this.accumulatedDetails.push({
-              text: `Model: ${this.selectedModel["Model"]}`,
-              position: { top: "50%", left: "40%" },
-            });
-          }
-          if (this.selectedModel["Size"]) {
-            this.accumulatedDetails.push({
-              text: `Size: ${this.selectedModel["Size"]}`,
-              position: { top: "55%", left: "40%" },
-            });
-          }
-          if (this.selectedModel["Led Color"]) {
-            this.accumulatedDetails.push({
-              text: `Led Color: ${this.selectedModel["Led Color"]}`,
-              position: { top: "60%", left: "40%" },
-            });
-          }
-          if (this.selectedModel["Rearmost"]) {
-            this.accumulatedDetails.push({
-              text: `Rearmost: ${this.selectedModel["Rearmost"]}`,
-              position: { top: "65%", left: "40%" },
-            });
-          }
+        if (this.selectedModel["Model"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Model"],
+            position: { top: "50%", left: "45%" },
+          });
         }
-        this.imgSrc = "/assets/RareDisplay/image004.png";
-      } else if (this.selectedMainGroup?.name?.trim() === "Camera") {
-        if (
-          this.selectedGattung?.name?.trim() ===
-          "359F - Überwachungsanlage Fahrgastraum"
-        ) {
-          if (this.selectedModel["Type"]) {
-            this.accumulatedDetails.push({
-              position: { top: "20%", left: "50%" },
-            });
-          }
-          if (this.selectedModel["Recorder"]) {
-            this.accumulatedDetails.push({
-              position: { top: "30%", left: "50%" },
-            });
-          }
-          if (this.selectedModel["Length"]) {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "50%" },
-            });
-          }
-          // Add details for Camera
-          if (this.selectedType?.name?.trim() === "L4C") {
-            this.imgSrc = "/static/12C-2T.jpg";
-            this.addCameraIcons("2T");
-          } else if (this.selectedType?.name?.trim() === "LE") {
-            this.imgSrc = "/static/18C-3T.jpg";
-            this.addCameraIcons("3T");
-          } else if (this.selectedType?.name?.trim() === "Intercity") {
-            this.imgSrc = "/static/19C-4T.jpg";
-            this.addCameraIcons("4T");
-          }
+        if (this.selectedModel["Size"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Size"],
+            position: { top: "55%", left: "45%" },
+          });
+        }
+        if (this.selectedModel["Led Color"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Led Color"],
+            position: { top: "60%", left: "45%" },
+          });
+        }
+        if (this.selectedModel["Rearmost"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Rearmost"],
+            position: { top: "65%", left: "45%" },
+          });
+        }
+        this.imgSrc = "../src/assets/RareDisplay/image004.png";
+      } else if (this.selectedMainGroup.Name === "Camera") {
+        // Add details for Camera
+        if (this.selectedModel["Type"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Type"],
+            position: { top: "20%", left: "50%" },
+          });
+        }
+        if (this.selectedModel["Recorder"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Recorder"],
+            position: { top: "30%", left: "50%" },
+          });
+        }
+        if (this.selectedModel["Length"]) {
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Length"],
+            position: { top: "40%", left: "50%" },
+          });
         }
         // Update imgSrc based on selected Type
-      } else if (
-        this.selectedMainGroup?.name?.trim() ===
-        "Sondernutzungsfläche rechts vor Tür 2"
-      ) {
-        if (
-          this.selectedGattung?.name?.trim() ===
-          "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-        ) {
-          const selectedModelValue =
-            this.selectedModel[
-              "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
-            ];
-          console.log("Selected Model Value: ", selectedModelValue);
-
-          if (selectedModelValue === "Armlehne mit halter ohne Schloss") {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
-          }
-          if (selectedModelValue === "Mit klappbarer Armlehne auf dem Bügel") {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
-          }
-          if (selectedModelValue === "Ausführung Trennwand mit Glasscheibe") {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/glasscibe.png";
-          }
+        if (this.selectedType?.Name === "L4C") {
+          this.imgSrc = "../src/static/12C-2T.jpg";
+          this.addCameraIcons("2T");
+        } else if (this.selectedType?.Name === "LE") {
+          this.imgSrc = "../src/static/18C-3T.jpg";
+          this.addCameraIcons("3T");
+        } else if (this.selectedType?.Name === "Intercity") {
+          this.imgSrc = "../src/static/19C-4T.jpg";
+          this.addCameraIcons("4T");
         }
       } else if (
-        this.selectedMainGroup?.name?.trim() ===
-        "Sondernutzungsfläche gegenüber Tür 2"
+        this.selectedMainGroup.Name === "Sondernutzungsfläche rechts vor Tür 2"
       ) {
         if (
-          this.selectedGattung?.name?.trim() === "680A - SNF gegenüber Tür 2"
+          this.selectedModel[
+            "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+          ] === "Armlehne mit halter ohne Schloss"
         ) {
-          if (
-            this.selectedModel["680A - SNF gegenüber Tür 2"] ===
-            "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Mit E-scooter Piktogramm."
-          ) {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/Resim1.png";
-          }
-          if (
-            this.selectedModel["680A - SNF gegenüber Tür 2"] ===
-            "Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
-          ) {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/Resim2.png";
-          }
-          if (
-            this.selectedModel["680A - SNF gegenüber Tür 2"] ===
-            "Geeignet für E-Scooter, (Länge min. 2.000mm) mit E-Scooter tauglichem Bügel. Verbau eines verkürzten Motorpodestes mit Ablagekasten, Ausführung analog Vorderachse. Trennwand nach SNF in Ausführung Holz mit Sitzbezugsstoff."
-          ) {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/Resim3.png";
-          }
+          this.accumulatedDetails.push({
+            text: this.selectedModel["Armlehne mit halter ohne Schloss"],
+            position: { top: "40%", left: "40%" },
+          });
         }
-        if (
-          this.selectedGattung?.name?.trim() ===
-          "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
-        ) {
-          const selectedModelValue =
-            this.selectedModel[
-              "680D - Anlehnplatte/Klappsitze vor SNF gegenüber Tür 2"
-            ];
-          console.log("Selected Model Value: ", selectedModelValue);
-
-          if (selectedModelValue === "Armlehne mit halter ohne Schloss") {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/mit halter ohne schloss.png";
-          }
-          if (selectedModelValue === "Mit klappbarer Armlehne auf dem Bügel") {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/klappbare armlehne 2.png";
-          }
-          if (selectedModelValue === "Ausführung Trennwand mit Glasscheibe") {
-            this.accumulatedDetails.push({
-              position: { top: "40%", left: "40%" },
-            });
-            this.imgSrc = "../assets/gegenüber/glasscibe.png";
-          }
+        this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
+        if (selectedOption === "Mit klappbarer Armlehne auf dem Bügel") {
+          this.accumulatedDetails.push({
+            text: "Mit klappbarer Armlehne auf dem Bügel",
+            position: { top: "40%", left: "40%" },
+          });
+          this.imgSrc = "../src/assets/gegenüber/klappbare armlehne 2.png";
+        }
+        if (selectedOption === "Ausführung Trennwand mit Glasscheibe") {
+          this.accumulatedDetails.push({
+            text: "Ausführung Trennwand mit Glasscheibe",
+            position: { top: "40%", left: "40%" },
+          });
+          this.imgSrc = "../src/assets/gegenüber/glasscibe.png";
         }
       }
+      // } else if (
+      //   this.selectedMainGroup.Name === "Sondernutzungsfläche rechts vor Tür 2"
+      // ) {
+      //   if (
+      //     this.selectedGattung.Name ===
+      //     "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+      //   ) {
+      //     const selectedOption =
+      //       this.selectedModel[
+      //         "681D - Anlehnplatte/Klappsitze vor SNF vor Tür 2"
+      //       ];
+      //     if (selectedOption === "Armlehne mit halter ohne Schloss") {
+      //       this.accumulatedDetails.push({
+      //         text: "Armlehne mit halter ohne Schloss",
+      //         position: { top: "40%", left: "40%" },
+      //       });
+      //       this.imgSrc = "../src/assets/gegenüber/mit halter ohne schloss.png";
+      //     } else if (
+      //       selectedOption === "Mit klappbarer Armlehne auf dem Bügel"
+      //     ) {
+      //       this.accumulatedDetails.push({
+      //         text: "Mit klappbarer Armlehne auf dem Bügel",
+      //         position: { top: "40%", left: "40%" },
+      //       });
+      //       this.imgSrc = "../src/assets/gegenüber/klappbare armlehne 2.png";
+      //     } else if (
+      //       selectedOption === "Ausführung Trennwand mit Glasscheibe"
+      //     ) {
+      //       this.accumulatedDetails.push({
+      //         text: "Ausführung Trennwand mit Glasscheibe",
+      //         position: { top: "40%", left: "40%" },
+      //       });
+      //       this.imgSrc = "../src/assets/gegenüber/glasscibe.png";
+      //     }
+      //   }
 
       this.selectedDetails = [...this.accumulatedDetails];
       this.showDetailsDialog = true;
       console.log("Dialog should now be open"); // Debug log
     },
-
     addCameraIcons(suffix) {
       for (let i = 1; i <= 6; i++) {
         const cameraKey = `cam${i}_${suffix}`;
@@ -2968,55 +2470,30 @@ if(this.selectedRalCodeKuns==="grau NCS S 6000 N (serie)")
       return positions[cameraKey] || { top: "0%", left: "0%" };
     },
     async downloadDetailsImage() {
-      try {
-        const element = this.$refs.detailsDialog; // Dialog elementine referans
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      const img = new Image();
 
-        if (!element) {
-          console.error("Element bulunamadı!");
-          return;
-        }
+      img.src = this.imgSrc;
+      await img.decode();
 
-        console.log("Resim yakalanıyor...");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      context.drawImage(img, 0, 0);
 
-        const canvas = await html2canvas(element, { scale: 2 });
-
-        console.log("Resim yakalama tamamlandı.");
-
-        // Kanvası bir Blob'a çevirip kaydet
-        canvas.toBlob(function (blob) {
-          saveAs(blob, "details.png");
-        });
-
-        console.log("İndirme tetiklendi.");
-      } catch (error) {
-        console.error("Resim yakalanırken hata oluştu: ", error);
-      }
-    },
-  },
-  async downloadDetailsImage() {
-    try {
-      const element = this.$refs.detailsDialog; // Dialog elementine referans
-
-      if (!element) {
-        console.error("Element bulunamadı!");
-        return;
-      }
-
-      console.log("Resim yakalanıyor...");
-
-      const canvas = await html2canvas(element, { scale: 2 });
-
-      console.log("Resim yakalama tamamlandı.");
-
-      // Kanvası bir Blob'a çevirip kaydet
-      canvas.toBlob(function (blob) {
-        saveAs(blob, "details.png");
+      this.selectedDetails.forEach((detail) => {
+        context.fillStyle = detail.color || "red";
+        context.font = "20px Arial";
+        const top = (parseFloat(detail.position.top) / 100) * canvas.height;
+        const left = (parseFloat(detail.position.left) / 100) * canvas.width;
+        context.fillText(detail.text, left, top);
       });
 
-      console.log("İndirme tetiklendi.");
-    } catch (error) {
-      console.error("Resim yakalanırken hata oluştu: ", error);
-    }
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = `${this.selectedMainGroup.Name}.png`; // Dosya adını main group name olarak ayarlayın
+      link.click();
+    },
   },
 };
 </script>
