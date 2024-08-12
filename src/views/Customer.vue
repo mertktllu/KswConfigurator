@@ -2094,7 +2094,10 @@ handleGangImageChange() {
       );
     },
 
+    
+
     onGattungChange(newVal) {
+      
       console.log("Gattung Changed:", this.selectedGattung);
       //this.selectedModel = {}; // Modelleri de sıfırla
 
@@ -2354,8 +2357,6 @@ handleGangImageChange() {
       }
 
 
-
-
 },
 
   updateArmlehne()
@@ -2527,18 +2528,18 @@ if(this.selectedRalCodeKuns==="grau NCS S 6000 N (serie)")
               text: this.selectedModel["mit Schaum Sitzpolster"],
               position: { top: "60%", left: "32%" },
             });
-            this.imgSrc="public/assets/Bestuhlung/sitz.bmp"
+            this.imgSrc="../assets/Bestuhlung/sitz.bmp"
           }
           if (this.selectedModel["mit Schaum Rückenpolster"]) {
             this.accumulatedDetails.push({
               text: this.selectedModel["mit Schaum Rückenpolster"],
               position: { top: "35%", left: "35%" },
             });
-            this.imgSrc="public/assets/Bestuhlung/Rück.bmp"
+            this.imgSrc="../assets/Bestuhlung/Rück.bmp"
           }
           if (this.selectedModel["mit Schaum Rückenpolster"]&&this.selectedModel["mit Schaum Sitzpolster"])
           {
-              this.imgSrc="public/assets/Bestuhlung/RückSitz.png"
+              this.imgSrc="../assets/Bestuhlung/RückSitz.png"
           }
           
           
